@@ -1,0 +1,1348 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Media Pembelajaran Interaktif</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script> 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+        body {
+            display: flex;
+            flex-direction: column;
+            background: linear-gradient(135deg, #e3f2fd, #fce4ec);
+            position: relative;
+	    justify-content: center;
+	    align-items: center;
+	    min-height: 100vh
+	
+	}
+        body::before,
+        body::after {
+            content: "";
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            background: white;
+            border-radius: 50%;
+            z-index: -1;
+        }
+        body::before {
+            top: -30%;
+            right: -30%;
+        }
+        body::after {
+            bottom: -50%;
+            left: -30%;
+        }
+
+.login-box {
+    background: linear-gradient(135deg, #ce9ffc, #f9c7d9); /* Ganti background */
+    padding: 30px;
+    border-radius: 12px;
+    max-width: 300px;
+    margin: 10px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.2);
+    text-align: center;
+}
+
+.login-box h2 {
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.login-box input {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: none;
+    border-radius: 6px;
+    outline: none;
+}
+
+.login-box button {
+    width: 100%;
+    padding: 10px;
+    background: linear-gradient(135deg, #6a11cb, #2575fc); /* Ganti background tombol */
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.login-box button:hover {
+    background: linear-gradient(135deg, #5e0dca, #1d60e7); /* Hover efek */
+}
+    .hidden {
+      display: none;
+    }
+        .sidebar {
+            width: 250px;
+            height: 100vh;
+            background: #4dd4a3;
+            position: fixed;
+            left: -250px;
+            transition: left 0.3s ease-in-out;
+            padding-top: 20px;
+            z-index: 1300;
+        }
+        .sidebar h2 {
+            color: white;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+        }
+        .sidebar ul li {
+            padding: 5px;
+            text-align: left;
+        }
+        .sidebar ul li a {
+            text-decoration: none;
+            color: white;
+            font-size: 16px;
+            display: block;
+        }
+        .sidebar ul li:hover {
+            background: #f8d444;
+        }
+        .toggle-btn {
+            position: fixed;
+            left: 20px;
+            top: 20px;
+            font-size: 24px;
+            cursor: pointer;
+            background: #f8d444;
+            padding: 5px 10px;
+            border-radius: 5px;
+            color: white;
+            z-index: 1400;
+        }
+        .close-btn {
+            position: absolute;
+            right: 20px;
+            top: 20px;
+            font-size: 24px;
+            cursor: pointer;
+            color: white;
+            background: #f8d444;
+            padding: 5px 10px;
+            border-radius: 5px;
+        }
+        .header {
+            background: white;
+            padding: 20px;
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+            border-radius: 10px;
+            position: sticky;
+            top: 0;
+            z-index: 1200;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .header span {
+            flex: 80%;
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+	    color: #4dd4a3;
+        }
+        .header img {
+            flex: 20%;
+            max-width: 60px;
+            height: auto;
+            margin-left: 10px;
+        }
+        .content {
+            width: 100%;
+            padding: 20px;
+            text-align: center;
+        }
+        .card-container {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            padding: 20px;
+        }
+        .card {
+            padding: 20px;
+            width: 250px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            transition: transform 0.3s, box-shadow 0.3s;
+            color: white;
+        }
+        .card:nth-child(1) { background: #4dd4a3; }
+        .card:nth-child(2) { background: #4dd4a3; }
+        .card:nth-child(3) { background: #4dd4a3; }
+        .card:nth-child(4) { background: #4dd4a3; }
+	.card:nth-child(5) { background: #4dd4a3; }
+        .card:nth-child(6) { background: #4dd4a3; }
+        .card:nth-child(7) { background: #4dd4a3; }
+        .card:nth-child(8) { background: #4dd4a3; }
+        .card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+        .card a {
+            text-decoration: none;
+            font-size: 18px;
+            color: white;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+<div class="login-box" id="loginForm">
+  <h2>Login</h2>
+  <input type="text" id="username" placeholder="Username" /><br><br>
+  <input type="password" id="password" placeholder="Password" /><br><br>
+  <button onclick="checkLogin()">Masuk</button>
+  <p id="errorMsg" style="color:red;"></p>
+</div>
+
+<div id="content22" class="hidden">
+
+    <div class="sidebar" id="sidebar">
+        <span class="close-btn" onclick="toggleSidebar()">&times;</span>
+        <h2 class=" text-2xl text-semibold ">Menu</h2>
+        <ul>
+            <li ><a href="Gerak dan Gaya.html" >▶️ Gerak dan Gaya</a></li>
+	    <li ><a href="Klasifikasi Makhluk Hidup.html" >▶️ Klasifikasi Makhluk Hidup</a></li>
+	    <li ><a href="Ekologi.html" >▶️ Ekologi</a></li>
+	    <li ><a href="Organisasi Kehidupan.html" >▶️ Organisme Kehidupan</a></li>
+        </ul>
+    </div>
+    
+    <div class="toggle-btn" onclick="toggleSidebar()">
+        <i class="fas fa-bars"></i>
+    </div>
+    
+    <div class="header">
+        <span>Media Pembelajaran Interaktif</span>
+        <img src="logo.png" alt="Logo">
+    </div>
+    
+    <!-- Konten Utama -->
+    <div class="ml-0 w-full max-w-7xl mx-auto bg-white p-8 rounded-lg shadow-2xl" style="margin-right: 10px;">
+        <h1 class="text-3xl font-bold text-center text-[#4dd4a3] mb-6">IPA SMP</h1>
+        
+        <!-- Organisasi Kehidupan-->
+        <div id="Peluang" class="mb-8">
+            <h1 class="text-2xl font-bold mb-4 text-[#4dd4a3]"> Organisasi Kehidupan</h1>
+	<ul class="text-black p-6 bg-[#4dd4a3] rounded-lg shadow-md">
+           <li class="mb-3"><a href="#1.-Sel" class="hover:text-white">1. Sel</a></li>
+<li class="mb-3 ml-6"><a href="#1.1-Teori-tentang-Sel" class="hover:text-white">1.1 Teori tentang Sel</a></li>
+<li class="mb-3 ml-6"><a href="#1.2-Struktur-Sel" class="hover:text-white">1.2 Struktur Sel</a></li>
+
+<li class="mb-3"><a href="#2.-Tingkat-Jaringan-Sel" class="hover:text-white">2. Tingkat Jaringan Sel</a></li>
+<li class="mb-3 ml-6"><a href="#2.1-Jaringan-pada-Hewan" class="hover:text-white">2.1 Jaringan pada Hewan</a></li>
+<li class="mb-3 ml-6"><a href="#2.2-Jaringan-pada-Tumbuhan" class="hover:text-white">2.2 Jaringan pada Tumbuhan</a></li>
+
+<li class="mb-3"><a href="#3.-Tingkat-Organ" class="hover:text-white">3. Tingkat Organ</a></li>
+<li class="mb-3 ml-6"><a href="#3.1-Organ-pada-Manusia-dan-Hewan" class="hover:text-white">3.1 Organ pada Manusia dan Hewan</a></li>
+<li class="mb-3 ml-6"><a href="#3.2-Organ-pada-Tumbuhan" class="hover:text-white">3.2 Organ pada Tumbuhan</a></li>
+        </ul><br>
+	<div id="1.-Sel">
+    <p class="text-xl font-semibold mb-4 text-[#4dd4a3]">1. Sel</p>
+    <p class="mt-2 ml-4"><strong>Sel</strong> merupakan unit terkecil penyusun makhluk hidup atau oranisme.
+    </p>
+</div>
+        <div id="1.1-Teori-tentang-Sel">
+    <p class="text-xl font-semibold mb-4 text-[#4dd4a3]">1.1 Teori tentang Sel</p>
+<p class="mt-2 ml-4">Teori sel merupakan salah satu dasar dari biologi modern. Teori ini menyatakan bahwa:</p>
+<ul class="mt-2 ml-8 list-disc">
+    <li>Semua makhluk hidup tersusun atas satu atau lebih sel.</li>
+    <li>Sel merupakan unit struktural dan fungsional terkecil dari kehidupan.</li>
+    <li>Semua sel berasal dari sel sebelumnya melalui proses pembelahan sel.</li>
+</ul>
+<br>
+<p class="text-xl font-semibold mb-4 text-[#4dd4a3]">1.1.1 Tokoh-Tokoh Penemu Teori Sel</p>
+<p class="mt-2 ml-4">Beberapa tokoh penting yang berkontribusi dalam perkembangan teori sel adalah:</p>
+
+<ul class="mt-2 ml-8 list-disc">
+    
+    <li>
+        <span class="font-semibold text-[#4dd4a3]">Jakob Schleiden</span> – Seorang ahli botani Jerman yang menyatakan bahwa semua bagian tumbuhan tersusun atas sel. Ia menyampaikan pendapat ini pada tahun 1838.
+    </li>
+    <li>
+        <span class="font-semibold text-[#4dd4a3]">Theodor Schwann</span> – Seorang ahli zoologi Jerman yang mengemukakan bahwa semua hewan juga terdiri atas sel. Bersama dengan Schleiden, ia menyusun dasar awal teori sel.
+    </li>
+    <li>
+        <span class="font-semibold text-[#4dd4a3]">Rudolf Virchow</span> – Pada tahun 1855, ia menambahkan prinsip bahwa semua sel berasal dari sel sebelumnya (Omnis cellula e cellula), yang menjadi pelengkap penting dalam teori sel.
+    </li>
+    <li>
+        <span class="font-semibold text-[#4dd4a3]">Robert Hooke</span> – Pada tahun 1665, Robert Hooke mengamati irisan tipis gabus menggunakan mikroskop dan menemukan ruang-ruang kecil yang ia sebut "cellulae" (sel). Istilah ini kemudian menjadi dasar kata "sel" dalam biologi.
+    </li>
+</ul>
+
+<div id="Contoh1" class="mb-6">
+	<div class="p-4 bg-[#4dd4a3] rounded-lg shadow-md mt-4">
+        <p class="font-semibold">Contoh Penerapan Teori Sel</p>
+        <p class="mt-2 ml-4">Luka pada kulit akan sembuh karena sel-sel di sekitar luka membelah dan menggantikan sel yang rusak. Ini membuktikan bahwa sel berasal dari sel yang sudah ada sebelumnya.</p>
+    </div>
+</div>
+
+<div id="1.2-Struktur-Sel">
+    <p class="text-xl font-semibold mb-4 text-[#4dd4a3]">1.2 Struktur Sel</p>
+<p class="mt-2 ml-4">Sel memiliki bagian-bagian utama yang menjalankan fungsi kehidupan. Berikut ini adalah struktur dasar sel:</p>
+<img src="perbedaan-sel-hewan-dan-sel-tumbuhan.jpeg" alt="Struktur Sel Hewan" class="mt-4 ml-4 rounded-xl shadow-md">
+<p class="mt-2 ml-4 text-sm text-gray-600">Gambar: Struktur Sel Hewan dan Tumbuhan </p>
+
+<ul class="mt-2 ml-8 list-disc">
+    <ul class="mt-2 ml-8 list-disc">
+    <li><strong>Dinding Sel</strong> (<em>cell wall</em>): Struktur kaku yang berada di luar membran sel, berfungsi memberikan bentuk, perlindungan, dan kekuatan pada sel. Hanya ditemukan pada sel tumbuhan, bakteri, dan jamur.</li>
+    <li><strong>Membran Sel</strong> (<em>cell membrane</em>): Lapisan tipis yang mengelilingi sel, berfungsi mengatur keluar masuknya zat dari dan ke dalam sel.</li>
+    <li><strong>Sitoplasma</strong> (<em>cytoplasm</em>): Cairan seperti gel di dalam sel tempat organel-organel berada dan reaksi kimia seluler berlangsung.</li>
+    <li><strong>Inti Sel </strong> (<em>nucleus</em>): Mengandung DNA yang mengendalikan seluruh aktivitas sel dan diwariskan saat pembelahan sel.</li>
+    <li><strong>Nukleolus</strong> (<em>nucleolus</em>): Struktur kecil di dalam nukleus yang berperan dalam produksi ribosom.</li>
+    <li><strong>Mitokondria</strong> (<em>mitochondria</em>): Organel penghasil energi sel melalui proses respirasi seluler.</li>
+    <li><strong>Ribosom</strong> (<em>ribosome</em>): Organel kecil yang berfungsi sebagai tempat sintesis protein, bisa menempel pada RE kasar atau bebas di sitoplasma.</li>
+    <li><strong>Retikulum Endoplasma</strong> (<em>endoplasmic reticulum</em>): Saluran di dalam sel yang membantu transportasi zat. Terbagi menjadi RE kasar (<em>rough ER</em>) dan RE halus (<em>smooth ER</em>).</li>
+    <li><strong>Badan Golgi</strong> (<em>Golgi apparatus</em>): Organel yang memproses, mengemas, dan mengirimkan protein dan lipid.</li>
+    <li><strong>Lisosom</strong> (<em>lysosome</em>): Organel yang mengandung enzim pencernaan untuk menghancurkan zat asing atau organel yang rusak (terutama di sel hewan).</li>
+    <li><strong>Sentriol</strong> (<em>centriole</em>): Struktur silindris yang berperan dalam pembelahan sel (hanya ditemukan pada sel hewan).</li>
+    <li><strong>Plastida</strong> (<em>plastid</em>): Organel yang hanya terdapat pada sel tumbuhan, berfungsi dalam penyimpanan dan fotosintesis. Contohnya meliputi:
+        <ul class="list-disc ml-6 mt-2">
+            <li><strong>Kloroplas</strong> (<em>chloroplast</em>): Mengandung klorofil untuk menangkap energi cahaya dan melakukan fotosintesis.</li>
+            <li><strong>Amiloplas</strong> (<em>amyloplast</em>): Menyimpan cadangan makanan berupa pati (amilum).</li>
+        </ul>
+    </li>
+    <li><strong>Peroksisom</strong> (<em>peroxisome</em>): Organel yang mengandung enzim untuk memecah asam lemak dan menetralisasi racun seperti hidrogen peroksida.</li>
+    <li><strong>Vakuola</strong> (<em>vacuole</em>): Rongga berisi cairan dalam sel, berfungsi menyimpan air, nutrisi, dan zat sisa. Pada tumbuhan, ukurannya besar; pada hewan, kecil atau tidak ada.</li>
+</ul>
+
+</ul>
+<br>
+
+
+</div>
+
+<div id="Contoh2" class="mb-6">
+	<div class="p-4 bg-green-100 rounded-lg shadow-md mt-4 overflow-auto">
+	<h2 class="text-xl font-bold text-center text-green-800 mb-4">Perbedaan Struktur Sel Hewan dan Tumbuhan</h2>
+  <table class="min-w-full table-auto text-sm text-left border border-green-400">
+    <thead class="bg-green-300 text-green-900">
+      <tr>
+        <th class="px-4 py-2 border border-green-400 font-semibold">Organel Sel</th>
+        <th class="px-4 py-2 border border-green-400 font-semibold">Fungsi</th>
+        <th class="px-4 py-2 border border-green-400 font-semibold">Sel Hewan</th>
+        <th class="px-4 py-2 border border-green-400 font-semibold">Sel Tumbuhan</th>
+      </tr>
+    </thead>
+    <tbody class="bg-white text-green-900">
+      <tr>
+        <td class="px-4 py-2 border border-green-300">Dinding Sel</td>
+        <td class="px-4 py-2 border border-green-300">Melindungi dan memberi bentuk tetap</td>
+        <td class="px-4 py-2 border border-green-300 text-center">❌</td>
+        <td class="px-4 py-2 border border-green-300 text-center">✅</td>
+      </tr>
+      <tr class="bg-green-50">
+        <td class="px-4 py-2 border border-green-300">Membran Sel</td>
+        <td class="px-4 py-2 border border-green-300">Mengatur keluar masuknya zat</td>
+        <td class="px-4 py-2 border border-green-300 text-center">✅</td>
+        <td class="px-4 py-2 border border-green-300 text-center">✅</td>
+      </tr>
+      <tr>
+        <td class="px-4 py-2 border border-green-300">Sitoplasma</td>
+        <td class="px-4 py-2 border border-green-300">Tempat berlangsungnya reaksi seluler</td>
+        <td class="px-4 py-2 border border-green-300 text-center">✅</td>
+        <td class="px-4 py-2 border border-green-300 text-center">✅</td>
+      </tr>
+      <tr class="bg-green-50">
+        <td class="px-4 py-2 border border-green-300">Inti Sel (Nukleus)</td>
+        <td class="px-4 py-2 border border-green-300">Mengontrol aktivitas sel</td>
+        <td class="px-4 py-2 border border-green-300 text-center">✅</td>
+        <td class="px-4 py-2 border border-green-300 text-center">✅</td>
+      </tr>
+      <tr>
+        <td class="px-4 py-2 border border-green-300">Nukleolus</td>
+        <td class="px-4 py-2 border border-green-300">Membentuk ribosom</td>
+        <td class="px-4 py-2 border border-green-300 text-center">✅</td>
+        <td class="px-4 py-2 border border-green-300 text-center">✅</td>
+      </tr>
+      <tr class="bg-green-50">
+        <td class="px-4 py-2 border border-green-300">Mitokondria</td>
+        <td class="px-4 py-2 border border-green-300">Menghasilkan energi (ATP)</td>
+        <td class="px-4 py-2 border border-green-300 text-center">✅</td>
+        <td class="px-4 py-2 border border-green-300 text-center">✅</td>
+      </tr>
+      <tr>
+        <td class="px-4 py-2 border border-green-300">Ribosom</td>
+        <td class="px-4 py-2 border border-green-300">Sintesis protein</td>
+        <td class="px-4 py-2 border border-green-300 text-center">✅</td>
+        <td class="px-4 py-2 border border-green-300 text-center">✅</td>
+      </tr>
+      <tr class="bg-green-50">
+        <td class="px-4 py-2 border border-green-300">Retikulum Endoplasma Halus</td>
+        <td class="px-4 py-2 border border-green-300">Sintesis lipid dan detoksifikasi</td>
+        <td class="px-4 py-2 border border-green-300 text-center">✅</td>
+        <td class="px-4 py-2 border border-green-300 text-center">✅</td>
+      </tr>
+      <tr>
+        <td class="px-4 py-2 border border-green-300">Retikulum Endoplasma Kasar</td>
+        <td class="px-4 py-2 border border-green-300">Sintesis dan pengemasan protein</td>
+        <td class="px-4 py-2 border border-green-300 text-center">✅</td>
+        <td class="px-4 py-2 border border-green-300 text-center">✅</td>
+      </tr>
+      <tr class="bg-green-50">
+        <td class="px-4 py-2 border border-green-300">Badan Golgi</td>
+        <td class="px-4 py-2 border border-green-300">Modifikasi dan distribusi protein</td>
+        <td class="px-4 py-2 border border-green-300 text-center">✅</td>
+        <td class="px-4 py-2 border border-green-300 text-center">✅</td>
+      </tr>
+      <tr>
+        <td class="px-4 py-2 border border-green-300">Lisosom</td>
+        <td class="px-4 py-2 border border-green-300">Menghancurkan zat sisa dan sel rusak</td>
+        <td class="px-4 py-2 border border-green-300 text-center">✅</td>
+        <td class="px-4 py-2 border border-green-300 text-center">Jarang</td>
+      </tr>
+      <tr class="bg-green-50">
+        <td class="px-4 py-2 border border-green-300">Sentriol</td>
+        <td class="px-4 py-2 border border-green-300">Membantu pembelahan sel</td>
+        <td class="px-4 py-2 border border-green-300 text-center">✅</td>
+        <td class="px-4 py-2 border border-green-300 text-center">❌</td>
+      </tr>
+      <tr>
+        <td class="px-4 py-2 border border-green-300">Plastida</td>
+        <td class="px-4 py-2 border border-green-300">Mengandung pigmen, berperan dalam fotosintesis dan penyimpanan</td>
+        <td class="px-4 py-2 border border-green-300 text-center">❌</td>
+        <td class="px-4 py-2 border border-green-300 text-center">✅</td>
+      </tr>
+      <tr class="bg-green-50">
+        <td class="px-4 py-2 border border-green-300">Kloroplas</td>
+        <td class="px-4 py-2 border border-green-300">Tempat berlangsungnya fotosintesis</td>
+        <td class="px-4 py-2 border border-green-300 text-center">❌</td>
+        <td class="px-4 py-2 border border-green-300 text-center">✅</td>
+      </tr>
+      <tr>
+        <td class="px-4 py-2 border border-green-300">Amiloplas</td>
+        <td class="px-4 py-2 border border-green-300">Menyimpan pati</td>
+        <td class="px-4 py-2 border border-green-300 text-center">❌</td>
+        <td class="px-4 py-2 border border-green-300 text-center">✅</td>
+      </tr>
+      <tr class="bg-green-50">
+        <td class="px-4 py-2 border border-green-300">Peroksisom</td>
+        <td class="px-4 py-2 border border-green-300">Menguraikan H<sub>2</sub>O<sub>2</sub> (hidrogen peroksida)</td>
+        <td class="px-4 py-2 border border-green-300 text-center">✅</td>
+        <td class="px-4 py-2 border border-green-300 text-center">✅</td>
+      </tr>
+      <tr>
+        <td class="px-4 py-2 border border-green-300">Vakuola</td>
+        <td class="px-4 py-2 border border-green-300">Menyimpan air, zat sisa, dan cadangan makanan</td>
+        <td class="px-4 py-2 border border-green-300 text-center">Kecil</td>
+        <td class="px-4 py-2 border border-green-300 text-center">Besar</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+</div>
+
+<p class="text-xl text-[#4dd4a3] font-semibold">Video Penjelasan Struktur Sel</p><br>
+<div class="w-full rounded-lg shadow-lg overflow-hidden">
+    <iframe class="w-full h-64 md:h-96" src="https://www.youtube.com/embed/-1iU8EKV6iY" frameborder="0" allowfullscreen></iframe><br>
+</div><br>
+
+    
+<p class="text-2xl text-[#4dd4a3] font-semibold">Latihan 1</p>
+    
+    <div class="p-6 bg-yellow-100 rounded-lg shadow-md">
+	
+	
+
+        <h2 class="text-2xl font-bold text-[#4dd4a3] mt-6">Soal 1</h2>
+        <p class="mt-4 text-lg">Siapakah ilmuwan yang menyatakan bahwa semua makhluk hidup tersusun dari sel?</p>
+
+        <ul class="mt-4 text-lg">
+            <li><input type="radio" name="soal1"> A. Robert Hooke</li>
+            <li><input type="radio" name="soal1"> B. Jkob Schleiden dan Theodor Schwann</li>
+            <li><input type="radio" name="soal1"> C. Charles Darwin</li>
+            <li><input type="radio" name="soal1"> D. Louis Pasteur</li>
+        </ul>
+
+        <button onclick="togglePembahasan('pembahasan-latihan1-no1')" 
+            class="mt-6 px-5 py-3 bg-[#4dd4a3] text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition-all duration-300">
+            Lihat Pembahasan
+        </button>
+
+        <div id="pembahasan-latihan1-no1" class="mt-6 p-5 bg-white rounded-lg hidden transition-all duration-300">
+            <h3 class="font-semibold text-lg text-green-700">Pembahasan:</h3>
+            <p>Schleiden dan Schwann adalah dua ilmuwan yang mengemukakan bahwa semua makhluk hidup tersusun atas sel.</p>
+            <p class="font-medium mt-3 text-[#4dd4a3] text-lg">Jawaban: B</p>
+        </div>
+    </div>
+
+    <div class="p-6 bg-yellow-100 rounded-lg shadow-md mt-6">
+        <h2 class="text-2xl font-bold text-[#4dd4a3] mt-6">Soal 2</h2>
+        <p class="mt-4 text-lg">Sel yang <strong>tidak memiliki memberan inti</strong> disebut...</p>
+
+        <ul class="mt-4 text-lg">
+            <li><input type="radio" name="soal2"> A. Prokariotik</li>
+            <li><input type="radio" name="soal2"> B. Eukariotik</li>
+            <li><input type="radio" name="soal2"> C. Multiseluler</li>
+            <li><input type="radio" name="soal2"> D. Uniseluler</li>
+        </ul>
+
+        <button onclick="togglePembahasan('pembahasan-latihan1-no2')" 
+           class="mt-6 px-5 py-3 bg-[#4dd4a3] text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition-all duration-300">
+            Lihat Pembahasan
+        </button>
+
+        <div id="pembahasan-latihan1-no2" class="mt-6 p-5 bg-white rounded-lg hidden transition-all duration-300">
+            <h3 class="font-semibold text-lg text-green-700">Pembahasan:</h3>
+            <p>Prokariotik merupakan jenis sel yang <strong>tidak memiliki memberan inti</strong> .</p>
+	    <p>Eukariotik merupakan jenis sel yang <strong>memiliki memberan inti</strong> .</p>
+            <p class="font-medium mt-3 text-[#4dd4a3] text-lg">Jawaban: A. Prokariotik</p>
+        </div>
+    </div>
+ <div class="p-6 bg-yellow-100 rounded-lg shadow-md mt-6">
+        <h2 class="text-2xl font-bold text-[#4dd4a3] mt-6">Soal 3</h2>
+        <p class="mt-4 text-lg">Sel yang <strong>memiliki memberan inti</strong> disebut...</p>
+
+        <ul class="mt-4 text-lg">
+            <li><input type="radio" name="soal2"> A. Prokariotik</li>
+            <li><input type="radio" name="soal2"> B. Eukariotik</li>
+            <li><input type="radio" name="soal2"> C. Multiseluler</li>
+            <li><input type="radio" name="soal2"> D. Uniseluler</li>
+        </ul>
+
+        <button onclick="togglePembahasan('pembahasan-latihan1-no3')" 
+           class="mt-6 px-5 py-3 bg-[#4dd4a3] text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition-all duration-300">
+            Lihat Pembahasan
+        </button>
+
+        <div id="pembahasan-latihan1-no3" class="mt-6 p-5 bg-white rounded-lg hidden transition-all duration-300">
+            <h3 class="font-semibold text-lg text-green-700">Pembahasan:</h3>
+            <p>Prokariotik merupakan jenis sel yang <strong>tidak memiliki memberan inti</strong> .</p>
+	    <p>Eukariotik merupakan jenis sel yang <strong>memiliki memberan inti</strong> .</p>
+            <p class="font-medium mt-3 text-[#4dd4a3] text-lg">Jawaban: B. Eukariotik</p>
+        </div>
+    </div>
+
+</div>
+
+
+    <div class="p-6 bg-yellow-100 rounded-lg shadow-md mt-6">
+        <h2 class="text-2xl font-bold text-[#4dd4a3] mt-6">Soal 4</h2>
+        <p class="mt-4 text-lg">
+            Amoeba merupakan salah satu organisme yang hanya memiliki 1 sel atau yang biasa disebut...
+        </p>
+
+        <ul class="mt-4 text-lg">
+            <li><input type="radio" name="soal2"> A. Prokariotik</li>
+            <li><input type="radio" name="soal2"> B. Eukariotik</li>
+            <li><input type="radio" name="soal2"> C. Multiseluler</li>
+            <li><input type="radio" name="soal2"> D. Uniseluler</li>
+        </ul>
+
+
+        <button onclick="togglePembahasan('pembahasan-latihan1-no4')" 
+            class="mt-6 px-5 py-3 bg-[#4dd4a3] text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition-all duration-300">
+            Lihat Pembahasan
+        </button>
+
+        <div id="pembahasan-latihan1-no4" class="mt-6 p-5 bg-white rounded-lg hidden transition-all duration-300">
+            <h3 class="font-semibold text-lg text-green-700">Pembahasan:</h3>
+            <p><strong>Multiseluler </strong>merupakan organisme atau mahluk hidup yang memiliki <strong>banyak sel</strong></p>
+	    <p><strong>Uniseluler </strong>merupakan organisme atau mahluk hidup yang hanya memiliki <strong>satu sel</strong></p>
+            <p class="font-medium mt-3 text-[#4dd4a3] text-lg">Jawaban: D. Uniseluler</p>
+        </div>
+    </div>
+
+	<div class="p-6 bg-yellow-100 rounded-lg shadow-md mt-6">
+        <h2 class="text-2xl font-bold text-[#4dd4a3] mt-6">Soal 5</h2>
+        
+  <img src="soal sel hewan.png" alt="Struktur Sel Hewan" class="mb-4 w-full max-w-md mx-auto">
+  <p>Berdasarkan gambar sel hewan di atas, pasangkan organel sel berikut dengan benar!</p><br>
+
+  <!-- Soal 1 -->
+  <div class="flex items-center gap-4 mb-3">
+    <span class="w-32">Dinding Sel</span>
+    <select class="border rounded px-2 py-1" id="jawaban23">
+      <option value="">Pilih</option>
+      <option value="1">1</option>
+      <option value="2">2</option>
+      <option value="3">3</option>
+      <option value="4">4</option>
+      <option value="5">5</option>
+      <option value="6">6</option>
+      <option value="7">7</option>
+      <option value="8">8</option>
+      <option value="9">9</option>
+    </select>
+    <button onclick="cekSatu('jawaban23', '4', 'hasil23')" class="bg-[#4dd4a3] text-white px-3 py-1 rounded hover:bg-[#38c197]">Cek</button>
+    <span id="hasil23" class="font-semibold"></span>
+  </div>
+
+  <!-- Soal 2 -->
+  <div class="flex items-center gap-4 mb-3">
+    <span class="w-32">Inti Sel (Nukleus)</span>
+    <select class="border rounded px-2 py-1" id="jawaban24">
+      <option value="">Pilih</option>
+      <option value="1">1</option>
+      <option value="2">2</option>
+      <option value="3">3</option>
+      <option value="4">4</option>
+      <option value="5">5</option>
+      <option value="6">6</option>
+      <option value="7">7</option>
+      <option value="8">8</option>
+      <option value="9">9</option>
+    </select>
+    <button onclick="cekSatu('jawaban24', '5', 'hasil24')" class="bg-[#4dd4a3] text-white px-3 py-1 rounded hover:bg-[#38c197]">Cek</button>
+    <span id="hasil24" class="font-semibold"></span>
+  </div>
+
+  <!-- Soal 3 -->
+  <div class="flex items-center gap-4 mb-3">
+    <span class="w-32">Mitokondria</span>
+    <select class="border rounded px-2 py-1" id="jawaban25">
+      <option value="">Pilih</option>
+      <option value="1">1</option>
+      <option value="2">2</option>
+      <option value="3">3</option>
+      <option value="4">4</option>
+      <option value="5">5</option>
+      <option value="6">6</option>
+      <option value="7">7</option>
+      <option value="8">8</option>
+      <option value="9">9</option>
+    </select>
+    <button onclick="cekSatu('jawaban25', '8', 'hasil25')" class="bg-[#4dd4a3] text-white px-3 py-1 rounded hover:bg-[#38c197]">Cek</button>
+    <span id="hasil25" class="font-semibold"></span>
+  </div>
+
+  <!-- Soal 4 -->
+  <div class="flex items-center gap-4 mb-3">
+    <span class="w-32">Ribosom</span>
+    <select class="border rounded px-2 py-1" id="jawaban26">
+      <option value="">Pilih</option>
+      <option value="1">1</option>
+      <option value="2">2</option>
+      <option value="3">3</option>
+      <option value="4">4</option>
+      <option value="5">5</option>
+      <option value="6">6</option>
+      <option value="7">7</option>
+      <option value="8">8</option>
+      <option value="9">9</option>
+    </select>
+    <button onclick="cekSatu('jawaban26', '7', 'hasil26')" class="bg-[#4dd4a3] text-white px-3 py-1 rounded hover:bg-[#38c197]">Cek</button>
+    <span id="hasil26" class="font-semibold"></span>
+  </div>
+
+  <!-- Soal 5 -->
+  <div class="flex items-center gap-4 mb-3">
+    <span class="w-32">Lisosom</span>
+    <select class="border rounded px-2 py-1" id="jawaban27">
+      <option value="">Pilih</option>
+      <option value="1">1</option>
+      <option value="2">2</option>
+      <option value="3">3</option>
+      <option value="4">4</option>
+      <option value="5">5</option>
+      <option value="6">6</option>
+      <option value="7">7</option>
+      <option value="8">8</option>
+      <option value="9">9</option>
+    </select>
+    <button onclick="cekSatu('jawaban27', '1', 'hasil27')" class="bg-[#4dd4a3] text-white px-3 py-1 rounded hover:bg-[#38c197]">Cek</button>
+    <span id="hasil27" class="font-semibold"></span>
+  </div>
+
+  <!-- Soal 6 -->
+  <div class="flex items-center gap-4 mb-3">
+    <span class="w-32">Sentriol</span>
+    <select class="border rounded px-2 py-1" id="jawaban28">
+      <option value="">Pilih</option>
+      <option value="1">1</option>
+      <option value="2">2</option>
+      <option value="3">3</option>
+      <option value="4">4</option>
+      <option value="5">5</option>
+      <option value="6">6</option>
+      <option value="7">7</option>
+      <option value="8">8</option>
+      <option value="9">9</option>
+    </select>
+    <button onclick="cekSatu('jawaban28', '3', 'hasil28')" class="bg-[#4dd4a3] text-white px-3 py-1 rounded hover:bg-[#38c197]">Cek</button>
+    <span id="hasil28" class="font-semibold"></span>
+  </div>
+
+  <!-- Soal 7 -->
+  <div class="flex items-center gap-4 mb-3">
+    <span class="w-32">Retikulum Endoplasma Kasar</span>
+    <select class="border rounded px-2 py-1" id="jawaban29">
+      <option value="">Pilih</option>
+      <option value="1">1</option>
+      <option value="2">2</option>
+      <option value="3">3</option>
+      <option value="4">4</option>
+      <option value="5">5</option>
+      <option value="6">6</option>
+      <option value="7">7</option>
+      <option value="8">8</option>
+      <option value="9">9</option>
+    </select>
+    <button onclick="cekSatu('jawaban29', '2', 'hasil29')" class="bg-[#4dd4a3] text-white px-3 py-1 rounded hover:bg-[#38c197]">Cek</button>
+    <span id="hasil29" class="font-semibold"></span>
+  </div>
+
+<!-- Soal 8 -->
+<div class="flex items-center gap-4 mb-3">
+  <span class="w-32">Badan Golgi</span>
+  <select class="border rounded px-2 py-1" id="jawaban30">
+    <option value="">Pilih</option>
+      <option value="1">1</option>
+      <option value="2">2</option>
+      <option value="3">3</option>
+      <option value="4">4</option>
+      <option value="5">5</option>
+      <option value="6">6</option>
+      <option value="7">7</option>
+      <option value="8">8</option>
+      <option value="9">9</option>
+  </select>
+  <button onclick="cekSatu('jawaban30', '9', 'hasil30')" class="bg-[#4dd4a3] text-white px-3 py-1 rounded hover:bg-[#38c197]">Cek</button>
+  <span id="hasil30" class="font-semibold"></span>
+</div>
+
+<!-- Soal 9 -->
+<div class="flex items-center gap-4 mb-3">
+  <span class="w-32">Nukleolus</span>
+  <select class="border rounded px-2 py-1" id="jawaban31">
+    <option value="">Pilih</option>
+      <option value="1">1</option>
+      <option value="2">2</option>
+      <option value="3">3</option>
+      <option value="4">4</option>
+      <option value="5">5</option>
+      <option value="6">6</option>
+      <option value="7">7</option>
+      <option value="8">8</option>
+      <option value="9">9</option>
+  </select>
+  <button onclick="cekSatu('jawaban31', '6', 'hasil31')" class="bg-[#4dd4a3] text-white px-3 py-1 rounded hover:bg-[#38c197]">Cek</button>
+  <span id="hasil31" class="font-semibold"></span>
+</div>
+</div><br>
+
+
+	<div class="p-6 bg-yellow-100 rounded-lg shadow-md">
+	<h2 class="text-2xl font-bold text-[#4dd4a3] mt-6">Soal 6</h2>
+
+  <img src="soal sel tumbuhan.png" alt="Struktur Sel Tumbuhan" class="mb-4 w-full max-w-md mx-auto">
+<p>Berdasarkan gambar sel tumbuhan di atas, pasangkan organel sel berikut dengan benar!<p><br>
+  <!-- Soal 1 -->
+  <div class="flex items-center gap-4 mb-3">
+    <span class="w-32">Dinding Sel</span>
+    <select class="border rounded px-2 py-1" id="jawaban1">
+      <option value="">Pilih</option>
+      <option value="a">a</option>
+      <option value="b">b</option>
+      <option value="c">c</option>
+      <option value="d">d</option>
+      <option value="e">e</option>
+      <option value="f">f</option>
+    </select>
+    <button onclick="cekSatu('jawaban1', 'b', 'hasil1')" class="bg-[#4dd4a3] text-white px-3 py-1 rounded hover:bg-[#38c197]">Cek</button>
+    <span id="hasil1" class="font-semibold"></span>
+  </div>
+
+  <!-- Soal 2 -->
+  <div class="flex items-center gap-4 mb-3">
+    <span class="w-32">Retikulum Endoplasma</span>
+    <select class="border rounded px-2 py-1" id="jawaban2">
+      <option value="">Pilih</option>
+      <option value="a">a</option>
+      <option value="b">b</option>
+      <option value="c">c</option>
+      <option value="d">d</option>
+      <option value="e">e</option>
+      <option value="f">f</option>
+    </select>
+    <button onclick="cekSatu('jawaban2', 'c', 'hasil2')" class="bg-[#4dd4a3] text-white px-3 py-1 rounded hover:bg-[#38c197]">Cek</button>
+    <span id="hasil2" class="font-semibold"></span>
+  </div>
+
+  <!-- Soal 3 -->
+  <div class="flex items-center gap-4 mb-3">
+    <span class="w-32">Mitokondria</span>
+    <select class="border rounded px-2 py-1" id="jawaban3">
+      <option value="">Pilih</option>
+      <option value="a">a</option>
+      <option value="b">b</option>
+      <option value="c">c</option>
+      <option value="d">d</option>
+      <option value="e">e</option>
+      <option value="f">f</option>
+      <option value="g">g</option>
+      <option value="h">h</option>
+    </select>
+    <button onclick="cekSatu('jawaban3', 'e', 'hasil3')" class="bg-[#4dd4a3] text-white px-3 py-1 rounded hover:bg-[#38c197]">Cek</button>
+    <span id="hasil3" class="font-semibold"></span>
+  </div>
+
+  <!-- Soal 4 -->
+  <div class="flex items-center gap-4 mb-3">
+    <span class="w-32">Inti Sel</span>
+    <select class="border rounded px-2 py-1" id="jawaban4">
+      <option value="">Pilih</option>
+      <option value="a">a</option>
+      <option value="b">b</option>
+      <option value="c">c</option>
+      <option value="d">d</option>
+      <option value="e">e</option>
+      <option value="f">f</option>
+      <option value="g">g</option>
+      <option value="h">h</option>
+    </select>
+    <button onclick="cekSatu('jawaban4', 'd', 'hasil4')" class="bg-[#4dd4a3] text-white px-3 py-1 rounded hover:bg-[#38c197]">Cek</button>
+    <span id="hasil4" class="font-semibold"></span>
+  </div>
+
+  <!-- Soal 6 -->
+  <div class="flex items-center gap-4 mb-3">
+    <span class="w-32">Kloroplas</span>
+    <select class="border rounded px-2 py-1" id="jawaban6">
+      <option value="">Pilih</option>
+      <option value="a">a</option>
+      <option value="b">b</option>
+      <option value="c">c</option>
+      <option value="d">d</option>
+      <option value="e">e</option>
+      <option value="f">f</option>
+      <option value="g">g</option>
+      <option value="h">h</option>
+    </select>
+    <button onclick="cekSatu('jawaban6', 'f', 'hasil6')" class="bg-[#4dd4a3] text-white px-3 py-1 rounded hover:bg-[#38c197]">Cek</button>
+    <span id="hasil6" class="font-semibold"></span>
+  </div>
+
+  <!-- Soal 7 -->
+  <div class="flex items-center gap-4 mb-3">
+    <span class="w-32">Vakuola</span>
+    <select class="border rounded px-2 py-1" id="jawaban7">
+      <option value="">Pilih</option>
+      <option value="a">a</option>
+      <option value="b">b</option>
+      <option value="c">c</option>
+      <option value="d">d</option>
+      <option value="e">e</option>
+      <option value="f">f</option>
+      <option value="g">g</option>
+      <option value="h">h</option>
+    </select>
+    <button onclick="cekSatu('jawaban7', 'a', 'hasil7')" class="bg-[#4dd4a3] text-white px-3 py-1 rounded hover:bg-[#38c197]">Cek</button>
+    <span id="hasil7" class="font-semibold"></span>
+  </div>
+</div><br>
+
+<script>
+  function cekSatu(selectId, kunci, hasilId) {
+    const userJawaban = document.getElementById(selectId).value;
+    const hasilEl = document.getElementById(hasilId);
+
+    if (userJawaban === "") {
+      hasilEl.innerHTML = "Pilih dulu!";
+      hasilEl.className = "font-semibold text-yellow-600";
+    } else if (userJawaban === kunci) {
+      hasilEl.innerHTML = "✅ Benar";
+      hasilEl.className = "font-semibold text-green-600";
+    } else {
+      hasilEl.innerHTML = "❌ Salah";
+      hasilEl.className = "font-semibold text-red-600";
+    }
+  }
+</script>
+
+<div class="p-6 bg-yellow-100 rounded-lg shadow-md">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mt-6">Soal 7</h2>
+  <p><strong>Pilih organel sel yang sesuai dengan fungsi organel sel yang diberikan!</strong></p><br>
+
+  <!-- Soal 1 -->
+<div class="mb-6">
+  <p class="mb-1 font-medium">1. Melindungi dan memberi bentuk tetap pada sel.</p>
+  <div class="flex items-center gap-4">
+    <select class="border rounded px-2 py-1" id="jawaban8">
+      <option value="">Pilih Organ</option>
+      <option value="a">Membran Sel</option>
+      <option value="b">Inti Sel (Nukleus)</option>
+      <option value="c">Sitoplasma</option>
+      <option value="d">RE Kasar</option>
+      <option value="e">RE halus</option>
+      <option value="f">Badan Golgi</option>
+      <option value="g">Ribosom</option>
+      <option value="h">Mitokondria</option>
+      <option value="i">Lisosom</option>
+      <option value="j">Peroksisom</option>
+      <option value="k">Sentriol</option>
+      <option value="l">Vakuola</option>
+      <option value="m">Dinding Sel</option>
+      <option value="n">Kloroplas</option>
+    </select>
+    <button onclick="cekSatu('jawaban8', 'm', 'hasil8')" class="bg-[#4dd4a3] text-white px-3 py-1 rounded hover:bg-[#38c197]">Cek</button>
+    <span id="hasil8" class="font-semibold"></span>
+  </div>
+</div>
+
+<!-- Soal 2 -->
+<div class="mb-6">
+  <p class="mb-1 font-medium">2. Mengandung informasi genetik yang mengatur semua aktivitas sel.</p>
+  <div class="flex items-center gap-4">
+    <select class="border rounded px-2 py-1" id="jawaban9">
+      <option value="">Pilih Organ</option>
+      <option value="a">Membran Sel</option>
+      <option value="b">Inti Sel (Nukleus)</option>
+      <option value="c">Sitoplasma</option>
+      <option value="d">RE Kasar</option>
+      <option value="e">RE halus</option>
+      <option value="f">Badan Golgi</option>
+      <option value="g">Ribosom</option>
+      <option value="h">Mitokondria</option>
+      <option value="i">Lisosom</option>
+      <option value="j">Peroksisom</option>
+      <option value="k">Sentriol</option>
+      <option value="l">Vakuola</option>
+      <option value="m">Dinding Sel</option>
+      <option value="n">Kloroplas</option>
+    </select>
+    <button onclick="cekSatu('jawaban9', 'b', 'hasil9')" class="bg-[#4dd4a3] text-white px-3 py-1 rounded hover:bg-[#38c197]">Cek</button>
+    <span id="hasil9" class="font-semibold"></span>
+  </div>
+</div>
+
+<!-- Soal 3 -->
+<div class="mb-6">
+  <p class="mb-1 font-medium">3. Tempat terjadinya proses fotosintesis pada sel tumbuhan.</p>
+  <div class="flex items-center gap-4">
+    <select class="border rounded px-2 py-1" id="jawaban10">
+      <option value="">Pilih Organ</option>
+      <option value="a">Membran Sel</option>
+      <option value="b">Inti Sel (Nukleus)</option>
+      <option value="c">Sitoplasma</option>
+      <option value="d">RE Kasar</option>
+      <option value="e">RE halus</option>
+      <option value="f">Badan Golgi</option>
+      <option value="g">Ribosom</option>
+      <option value="h">Mitokondria</option>
+      <option value="i">Lisosom</option>
+      <option value="j">Peroksisom</option>
+      <option value="k">Sentriol</option>
+      <option value="l">Vakuola</option>
+      <option value="m">Dinding Sel</option>
+      <option value="n">Kloroplas</option>
+    </select>
+    <button onclick="cekSatu('jawaban10', 'n', 'hasil10')" class="bg-[#4dd4a3] text-white px-3 py-1 rounded hover:bg-[#38c197]">Cek</button>
+    <span id="hasil10" class="font-semibold"></span>
+  </div>
+</div>
+
+<!-- Soal 4 -->
+<div class="mb-6">
+  <p class="mb-1 font-medium">4. Tempat terjadinya respirasi sel dan menghasilkan energi dalam bentuk ATP.</p>
+  <div class="flex items-center gap-4">
+    <select class="border rounded px-2 py-1" id="jawaban11">
+      <option value="">Pilih Organ</option>
+      <option value="a">Membran Sel</option>
+      <option value="b">Inti Sel (Nukleus)</option>
+      <option value="c">Sitoplasma</option>
+      <option value="d">RE Kasar</option>
+      <option value="e">RE halus</option>
+      <option value="f">Badan Golgi</option>
+      <option value="g">Ribosom</option>
+      <option value="h">Mitokondria</option>
+      <option value="i">Lisosom</option>
+      <option value="j">Peroksisom</option>
+      <option value="k">Sentriol</option>
+      <option value="l">Vakuola</option>
+      <option value="m">Dinding Sel</option>
+      <option value="n">Kloroplas</option>
+    </select>
+    <button onclick="cekSatu('jawaban11', 'h', 'hasil11')" class="bg-[#4dd4a3] text-white px-3 py-1 rounded hover:bg-[#38c197]">Cek</button>
+    <span id="hasil11" class="font-semibold"></span>
+  </div>
+</div>
+
+<!-- Soal 5 -->
+<div class="mb-6">
+  <p class="mb-1 font-medium">5. Membantu dalam sintesis protein dan melepaskan ribosom ke sitoplasma.</p>
+  <div class="flex items-center gap-4">
+    <select class="border rounded px-2 py-1" id="jawaban12">
+      <option value="">Pilih Organ</option>
+      <option value="a">Membran Sel</option>
+      <option value="b">Inti Sel (Nukleus)</option>
+      <option value="c">Sitoplasma</option>
+      <option value="d">RE Kasar</option>
+      <option value="e">RE halus</option>
+      <option value="f">Badan Golgi</option>
+      <option value="g">Ribosom</option>
+      <option value="h">Mitokondria</option>
+      <option value="i">Lisosom</option>
+      <option value="j">Peroksisom</option>
+      <option value="k">Sentriol</option>
+      <option value="l">Vakuola</option>
+      <option value="m">Dinding Sel</option>
+      <option value="n">Kloroplas</option>
+    </select>
+    <button onclick="cekSatu('jawaban12', 'd', 'hasil12')" class="bg-[#4dd4a3] text-white px-3 py-1 rounded hover:bg-[#38c197]">Cek</button>
+    <span id="hasil12" class="font-semibold"></span>
+  </div>
+</div>
+
+<!-- Soal 6 -->
+<div class="mb-6">
+  <p class="mb-1 font-medium">6. Mengatur keluar masuknya bahan dari dan ke dalam sel.</p>
+  <div class="flex items-center gap-4">
+    <select class="border rounded px-2 py-1" id="jawaban13">
+      <option value="">Pilih Organ</option>
+      <option value="a">Membran Sel</option>
+      <option value="b">Inti Sel (Nukleus)</option>
+      <option value="c">Sitoplasma</option>
+      <option value="d">RE Kasar</option>
+      <option value="e">RE halus</option>
+      <option value="f">Badan Golgi</option>
+      <option value="g">Ribosom</option>
+      <option value="h">Mitokondria</option>
+      <option value="i">Lisosom</option>
+      <option value="j">Peroksisom</option>
+      <option value="k">Sentriol</option>
+      <option value="l">Vakuola</option>
+      <option value="m">Dinding Sel</option>
+      <option value="n">Kloroplas</option>
+    </select>
+    <button onclick="cekSatu('jawaban13', 'a', 'hasil13')" class="bg-[#4dd4a3] text-white px-3 py-1 rounded hover:bg-[#38c197]">Cek</button>
+    <span id="hasil13" class="font-semibold"></span>
+  </div>
+</div>
+
+<!-- Soal 7 -->
+<div class="mb-6">
+  <p class="mb-1 font-medium">7. Menghasilkan enzim yang dapat mencerna bahan-bahan yang tidak diperlukan oleh sel.</p>
+  <div class="flex items-center gap-4">
+    <select class="border rounded px-2 py-1" id="jawaban14">
+      <option value="">Pilih Organ</option>
+      <option value="a">Membran Sel</option>
+      <option value="b">Inti Sel (Nukleus)</option>
+      <option value="c">Sitoplasma</option>
+      <option value="d">RE Kasar</option>
+      <option value="e">RE halus</option>
+      <option value="f">Badan Golgi</option>
+      <option value="g">Ribosom</option>
+      <option value="h">Mitokondria</option>
+      <option value="i">Lisosom</option>
+      <option value="j">Peroksisom</option>
+      <option value="k">Sentriol</option>
+      <option value="l">Vakuola</option>
+      <option value="m">Dinding Sel</option>
+      <option value="n">Kloroplas</option>
+    </select>
+    <button onclick="cekSatu('jawaban14', 'i', 'hasil14')" class="bg-[#4dd4a3] text-white px-3 py-1 rounded hover:bg-[#38c197]">Cek</button>
+    <span id="hasil14" class="font-semibold"></span>
+  </div>
+</div>
+
+<!-- Soal 8 -->
+<div class="mb-6">
+  <p class="mb-1 font-medium">8. Tempat penyimpanan air, garam, dan zat-zat lain yang diperlukan oleh sel.</p>
+  <div class="flex items-center gap-4">
+    <select class="border rounded px-2 py-1" id="jawaban15">
+      <option value="">Pilih Organ</option>
+      <option value="a">Membran Sel</option>
+      <option value="b">Inti Sel (Nukleus)</option>
+      <option value="c">Sitoplasma</option>
+      <option value="d">RE Kasar</option>
+      <option value="e">RE halus</option>
+      <option value="f">Badan Golgi</option>
+      <option value="g">Ribosom</option>
+      <option value="h">Mitokondria</option>
+      <option value="i">Lisosom</option>
+      <option value="j">Peroksisom</option>
+      <option value="k">Sentriol</option>
+      <option value="l">Vakuola</option>
+      <option value="m">Dinding Sel</option>
+      <option value="n">Kloroplas</option>
+    </select>
+    <button onclick="cekSatu('jawaban15', 'l', 'hasil15')" class="bg-[#4dd4a3] text-white px-3 py-1 rounded hover:bg-[#38c197]">Cek</button>
+    <span id="hasil15" class="font-semibold"></span>
+  </div>
+</div>
+
+<!-- Soal 9 -->
+<div class="mb-6">
+  <p class="mb-1 font-medium">9. Menghasilkan enzim untuk proses detoksifikasi dan metabolisme lemak.</p>
+  <div class="flex items-center gap-4">
+    <select class="border rounded px-2 py-1" id="jawaban16">
+      <option value="">Pilih Organ</option>
+      <option value="a">Membran Sel</option>
+      <option value="b">Inti Sel (Nukleus)</option>
+      <option value="c">Sitoplasma</option>
+      <option value="d">RE Kasar</option>
+      <option value="e">RE halus</option>
+      <option value="f">Badan Golgi</option>
+      <option value="g">Ribosom</option>
+      <option value="h">Mitokondria</option>
+      <option value="i">Lisosom</option>
+      <option value="j">Peroksisom</option>
+      <option value="k">Sentriol</option>
+      <option value="l">Vakuola</option>
+      <option value="m">Dinding Sel</option>
+      <option value="n">Kloroplas</option>
+    </select>
+    <button onclick="cekSatu('jawaban16', 'j', 'hasil16')" class="bg-[#4dd4a3] text-white px-3 py-1 rounded hover:bg-[#38c197]">Cek</button>
+    <span id="hasil16" class="font-semibold"></span>
+  </div>
+</div>
+
+<!-- Soal 10 -->
+<div class="mb-6">
+  <p class="mb-1 font-medium">10. Berfungsi dalam pembelahan sel dan menentukan posisi organel lainnya dalam sel.</p>
+  <div class="flex items-center gap-4">
+    <select class="border rounded px-2 py-1" id="jawaban17">
+      <option value="">Pilih Organ</option>
+      <option value="a">Membran Sel</option>
+      <option value="b">Inti Sel (Nukleus)</option>
+      <option value="c">Sitoplasma</option>
+      <option value="d">RE Kasar</option>
+      <option value="e">RE halus</option>
+      <option value="f">Badan Golgi</option>
+      <option value="g">Ribosom</option>
+      <option value="h">Mitokondria</option>
+      <option value="i">Lisosom</option>
+      <option value="j">Peroksisom</option>
+      <option value="k">Sentriol</option>
+      <option value="l">Vakuola</option>
+      <option value="m">Dinding Sel</option>
+      <option value="n">Kloroplas</option>
+    </select>
+    <button onclick="cekSatu('jawaban17', 'k', 'hasil17')" class="bg-[#4dd4a3] text-white px-3 py-1 rounded hover:bg-[#38c197]">Cek</button>
+    <span id="hasil17" class="font-semibold"></span>
+  </div>
+</div>
+
+<!-- Soal 11 -->
+<div class="mb-6">
+  <p class="mb-1 font-medium">11. Tempat berlangsungnya reaksi metabolisme sel dan peredaran organel.</p>
+  <div class="flex items-center gap-4">
+    <select class="border rounded px-2 py-1" id="jawaban18">
+      <option value="">Pilih Organ</option>
+      <option value="a">Membran Sel</option>
+      <option value="b">Inti Sel (Nukleus)</option>
+      <option value="c">Sitoplasma</option>
+      <option value="d">RE Kasar</option>
+      <option value="e">RE halus</option>
+      <option value="f">Badan Golgi</option>
+      <option value="g">Ribosom</option>
+      <option value="h">Mitokondria</option>
+      <option value="i">Lisosom</option>
+      <option value="j">Peroksisom</option>
+      <option value="k">Sentriol</option>
+      <option value="l">Vakuola</option>
+      <option value="m">Dinding Sel</option>
+      <option value="n">Kloroplas</option>
+    </select>
+    <button onclick="cekSatu('jawaban18', 'c', 'hasil18')" class="bg-[#4dd4a3] text-white px-3 py-1 rounded hover:bg-[#38c197]">Cek</button>
+    <span id="hasil18" class="font-semibold"></span>
+  </div>
+</div>
+
+<!-- Soal 12 -->
+<div class="mb-6">
+  <p class="mb-1 font-medium">12. Menghasilkan energi untuk kegiatan sel melalui proses respirasi seluler.</p>
+  <div class="flex items-center gap-4">
+    <select class="border rounded px-2 py-1" id="jawaban19">
+      <option value="">Pilih Organ</option>
+      <option value="a">Membran Sel</option>
+      <option value="b">Inti Sel (Nukleus)</option>
+      <option value="c">Sitoplasma</option>
+      <option value="d">RE Kasar</option>
+      <option value="e">RE halus</option>
+      <option value="f">Badan Golgi</option>
+      <option value="g">Ribosom</option>
+      <option value="h">Mitokondria</option>
+      <option value="i">Lisosom</option>
+      <option value="j">Peroksisom</option>
+      <option value="k">Sentriol</option>
+      <option value="l">Vakuola</option>
+      <option value="m">Dinding Sel</option>
+      <option value="n">Kloroplas</option>
+    </select>
+    <button onclick="cekSatu('jawaban19', 'h', 'hasil19')" class="bg-[#4dd4a3] text-white px-3 py-1 rounded hover:bg-[#38c197]">Cek</button>
+    <span id="hasil19" class="font-semibold"></span>
+  </div>
+</div>
+
+
+<!-- Soal 13 -->
+<div class="mb-6">
+  <p class="mb-1 font-medium">13. Menyusun dan memodifikasi protein yang akan digunakan oleh sel atau disekresikan keluar sel.</p>
+  <div class="flex items-center gap-4">
+    <select class="border rounded px-2 py-1" id="jawaban21">
+      <option value="">Pilih Organ</option>
+      <option value="a">Membran Sel</option>
+      <option value="b">Inti Sel (Nukleus)</option>
+      <option value="c">Sitoplasma</option>
+      <option value="d">RE Kasar</option>
+      <option value="e">RE halus</option>
+      <option value="f">Badan Golgi</option>
+      <option value="g">Ribosom</option>
+      <option value="h">Mitokondria</option>
+      <option value="i">Lisosom</option>
+      <option value="j">Peroksisom</option>
+      <option value="k">Sentriol</option>
+      <option value="l">Vakuola</option>
+      <option value="m">Dinding Sel</option>
+      <option value="n">Kloroplas</option>
+    </select>
+    <button onclick="cekSatu('jawaban21', 'f', 'hasil21')" class="bg-[#4dd4a3] text-white px-3 py-1 rounded hover:bg-[#38c197]">Cek</button>
+    <span id="hasil21" class="font-semibold"></span>
+  </div>
+</div>
+
+<!-- Soal 14 -->
+<div class="mb-6">
+  <p class="mb-1 font-medium">14. Tempat sintesis lemak dan pemecahan zat berbahaya dalam tubuh sel.</p>
+  <div class="flex items-center gap-4">
+    <select class="border rounded px-2 py-1" id="jawaban22">
+      <option value="">Pilih Organ</option>
+      <option value="a">Membran Sel</option>
+      <option value="b">Inti Sel (Nukleus)</option>
+      <option value="c">Sitoplasma</option>
+      <option value="d">RE Kasar</option>
+      <option value="e">RE halus</option>
+      <option value="f">Badan Golgi</option>
+      <option value="g">Ribosom</option>
+      <option value="h">Mitokondria</option>
+      <option value="i">Lisosom</option>
+      <option value="j">Peroksisom</option>
+      <option value="k">Sentriol</option>
+      <option value="l">Vakuola</option>
+      <option value="m">Dinding Sel</option>
+      <option value="n">Kloroplas</option>
+    </select>
+    <button onclick="cekSatu('jawaban22', 'e', 'hasil22')" class="bg-[#4dd4a3] text-white px-3 py-1 rounded hover:bg-[#38c197]">Cek</button>
+    <span id="hasil22" class="font-semibold"></span>
+  </div>
+</div>
+
+</div><br>
+
+
+                <div id="2.-Tingkat-Jaringan-Sel">
+    <p class="text-xl font-semibold mb-4 text-[#4dd4a3]">2. Tingkat Jaringan Sel</p>
+    <p class="mt-2 ml-4">Setelah tingkat sel, tingkat organisasi kehidupan selanjutnya adalah <strong>jaringan</strong>. Jaringan adalah kumpulan sel yang memiliki struktur dan fungsi yang sama serta bekerja sama untuk melakukan tugas tertentu.</p>
+</div>
+
+<div id="2.1-Jaringan-pada-Tumbuhan">
+    <p class="text-xl font-semibold mb-4 text-[#4dd4a3]">2.1 Jaringan pada Tumbuhan</p>
+    <p class="mt-2 ml-4">Tumbuhan memiliki beberapa jenis jaringan yang membantu mereka tumbuh dan berkembang:</p>
+    <ul class="mt-2 ml-8 list-disc">
+        <li><strong>Jaringan Meristem</strong>: Jaringan muda yang aktif membelah, ditemukan di ujung akar dan batang (meristem apikal).</li>
+        <li><strong>Jaringan Epidermis</strong>: Lapisan terluar yang melindungi permukaan organ tumbuhan seperti daun dan batang.</li>
+        <li><strong>Jaringan Parenkim</strong>: Jaringan dasar yang berfungsi dalam fotosintesis, penyimpanan, dan penyembuhan luka.</li>
+        <li><strong>Jaringan Penyokong</strong>: Terdiri dari kolenkim dan sklerenkim yang berfungsi memberi kekuatan dan bentuk pada tumbuhan.</li>
+        <li><strong>Jaringan Pengangkut</strong>: Terdiri dari xilem (mengangkut air dan mineral) dan floem (mengangkut hasil fotosintesis).</li>
+    </ul>
+</div>
+
+<div id="Contoh3" class="mb-6">
+	<div class="p-4 bg-[#4dd4a3] rounded-lg shadow-md mt-4">
+        <p class="font-semibold">Contoh</p>
+        <p class="mt-2 ml-4">Pada batang tumbuhan, xilem dan floem bekerja sama untuk mengangkut air dan nutrisi ke seluruh bagian tumbuhan. Ini menunjukkan kerja sama antar jaringan untuk mendukung kehidupan tumbuhan.</p>
+    </div>
+</div>
+
+<div id="2.2-Jaringan-pada-Hewan">
+    <p class="text-xl font-semibold mb-4 text-[#4dd4a3]">2.2 Jaringan pada Hewan</p>
+    <p class="mt-2 ml-4">Hewan memiliki jaringan yang kompleks dan terbagi menjadi beberapa jenis utama:</p>
+    <ul class="mt-2 ml-8 list-disc">
+        <li><strong>Jaringan Epitel</strong>: Menyusun permukaan luar dan dalam organ serta berfungsi sebagai pelindung dan penyerap.</li>
+        <li><strong>Jaringan Otot</strong>: Terdiri dari otot polos, otot lurik, dan otot jantung, berfungsi untuk pergerakan tubuh.</li>
+        <li><strong>Jaringan Saraf</strong>: Menghantarkan impuls saraf, terdiri dari neuron dan sel penyokong (neuroglia).</li>
+        <li><strong>Jaringan Ikat</strong>: Menghubungkan dan menyokong bagian tubuh, contohnya tulang, darah, dan jaringan lemak.</li>
+    </ul>
+</div>
+
+<div id="Contoh4" class="mb-6">
+	<div class="p-4 bg-green-100 rounded-lg shadow-md mt-4">
+        <p class="font-semibold">Contoh</p>
+        <p class="mt-2 ml-4">Ketika kamu berolahraga, jaringan otot bekerja untuk menggerakkan tubuh, sementara jaringan saraf mengatur koordinasi gerakan tersebut melalui impuls dari otak.</p>
+    </div>
+</div>
+
+
+    <script>
+    function togglePembahasan(id) {
+        var x = document.getElementById(id);
+        if (x.style.display === "none" || x.style.display === "") {
+            x.style.display = "block";
+        } else {
+            x.style.display = "none";
+        }
+    }
+</script>
+
+
+<script>
+    function togglePembahasan(id) {
+        var pembahasan = document.getElementById(id);
+        pembahasan.classList.toggle("hidden");
+    }
+</script>
+
+
+    <script>
+        function toggleSidebar() {
+            let sidebar = document.getElementById("sidebar");
+            if (sidebar.style.left === "-250px") {
+                sidebar.style.left = "0";
+            } else {
+                sidebar.style.left = "-250px";
+            }
+        }
+    </script>
+<script>
+  function checkLogin() {
+    const user = document.getElementById("username").value;
+    const pass = document.getElementById("password").value;
+
+    // Akun yang sudah disediakan
+    const validAccounts = [
+      { username: "admin", password: "12345" },
+      { username: "user1", password: "abcde" },
+      { username: "Diza MTSN 1 Brebes 7
+", password: "semangatbelajar45
+" }
+    ];
+
+    const found = validAccounts.find(acc => acc.username === user && acc.password === pass);
+
+    if (found) {
+      document.getElementById("loginForm").style.display = "none";
+      document.getElementById("content22").classList.remove("hidden");
+    } else {
+      document.getElementById("errorMsg").innerText = "Username atau password salah!";
+    }
+  }
+</script>
+
+</body>
+</html>
