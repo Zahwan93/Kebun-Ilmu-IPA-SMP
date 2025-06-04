@@ -1,0 +1,831 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Tryout SAS IPA SMP Semester Genap</title>
+	 <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async
+    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+  </script>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f4f9ff;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      background-color: #1e88e5;
+      color: white;
+      padding: 15px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .menu-button, .timer {
+      background: white;
+      color: #1e88e5;
+      border: none;
+      padding: 8px 14px;
+      border-radius: 6px;
+      font-weight: bold;
+      cursor: default;
+    }
+
+    .container {
+      display: flex;
+      height: calc(100vh - 60px);
+    }
+
+    .left-panel {
+      width: 25%;
+      background-color: #e3f2fd;
+      padding: 20px;
+      border-right: 1px solid #cfd8dc;
+      overflow-y: auto;
+    }
+
+    .right-panel {
+      width: 75%;
+      padding: 30px;
+      overflow-y: auto;
+    }
+
+    .question-buttons {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 8px;
+    }
+
+    .question-buttons button {
+      padding: 6px;
+      font-size: 13px;
+      background-color: white;
+      border: 1.5px solid #1e88e5;
+      border-radius: 6px;
+      color: #1e88e5;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .question-buttons button:hover {
+      background-color: #bbdefb;
+    }
+
+    .question-buttons button.active {
+      background-color: #1565c0;
+      color: white;
+    }
+
+    .navigation {
+      margin-top: 30px;
+    }
+
+    .navigation button {
+      padding: 10px 18px;
+      margin: 5px;
+      background-color: #1e88e5;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .navigation button:disabled {
+      background-color: #ccc;
+      cursor: not-allowed;
+    }
+
+    .option {
+      display: block;
+      padding: 10px 15px;
+      margin: 10px 0;
+      border: 1.5px solid #90caf9;
+      border-radius: 6px;
+      background-color: white;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .option:hover {
+      background-color: #e3f2fd;
+    }
+
+    .option input {
+      margin-right: 10px;
+    }
+
+    #scoreDisplay {
+      margin-top: 20px;
+      font-weight: bold;
+      color: #1e88e5;
+      display: none;
+    }
+
+    #submitBtn {
+      padding: 10px 18px;
+      margin-top: 20px;
+      background-color: #43a047;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-weight: bold;
+      cursor: pointer;
+      display: none;
+    }
+
+    #submitBtn:hover {
+      background-color: #388e3c;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h2>Tryout SAS IPA SMP Semester Genap Part 2</h2>
+  <div>
+    <span class="timer" id="timer">120:00</span>
+  </div>
+</header>
+
+<div class="container">
+  <div class="left-panel">
+    <h3>Soal</h3>
+    <div class="question-buttons" id="questionButtons"></div>
+    <div id="scoreDisplay"></div>
+  </div>
+
+  <div class="right-panel">
+    <div id="questionDisplay"></div>
+    <div class="navigation">
+      <button id="prevBtn">Sebelumnya</button>
+      <button id="nextBtn">Selanjutnya</button>
+      <button id="submitBtn">Submit</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  const questions = [
+  {
+    type: "mc",
+    text: "Rian berdiri di pinggir jalan dan melihat mobil melaju dengan cepat di depannya. Menurut pengamatan Rian, yang dikatakan bergerak adalah …. ",
+    options: [
+      "Rian",
+      "Pohon di pinggir jalan",
+      "Mobil",
+      "Lampu jalan",
+      "Trotoar"
+    ],
+    correct: 2
+  },
+
+  {
+    type: "mc",
+    text: "Pada pagi hari, bunga pukul empat yang ditanam di taman rumah Alya mulai mekar. Namun menjelang siang, bunga itu kembali menutup. Peristiwa tersebut menunjukkan bahwa tumbuhan mengalami …. ",
+    options: [
+      "Gerak taksis",
+      "Gerak tropisme",
+      "Gerak higroskopis",
+      "Gerak nasti",
+      "Gerak osmosis"
+    ],
+    correct: 3
+  },
+
+{
+  "type": "mc",
+  "text": "Perhatikan gambar berikut! <br><img src='4830.jpg' alt='Kurva Lorenz Negara A' width='300'> <br>Gambar tersebut menunjukkan salah satu ciri makhluk hidup, yaitu …. ",
+  "options": [
+    "Tumbuh dan berkembang",
+    "Peka terhadap rangsang",
+    "Memerlukan makanan",
+    "Berkembang biak",
+    "Bernapas"
+  ],
+  "correct": 0
+},
+
+{
+  "type": "mc",
+  "text": "Perhatikan gambar berikut! <br><img src='bakteri.jpeg' alt='Kurva Lorenz Negara A' width='300'> <br>Berdasarkan klasifikasinya, makhluk hidup pada gambar tersebut termasuk ke dalam kelompok …. ",
+  "options": [
+    "Plantae",
+    "Monera",
+    "Fungi",
+    "Protista",
+    "Animalia"
+  ],
+  "correct": 1
+},
+
+{
+    type: "mc",
+    text: "Di sebuah padang rumput, terdapat rumput, belalang, katak, ular, dan burung elang. Semua makhluk hidup tersebut saling berinteraksi dan membentuk suatu ekosistem. Berdasarkan narasi tersebut, yang termasuk komponen <strong>biotik</strong> adalah …. ",
+    options: [
+      "Tanah dan air",
+      "Rumput dan batu",
+      "Belalang dan sinar matahari",
+      "Rumput, belalang, katak, ular, dan elang",
+      "Air, tanah, udara, dan cahaya matahari"
+    ],
+    correct: 3
+  },
+{
+  "type": "mc",
+  "text": "Perhatikan gambar rantai makanan berikut! <br><img src='ekosistem.jpg' alt='Kurva Lorenz Negara A' width='300'> <br>Jika terjadi kekeringan berkepanjangan yang menyebabkan rumput mati, dampak yang paling mungkin terjadi pada komponen biotik lainnya adalah …. ",
+    options: [
+      "Populasi belalang akan meningkat tajam",
+      "Katak akan beralih memakan elang",
+      "Populasi ular akan menurun karena kekurangan makanan",
+      "Populasi rumput akan berkembang lebih cepat",
+      "Populasi elang tetap stabil karena bisa makan apa saja"
+    ],
+    correct: 2
+  },
+
+{
+    type: "mc",
+    text: "Di sebuah kota, banyak penduduk membuang sampah rumah tangga ke sungai. Lama-kelamaan sungai menjadi kotor dan tersumbat, hingga saat hujan deras turun, air sungai meluap dan menyebabkan banjir. Berdasarkan narasi tersebut, interaksi manusia terhadap lingkungan yang terjadi adalah …. ",
+    options: [
+      "Melestarikan sumber daya air",
+      "Meningkatkan kualitas ekosistem",
+      "Menjaga kebersihan sungai",
+      "Melakukan penghijauan di bantaran sungai",
+      "Menyebabkan pencemaran dan kerusakan lingkungan"
+    ],
+    correct: 4
+  },
+
+{
+    type: "mc",
+    text: "Ilmuwan yang pertama kali mengamati dan memberi nama 'sel' pada tahun 1665 ketika melihat potongan gabus menggunakan mikroskop adalah…. ",
+    options: [
+      "Theodor Schwann",
+      "Matthias Schleiden",
+      "Robert Hooke",
+      "Rudolf Virchow",
+      "Louis Pasteur"
+    ],
+    correct: 2
+  },
+
+{
+  "type": "mc",
+  "text": "Perhatikan gambar sel tumbuhan berikut! <br><img src='soal sel tumbuhan.png' alt='Kurva Lorenz Negara A' width='300'> <br> Organel yang ditunjukan huruf <strong>E</strong> adalah …. ",
+  "options": [
+    "Nukleus",
+    "Mitokondria",
+    "Ribosom",
+    "Kloroplas",
+    "Membran sel"
+  ],
+  "correct": 1
+},
+
+{
+    type: "mc",
+    text: "Sebuah benda bermassa 8 kg bergerak dengan percepatan 3 m/s². Berapakah besar gaya yang bekerja pada benda tersebut? (Gunakan rumus F = m × a)",
+    options: [
+      "11 N",
+      "24 N",
+      "30 N",
+      "8 N",
+      "3 N"
+    ],
+    correct: 1
+  },
+{
+  "type": "mc_multiple",
+  "text": "Sebuah benda bergerak lurus diperlambat beraturan. Perhatikan pernyataan berikut:<br><br>" +
+          "1. Percepatan benda negatif dan konstan.<br>" +
+          "2. Kecepatan benda bertambah secara beraturan.<br>" +
+          "3. Jarak yang ditempuh benda dalam interval waktu tertentu semakin kecil.<br>" +
+          "4. Benda mengalami perlambatan dengan percepatan berubah-ubah.<br><br>" +
+          "Pilih dua pernyataan yang benar tentang gerak lurus diperlambat beraturan.",
+  "options": [
+    "Pernyataan 1",
+    "Pernyataan 2",
+    "Pernyataan 3",
+    "Pernyataan 4"
+  ],
+  "correct": [0, 2]
+},
+
+{
+  "type": "mc_multiple",
+  "text": "Sebuah benda bermassa 10 kg didorong dengan gaya 50 N pada permukaan datar yang kasar. Perhatikan pernyataan berikut terkait gaya dan gerak benda berdasarkan Hukum II Newton:<br><br>" +
+          "1. Percepatan benda dapat dihitung dengan membagi gaya total yang bekerja dengan massa benda.<br>" +
+          "2. Gaya gesek yang bekerja selalu membuat percepatan benda menjadi nol.<br>" +
+          "3. Jika gaya dorong lebih besar dari gaya gesek, benda akan bergerak dan mengalami percepatan.<br>" +
+          "4. Massa benda tidak mempengaruhi besar percepatan jika gaya tetap.<br><br>" +
+          "Pilih dua pernyataan yang benar berdasarkan Hukum II Newton.",
+  "options": [
+    "Pernyataan 1",
+    "Pernyataan 2",
+    "Pernyataan 3",
+    "Pernyataan 4"
+  ],
+  "correct": [0, 2]
+},
+{
+  "type": "mc_multiple",
+  "text": "Perhatikan pernyataan berikut mengenai adaptasi makhluk hidup:<br><br>" +
+          "1. Unta memiliki punuk yang menyimpan cadangan air.<br>" +
+          "2. Kucing memiliki bulu yang lebat untuk menjaga suhu tubuh.<br>" +
+          "3. Burung merpati selalu terbang pada siang hari.<br>" +
+          "4. Ikan hiu memiliki sisik yang keras untuk melindungi tubuh.<br><br>" +
+          "Pilih dua pernyataan yang benar menunjukkan adaptasi makhluk hidup.",
+  "options": [
+    "Pernyataan 1",
+    "Pernyataan 2",
+    "Pernyataan 3",
+    "Pernyataan 4"
+  ],
+  "correct": [0, 1]
+},
+{
+  "type": "mc_multiple",
+  "text": "Perhatikan pernyataan berikut tentang klasifikasi makhluk hidup dalam sistem lima kingdom:<br><br>" +
+          "1. Kingdom Plantae terdiri dari makhluk hidup yang dapat membuat makanan sendiri melalui fotosintesis.<br>" +
+          "2. Kingdom Animalia terdiri dari makhluk hidup yang bersel satu dan tidak bergerak.<br>" +
+          "3. Kingdom Fungi terdiri dari makhluk hidup yang mendapatkan makanan dari zat organik mati.<br>" +
+          "4. Kingdom Protista terdiri dari makhluk hidup yang bersel banyak dan bersifat seperti tumbuhan atau hewan.<br><br>" +
+          "Pilih dua pernyataan yang benar tentang klasifikasi lima kingdom.",
+  "options": [
+    "Pernyataan 1",
+    "Pernyataan 2",
+    "Pernyataan 3",
+    "Pernyataan 4"
+  ],
+  "correct": [0, 2]
+},
+{
+  "type": "mc_multiple",
+  "text": "Perhatikan pernyataan berikut tentang ekosistem alami:<br><br>" +
+          "1. Hutan hujan tropis merupakan contoh ekosistem alami yang memiliki keanekaragaman hayati tinggi.<br>" +
+          "2. Danau yang terbentuk secara alami tanpa campur tangan manusia adalah ekosistem alami.<br>" +
+          "3. Taman kota adalah contoh ekosistem alami yang terjadi secara alami.<br>" +
+          "4. kebun binatang termasuk ekosistem alami.<br><br>" +
+          "Pilih dua pernyataan yang benar tentang ekosistem alami.",
+  "options": [
+    "Pernyataan 1",
+    "Pernyataan 2",
+    "Pernyataan 3",
+    "Pernyataan 4"
+  ],
+  "correct": [0, 1]
+},
+{
+  "type": "mc_multiple",
+  "text": "Perhatikan contoh-contoh pencemaran lingkungan berikut ini:<br><br>" +
+          "1. Asap kendaraan bermotor yang memenuhi jalan raya.<br>" +
+          "2. Limbah pabrik dibuang ke sungai tanpa pengolahan.<br>" +
+          "3. Suara bising dari mesin pabrik yang mengganggu lingkungan sekitar.<br>" +
+          "4. Asap dari pembakaran sampah di pemukiman padat penduduk.<br><br>" +
+          "Pilih dua contoh yang merupakan pencemaran udara.",
+  "options": [
+    "Pernyataan 1",
+    "Pernyataan 2",
+    "Pernyataan 3",
+    "Pernyataan 4"
+  ],
+  "correct": [0, 3]
+},
+
+{
+  "type": "mc_multiple",
+  "text": "Sebuah benda mengalami beberapa gaya yang bekerja secara sejajar:<br>" +
+          "- Gaya 40 N ke kanan<br>" +
+          "- Gaya 25 N ke kiri<br>" +
+          "- Gaya 10 N ke kanan<br><br>" +
+          "Pilih dua pernyataan yang benar mengenai gaya total yang bekerja pada benda tersebut.",
+  "options": [
+    "Gaya total sebesar 25 N ",
+    "Gaya total sebesar 15 N ",
+    "Gaya total sebesar 75 N ",
+    "Gaya total ke kanan",
+    "Gaya total ke kiri"
+  ],
+  "correct": [0, 3]
+},
+{
+  "type": "mc_multiple",
+  "text": "Perhatikan daftar organel berikut:<br><br>" +
+          "1. Mitokondria<br>" +
+          "2. Kloroplas<br>" +
+          "3. Membran sel<br>" +
+          "4. Dinding sel<br><br>" +
+          "Pilih dua organel yang hanya dimiliki oleh <strong>sel tumbuhan</strong>.",
+  "options": [
+    "Mitokondria",
+    "Kloroplas",
+    "Membran sel",
+    "Dinding sel"
+  ],
+  "correct": [1, 3]
+},
+{
+  "type": "mc_multiple",
+  "text": "Perhatikan kunci determinasi berikut:<br><br>" +
+          "<table border='1' cellpadding='5' cellspacing='0'>\
+<tr><th>Kunci</th><th>Keterangan</th></tr>\
+<tr><td>1a</td><td>Mampu bergerak bebas → ke 2</td></tr>\
+<tr><td>1b</td><td>Tidak dapat bergerak bebas → ke 3</td></tr>\
+<tr><td>2a</td><td>Memiliki tulang belakang → Vertebrata</td></tr>\
+<tr><td>2b</td><td>Tidak memiliki tulang belakang → Invertebrata</td></tr>\
+<tr><td>3a</td><td>Memiliki klorofil → Tumbuhan</td></tr>\
+<tr><td>3b</td><td>Tidak memiliki klorofil → Jamur</td></tr>\
+</table><br><br>" +
+          "Berdasarkan tabel di atas, manakah dua ciri makhluk hidup dari kelompok tumbuhan dan jamur?",
+  "options": [
+    "1a",
+    "2a",
+    "3a",
+    "3b"
+  ],
+  "correct": [2, 3]
+},
+{
+  "type": "mc_multiple",
+  "text": "Perhatikan pernyataan tentang jaringan otot berikut:<br><br>" +
+          "1. Berfungsi untuk menggerakkan tulang.<br>" +
+          "2. Terdapat pada dinding organ dalam.<br>" +
+          "3. Bertanggung jawab memompa darah ke seluruh tubuh.<br>" +
+          "4. Bekerja secara sadar.<br><br>" +
+          "Manakah pernyataan yang benar dari jaringan otot rangka ?",
+  "options": [
+    "Pernyataan 1",
+    "Pernyataan 2",
+    "Pernyataan 3",
+    "Pernyataan 4"
+  ],
+  "correct": [0,3]
+},
+
+
+{
+  "type": "dropdown",
+  "text": "Dua orang siswa saling mendorong satu sama lain, dan keduanya terdorong ke arah berlawanan dengan gaya yang sama besar namun berlawanan arah.<br><br>Situasi ini menunjukkan penerapan hukum apa dalam fisika?<br><br>Pilih jawaban yang benar dari dropdown berikut.",
+  "options": [
+    "Xilem",
+    "Hukum III Newton",
+    "Mitokondria",
+    "Ekosistem",
+    "Hukum II Newton",
+    "Abiotik",
+    "Biotik"
+  ],
+  "correct": 1
+},
+{
+  "type": "dropdown",
+  "text": "Sel hewan dan sel tumbuhan memiliki beberapa organel yang sama, seperti inti sel, mitokondria, dan ribosom.<br><br>Manakah organel berikut ini yang dimiliki oleh <strong>sel hewan dan sel tumbuhan</strong>?<br><br>Pilih jawaban yang benar dari dropdown berikut.",
+  "options": [
+    "Xilem",
+    "Hukum III Newton",
+    "Mitokondria",
+    "Ekosistem",
+    "Hukum II Newton",
+    "Abiotik",
+    "Biotik"
+  ],
+  "correct": 2
+},
+
+{
+  "type": "dropdown",
+  "text": "Air dan mineral yang diserap oleh akar tumbuhan akan diangkut ke seluruh bagian tumbuhan, terutama ke daun, untuk proses fotosintesis.<br><br>Jaringan tumbuhan manakah yang berfungsi mengangkut air dan mineral tersebut?<br><br>Pilih jawaban yang benar dari dropdown berikut.",
+  "options": [
+    "Xilem",
+    "Hukum III Newton",
+    "Mitokondria",
+    "Ekosistem",
+    "Hukum II Newton",
+    "Abiotik",
+    "Biotik"
+  ],
+  "correct": 0
+},
+
+{
+  "type": "dropdown",
+  "text": "Interaksi antara makhluk hidup dan komponen tak hidup di suatu lingkungan disebut ...<br><br>Pilih jawaban yang benar dari dropdown berikut.",
+  "options": [
+    "Xilem",
+    "Hukum III Newton",
+    "Mitokondria",
+    "Ekosistem",
+    "Hukum II Newton",
+    "Abiotik",
+    "Biotik"
+
+  ],
+  "correct": 3
+},
+{
+  "type": "dropdown",
+  "text": "<br><img src='ekosistem.jpg' alt='Kurva Lorenz Negara A' width='300'> <br> <br>Pada gambar di atas, terlihat hubungan antara cahaya matahari, air, tanah, tumbuhan, katak, dan belalang. Ini menunjukkan adanya interaksi antara komponen biotik dan abiotik.<br><br>Cahaya matahari merupakan salah satu komponen...<br><br>Pilih jawaban yang benar dari dropdown berikut.",
+  "options": [
+    "Xilem",
+    "Hukum III Newton",
+    "Mitokondria",
+    "Ekosistem",
+    "Hukum II Newton",
+    "Abiotik",
+    "Biotik"
+
+  ],
+  "correct": 5
+},
+
+
+{
+  "type": "input",
+  "text": "Untuk mengetahui kecepatan suatu kendaraan saat melaju di jalan, kita memerlukan alat khusus yang terpasang di kendaraan tersebut.<br><br>Nama alat yang digunakan untuk mengukur kecepatan kendaraan adalah...<br><br>Isi jawaban dalam huruf kecil semua.",
+  "correct": "speedometer"
+},
+
+
+{
+  "type": "input",
+  "text": "Seekor kambing hidup di padang rumput. Ia memakan rumput, minum dari sungai, dan bernapas menggunakan udara di sekitarnya.<br><br>Sebutkan satu komponen <strong>abiotik</strong> yang berperan dalam kehidupan kambing tersebut.<br><br>Isi jawaban dalam huruf kecil semua.",
+  "correct": "udara"
+},
+{
+  "type": "input",
+  "text": "Klasifikasi makhluk hidup adalah cara mengelompokkan makhluk hidup berdasarkan ciri-ciri dan hubungan kekerabatan. Tingkatan klasifikasi terdiri dari kingdom, filum, kelas, ordo, famili, genus, dan spesies. Semakin spesifik tingkatan klasifikasi, semakin mirip ciri-ciri makhluk hidup yang dikelompokkan. Tingkatan terendah pada klasifikasi makhluk hidup disebut...<br><br>Isi jawaban dalam huruf kecil semua.",
+  "correct": "spesies"
+},
+{
+  "type": "input",
+  "text": "kunci determinasi untuk mengidentifikasi makhluk hidup yang memiliki ciri-ciri:<br> berkulit licin, bertelur di air, dan dapat hidup di dua habitat yaitu air dan darat.<br><br>Berdasarkan kunci tersebut, makhluk hidup yang dimaksud adalah seekor...<br><br>Isi jawaban dalam huruf kecil semua.",
+  "correct": "katak"
+},
+{
+  "type": "input",
+  "text": "Vakuola adalah bagian dari sel tumbuhan yang berfungsi sebagai tempat penyimpanan air, zat cadangan, dan sisa metabolisme. Vakuola juga membantu menjaga bentuk dan tekanan dalam sel sehingga sel tetap kaku.<br><br>Sebutkan salah satu fungsi utama vakuola berdasarkan narasi di atas.<br><br>Isi jawaban dalam huruf kecil semua.",
+  "correct": "menyimpan air"
+},
+{
+  "type": "input",
+  "text": "Sebuah benda bermassa 5 kg didorong dengan percepatan 2 m/s².<br><br>Berdasarkan narasi tersebut, besar gaya yang bekerja pada benda tersebut adalah... (gunakan rumus F = m × a)<br><br>Isi jawaban dalam angka saja.",
+  "correct": "10"
+},
+{
+  "type": "input",
+  "text": "Dalam sebuah ekosistem, komponen biotik seperti tumbuhan dan hewan berinteraksi dengan komponen abiotik seperti air, udara, dan cahaya matahari. Tumbuhan berperan sebagai produsen yang menghasilkan makanan melalui fotosintesis. Hewan herbivora sebagai konsumen pertama memakan tumbuhan, sedangkan konsumen berikutnya memakan konsumen sebelumnya. Hubungan ini membentuk rantai makanan yang saling terkait menjadi jaring-jaring makanan. Piramida makanan menggambarkan tingkat energi dari produsen hingga konsumen.<br><br>Sebutkan satu contoh komponen <strong>abiotik</strong> yang mendukung kehidupan produsen dalam ekosistem tersebut.<br><br>Isi jawaban dalam huruf kecil semua.",
+  "correct": "cahaya matahari"
+},
+{
+  "type": "input",
+  "text": "<br><img src='pencecmaran.jpeg' alt='Kurva Lorenz Negara A' width='300'> <br> Terlihat gambar sungai yang dipenuhi sampah plastik.<br><br>Berdasarkan gambar tersebut, salah satu dampak dari pencemaran lingkungan adalah...<br><br>Isi jawaban dalam huruf kecil semua.",
+  "correct": "kerusakan ekosistem"
+},
+{
+  "type": "input",
+  "text": "Makhluk hidup tersusun dari bagian-bagian terkecil hingga membentuk sistem yang kompleks. Urutan organisasi kehidupan tersebut dimulai dari sel, lalu membentuk jaringan, organ, sistem organ, dan akhirnya menjadi organisme utuh.<br><br>Berdasarkan narasi tersebut, sebutkan urutan organisasi kehidupan dari yang paling sederhana hingga kompleks.<br><br>Isi jawaban dalam huruf kecil semua, pisahkan dengan koma.",
+  "correct": "sel, jaringan, organ, sistem organ, organisme"
+},
+{
+  "type": "input",
+  "text": "<br><img src='perbedaan-sel-hewan-dan-sel-tumbuhan.jpeg' alt='Kurva Lorenz Negara A' width='300'> <br>Pada gambar terlihat dua jenis sel. Sel pertama memiliki dinding sel, kloroplas, dan vakuola besar. Sel kedua tidak memiliki dinding sel maupun kloroplas, dan vakuolanya kecil.<br><br>Berdasarkan ciri-ciri tersebut, sebutkan nama organel yang hanya dimiliki oleh sel tumbuhan dan berfungsi dalam fotosintesis.<br><br>Isi jawaban dalam huruf kecil semua.",
+  "correct": "kloroplas"
+},
+
+
+];
+
+
+  
+
+  let answers = questions.map(q => (q.type === 'mc_multiple' ? [] : null));
+  let currentQuestion = 0;
+  let timerRunning = true;
+
+  const questionDisplay = document.getElementById('questionDisplay');
+  const questionButtonsContainer = document.getElementById('questionButtons');
+  const prevBtn = document.getElementById('prevBtn');
+  const nextBtn = document.getElementById('nextBtn');
+  const submitBtn = document.getElementById('submitBtn');
+  const scoreDisplay = document.getElementById('scoreDisplay');
+  const timerDisplay = document.getElementById('timer');
+function renderQuestionButtons() {
+    questionButtonsContainer.innerHTML = '';
+    questions.forEach((_, i) => {
+      const btn = document.createElement('button');
+      btn.textContent = i + 1;
+      if (i === currentQuestion) btn.classList.add('active');
+      // Tandai soal sudah dijawab
+      if (answers[i] !== null && (Array.isArray(answers[i]) ? answers[i].length > 0 : true)) {
+        btn.style.backgroundColor = '#43a047'; // hijau tanda sudah jawab
+        btn.style.color = 'white';
+      }
+      btn.addEventListener('click', () => {
+        currentQuestion = i;
+        renderQuestion(currentQuestion);
+        updateNavigationButtons();
+      });
+      questionButtonsContainer.appendChild(btn);
+    });
+  }
+
+  function renderQuestion(index) {
+  const q = questions[index];
+  let html = `<h3>Soal ${index + 1}</h3><p>${q.text}</p>`;
+
+  if (q.type === 'mc') {
+    q.options.forEach((opt, i) => {
+      const checked = answers[index] === i ? 'checked' : '';
+      html += `
+        <label class="option">
+          <input type="radio" name="option" value="${i}" ${checked}>
+          ${opt}
+        </label>
+      `;
+    });
+  } else if (q.type === 'mc_multiple') {
+    q.options.forEach((opt, i) => {
+      const checked = (answers[index] && answers[index].includes(i)) ? 'checked' : '';
+      html += `
+        <label class="option">
+          <input type="checkbox" name="option" value="${i}" ${checked}>
+          ${opt}
+        </label>
+      `;
+    });
+  } else if (q.type === 'dropdown') {
+    html += `<select id="dropdownAnswer">`;
+    html += `<option value="">--Pilih jawaban--</option>`;
+    q.options.forEach((opt, i) => {
+      const selected = answers[index] === i ? 'selected' : '';
+      html += `<option value="${i}" ${selected}>${opt}</option>`;
+    });
+    html += `</select>`;
+  } else if (q.type === 'input') {
+    const val = answers[index] || '';
+    html += `<input type="text" id="textAnswer" value="${val}" placeholder="Jawaban Anda">`;
+  }
+
+  questionDisplay.innerHTML = html;
+
+  if (window.MathJax) {
+    MathJax.typesetPromise([questionDisplay]).catch(err => console.error('MathJax error:', err));
+  }
+
+  // Event Listener
+  const options = document.querySelectorAll('input[name="option"]');
+  options.forEach(option => {
+    option.addEventListener('change', (e) => {
+      if (q.type === 'mc') {
+        answers[index] = parseInt(e.target.value);
+      } else if (q.type === 'mc_multiple') {
+        if (!answers[index]) answers[index] = [];
+        const val = parseInt(e.target.value);
+        if (e.target.checked) {
+          if (!answers[index].includes(val)) answers[index].push(val);
+        } else {
+          answers[index] = answers[index].filter(v => v !== val);
+        }
+      }
+      renderQuestionButtons();
+    });
+  });
+
+  if (q.type === 'dropdown') {
+    document.getElementById('dropdownAnswer').addEventListener('change', (e) => {
+      answers[index] = parseInt(e.target.value);
+      renderQuestionButtons();
+    });
+  }
+
+  if (q.type === 'input') {
+    document.getElementById('textAnswer').addEventListener('input', (e) => {
+      answers[index] = e.target.value.trim();
+      renderQuestionButtons();
+    });
+  }
+
+  updateButtons();
+  updateNavButtons();
+}
+
+
+  function updateButtons() {
+    const buttons = document.querySelectorAll('.question-buttons button');
+    buttons.forEach((btn, idx) => {
+      btn.classList.toggle('active', idx === currentQuestion);
+    });
+  }
+
+  function updateNavButtons() {
+    prevBtn.disabled = currentQuestion === 0;
+    nextBtn.disabled = currentQuestion === questions.length - 1;
+    submitBtn.style.display = currentQuestion === questions.length - 1 ? 'inline-block' : 'none';
+  }
+
+  function initButtons() {
+    for (let i = 1; i <= questions.length; i++) {
+      const btn = document.createElement('button');
+      btn.textContent = i;
+      btn.addEventListener('click', () => {
+        currentQuestion = i - 1;
+        renderQuestion(currentQuestion);
+      });
+      questionButtonsContainer.appendChild(btn);
+    }
+  }
+
+  function arraysEqual(a, b) {
+  if (!Array.isArray(a) || !Array.isArray(b)) return false;
+  if (a.length !== b.length) return false;
+  const sortedA = [...a].sort();
+  const sortedB = [...b].sort();
+  return sortedA.every((val, idx) => val === sortedB[idx]);
+}
+
+function calculateScore() {
+  let score = 0;
+  questions.forEach((q, i) => {
+    if (q.type === 'mc') {
+      if (answers[i] === q.correct) score++;
+    } else if (q.type === 'mc_multiple') {
+      if (arraysEqual(answers[i], q.correct)) score++;
+    } else if (q.type === 'dropdown') {
+      if (answers[i] === q.correct) score++;
+    } else if (q.type === 'input') {
+      if (typeof answers[i] === 'string' && answers[i].toLowerCase() === q.correct.toLowerCase()) {
+        score++;
+      }
+    }
+  });
+  scoreDisplay.textContent = `Skor Anda: ${score} dari ${questions.length}`;
+  scoreDisplay.style.display = 'block';
+}
+
+
+  function disableAll() {
+    document.querySelectorAll('button').forEach(btn => btn.disabled = true);
+    document.querySelectorAll('input[type="radio"]').forEach(r => r.disabled = true);
+  }
+
+  function endTryout() {
+    if (timerRunning) {
+      calculateScore();
+      disableAll();
+      timerRunning = false;
+    }
+  }
+
+  submitBtn.addEventListener('click', () => {
+    endTryout();
+    submitBtn.disabled = true;
+  });
+
+  prevBtn.addEventListener('click', () => {
+    if (currentQuestion > 0) {
+      currentQuestion--;
+      renderQuestion(currentQuestion);
+    }
+  });
+
+  nextBtn.addEventListener('click', () => {
+    if (currentQuestion < questions.length - 1) {
+      currentQuestion++;
+      renderQuestion(currentQuestion);
+    }
+  });
+
+  function startTimer(duration) {
+    let timer = duration;
+    const interval = setInterval(() => {
+      if (!timerRunning) {
+        clearInterval(interval);
+        return;
+      }
+
+      const minutes = Math.floor(timer / 60);
+      const seconds = timer % 60;
+      timerDisplay.textContent =
+        `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+
+      if (--timer < 0) {
+        clearInterval(interval);
+        endTryout();
+        alert("Waktu habis! Jawaban Anda telah disubmit.");
+      }
+    }, 1000);
+  }
+
+  initButtons();
+  renderQuestion(currentQuestion);
+  startTimer(120 * 60); // 120 menit
+</script>
+
+</body>
+</html>
