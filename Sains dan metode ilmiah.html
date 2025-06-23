@@ -1,0 +1,3119 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Media Pembelajaran Interaktif</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script> 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+        body {
+            display: flex;
+            flex-direction: column;
+            background: linear-gradient(135deg, #e3f2fd, #fce4ec);
+            position: relative;
+	    justify-content: center;
+	    align-items: center;
+	    min-height: 100vh
+	
+	}
+        body::before,
+        body::after {
+            content: "";
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            background: white;
+            border-radius: 50%;
+            z-index: -1;
+        }
+        body::before {
+            top: -30%;
+            right: -30%;
+        }
+        body::after {
+            bottom: -50%;
+            left: -30%;
+        }
+	html, body {
+    overflow-x: hidden;
+}
+
+.login-box {
+    background: linear-gradient(135deg, #ce9ffc, #f9c7d9); /* Ganti background */
+    padding: 30px;
+    border-radius: 12px;
+    max-width: 500px;
+    margin: 10px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.2);
+    text-align: center;
+}
+
+.login-box h2 {
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.login-box input {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: none;
+    border-radius: 6px;
+    outline: none;
+}
+
+.login-box button {
+    width: 100%;
+    padding: 10px;
+    background: linear-gradient(135deg, #6a11cb, #2575fc); /* Ganti background tombol */
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.login-box button:hover {
+    background: linear-gradient(135deg, #5e0dca, #1d60e7); /* Hover efek */
+}
+    .hidden {
+      display: none;
+    }
+        .sidebar {
+            width: 250px;
+            height: 100vh;
+            background: #4dd4a3;
+            position: fixed;
+            left: -250px;
+            transition: left 0.3s ease-in-out;
+            padding-top: 20px;
+            z-index: 1300;
+        }
+        .sidebar h2 {
+            color: white;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+        }
+        .sidebar ul li {
+            padding: 5px;
+            text-align: left;
+        }
+        .sidebar ul li a {
+            text-decoration: none;
+            color: white;
+            font-size: 16px;
+            display: block;
+        }
+        .sidebar ul li:hover {
+            background: #f8d444;
+        }
+        .toggle-btn {
+            position: fixed;
+            left: 20px;
+            top: 20px;
+            font-size: 24px;
+            cursor: pointer;
+            background: #f8d444;
+            padding: 5px 10px;
+            border-radius: 5px;
+            color: white;
+            z-index: 1400;
+        }
+        .close-btn {
+            position: absolute;
+            right: 20px;
+            top: 20px;
+            font-size: 24px;
+            cursor: pointer;
+            color: white;
+            background: #f8d444;
+            padding: 5px 10px;
+            border-radius: 5px;
+        }
+        .header {
+            background: white;
+            padding: 20px;
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+            border-radius: 10px;
+            position: sticky;
+            top: 0;
+            z-index: 1200;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .header span {
+            flex: 80%;
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+	    color: #4dd4a3;
+        }
+        .header img {
+            flex: 20%;
+            max-width: 60px;
+            height: auto;
+            margin-left: 10px;
+        }
+        .content {
+            width: 100%;
+            padding: 20px;
+            text-align: center;
+                }
+	
+    </style>
+</head>
+<body>
+<div class="login-box" id="loginForm">
+  <h2>Login</h2>
+  <input type="text" id="username" placeholder="Username" /><br><br>
+  <input type="password" id="password" placeholder="Password" /><br><br>
+  <button onclick="checkLogin()">Masuk</button>
+  <p id="errorMsg" style="color:red;"></p>
+</div>
+
+<div id="content22" class="hidden">
+
+    <div class="sidebar" id="sidebar">
+        <span class="close-btn" onclick="toggleSidebar()">&times;</span>
+        <h2 class=" text-2xl text-semibold ">Menu</h2>
+        <ul>
+            <li ><a href="persamaan garis lurus.html" ▶️ Persamaan Garis Lurus</a></li>
+	    <li ><a href="Peluang.html" ">▶️ Peluang</a></li>
+	    <li ><a href="#Relasi dan Fungsi" >▶️ Relasi dan Fungsi</a></li>
+	    <li ><a href="Statistika.html" >▶️ Statistika</a></li>
+	    <li ><a href="Segitiga dan Segi Empat.html" >▶️ Segitiga dan Segi Empat</a></li>
+	    <li ><a href="Aljabar.html" >▶️ Aljabar</a></li>
+
+        </ul>
+    </div>
+    
+    <div class="toggle-btn" onclick="toggleSidebar()">
+        <i class="fas fa-bars"></i>
+    </div>
+    
+    <div class="header">
+        <span>Media Pembelajaran Interaktif</span>
+        <img src="logo.png" alt="Logo">
+    </div>
+    
+    <!-- Konten Utama -->
+    <div class="ml-0 w-full max-w-7xl mx-auto bg-white p-8 rounded-lg shadow-2xl" style="margin-right: 10px;">
+        <h1 class="text-3xl font-bold text-center text-[#4dd4a3] mb-6">IPA SMP</h1>
+        
+        <!-- Hakikat Ilmu Sains dan Metode Ilmiah -->
+
+<div id="HakikatSains" class="mb-8">
+    <h1 class="text-2xl font-bold mb-4 text-[#4dd4a3]">Sains dan Metode Ilmiah</h1>
+    <ul class="text-black p-6 bg-[#4dd4a3] rounded-lg shadow-md">
+    <li class="mb-3">
+        <a href="#1.-Sains-dan-Metode-Ilmiah" class="hover:text-white">1. Sains dan Metode Ilmiah</a>
+    </li>
+    <li class="mb-3 ml-6">
+        <a href="#1.1-Mengetahui-Konsep-Pengertian-Sains" class="hover:text-white">1.1 Mengetahui Konsep Pengertian Sains</a>
+    </li>
+    <li class="mb-3 ml-6">
+        <a href="#1.2-Cabang-Ilmu-Sains-dan-Bidangnya" class="hover:text-white">1.2 Menyebutkan Cabang Ilmu Sains dan Bidangnya</a>
+    </li>
+    <li class="mb-3 ml-6">
+        <a href="#1.3-Konsep-Metode-Ilmiah" class="hover:text-white">1.3 Mengetahui Konsep Metode Ilmiah</a>
+    </li>
+
+    <li class="mb-3">
+        <a href="#2.-Laboratorium-IPA" class="hover:text-white">2. Laboratorium IPA</a>
+    </li>
+    <li class="mb-3 ml-6">
+        <a href="#2.1-Fungsi-Utama-Laboratorium-IPA" class="hover:text-white">2.1 Mendeskripsikan Fungsi Utama Laboratorium IPA</a>
+    </li>
+    <li class="mb-3 ml-6">
+        <a href="#2.2-Alat-Laboratorium-dan-Kegunaannya" class="hover:text-white">2.2 Mengidentifikasi Alat Laboratorium dan Kegunaannya</a>
+    </li>
+
+    <li class="mb-3">
+        <a href="#3.-Rancangan-dan-Laporan-Percobaan" class="hover:text-white">3. Rancangan dan Laporan Percobaan</a>
+    </li>
+    <li class="mb-3 ml-6">
+        <a href="#3.1-Merancang-Percobaan-Metode-Ilmiah" class="hover:text-white">3.1 Merancang Percobaan dengan Metode Ilmiah</a>
+    </li>
+    <li class="mb-3 ml-6">
+        <a href="#3.2-Identifikasi-Variabel-Percobaan" class="hover:text-white">3.2 Mengidentifikasi Variabel dalam Percobaan</a>
+    </li>
+    <li class="mb-3 ml-6">
+        <a href="#3.3-Mencatat-dan-Menyajikan-Data" class="hover:text-white">3.3 Mencatat dan Menyajikan Data dalam Grafik</a>
+    </li>
+    <li class="mb-3 ml-6">
+        <a href="#3.4-Menulis-Kesimpulan-Percobaan" class="hover:text-white">3.4 Menulis Kesimpulan dari Percobaan</a>
+    </li>
+
+    <li class="mb-3">
+        <a href="#4.-Pengukuran-dalam-Sains" class="hover:text-white">4. Pengukuran dalam Sains</a>
+    </li>
+    <li class="mb-3 ml-6">
+        <a href="#4.1-Besaran-dan-Satuan" class="hover:text-white">4.1 Mengenal Besaran dan Satuan dalam Pengukuran</a>
+    </li>
+    <li class="mb-3 ml-6">
+        <a href="#4.2-Memilih-Alat-Ukur" class="hover:text-white">4.2 Memilih Alat Ukur yang Tepat Digunakan dalam Percobaan</a>
+    </li>
+    <li class="mb-3 ml-6">
+        <a href="#4.3-Melakukan-Pengukuran" class="hover:text-white">4.3 Melakukan Pengukuran dan Membaca Skala dengan Benar</a>
+    </li>
+    <li class="mb-3 ml-6">
+        <a href="#4.4-Mengevaluasi-Teknik-Pengukuran" class="hover:text-white">4.4 Mengevaluasi Teknik Pengukuran</a>
+    </li>
+
+    <li class="mb-3">
+        <a href="#5.-Review" class="hover:text-white">5. Review</a>
+    </li>
+</ul>
+
+<br>
+	<div id="1.-Sains-dan-Metode-Ilmiah">
+    <p class="text-xl font-semibold mb-4 text-[#4dd4a3]">1. Sains dan Metode Ilmiah</p>
+    <p class="mt-2 ml-4"><strong>Sains</strong> adalah suatu cara sistematis dalam memahami alam semesta melalui pengamatan, eksperimen, dan penalaran logis. Sains mencakup pengetahuan yang diperoleh dari penyelidikan dan pengujian terhadap fenomena alam.</p>
+</div><br>
+
+<div id="1.1-Mengetahui-Konsep-Pengertian-Sains">
+    <p class="text-xl font-semibold mb-4 text-[#4dd4a3]">1.1 Mengetahui Konsep Pengertian Sains</p>
+    <p class="mt-2 ml-4">Sains berasal dari bahasa Latin <em>scientia</em> yang berarti pengetahuan. Sains merupakan kumpulan pengetahuan yang disusun secara sistematis dan diperoleh melalui metode ilmiah, pengamatan, dan eksperimen.</p>
+    <p class="mt-2 ml-4">Ciri-ciri sains antara lain:</p>
+    <ul class="mt-2 ml-8 list-disc">
+        <li><strong>Objektif</strong>, berdasarkan fakta dan data.</li>
+        <li><strong>Sistematis</strong>, mengikuti langkah yang teratur.</li>
+        <li><strong>Empiris</strong>, berdasarkan pengalaman atau pengamatan langsung.</li>
+        <li>Terbuka untuk diuji dan dikritisi oleh ilmuwan lain.</li>
+    </ul>
+</div><br>
+
+<div id="1.2-Cabang-Ilmu-Sains-dan-Bidangnya">
+    <p class="text-xl font-semibold mb-4 text-[#4dd4a3]">1.2 Menyebutkan Cabang Ilmu Sains dan Bidangnya</p>
+    <p class="mt-2 ml-4">Ilmu sains terbagi menjadi beberapa cabang utama, yaitu:</p>
+    <ul class="mt-2 ml-8 list-disc">
+        <li><strong>Fisika</strong>: Mempelajari gejala alam yang berkaitan dengan materi, energi, gaya, dan gerak.</li>
+        <li><strong>Kimia</strong>: Mempelajari struktur, komposisi, dan perubahan zat.</li>
+        <li><strong>Biologi</strong>: Mempelajari makhluk hidup dan kehidupannya.</li>
+        <li><strong>Astronomi</strong>: Mempelajari benda-benda langit seperti bintang, planet, dan galaksi.</li>
+        <li><strong>Geologi</strong>: Mempelajari struktur dan proses yang terjadi di dalam dan di atas permukaan bumi.</li>
+        <li><strong>Ekologi</strong>: Mempelajari hubungan antara makhluk hidup dan lingkungannya.</li>
+    </ul>
+</div><br>
+
+<div id="1.3-Konsep-Metode-Ilmiah">
+    <p class="text-xl font-semibold mb-4 text-[#4dd4a3]">1.3 Mengetahui Konsep Metode Ilmiah</p>
+    <p class="mt-2 ml-4">Metode ilmiah adalah langkah-langkah sistematis yang digunakan ilmuwan untuk memecahkan masalah dan memperoleh pengetahuan. Langkah-langkah dalam metode ilmiah meliputi:</p>
+    <ul class="mt-2 ml-8 list-decimal">
+        <li><strong>Observasi</strong>: Mengamati suatu fenomena atau masalah yang ingin diteliti.</li>
+        <li><strong>Merumuskan Masalah</strong>: Menyusun pertanyaan atau masalah berdasarkan hasil observasi.</li>
+        <li><strong>Menyusun Hipotesis</strong>: Menyusun dugaan sementara terhadap jawaban masalah.</li>
+        <li><strong>Eksperimen</strong>: Melakukan percobaan untuk menguji hipotesis.</li>
+        <li><strong>Menganalisis Data</strong>: Mengolah dan menafsirkan hasil percobaan.</li>
+        <li><strong>Menyimpulkan</strong>: Menarik kesimpulan berdasarkan data dan analisis.</li>
+    </ul>
+
+    <div class="p-4 bg-[#4dd4a3] rounded-lg shadow-md mt-4">
+        <p class="font-semibold">Contoh Penerapan Metode Ilmiah</p>
+        <p class="mt-2 ml-4">Seorang siswa mengamati tanaman di halaman rumahnya layu meskipun disiram. Ia kemudian membuat hipotesis bahwa tanaman layu karena kekurangan sinar matahari. Ia memindahkan tanaman ke tempat yang lebih terang dan menyiram seperti biasa. Setelah seminggu, tanaman kembali segar. Siswa menyimpulkan bahwa cahaya matahari penting bagi kesehatan tanaman.</p>
+    </div>
+</div><br>
+
+<p class="text-2xl text-[#4dd4a3] font-semibold">Latihan 1</p>
+
+<!-- Soal 1 -->
+<div class="p-6 bg-yellow-100 rounded-lg shadow-md mt-6">
+    <h2 class="text-2xl font-bold text-[#4dd4a3] mt-6">Soal 1</h2>
+    <p class="mt-4 text-lg">Apa pengertian dari ilmu sains secara umum?</p>
+
+    <ul class="mt-4 text-lg">
+        <li><input type="radio" name="sains1"> A. Ilmu yang mempelajari benda-benda langit</li>
+        <li><input type="radio" name="sains1"> B. Ilmu yang mempelajari gejala alam secara sistematis melalui metode ilmiah</li>
+        <li><input type="radio" name="sains1"> C. Ilmu yang hanya membahas tumbuhan dan hewan</li>
+        <li><input type="radio" name="sains1"> D. Ilmu yang berkaitan dengan komputer dan teknologi</li>
+    </ul>
+
+    <button onclick="togglePembahasan('pembahasan-latihan1-sains1')" 
+        class="mt-6 px-5 py-3 bg-[#4dd4a3] text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition-all duration-300">
+        Lihat Pembahasan
+    </button>
+
+    <div id="pembahasan-latihan1-sains1" class="mt-6 p-5 bg-white rounded-lg hidden transition-all duration-300">
+        <h3 class="font-semibold text-lg text-green-700">Pembahasan:</h3>
+        <p>Ilmu sains adalah ilmu yang mempelajari gejala-gejala alam secara sistematis melalui metode ilmiah yang terstruktur.</p>
+        <p class="font-medium mt-3 text-[#4dd4a3] text-lg">Jawaban: B</p>
+    </div>
+</div>
+
+<!-- Soal 2 -->
+<div class="p-6 bg-yellow-100 rounded-lg shadow-md mt-6">
+    <h2 class="text-2xl font-bold text-[#4dd4a3] mt-6">Soal 2</h2>
+    <p class="mt-4 text-lg">Cabang ilmu sains yang mempelajari benda langit dan ruang angkasa disebut...</p>
+
+    <ul class="mt-4 text-lg">
+        <li><input type="radio" name="sains2"> A. Biologi</li>
+        <li><input type="radio" name="sains2"> B. Kimia</li>
+        <li><input type="radio" name="sains2"> C. Astronomi</li>
+        <li><input type="radio" name="sains2"> D. Fisika</li>
+    </ul>
+
+    <button onclick="togglePembahasan('pembahasan-latihan1-sains2')" 
+        class="mt-6 px-5 py-3 bg-[#4dd4a3] text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition-all duration-300">
+        Lihat Pembahasan
+    </button>
+
+    <div id="pembahasan-latihan1-sains2" class="mt-6 p-5 bg-white rounded-lg hidden transition-all duration-300">
+        <h3 class="font-semibold text-lg text-green-700">Pembahasan:</h3>
+        <p>Astronomi adalah cabang sains yang mempelajari benda-benda langit dan fenomena luar angkasa.</p>
+        <p class="font-medium mt-3 text-[#4dd4a3] text-lg">Jawaban: C</p>
+    </div>
+</div>
+
+<!-- Soal 3 -->
+<div class="p-6 bg-yellow-100 rounded-lg shadow-md mt-6">
+    <h2 class="text-2xl font-bold text-[#4dd4a3] mt-6">Soal 3</h2>
+    <p class="mt-4 text-lg">Langkah pertama dalam metode ilmiah adalah...</p>
+
+    <ul class="mt-4 text-lg">
+        <li><input type="radio" name="sains3"> A. Menarik kesimpulan</li>
+        <li><input type="radio" name="sains3"> B. Melakukan eksperimen</li>
+        <li><input type="radio" name="sains3"> C. Merumuskan masalah</li>
+        <li><input type="radio" name="sains3"> D. Melakukan observasi</li>
+    </ul>
+
+    <button onclick="togglePembahasan('pembahasan-latihan1-sains3')" 
+        class="mt-6 px-5 py-3 bg-[#4dd4a3] text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition-all duration-300">
+        Lihat Pembahasan
+    </button>
+
+    <div id="pembahasan-latihan1-sains3" class="mt-6 p-5 bg-white rounded-lg hidden transition-all duration-300">
+        <h3 class="font-semibold text-lg text-green-700">Pembahasan:</h3>
+        <p>Langkah pertama dalam metode ilmiah adalah melakukan observasi untuk mengamati gejala atau fenomena yang terjadi.</p>
+        <p class="font-medium mt-3 text-[#4dd4a3] text-lg">Jawaban: D</p>
+    </div>
+</div>
+
+<!-- Soal 4 -->
+<div class="p-6 bg-yellow-100 rounded-lg shadow-md mt-6">
+    <h2 class="text-2xl font-bold text-[#4dd4a3] mt-6">Soal 4</h2>
+    <p class="mt-4 text-lg">
+        Berikut ini yang bukan termasuk cabang utama ilmu sains adalah...
+    </p>
+
+    <ul class="mt-4 text-lg">
+        <li><input type="radio" name="sains4"> A. Biologi</li>
+        <li><input type="radio" name="sains4"> B. Kimia</li>
+        <li><input type="radio" name="sains4"> C. Sejarah</li>
+        <li><input type="radio" name="sains4"> D. Fisika</li>
+    </ul>
+
+    <button onclick="togglePembahasan('pembahasan-latihan1-sains4')" 
+        class="mt-6 px-5 py-3 bg-[#4dd4a3] text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition-all duration-300">
+        Lihat Pembahasan
+    </button>
+
+    <div id="pembahasan-latihan1-sains4" class="mt-6 p-5 bg-white rounded-lg hidden transition-all duration-300">
+        <h3 class="font-semibold text-lg text-green-700">Pembahasan:</h3>
+        <p>Biologi, Kimia, dan Fisika adalah tiga cabang utama ilmu sains. Sedangkan Sejarah termasuk dalam ilmu sosial dan humaniora, bukan sains alam.</p>
+        <p class="font-medium mt-3 text-[#4dd4a3] text-lg">Jawaban: C</p>
+    </div>
+</div>
+
+<!-- Soal 5 -->
+<div class="p-6 bg-yellow-100 rounded-lg shadow-md mt-6">
+    <h2 class="text-2xl font-bold text-[#4dd4a3] mt-6">Soal 5</h2>
+    <p class="mt-4 text-lg">
+        Tujuan utama dari penggunaan metode ilmiah dalam sains adalah...
+    </p>
+
+    <ul class="mt-4 text-lg">
+        <li><input type="radio" name="sains5"> A. Meningkatkan nilai ujian</li>
+        <li><input type="radio" name="sains5"> B. Menyusun laporan praktikum</li>
+        <li><input type="radio" name="sains5"> C. Menjelaskan dan memahami fenomena alam secara objektif</li>
+        <li><input type="radio" name="sains5"> D. Menentukan siapa yang salah dalam eksperimen</li>
+    </ul>
+
+    <button onclick="togglePembahasan('pembahasan-latihan1-sains5')" 
+        class="mt-6 px-5 py-3 bg-[#4dd4a3] text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition-all duration-300">
+        Lihat Pembahasan
+    </button>
+
+    <div id="pembahasan-latihan1-sains5" class="mt-6 p-5 bg-white rounded-lg hidden transition-all duration-300">
+        <h3 class="font-semibold text-lg text-green-700">Pembahasan:</h3>
+        <p>Metode ilmiah digunakan untuk memahami dan menjelaskan fenomena alam secara objektif, sistematis, dan logis.</p>
+        <p class="font-medium mt-3 text-[#4dd4a3] text-lg">Jawaban: C</p>
+    </div>
+</div>
+<div class="p-6 bg-yellow-100 rounded-lg shadow-md mt-6">
+    <h2 class="text-2xl font-bold text-[#4dd4a3] mt-6">Soal 6</h2>
+    <p class="mt-4 text-lg">
+        Saat belajar tentang pengaruh cahaya terhadap pertumbuhan tanaman, Ibu guru meminta siswa untuk menanam dua tanaman. Satu diletakkan di tempat terang, dan satu lagi di tempat gelap. Selama satu minggu, siswa mengamati pertumbuhan kedua tanaman lalu mencatat hasilnya.
+    </p>
+    <p class="mt-4 text-lg">Kegiatan yang dilakukan siswa menunjukkan bahwa sains merupakan...</p>
+
+    <ul class="mt-4 text-lg">
+        <li><input type="radio" name="sains6"> A. Kumpulan hukum dan teori</li>
+        <li><input type="radio" name="sains6"> B. Cara menyelidiki hal mistis</li>
+        <li><input type="radio" name="sains6"> C. Proses untuk mendapatkan pengetahuan melalui pengamatan dan eksperimen</li>
+        <li><input type="radio" name="sains6"> D. Pendapat tanpa perlu bukti</li>
+    </ul>
+
+    <button onclick="togglePembahasan('pembahasan-latihan1-sains6')" 
+        class="mt-6 px-5 py-3 bg-[#4dd4a3] text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition-all duration-300">
+        Lihat Pembahasan
+    </button>
+
+    <div id="pembahasan-latihan1-sains6" class="mt-6 p-5 bg-white rounded-lg hidden transition-all duration-300">
+        <h3 class="font-semibold text-lg text-green-700">Pembahasan:</h3>
+        <p>Sains sebagai proses berarti melakukan pengamatan, eksperimen, dan analisis untuk memperoleh pengetahuan baru. Dalam cerita ini, siswa mengamati dan mencatat hasil dari eksperimen, yang mencerminkan sains sebagai proses.</p>
+        <p class="font-medium mt-3 text-[#4dd4a3] text-lg">Jawaban: C</p>
+    </div>
+</div>
+<div class="p-6 bg-yellow-100 rounded-lg shadow-md mt-6">
+    <h2 class="text-2xl font-bold text-[#4dd4a3] mt-6">Soal 7</h2>
+    <p class="mt-4 text-lg">
+        Saat melakukan percobaan pengaruh cahaya terhadap pertumbuhan tanaman, Wulan mendapati bahwa hasilnya berbeda dari dugaan awalnya. Meskipun begitu, ia tetap mencatat hasil yang sebenarnya dan tidak mengubah data.
+    </p>
+    <p class="mt-4 text-lg">Tindakan Wulan menunjukkan bahwa ia memiliki sikap ilmiah berupa...</p>
+
+    <ul class="mt-4 text-lg">
+        <li><input type="radio" name="sains7"> A. Rasa ingin tahu</li>
+        <li><input type="radio" name="sains7"> B. Objektif dan jujur</li>
+        <li><input type="radio" name="sains7"> C. Kreatif</li>
+        <li><input type="radio" name="sains7"> D. Percaya diri</li>
+    </ul>
+
+    <button onclick="togglePembahasan('pembahasan-latihan1-sains7')" 
+        class="mt-6 px-5 py-3 bg-[#4dd4a3] text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition-all duration-300">
+        Lihat Pembahasan
+    </button>
+
+    <div id="pembahasan-latihan1-sains7" class="mt-6 p-5 bg-white rounded-lg hidden transition-all duration-300">
+        <h3 class="font-semibold text-lg text-green-700">Pembahasan:</h3>
+        <p>Meskipun hasil percobaan berbeda dari dugaan, Wulan tetap mencatat data dengan jujur tanpa mengubahnya. Ini menunjukkan <strong>sikap ilmiah berupa objektif dan jujur</strong>, yang penting dalam penelitian.</p>
+        <p class="font-medium mt-3 text-[#4dd4a3] text-lg">Jawaban: B</p>
+    </div>
+</div>
+<div class="p-6 bg-yellow-100 rounded-lg shadow-md mt-6">
+    <h2 class="text-2xl font-bold text-[#4dd4a3] mt-6">Soal 8</h2>
+    <p class="mt-4 text-lg">
+        Cabang ilmu sains yang mempelajari makhluk hidup, seperti manusia, hewan, tumbuhan, serta hubungannya dengan lingkungan disebut...
+    </p>
+
+    <ul class="mt-4 text-lg">
+        <li><input type="radio" name="sains8"> A. Fisika</li>
+        <li><input type="radio" name="sains8"> B. Kimia</li>
+        <li><input type="radio" name="sains8"> C. Biologi</li>
+        <li><input type="radio" name="sains8"> D. Astronomi</li>
+    </ul>
+
+    <button onclick="togglePembahasan('pembahasan-latihan1-sains8')" 
+        class="mt-6 px-5 py-3 bg-[#4dd4a3] text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition-all duration-300">
+        Lihat Pembahasan
+    </button>
+
+    <div id="pembahasan-latihan1-sains8" class="mt-6 p-5 bg-white rounded-lg hidden transition-all duration-300">
+        <h3 class="font-semibold text-lg text-green-700">Pembahasan:</h3>
+        <p>Biologi adalah cabang ilmu sains yang mempelajari semua hal tentang makhluk hidup dan kehidupannya.</p>
+        <p class="font-medium mt-3 text-[#4dd4a3] text-lg">Jawaban: C</p>
+    </div>
+</div>
+<div class="p-6 bg-yellow-100 rounded-lg shadow-md mt-6">
+    <h2 class="text-2xl font-bold text-[#4dd4a3] mt-6">Soal 9</h2>
+    <p class="mt-4 text-lg">
+        Cabang ilmu sains yang mempelajari gejala alam seperti gaya, gerak, panas, bunyi, cahaya, dan listrik disebut...
+    </p>
+
+    <ul class="mt-4 text-lg">
+        <li><input type="radio" name="sains9"> A. Biologi</li>
+        <li><input type="radio" name="sains9"> B. Fisika</li>
+        <li><input type="radio" name="sains9"> C. Geologi</li>
+        <li><input type="radio" name="sains9"> D. Kimia</li>
+    </ul>
+
+    <button onclick="togglePembahasan('pembahasan-latihan1-sains9')" 
+        class="mt-6 px-5 py-3 bg-[#4dd4a3] text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition-all duration-300">
+        Lihat Pembahasan
+    </button>
+
+    <div id="pembahasan-latihan1-sains9" class="mt-6 p-5 bg-white rounded-lg hidden transition-all duration-300">
+        <h3 class="font-semibold text-lg text-green-700">Pembahasan:</h3>
+        <p>Fisika adalah cabang ilmu sains yang mempelajari gejala alam yang tidak hidup, seperti gaya, gerak, bunyi, cahaya, dan listrik.</p>
+        <p class="font-medium mt-3 text-[#4dd4a3] text-lg">Jawaban: B</p>
+    </div>
+</div>
+
+<div class="p-6 bg-yellow-100 rounded-lg shadow-md mt-6">
+    <h2 class="text-2xl font-bold text-[#4dd4a3] mt-6">Soal 10</h2>
+    <p class="mt-4 text-lg">
+        Salah satu tujuan dari penggunaan metode ilmiah dalam sains adalah...
+    </p>
+
+    <ul class="mt-4 text-lg">
+        <li><input type="radio" name="sains10"> A. Mencari jawaban berdasarkan pendapat pribadi</li>
+        <li><input type="radio" name="sains10"> B. Menemukan solusi berdasarkan tahapan sistematis dan bukti</li>
+        <li><input type="radio" name="sains10"> C. Meniru hasil eksperimen orang lain</li>
+        <li><input type="radio" name="sains10"> D. Menyusun laporan tanpa melakukan percobaan</li>
+    </ul>
+
+    <button onclick="togglePembahasan('pembahasan-latihan1-sains10')" 
+        class="mt-6 px-5 py-3 bg-[#4dd4a3] text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition-all duration-300">
+        Lihat Pembahasan
+    </button>
+
+    <div id="pembahasan-latihan1-sains10" class="mt-6 p-5 bg-white rounded-lg hidden transition-all duration-300">
+        <h3 class="font-semibold text-lg text-green-700">Pembahasan:</h3>
+        <p>Metode ilmiah digunakan untuk menyelidiki masalah dengan langkah-langkah yang sistematis, seperti observasi, perumusan masalah, eksperimen, dan kesimpulan berdasarkan bukti. Ini memastikan hasil yang valid dan bisa diuji ulang.</p>
+        <p class="font-medium mt-3 text-[#4dd4a3] text-lg">Jawaban: B</p>
+    </div>
+</div>
+
+<div class="p-6 bg-yellow-100 rounded-lg shadow-md mt-6">
+    <h2 class="text-2xl font-bold text-[#4dd4a3] mt-6">Soal 11</h2>
+    <p class="mt-4 text-lg">
+        Mengapa metode ilmiah penting digunakan oleh para ilmuwan saat melakukan penelitian?
+    </p>
+
+    <ul class="mt-4 text-lg">
+        <li><input type="radio" name="sains11"> A. Agar penelitian menjadi lebih cepat selesai</li>
+        <li><input type="radio" name="sains11"> B. Untuk memastikan penelitian dilakukan secara acak</li>
+        <li><input type="radio" name="sains11"> C. Agar hasil penelitian dapat dipercaya dan bisa diuji ulang</li>
+        <li><input type="radio" name="sains11"> D. Supaya hasil penelitian sesuai dengan keinginan</li>
+    </ul>
+
+    <button onclick="togglePembahasan('pembahasan-latihan1-sains11')" 
+        class="mt-6 px-5 py-3 bg-[#4dd4a3] text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition-all duration-300">
+        Lihat Pembahasan
+    </button>
+
+    <div id="pembahasan-latihan1-sains11" class="mt-6 p-5 bg-white rounded-lg hidden transition-all duration-300">
+        <h3 class="font-semibold text-lg text-green-700">Pembahasan:</h3>
+        <p>Metode ilmiah membuat penelitian menjadi sistematis dan dapat diuji ulang. Hal ini penting agar hasilnya valid, bisa dikonfirmasi oleh ilmuwan lain, dan bermanfaat dalam pengembangan ilmu pengetahuan.</p>
+        <p class="font-medium mt-3 text-[#4dd4a3] text-lg">Jawaban: C</p>
+    </div>
+</div>
+<div class="p-6 bg-yellow-100 rounded-lg shadow-md mt-6">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mt-6">Soal 12</h2>
+  <p class="mt-4 text-lg">
+    Seorang siswa menyimpulkan bahwa air hujan menyebabkan tanaman tumbuh lebih cepat setelah melakukan pengamatan selama dua minggu. Sikap ilmiah apa yang sebaiknya dilakukan siswa untuk memastikan kesimpulannya benar?
+  </p>
+
+  <ul class="mt-4 text-lg">
+    <li><input type="radio" name="sains12"> A. Langsung menyebarkan temuannya ke teman-teman</li>
+    <li><input type="radio" name="sains12"> B. Mencoba membandingkan dengan tanaman yang disiram air biasa</li>
+    <li><input type="radio" name="sains12"> C. Meminta guru untuk menyatakan kesimpulan itu benar</li>
+    <li><input type="radio" name="sains12"> D. Tidak perlu menguji kembali karena ia yakin pengamatannya tepat</li>
+  </ul>
+
+  <button onclick="togglePembahasan('pembahasan-latihan1-sains12')" class="mt-6 px-5 py-3 bg-[#4dd4a3] text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition-all duration-300">
+    Lihat Pembahasan
+  </button>
+
+  <div id="pembahasan-latihan1-sains12" class="mt-6 p-5 bg-white rounded-lg hidden transition-all duration-300">
+    <h3 class="font-semibold text-lg text-green-700">Pembahasan:</h3>
+    <p>Dalam sains, siswa perlu membandingkan hasil dan menguji hipotesis. Menyiram tanaman lain dengan air biasa adalah langkah ilmiah untuk membuktikan hasil.</p>
+    <p class="font-medium mt-3 text-[#4dd4a3] text-lg">Jawaban: B</p>
+  </div>
+</div>
+
+<div class="p-6 bg-yellow-100 rounded-lg shadow-md mt-6">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mt-6">Soal 13</h2>
+  <p class="mt-4 text-lg">
+    Jika kamu ingin mengetahui apakah jenis cahaya (matahari, lampu pijar, atau lampu LED) memengaruhi pertumbuhan tanaman, variabel bebas dalam percobaan tersebut adalah...
+  </p>
+
+  <ul class="mt-4 text-lg">
+    <li><input type="radio" name="sains13"> A. Jumlah air yang diberikan</li>
+    <li><input type="radio" name="sains13"> B. Jenis tanaman</li>
+    <li><input type="radio" name="sains13"> C. Jenis cahaya yang digunakan</li>
+    <li><input type="radio" name="sains13"> D. Tinggi tanaman setelah satu minggu</li>
+  </ul>
+
+  <button onclick="togglePembahasan('pembahasan-latihan1-sains13')" class="mt-6 px-5 py-3 bg-[#4dd4a3] text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition-all duration-300">
+    Lihat Pembahasan
+  </button>
+
+  <div id="pembahasan-latihan1-sains13" class="mt-6 p-5 bg-white rounded-lg hidden transition-all duration-300">
+    <h3 class="font-semibold text-lg text-green-700">Pembahasan:</h3>
+    <p>Variabel bebas adalah faktor yang diubah dalam percobaan. Dalam kasus ini, jenis cahaya adalah variabel yang diubah untuk melihat pengaruhnya terhadap pertumbuhan tanaman.</p>
+    <p class="font-medium mt-3 text-[#4dd4a3] text-lg">Jawaban: C</p>
+  </div>
+</div>
+<div class="p-6 bg-yellow-100 rounded-lg shadow-md mt-6">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mt-6">Soal 14</h2>
+  <p class="mt-4 text-lg">
+    Seorang ilmuwan melakukan pengamatan terhadap perilaku lebah selama 3 bulan, mencatat setiap perubahan, dan menyusun laporan. Kegiatan tersebut menunjukkan bahwa sains adalah...
+  </p>
+
+  <ul class="mt-4 text-lg">
+    <li><input type="radio" name="sains14"> A. Produk berupa teori dan hukum</li>
+    <li><input type="radio" name="sains14"> B. Cara berpikir kreatif dalam menulis</li>
+    <li><input type="radio" name="sains14"> C. Proses ilmiah yang melibatkan observasi dan pencatatan data</li>
+    <li><input type="radio" name="sains14"> D. Bukti bahwa lebah memiliki sistem komunikasi</li>
+  </ul>
+
+  <button onclick="togglePembahasan('pembahasan-latihan1-sains14')" class="mt-6 px-5 py-3 bg-[#4dd4a3] text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition-all duration-300">
+    Lihat Pembahasan
+  </button>
+
+  <div id="pembahasan-latihan1-sains14" class="mt-6 p-5 bg-white rounded-lg hidden transition-all duration-300">
+    <h3 class="font-semibold text-lg text-green-700">Pembahasan:</h3>
+    <p>Kegiatan ilmuwan ini menunjukkan bahwa sains sebagai proses mencakup observasi, eksperimen, pencatatan data, dan pelaporan hasil secara sistematis.</p>
+    <p class="font-medium mt-3 text-[#4dd4a3] text-lg">Jawaban: C</p>
+  </div>
+</div>
+
+<div class="p-6 bg-yellow-100 rounded-lg shadow-md mt-6">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mt-6">Soal 15</h2>
+  <p class="mt-4 text-lg">
+    Suatu tim ilmuwan sedang menyelidiki perubahan iklim dan dampaknya terhadap ekosistem laut. Cabang ilmu sains yang paling tepat untuk mempelajari masalah ini adalah...
+  </p>
+
+  <ul class="mt-4 text-lg">
+    <li><input type="radio" name="sains15"> A. Fisika</li>
+    <li><input type="radio" name="sains15"> B. Kimia</li>
+    <li><input type="radio" name="sains15"> C. Biologi dan Ilmu Lingkungan</li>
+    <li><input type="radio" name="sains15"> D. Astronomi</li>
+  </ul>
+
+  <button onclick="togglePembahasan('pembahasan-latihan1-sains15')" class="mt-6 px-5 py-3 bg-[#4dd4a3] text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition-all duration-300">
+    Lihat Pembahasan
+  </button>
+
+  <div id="pembahasan-latihan1-sains15" class="mt-6 p-5 bg-white rounded-lg hidden transition-all duration-300">
+    <h3 class="font-semibold text-lg text-green-700">Pembahasan:</h3>
+    <p>Perubahan iklim dan dampaknya pada ekosistem laut memerlukan pemahaman biologi (makhluk hidup laut) dan ilmu lingkungan (hubungan antara makhluk hidup dan lingkungannya).</p>
+    <p class="font-medium mt-3 text-[#4dd4a3] text-lg">Jawaban: C</p>
+  </div>
+</div><br>
+
+<div id="2.-Laboratorium-IPA">
+    <p class="text-xl font-semibold mb-4 text-[#4dd4a3]">2. Laboratorium IPA</p>
+    <p class="mt-2 ml-4">Laboratorium IPA merupakan tempat khusus yang dirancang untuk kegiatan praktikum dan eksperimen dalam bidang Ilmu Pengetahuan Alam. Di laboratorium, siswa dapat belajar melalui pengalaman langsung dan pengamatan terhadap fenomena ilmiah.</p>
+</div><br>
+
+<div id="2.1-Fungsi-Utama-Laboratorium-IPA">
+    <p class="text-xl font-semibold mb-4 text-[#4dd4a3]">2.1 Mendeskripsikan Fungsi Utama Laboratorium IPA</p>
+    <p class="mt-2 ml-4">Laboratorium IPA memiliki beberapa fungsi utama, antara lain:</p>
+    <ul class="mt-2 ml-8 list-disc">
+        <li>Sebagai tempat pelaksanaan eksperimen atau praktikum.</li>
+        <li>Memberikan pengalaman langsung kepada siswa tentang konsep-konsep IPA.</li>
+        <li>Membantu mengembangkan keterampilan proses sains seperti observasi, pengukuran, dan analisis.</li>
+        <li>Menumbuhkan sikap ilmiah seperti rasa ingin tahu, teliti, dan bertanggung jawab.</li>
+    </ul>
+</div><br>
+
+<div id="2.2-Alat-Laboratorium-dan-Kegunaannya">
+    <p class="text-xl font-semibold mb-4 text-[#4dd4a3]">2.2 Mengidentifikasi Alat Laboratorium dan Kegunaannya</p>
+    <p class="mt-2 ml-4">Di dalam laboratorium IPA terdapat berbagai macam alat yang digunakan sesuai dengan fungsinya. Berikut beberapa alat laboratorium umum dan kegunaannya:</p>
+    <ul class="mt-2 ml-8 list-disc">
+        <li><strong>Tabung Reaksi</strong>: Tempat mencampur atau memanaskan zat kimia dalam jumlah kecil.</li>
+        <li><strong>Gelas Beaker</strong>: Untuk menampung, mencampur, atau memanaskan cairan.</li>
+        <li><strong>Erlenmeyer</strong>: Wadah berbentuk kerucut untuk mencampur bahan cair tanpa mudah tumpah.</li>
+        <li><strong>Bunsen</strong>: Alat pemanas berbahan bakar gas untuk eksperimen pemanasan.</li>
+        <li><strong>Termometer</strong>: Untuk mengukur suhu.</li>
+        <li><strong>Mikroskop</strong>: Untuk melihat objek yang sangat kecil, seperti sel.</li>
+        <li><strong>Neraca</strong>: Untuk mengukur massa benda secara tepat.</li>
+        <li><strong>Kaki Tiga dan Kawat Kasa</strong>: Sebagai penopang saat memanaskan gelas di atas api.</li>
+        <li><strong>Corong</strong>: Untuk menuangkan cairan agar tidak tumpah atau sebagai alat penyaring.</li>
+        <li><strong>Rak Tabung Reaksi</strong>: Untuk meletakkan tabung reaksi saat tidak digunakan.</li>
+    </ul>
+
+    <div class="p-4 bg-[#4dd4a3] rounded-lg shadow-md mt-4">
+        <p class="font-semibold">Tips Keselamatan di Laboratorium</p>
+        <ul class="mt-2 ml-4 list-disc">
+            <li>Gunakan jas laboratorium dan sarung tangan saat melakukan praktikum.</li>
+            <li>Jangan mencium atau mencicipi bahan kimia.</li>
+            <li>Baca label bahan kimia sebelum digunakan.</li>
+            <li>Jangan bermain-main dengan alat laboratorium.</li>
+            <li>Bersihkan alat setelah digunakan dan cuci tangan sebelum keluar laboratorium.</li>
+        </ul>
+    </div>
+</div><br>
+<p class="text-2xl text-[#4dd4a3] font-semibold">Latihan 2</p>
+
+<!-- Soal 1 -->
+<div class="p-6 bg-yellow-100 rounded-lg shadow-md">
+    <h2 class="text-2xl font-bold text-[#4dd4a3] mt-6">Soal 1</h2>
+    <p class="mt-4 text-lg">
+        Fungsi utama laboratorium IPA di sekolah adalah...
+    </p>
+
+    <ul class="mt-4 text-lg">
+        <li><input type="radio" name="lat2soal1"> A. Tempat untuk menyimpan alat olahraga</li>
+        <li><input type="radio" name="lat2soal1"> B. Tempat untuk membuat karya seni</li>
+        <li><input type="radio" name="lat2soal1"> C. Tempat mengamati dan membuktikan konsep IPA melalui eksperimen</li>
+        <li><input type="radio" name="lat2soal1"> D. Tempat untuk beristirahat siswa saat jam istirahat</li>
+    </ul>
+
+    <button onclick="togglePembahasan('pembahasan-lat2-no1')" 
+        class="mt-6 px-5 py-3 bg-[#4dd4a3] text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition-all duration-300">
+        Lihat Pembahasan
+    </button>
+
+    <div id="pembahasan-lat2-no1" class="mt-6 p-5 bg-white rounded-lg hidden transition-all duration-300">
+        <h3 class="font-semibold text-lg text-green-700">Pembahasan:</h3>
+        <p>Laboratorium IPA berfungsi sebagai tempat untuk mengamati, menyelidiki, dan membuktikan konsep-konsep IPA secara praktis melalui percobaan dan pengamatan.</p>
+        <p class="font-medium mt-3 text-[#4dd4a3] text-lg">Jawaban: C</p>
+    </div>
+</div>
+
+<!-- Soal 2 -->
+<div class="p-6 bg-yellow-100 rounded-lg shadow-md mt-6">
+    <h2 class="text-2xl font-bold text-[#4dd4a3] mt-6">Soal 2</h2>
+    <p class="mt-4 text-lg">
+        Termometer digunakan dalam laboratorium IPA untuk mengukur...
+    </p>
+
+    <ul class="mt-4 text-lg">
+        <li><input type="radio" name="lat2soal2"> A. Berat benda</li>
+        <li><input type="radio" name="lat2soal2"> B. Volume zat cair</li>
+        <li><input type="radio" name="lat2soal2"> C. Waktu reaksi</li>
+        <li><input type="radio" name="lat2soal2"> D. Suhu benda atau zat</li>
+    </ul>
+
+    <button onclick="togglePembahasan('pembahasan-lat2-no2')" 
+        class="mt-6 px-5 py-3 bg-[#4dd4a3] text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition-all duration-300">
+        Lihat Pembahasan
+    </button>
+
+    <div id="pembahasan-lat2-no2" class="mt-6 p-5 bg-white rounded-lg hidden transition-all duration-300">
+        <h3 class="font-semibold text-lg text-green-700">Pembahasan:</h3>
+        <p>Termometer adalah alat laboratorium yang digunakan untuk mengukur suhu, baik pada zat cair, padat, maupun gas.</p>
+        <p class="font-medium mt-3 text-[#4dd4a3] text-lg">Jawaban: D</p>
+    </div>
+</div>
+
+<!-- Soal 3 -->
+<div class="p-6 bg-yellow-100 rounded-lg shadow-md mt-6">
+    <h2 class="text-2xl font-bold text-[#4dd4a3] mt-6">Soal 3</h2>
+    <p class="mt-4 text-lg">
+        Alat laboratorium berbentuk silinder tinggi yang digunakan untuk mengukur volume zat cair secara teliti disebut...
+    </p>
+
+    <ul class="mt-4 text-lg">
+        <li><input type="radio" name="lat2soal3"> A. Gelas beker</li>
+        <li><input type="radio" name="lat2soal3"> B. Labu ukur</li>
+        <li><input type="radio" name="lat2soal3"> C. Gelas ukur</li>
+        <li><input type="radio" name="lat2soal3"> D. Corong</li>
+    </ul>
+
+    <button onclick="togglePembahasan('pembahasan-lat2-no3')" 
+        class="mt-6 px-5 py-3 bg-[#4dd4a3] text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition-all duration-300">
+        Lihat Pembahasan
+    </button>
+
+    <div id="pembahasan-lat2-no3" class="mt-6 p-5 bg-white rounded-lg hidden transition-all duration-300">
+        <h3 class="font-semibold text-lg text-green-700">Pembahasan:</h3>
+        <p>Gelas ukur atau measuring cylinder digunakan untuk mengukur volume zat cair dengan lebih presisi dibandingkan gelas beker.</p>
+        <p class="font-medium mt-3 text-[#4dd4a3] text-lg">Jawaban: C</p>
+    </div>
+</div>
+
+<!-- Soal 4 -->
+<div class="p-6 bg-yellow-100 rounded-lg shadow-md mt-6">
+    <h2 class="text-2xl font-bold text-[#4dd4a3] mt-6">Soal 4</h2>
+    <p class="mt-4 text-lg">
+        Berikut ini adalah alat laboratorium yang digunakan untuk memanaskan zat, kecuali...
+    </p>
+
+    <ul class="mt-4 text-lg">
+        <li><input type="radio" name="lat2soal4"> A. Pembakar spiritus</li>
+        <li><input type="radio" name="lat2soal4"> B. Pembakar Bunsen</li>
+        <li><input type="radio" name="lat2soal4"> C. Kaki tiga</li>
+        <li><input type="radio" name="lat2soal4"> D. Hot plate</li>
+    </ul>
+
+    <button onclick="togglePembahasan('pembahasan-lat2-no4')" 
+        class="mt-6 px-5 py-3 bg-[#4dd4a3] text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition-all duration-300">
+        Lihat Pembahasan
+    </button>
+
+    <div id="pembahasan-lat2-no4" class="mt-6 p-5 bg-white rounded-lg hidden transition-all duration-300">
+        <h3 class="font-semibold text-lg text-green-700">Pembahasan:</h3>
+        <p>Kaki tiga adalah alat bantu untuk menyangga alat lainnya saat proses pemanasan, tetapi bukan alat pemanas itu sendiri.</p>
+        <p class="font-medium mt-3 text-[#4dd4a3] text-lg">Jawaban: C</p>
+    </div>
+</div>
+<!-- Soal 5 -->
+<div class="p-6 bg-yellow-100 rounded-lg shadow-md mt-6">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mt-6">Soal 5</h2>
+  <p class="mt-4 text-lg">
+    Perhatikan beberapa pernyataan berikut!
+  </p>
+  <ul class="mt-4 text-lg list-disc ml-6">
+    <li>(1) Tempat melakukan pengamatan terhadap fenomena alam secara langsung.</li>
+    <li>(2) Tempat menyimpan semua perlengkapan olahraga.</li>
+    <li>(3) Tempat membuktikan teori IPA melalui percobaan.</li>
+    <li>(4) Tempat meminjam buku pelajaran IPA.</li>
+  </ul>
+  <p class="mt-4 text-lg">
+    Pernyataan yang menunjukkan fungsi utama laboratorium IPA adalah...
+  </p>
+
+  <ul class="mt-4 text-lg">
+    <li><input type="radio" name="lat2soal5"> A. (1) dan (2)</li>
+    <li><input type="radio" name="lat2soal5"> B. (1) dan (3)</li>
+    <li><input type="radio" name="lat2soal5"> C. (2) dan (4)</li>
+    <li><input type="radio" name="lat2soal5"> D. (3) dan (4)</li>
+  </ul>
+
+  <button onclick="togglePembahasan('pembahasan-lat2-no5')" 
+      class="mt-6 px-5 py-3 bg-[#4dd4a3] text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition-all duration-300">
+      Lihat Pembahasan
+  </button>
+
+  <div id="pembahasan-lat2-no5" class="mt-6 p-5 bg-white rounded-lg hidden transition-all duration-300">
+    <h3 class="font-semibold text-lg text-green-700">Pembahasan:</h3>
+    <p>Pernyataan (1) dan (3) menggambarkan fungsi utama laboratorium IPA, yaitu sebagai tempat untuk mengamati dan membuktikan konsep-konsep sains secara langsung.</p>
+    <p class="font-medium mt-3 text-[#4dd4a3] text-lg">Jawaban: B</p>
+  </div>
+</div>
+
+<!-- Soal 6 -->
+<div class="p-6 bg-yellow-100 rounded-lg shadow-md mt-6">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mt-6">Soal 6</h2>
+  <p class="mt-4 text-lg">
+    Laboratorium IPA digunakan sebagai tempat untuk:
+  </p>
+  <ul class="mt-4 text-lg list-disc ml-6">
+    <li>Melakukan percobaan tentang perubahan wujud zat</li>
+    <li>Mengamati pertumbuhan tanaman di bawah cahaya berbeda</li>
+    <li>Menyiapkan makanan untuk kegiatan memasak</li>
+    <li>Menguji sifat larutan asam dan basa</li>
+  </ul>
+  <p class="mt-4 text-lg">
+    Fungsi utama laboratorium IPA terlihat pada kegiatan nomor...
+  </p>
+
+  <ul class="mt-4 text-lg">
+    <li><input type="radio" name="lat2soal6"> A. 1, 2, dan 4</li>
+    <li><input type="radio" name="lat2soal6"> B. 1, 3, dan 4</li>
+    <li><input type="radio" name="lat2soal6"> C. 2, 3, dan 4</li>
+    <li><input type="radio" name="lat2soal6"> D. 1, 2, dan 3</li>
+  </ul>
+
+  <button onclick="togglePembahasan('pembahasan-lat2-no6')" 
+      class="mt-6 px-5 py-3 bg-[#4dd4a3] text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition-all duration-300">
+      Lihat Pembahasan
+  </button>
+
+  <div id="pembahasan-lat2-no6" class="mt-6 p-5 bg-white rounded-lg hidden transition-all duration-300">
+    <h3 class="font-semibold text-lg text-green-700">Pembahasan:</h3>
+    <p>Kegiatan nomor 1, 2, dan 4 merupakan kegiatan eksperimen dan observasi yang mencerminkan fungsi laboratorium IPA. Nomor 3 tidak relevan karena memasak bukan bagian dari aktivitas laboratorium IPA.</p>
+    <p class="font-medium mt-3 text-[#4dd4a3] text-lg">Jawaban: A</p>
+  </div>
+</div>
+<!-- Soal 7 -->
+<div class="p-6 bg-yellow-100 rounded-lg shadow-md mt-6">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mt-6">Soal 7</h2>
+  <p class="mt-4 text-lg">Perhatikan gambar alat laboratorium berikut:</p>
+  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/fd/Beaker.jpg/220px-Beaker.jpg" alt="Gelas Beaker" class="mt-4 w-40 rounded-lg shadow-md">
+
+  <p class="mt-4 text-lg">Fungsi utama dari alat laboratorium tersebut adalah...</p>
+
+  <ul class="mt-4 text-lg">
+    <li><input type="radio" name="lat2soal7"> A. Mengukur suhu larutan secara akurat</li>
+    <li><input type="radio" name="lat2soal7"> B. Mengaduk dan menuangkan larutan kimia</li>
+    <li><input type="radio" name="lat2soal7"> C. Menimbang massa zat padat</li>
+    <li><input type="radio" name="lat2soal7"> D. Mengamati pertumbuhan mikroorganisme</li>
+  </ul>
+
+  <button onclick="togglePembahasan('pembahasan-lat2-no7')" 
+      class="mt-6 px-5 py-3 bg-[#4dd4a3] text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition-all duration-300">
+      Lihat Pembahasan
+  </button>
+
+  <div id="pembahasan-lat2-no7" class="mt-6 p-5 bg-white rounded-lg hidden transition-all duration-300">
+    <h3 class="font-semibold text-lg text-green-700">Pembahasan:</h3>
+    <p>Gelas beaker digunakan untuk mengaduk, mencampur, dan memanaskan cairan. Bukan alat ukur utama, tetapi sering digunakan dalam eksperimen untuk menuang dan menampung larutan.</p>
+    <p class="font-medium mt-3 text-[#4dd4a3] text-lg">Jawaban: B</p>
+  </div>
+</div>
+
+<!-- Soal 8 -->
+<div class="p-6 bg-yellow-100 rounded-lg shadow-md mt-6">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mt-6">Soal 8</h2>
+  <p class="mt-4 text-lg">Perhatikan gambar alat laboratorium berikut:</p>
+  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/15/Test_tube_1.svg/1024px-Test_tube_1.svg.png" alt="Tabung Reaksi" class="mt-4 w-40 rounded-lg shadow-md">
+
+  <p class="mt-4 text-lg">Fungsi alat laboratorium tersebut adalah...</p>
+
+  <ul class="mt-4 text-lg">
+    <li><input type="radio" name="lat2soal8"> A. Menyimpan larutan untuk jangka panjang</li>
+    <li><input type="radio" name="lat2soal8"> B. Menampung gas hasil pembakaran</li>
+    <li><input type="radio" name="lat2soal8"> C. Menampung dan memanaskan larutan dalam jumlah kecil</li>
+    <li><input type="radio" name="lat2soal8"> D. Menyaring larutan yang tercampur padatan</li>
+  </ul>
+
+  <button onclick="togglePembahasan('pembahasan-lat2-no8')" 
+      class="mt-6 px-5 py-3 bg-[#4dd4a3] text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition-all duration-300">
+      Lihat Pembahasan
+  </button>
+
+  <div id="pembahasan-lat2-no8" class="mt-6 p-5 bg-white rounded-lg hidden transition-all duration-300">
+    <h3 class="font-semibold text-lg text-green-700">Pembahasan:</h3>
+    <p>Tabung reaksi digunakan untuk menampung, mencampur, atau memanaskan larutan dalam jumlah kecil, terutama saat eksperimen kimia berlangsung.</p>
+    <p class="font-medium mt-3 text-[#4dd4a3] text-lg">Jawaban: C</p>
+  </div>
+</div>
+
+<!-- Soal 9 -->
+<div class="p-6 bg-yellow-100 rounded-lg shadow-md mt-6">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mt-6">Soal 9</h2>
+  <p class="mt-4 text-lg">
+    Seorang siswa ingin mengetahui pengaruh suhu terhadap laju pelarutan gula dalam air. Ia menggunakan gelas ukur, termometer, pengaduk, dan stopwatch. 
+    Namun, hasil percobaannya kurang akurat dan tidak konsisten.
+  </p>
+  <p class="mt-4 text-lg">
+    Berdasarkan informasi di atas, langkah perbaikan yang paling tepat agar hasil eksperimen lebih valid adalah...
+  </p>
+  <ul class="mt-4 text-lg">
+    <li><input type="radio" name="lat2soal9"> A. Mengganti gula dengan garam agar hasilnya berbeda</li>
+    <li><input type="radio" name="lat2soal9"> B. Menambah alat seperti timbangan digital untuk mengukur jumlah gula secara tepat</li>
+    <li><input type="radio" name="lat2soal9"> C. Mengaduk larutan lebih cepat dan mengganti termometer dengan alat pengukur tekanan</li>
+    <li><input type="radio" name="lat2soal9"> D. Mengulangi percobaan hanya sekali dengan alat yang sama</li>
+  </ul>
+
+  <button onclick="togglePembahasan('pembahasan-lat2-no9')" 
+      class="mt-6 px-5 py-3 bg-[#4dd4a3] text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition-all duration-300">
+      Lihat Pembahasan
+  </button>
+
+  <div id="pembahasan-lat2-no9" class="mt-6 p-5 bg-white rounded-lg hidden transition-all duration-300">
+    <h3 class="font-semibold text-lg text-green-700">Pembahasan:</h3>
+    <p>Untuk meningkatkan akurasi hasil, siswa perlu menggunakan alat ukur yang lebih presisi seperti timbangan digital untuk memastikan jumlah gula yang sama setiap percobaan.</p>
+    <p class="font-medium mt-3 text-[#4dd4a3] text-lg">Jawaban: B</p>
+  </div>
+</div>
+
+<!-- Soal 10 -->
+<div class="p-6 bg-yellow-100 rounded-lg shadow-md mt-6">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mt-6">Soal 10</h2>
+  <p class="mt-4 text-lg">
+    Dalam suatu percobaan, seorang siswa mengamati perubahan warna kertas lakmus saat dicelupkan ke dalam beberapa larutan. Ia mencatat hasil sebagai berikut:
+  </p>
+
+  <ul class="mt-4 text-lg list-disc ml-6">
+    <li>Kertas lakmus merah berubah menjadi biru saat dicelupkan ke dalam larutan A</li>
+    <li>Kertas lakmus biru berubah menjadi merah dalam larutan B</li>
+    <li>Tidak terjadi perubahan warna pada kertas lakmus dalam larutan C</li>
+  </ul>
+
+  <p class="mt-4 text-lg">
+    Jika kamu adalah guru IPA, alat dan bahan apa saja yang harus disediakan untuk mengulangi percobaan tersebut secara lengkap dan aman?
+  </p>
+
+  <ul class="mt-4 text-lg">
+    <li><input type="radio" name="lat2soal10"> A. Gelas ukur, pH meter digital, larutan netral, larutan asam</li>
+    <li><input type="radio" name="lat2soal10"> B. Kertas lakmus, air, neraca, larutan asam dan basa</li>
+    <li><input type="radio" name="lat2soal10"> C. Kertas lakmus merah dan biru, gelas kimia, larutan A, B, dan C</li>
+    <li><input type="radio" name="lat2soal10"> D. Alkohol, pembakar spiritus, pipet tetes, air mineral</li>
+  </ul>
+
+  <button onclick="togglePembahasan('pembahasan-lat2-no10')" 
+      class="mt-6 px-5 py-3 bg-[#4dd4a3] text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition-all duration-300">
+      Lihat Pembahasan
+  </button>
+
+  <div id="pembahasan-lat2-no10" class="mt-6 p-5 bg-white rounded-lg hidden transition-all duration-300">
+    <h3 class="font-semibold text-lg text-green-700">Pembahasan:</h3>
+    <p>Untuk melakukan percobaan identifikasi larutan asam, basa, dan netral menggunakan kertas lakmus, diperlukan alat dan bahan: kertas lakmus merah dan biru, gelas kimia untuk tempat larutan, serta larutan A, B, dan C.</p>
+    <p class="font-medium mt-3 text-[#4dd4a3] text-lg">Jawaban: C</p>
+  </div>
+</div><br>
+
+
+<div id="3.-Rancangan-dan-Laporan-Percobaan">
+    <p class="text-xl font-semibold mb-4 text-[#4dd4a3]">3. Rancangan dan Laporan Percobaan</p>
+    <p class="mt-2 ml-4">Percobaan ilmiah merupakan bagian penting dalam sains karena memungkinkan siswa untuk memahami konsep melalui pengalaman langsung. Rancangan yang baik dan pelaporan yang jelas sangat membantu dalam menyusun kesimpulan yang valid dari percobaan.</p>
+</div><br>
+
+<div id="3.1-Merancang-Percobaan-Metode-Ilmiah">
+    <p class="text-xl font-semibold mb-4 text-[#4dd4a3]">3.1 Merancang Percobaan dengan Metode Ilmiah</p>
+    <p class="mt-2 ml-4">Merancang percobaan melibatkan perencanaan secara sistematis untuk menguji hipotesis. Langkah-langkahnya meliputi:</p>
+    <ul class="mt-2 ml-8 list-disc">
+        <li>Menentukan topik atau masalah yang akan dikaji.</li>
+        <li>Merumuskan tujuan percobaan.</li>
+        <li>Menyusun hipotesis sebagai dugaan sementara.</li>
+        <li>Menentukan alat dan bahan yang diperlukan.</li>
+        <li>Menentukan langkah kerja atau prosedur.</li>
+        <li>Menentukan cara pengumpulan dan analisis data.</li>
+    </ul>
+</div><br>
+
+<div id="3.2-Identifikasi-Variabel-Percobaan">
+    <p class="text-xl font-semibold mb-4 text-[#4dd4a3]">3.2 Mengidentifikasi Variabel dalam Percobaan</p>
+    <p class="mt-2 ml-4">Dalam suatu percobaan, terdapat beberapa jenis variabel yang perlu diidentifikasi:</p>
+    <ul class="mt-2 ml-8 list-disc">
+        <li><strong>Variabel bebas</strong>: Variabel yang diubah atau dimanipulasi oleh peneliti.</li>
+        <li><strong>Variabel terikat</strong>: Variabel yang diamati atau diukur sebagai hasil dari perubahan variabel bebas.</li>
+        <li><strong>Variabel kontrol</strong>: Variabel yang dijaga tetap agar tidak memengaruhi hasil percobaan.</li>
+    </ul>
+</div><br>
+
+<div id="3.3-Mencatat-dan-Menyajikan-Data">
+    <p class="text-xl font-semibold mb-4 text-[#4dd4a3]">3.3 Mencatat dan Menyajikan Data dalam Grafik</p>
+    <p class="mt-2 ml-4">Data hasil percobaan perlu dicatat secara rapi dalam bentuk tabel, kemudian disajikan dalam bentuk grafik agar lebih mudah dianalisis. Jenis grafik yang umum digunakan antara lain:</p>
+    <ul class="mt-2 ml-8 list-disc">
+        <li>Grafik batang (bar chart): Untuk membandingkan data antar kategori.</li>
+        <li>Grafik garis (line chart): Untuk menunjukkan tren atau perubahan dari waktu ke waktu.</li>
+        <li>Grafik lingkaran (pie chart): Untuk menunjukkan proporsi.</li>
+    </ul>
+</div><br>
+
+<div id="3.4-Menulis-Kesimpulan-Percobaan">
+    <p class="text-xl font-semibold mb-4 text-[#4dd4a3]">3.4 Menulis Kesimpulan dari Percobaan</p>
+    <p class="mt-2 ml-4">Kesimpulan adalah hasil akhir dari percobaan yang merujuk pada data yang diperoleh. Dalam menulis kesimpulan, perlu memperhatikan hal berikut:</p>
+    <ul class="mt-2 ml-8 list-disc">
+        <li>Kesimpulan harus berdasarkan data yang diperoleh, bukan dugaan.</li>
+        <li>Menyebutkan apakah hipotesis terbukti benar atau tidak.</li>
+        <li>Gunakan kalimat ringkas, jelas, dan ilmiah.</li>
+    </ul>
+
+    <div class="p-4 bg-[#4dd4a3] rounded-lg shadow-md mt-4">
+        <p class="font-semibold">Contoh :</p>
+    <p class="font-semibold">Judul Percobaan:</p> <br>
+	<p class="text-white text-center font-bold">Pengaruh Intensitas Cahaya Terhadap Pertumbuhan Tanaman Kacang Hijau</p><br>
+        <p class="font-semibold">Identifikasi Variabel</p>
+    <ul class="mt-2 ml-6 list-disc">
+        <li><strong>Variabel bebas:</strong> Intensitas cahaya (terang, redup, gelap)</li>
+        <li><strong>Variabel terikat:</strong> Tinggi pertumbuhan tanaman kacang hijau (dalam cm)</li>
+        <li><strong>Variabel kontrol:</strong> Jenis tanaman, jumlah air, media tanam, ukuran pot, waktu pengamatan</li>
+    </ul><br>
+<p class="font-semibold">Rancangan Percobaan</p>
+    <p class="mt-2 ml-4">Tujuan: Mengetahui pengaruh intensitas cahaya terhadap pertumbuhan tanaman kacang hijau.</p>
+    <p class="mt-2 ml-4">Langkah-langkah:</p>
+    <ul class="mt-2 ml-8 list-decimal">
+        <li>Siapkan 3 pot berisi media tanam dan benih kacang hijau.</li>
+        <li>Letakkan pot 1 di tempat terang (dekat jendela), pot 2 di tempat redup, dan pot 3 di tempat gelap.</li>
+        <li>Siram masing-masing pot dengan jumlah air yang sama setiap hari.</li>
+        <li>Amati dan ukur tinggi tanaman setiap hari selama 7 hari.</li>
+        <li>Catat data pertumbuhan dan sajikan dalam bentuk grafik.</li>
+    </ul>
+<style>
+  .grid-visual {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 24px;
+    margin-top: 24px;
+  }
+
+  .chart-container {
+    border: 1px solid #ccc;
+    border-radius: 12px;
+    padding: 16px;
+    background-color: #f9f9f9;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 8px;
+  }
+
+  table, th, td {
+    border: 1px solid #999;
+  }
+
+  th, td {
+    padding: 10px;
+    text-align: center;
+  }
+
+  th {
+    background-color: #4dd4a3;
+    color: white;
+  }
+</style>
+
+<!-- Judul -->
+<h2 class="text-xl font-bold text-[#4dd4a3] mt-8 mb-4">Tabel & Grafik Pertumbuhan Tanaman Kacang Hijau</h2>
+
+<!-- Tabel Data -->
+<div class="chart-container">
+  <h3 class="font-semibold mb-2 text-[#4dd4a3]">Tabel Hasil Pengamatan (Hari ke-7)</h3>
+  <table>
+    <thead>
+      <tr>
+        <th>Intensitas Cahaya</th>
+        <th>Tinggi Tanaman (cm)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Terang</td>
+        <td>14</td>
+      </tr>
+      <tr>
+        <td>Redup</td>
+        <td>9</td>
+      </tr>
+      <tr>
+        <td>Gelap</td>
+        <td>3</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Grid Layout untuk Grafik -->
+<div class="grid-visual">
+
+  <!-- Diagram Batang -->
+  <div class="chart-container">
+    <h3 class="font-semibold mb-2 text-[#4dd4a3]">Grafik Batang</h3>
+    <svg width="100%" height="250" viewBox="0 0 400 250">
+      <!-- Sumbu -->
+      <line x1="50" y1="200" x2="350" y2="200" stroke="black" />
+      <line x1="50" y1="30" x2="50" y2="200" stroke="black" />
+
+      <!-- Label Y -->
+      <text x="35" y="205" font-size="12">0</text>
+      <text x="30" y="165" font-size="12">5</text>
+      <text x="25" y="125" font-size="12">10</text>
+      <text x="25" y="85" font-size="12">15</text>
+
+      <!-- Bar: tinggi sesuai data -->
+      <!-- Terang: 14cm = 140px -->
+      <rect x="70" y="90" width="50" height="110" fill="#4dd4a3" />
+      <text x="75" y="215" font-size="12">Terang</text>
+
+      <!-- Redup: 9cm = 90px -->
+      <rect x="150" y="125" width="50" height="75" fill="#f9a825" />
+      <text x="155" y="215" font-size="12">Redup</text>
+
+      <!-- Gelap: 3cm = 30px -->
+      <rect x="230" y="170" width="50" height="30" fill="#d32f2f" />
+      <text x="235" y="215" font-size="12">Gelap</text>
+    </svg>
+  </div>
+
+  <!-- Diagram Garis -->
+  <div class="chart-container">
+    <h3 class="font-semibold mb-2 text-[#4dd4a3]">Grafik Garis</h3>
+    <svg width="100%" height="250" viewBox="0 0 400 250">
+      <!-- Sumbu -->
+      <line x1="50" y1="200" x2="350" y2="200" stroke="black" />
+      <line x1="50" y1="30" x2="50" y2="200" stroke="black" />
+
+      <!-- Label Y -->
+      <text x="35" y="205" font-size="12">0</text>
+      <text x="30" y="165" font-size="12">5</text>
+      <text x="25" y="125" font-size="12">10</text>
+      <text x="25" y="85" font-size="12">15</text>
+
+      <!-- Label X -->
+      <text x="80" y="215" font-size="12">Terang</text>
+      <text x="160" y="215" font-size="12">Redup</text>
+      <text x="240" y="215" font-size="12">Gelap</text>
+
+      <!-- Titik dan Garis -->
+      <circle cx="90" cy="90" r="5" fill="#4dd4a3" />
+      <circle cx="170" cy="125" r="5" fill="#f9a825" />
+      <circle cx="250" cy="170" r="5" fill="#d32f2f" />
+
+      <polyline points="90,90 170,125 250,170"
+        fill="none" stroke="#888" stroke-width="2" />
+
+    </svg>
+  </div>
+</div>
+    <p class="font-semibold">Kesimpulan</p>
+    <p class="mt-2 ml-4">Berdasarkan hasil pengamatan, tanaman yang diletakkan di tempat terang tumbuh paling tinggi (14 cm), sedangkan yang di tempat gelap hanya tumbuh 3 cm. Hal ini menunjukkan bahwa intensitas cahaya sangat memengaruhi pertumbuhan tanaman kacang hijau. Semakin tinggi intensitas cahaya, semakin besar pertumbuhan yang terjadi. Maka, hipotesis bahwa “cahaya memengaruhi pertumbuhan tanaman” terbukti benar.</p>
+ </div>
+</div><br>
+
+<p class="text-2xl text-[#4dd4a3] font-semibold">Latihan 3</p>
+
+<!-- Soal 1 -->
+<div class="p-6 bg-yellow-100 rounded-lg shadow-md mt-6">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mt-6">Soal 1</h2>
+  <p class="mt-4 text-lg">
+    Seorang siswa ingin mengetahui pengaruh jenis pupuk terhadap pertumbuhan tanaman cabai. Ia menanam 3 tanaman cabai yang diberi pupuk berbeda: kompos, urea, dan NPK. Tanaman disiram dan diletakkan di tempat yang sama.
+  </p>
+  <p class="mt-4 text-lg">
+    Berdasarkan informasi di atas, yang termasuk variabel bebas adalah...
+  </p>
+  <ul class="mt-4 text-lg">
+    <li><input type="radio" name="lat3soal1"> A. Pertumbuhan tanaman cabai</li>
+    <li><input type="radio" name="lat3soal1"> B. Jenis pupuk</li>
+    <li><input type="radio" name="lat3soal1"> C. Jumlah air</li>
+    <li><input type="radio" name="lat3soal1"> D. Jenis tanaman</li>
+  </ul>
+  <button onclick="togglePembahasan('pembahasan-lat3-no1')" 
+      class="mt-6 px-5 py-3 bg-[#4dd4a3] text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition-all duration-300">
+      Lihat Pembahasan
+  </button>
+  <div id="pembahasan-lat3-no1" class="mt-6 p-5 bg-white rounded-lg hidden transition-all duration-300">
+    <h3 class="font-semibold text-lg text-green-700">Pembahasan:</h3>
+    <p>Variabel bebas adalah variabel yang diubah-ubah, dalam hal ini adalah jenis pupuk.</p>
+    <p class="font-medium mt-3 text-[#4dd4a3] text-lg">Jawaban: B</p>
+  </div>
+</div>
+
+<!-- Soal 2 -->
+<div class="p-6 bg-yellow-100 rounded-lg shadow-md mt-6">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mt-6">Soal 2</h2>
+  <p class="mt-4 text-lg">
+    Dalam percobaan yang sama, siswa mencatat tinggi tanaman selama 5 minggu. Ia membuat grafik garis untuk menunjukkan pertumbuhan.
+  </p>
+  <p class="mt-4 text-lg">
+    Manakah grafik yang paling tepat digunakan untuk menyajikan data tinggi tanaman dari minggu ke minggu?
+  </p>
+  <ul class="mt-4 text-lg">
+    <li><input type="radio" name="lat3soal2"> A. Grafik lingkaran</li>
+    <li><input type="radio" name="lat3soal2"> B. Grafik batang</li>
+    <li><input type="radio" name="lat3soal2"> C. Grafik garis</li>
+    <li><input type="radio" name="lat3soal2"> D. Grafik histogram</li>
+  </ul>
+  <button onclick="togglePembahasan('pembahasan-lat3-no2')" 
+      class="mt-6 px-5 py-3 bg-[#4dd4a3] text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition-all duration-300">
+      Lihat Pembahasan
+  </button>
+  <div id="pembahasan-lat3-no2" class="mt-6 p-5 bg-white rounded-lg hidden transition-all duration-300">
+    <h3 class="font-semibold text-lg text-green-700">Pembahasan:</h3>
+    <p>Grafik garis digunakan untuk menyajikan data perubahan terhadap waktu, seperti pertumbuhan tanaman dari minggu ke minggu.</p>
+    <p class="font-medium mt-3 text-[#4dd4a3] text-lg">Jawaban: C</p>
+  </div>
+</div>
+
+<!-- Soal 3 -->
+<div class="p-6 bg-yellow-100 rounded-lg shadow-md mt-6">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mt-6">Soal 3</h2>
+  <p class="mt-4 text-lg">
+    Berikut adalah tabel hasil pengamatan tinggi tanaman cabai selama 5 minggu.
+  </p>
+
+  <table class="w-full mt-4 table-auto border-collapse border border-green-700">
+    <thead class="bg-green-700 text-white">
+      <tr>
+        <th class="border border-green-700 p-2">Minggu</th>
+        <th class="border border-green-700 p-2">Tinggi (cm)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="border border-green-700 p-2">1</td>
+        <td class="border border-green-700 p-2">3</td>
+      </tr>
+      <tr>
+        <td class="border border-green-700 p-2">2</td>
+        <td class="border border-green-700 p-2">6</td>
+      </tr>
+      <tr>
+        <td class="border border-green-700 p-2">3</td>
+        <td class="border border-green-700 p-2">9</td>
+      </tr>
+      <tr>
+        <td class="border border-green-700 p-2">4</td>
+        <td class="border border-green-700 p-2">12</td>
+      </tr>
+      <tr>
+        <td class="border border-green-700 p-2">5</td>
+        <td class="border border-green-700 p-2">15</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p class="mt-4 text-lg">
+    Berdasarkan data di atas, kesimpulan yang paling tepat adalah...
+  </p>
+  <ul class="mt-4 text-lg">
+    <li><input type="radio" name="lat3soal3"> A. Tanaman tumbuh tidak teratur</li>
+    <li><input type="radio" name="lat3soal3"> B. Pertumbuhan berhenti pada minggu ke-3</li>
+    <li><input type="radio" name="lat3soal3"> C. Tinggi tanaman bertambah secara konsisten setiap minggu</li>
+    <li><input type="radio" name="lat3soal3"> D. Tinggi tanaman tidak berpengaruh terhadap waktu</li>
+  </ul>
+
+  <button onclick="togglePembahasan('pembahasan-lat3-no3')" 
+      class="mt-6 px-5 py-3 bg-[#4dd4a3] text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition-all duration-300">
+      Lihat Pembahasan
+  </button>
+  <div id="pembahasan-lat3-no3" class="mt-6 p-5 bg-white rounded-lg hidden transition-all duration-300">
+    <h3 class="font-semibold text-lg text-green-700">Pembahasan:</h3>
+    <p>Tinggi tanaman meningkat sebesar 3 cm setiap minggu, menunjukkan pola pertumbuhan yang konsisten.</p>
+    <p class="font-medium mt-3 text-[#4dd4a3] text-lg">Jawaban: C</p>
+  </div>
+</div>
+
+<!-- Soal 4 -->
+<div class="p-6 bg-yellow-100 rounded-lg shadow-md mt-6">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mt-6">Soal 4</h2>
+  <p class="mt-4 text-lg">
+    Jika kamu ingin menyelidiki pengaruh intensitas cahaya terhadap fotosintesis, langkah pertama yang sebaiknya dilakukan dalam merancang percobaan ilmiah adalah...
+  </p>
+  <ul class="mt-4 text-lg">
+    <li><input type="radio" name="lat3soal4"> A. Menyiapkan laporan percobaan</li>
+    <li><input type="radio" name="lat3soal4"> B. Mengidentifikasi alat dan bahan</li>
+    <li><input type="radio" name="lat3soal4"> C. Menyusun hipotesis berdasarkan masalah</li>
+    <li><input type="radio" name="lat3soal4"> D. Menuliskan kesimpulan terlebih dahulu</li>
+  </ul>
+  <button onclick="togglePembahasan('pembahasan-lat3-no4')" 
+      class="mt-6 px-5 py-3 bg-[#4dd4a3] text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition-all duration-300">
+      Lihat Pembahasan
+  </button>
+  <div id="pembahasan-lat3-no4" class="mt-6 p-5 bg-white rounded-lg hidden transition-all duration-300">
+    <h3 class="font-semibold text-lg text-green-700">Pembahasan:</h3>
+    <p>Langkah pertama dalam metode ilmiah adalah merumuskan masalah dan hipotesis, lalu baru dilanjutkan dengan merancang alat dan bahan.</p>
+    <p class="font-medium mt-3 text-[#4dd4a3] text-lg">Jawaban: C</p>
+  </div>
+</div>
+<!-- Soal 5 -->
+<div class="p-6 bg-yellow-100 rounded-lg shadow-md mt-6">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mt-6">Soal 5</h2>
+  <p class="mt-4 text-lg">
+    Seorang siswa mengamati bahwa tanaman yang diletakkan di dekat jendela tumbuh lebih cepat dibandingkan dengan yang diletakkan di sudut ruangan. 
+    Bagaimana kamu merancang sebuah percobaan untuk membuktikan bahwa cahaya matahari memengaruhi pertumbuhan tanaman?
+  </p>
+  <ul class="mt-4 text-lg">
+    <li><input type="radio" name="lat3soal5"> A. Meletakkan semua tanaman di tempat terang dan mencatat pertumbuhannya.</li>
+    <li><input type="radio" name="lat3soal5"> B. Menggunakan jenis pupuk berbeda pada setiap tanaman dan mencatat pertumbuhannya.</li>
+    <li><input type="radio" name="lat3soal5"> C. Menempatkan tanaman yang sama di tempat berbeda (terkena cahaya dan tidak terkena cahaya) dan mencatat pertumbuhan setiap minggu.</li>
+    <li><input type="radio" name="lat3soal5"> D. Memberi air lebih banyak pada tanaman di tempat gelap agar tumbuh lebih cepat.</li>
+  </ul>
+  <button onclick="togglePembahasan('pembahasan-lat3-no5')" 
+      class="mt-6 px-5 py-3 bg-[#4dd4a3] text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition-all duration-300">
+      Lihat Pembahasan
+  </button>
+  <div id="pembahasan-lat3-no5" class="mt-6 p-5 bg-white rounded-lg hidden transition-all duration-300">
+    <h3 class="font-semibold text-lg text-green-700">Pembahasan:</h3>
+    <p>Untuk membuktikan pengaruh cahaya terhadap pertumbuhan tanaman, kamu harus membuat perlakuan yang berbeda dalam hal pencahayaan dan menjaga variabel lain tetap sama (kontrol).</p>
+    <p class="font-medium mt-3 text-[#4dd4a3] text-lg">Jawaban: C</p>
+  </div>
+</div>
+
+<!-- Soal 6 -->
+<div class="p-6 bg-yellow-100 rounded-lg shadow-md mt-6">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mt-6">Soal 6</h2>
+  <p class="mt-4 text-lg">
+    Siswa mengamati bahwa es batu mencair lebih cepat di atas logam dibandingkan di atas plastik. Rancanglah percobaan sederhana untuk membuktikan pengamatan tersebut.
+  </p>
+  <ul class="mt-4 text-lg">
+    <li><input type="radio" name="lat3soal6"> A. Meletakkan es batu dalam freezer dan mencatat waktu pembekuannya.</li>
+    <li><input type="radio" name="lat3soal6"> B. Meletakkan es batu pada berbagai permukaan (logam, plastik, kaca) dan mengukur waktu pencairan es secara tepat.</li>
+    <li><input type="radio" name="lat3soal6"> C. Meletakkan es batu di tempat gelap dan terang lalu diamati.</li>
+    <li><input type="radio" name="lat3soal6"> D. Mengganti air es dengan air panas untuk membandingkan kecepatan pendinginan.</li>
+  </ul>
+  <button onclick="togglePembahasan('pembahasan-lat3-no6')" 
+      class="mt-6 px-5 py-3 bg-[#4dd4a3] text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition-all duration-300">
+      Lihat Pembahasan
+  </button>
+  <div id="pembahasan-lat3-no6" class="mt-6 p-5 bg-white rounded-lg hidden transition-all duration-300">
+    <h3 class="font-semibold text-lg text-green-700">Pembahasan:</h3>
+    <p>Rancangan percobaan yang tepat adalah dengan menggunakan berbagai jenis permukaan sebagai variabel bebas, dan mengukur waktu pencairan es batu sebagai variabel terikat.</p>
+    <p class="font-medium mt-3 text-[#4dd4a3] text-lg">Jawaban: B</p>
+  </div>
+</div>
+<!-- Soal 7 -->
+<div class="p-6 bg-yellow-100 rounded-lg shadow-md mt-6">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mt-6">Soal 7</h2>
+  <p class="mt-4 text-lg">
+    Seorang siswa ingin membuktikan bahwa tanaman membutuhkan air untuk tumbuh dengan menanam dua tanaman yang sama, 
+    satu disiram setiap hari dan yang lainnya tidak disiram sama sekali. <br><br>
+    Alat dan bahan yang dibutuhkan dalam percobaan ini adalah...
+  </p>
+
+  <ul class="mt-4 text-lg">
+    <li><input type="radio" name="lat3soal7"> A. Tanah, benih tanaman, pupuk, termometer</li>
+    <li><input type="radio" name="lat3soal7"> B. Benih tanaman, tanah, air, pot, alat penyiram</li>
+    <li><input type="radio" name="lat3soal7"> C. Pot bunga, lampu meja, stopwatch, air</li>
+    <li><input type="radio" name="lat3soal7"> D. Benih tanaman, kantong plastik, alkohol, pipet</li>
+  </ul>
+
+  <button onclick="togglePembahasan('pembahasan-lat3-no7')" 
+      class="mt-6 px-5 py-3 bg-[#4dd4a3] text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition-all duration-300">
+      Lihat Pembahasan
+  </button>
+
+  <div id="pembahasan-lat3-no7" class="mt-6 p-5 bg-white rounded-lg hidden transition-all duration-300">
+    <h3 class="font-semibold text-lg text-green-700">Pembahasan:</h3>
+    <p>Untuk membuktikan bahwa air dibutuhkan tanaman, alat dan bahan yang relevan adalah benih, pot, tanah, air, dan alat penyiram. Termometer dan alkohol tidak berkaitan langsung dengan tujuan percobaan.</p>
+    <p class="font-medium mt-3 text-[#4dd4a3] text-lg">Jawaban: B</p>
+  </div>
+</div>
+
+<!-- Soal 8 -->
+<div class="p-6 bg-yellow-100 rounded-lg shadow-md mt-6">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mt-6">Soal 8</h2>
+  <p class="mt-4 text-lg">
+    Seorang siswa ingin membuktikan bahwa panas memengaruhi kecepatan melarutnya gula dalam air. <br><br>
+    Alat dan bahan yang sesuai untuk percobaan tersebut adalah...
+  </p>
+
+  <ul class="mt-4 text-lg">
+    <li><input type="radio" name="lat3soal8"> A. Gula, air, kompor, gelas, termometer</li>
+    <li><input type="radio" name="lat3soal8"> B. Gula, air, garam, sendok, stopwatch</li>
+    <li><input type="radio" name="lat3soal8"> C. Air dingin, cuka, pengaduk, aluminium foil</li>
+    <li><input type="radio" name="lat3soal8"> D. Gula, air, tanah, termometer</li>
+  </ul>
+
+  <button onclick="togglePembahasan('pembahasan-lat3-no8')" 
+      class="mt-6 px-5 py-3 bg-[#4dd4a3] text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition-all duration-300">
+      Lihat Pembahasan
+  </button>
+
+  <div id="pembahasan-lat3-no8" class="mt-6 p-5 bg-white rounded-lg hidden transition-all duration-300">
+    <h3 class="font-semibold text-lg text-green-700">Pembahasan:</h3>
+    <p>Percobaan ini berkaitan dengan suhu dan larutan. Maka diperlukan bahan seperti air, gula, gelas, kompor untuk menghangatkan, dan termometer untuk mengukur suhu. Garam dan tanah tidak relevan.</p>
+    <p class="font-medium mt-3 text-[#4dd4a3] text-lg">Jawaban: A</p>
+  </div>
+</div>
+<!-- Soal 9 -->
+<div class="p-6 bg-yellow-100 rounded-lg shadow-md mt-6">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mt-6">Soal 9</h2>
+  <p class="mt-4 text-lg">
+    Judul percobaan: <strong>"Pengaruh Suhu Air terhadap Kecepatan Melarutnya Gula"</strong> <br><br>
+    Berdasarkan judul tersebut, manakah yang merupakan variabel bebas?
+  </p>
+
+  <ul class="mt-4 text-lg">
+    <li><input type="radio" name="lat3soal9"> A. Waktu melarut</li>
+    <li><input type="radio" name="lat3soal9"> B. Suhu air</li>
+    <li><input type="radio" name="lat3soal9"> C. Jumlah gula</li>
+    <li><input type="radio" name="lat3soal9"> D. Warna air</li>
+  </ul>
+
+  <button onclick="togglePembahasan('pembahasan-lat3-no9')" 
+      class="mt-6 px-5 py-3 bg-[#4dd4a3] text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition-all duration-300">
+      Lihat Pembahasan
+  </button>
+
+  <div id="pembahasan-lat3-no9" class="mt-6 p-5 bg-white rounded-lg hidden transition-all duration-300">
+    <h3 class="font-semibold text-lg text-green-700">Pembahasan:</h3>
+    <p>Variabel bebas adalah faktor yang diubah dalam percobaan untuk melihat pengaruhnya. Dalam percobaan ini, suhu air adalah variabel yang diubah-ubah untuk melihat pengaruhnya terhadap kecepatan melarutnya gula.</p>
+    <p class="font-medium mt-3 text-[#4dd4a3] text-lg">Jawaban: B. Suhu air</p>
+  </div>
+</div>
+
+<!-- Soal 10 -->
+<div class="p-6 bg-yellow-100 rounded-lg shadow-md mt-6">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mt-6">Soal 10</h2>
+  <p class="mt-4 text-lg">
+    Judul percobaan: <strong>"Pengaruh Intensitas Cahaya terhadap Laju Fotosintesis pada Tanaman Bayam"</strong> <br><br>
+    Berdasarkan judul tersebut, variabel bebas yang digunakan dalam percobaan adalah...
+  </p>
+
+  <ul class="mt-4 text-lg">
+    <li><input type="radio" name="lat3soal10"> A. Jenis tanaman</li>
+    <li><input type="radio" name="lat3soal10"> B. Laju fotosintesis</li>
+    <li><input type="radio" name="lat3soal10"> C. Intensitas cahaya</li>
+    <li><input type="radio" name="lat3soal10"> D. Ukuran daun</li>
+  </ul>
+
+  <button onclick="togglePembahasan('pembahasan-lat3-no10')" 
+      class="mt-6 px-5 py-3 bg-[#4dd4a3] text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition-all duration-300">
+      Lihat Pembahasan
+  </button>
+
+  <div id="pembahasan-lat3-no10" class="mt-6 p-5 bg-white rounded-lg hidden transition-all duration-300">
+    <h3 class="font-semibold text-lg text-green-700">Pembahasan:</h3>
+    <p>Variabel bebas adalah faktor yang dimanipulasi oleh peneliti. Dalam judul ini, intensitas cahaya adalah faktor yang diubah untuk mengamati pengaruhnya terhadap laju fotosintesis.</p>
+    <p class="font-medium mt-3 text-[#4dd4a3] text-lg">Jawaban: C. Intensitas cahaya</p>
+  </div>
+</div>
+<!-- Soal 11 -->
+<div class="p-6 bg-yellow-100 rounded-lg shadow-md mt-6">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mt-6">Soal 11</h2>
+  <p class="mt-4 text-lg">
+    Hasil percobaan menunjukkan bahwa semakin tinggi suhu air, semakin cepat waktu melarutnya gula. Berikut data hasil pengamatan:
+  </p>
+
+  <table class="table-auto border border-black mt-4 mx-auto text-center text-lg">
+    <thead class="bg-[#4dd4a3] text-white">
+      <tr>
+        <th class="px-4 py-2 border border-black">Suhu Air (°C)</th>
+        <th class="px-4 py-2 border border-black">Waktu Melarut (detik)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td class="border border-black px-4 py-2">30</td><td class="border border-black px-4 py-2">60</td></tr>
+      <tr><td class="border border-black px-4 py-2">40</td><td class="border border-black px-4 py-2">50</td></tr>
+      <tr><td class="border border-black px-4 py-2">50</td><td class="border border-black px-4 py-2">40</td></tr>
+      <tr><td class="border border-black px-4 py-2">60</td><td class="border border-black px-4 py-2">30</td></tr>
+    </tbody>
+  </table>
+
+  <p class="mt-6 text-lg">Berdasarkan data di atas, perhatikan grafik garis berikut yang menunjukkan hubungan antara suhu air dan waktu melarut:</p>
+
+  <!-- Grafik Garis SVG -->
+  <svg width="400" height="300" class="mt-6 mx-auto">
+    <!-- Grid -->
+    <rect width="100%" height="100%" fill="white" />
+    <g stroke="#065f46" stroke-width="1">
+      <!-- Horizontal grid lines -->
+      <line x1="40" y1="260" x2="360" y2="260" />
+      <line x1="40" y1="200" x2="360" y2="200" />
+      <line x1="40" y1="140" x2="360" y2="140" />
+      <line x1="40" y1="80" x2="360" y2="80" />
+      <line x1="40" y1="20" x2="360" y2="20" />
+      <!-- Vertical grid lines -->
+      <line x1="40" y1="20" x2="40" y2="260" />
+      <line x1="100" y1="20" x2="100" y2="260" />
+      <line x1="160" y1="20" x2="160" y2="260" />
+      <line x1="220" y1="20" x2="220" y2="260" />
+      <line x1="280" y1="20" x2="280" y2="260" />
+      <line x1="340" y1="20" x2="340" y2="260" />
+    </g>
+
+    <!-- Sumbu -->
+    <line x1="40" y1="260" x2="360" y2="260" stroke="black" />
+    <line x1="40" y1="260" x2="40" y2="20" stroke="black" />
+
+    <!-- Titik Data dan Garis -->
+    <polyline fill="none" stroke="#4dd4a3" stroke-width="3"
+      points="70,140 130,160 190,180 250,200" />
+    <circle cx="70" cy="140" r="5" fill="#4dd4a3" />
+    <circle cx="130" cy="160" r="5" fill="#4dd4a3" />
+    <circle cx="190" cy="180" r="5" fill="#4dd4a3" />
+    <circle cx="250" cy="200" r="5" fill="#4dd4a3" />
+
+    <!-- Label -->
+    <text x="60" y="275" font-size="12">30°C</text>
+    <text x="120" y="275" font-size="12">40°C</text>
+    <text x="180" y="275" font-size="12">50°C</text>
+    <text x="240" y="275" font-size="12">60°C</text>
+    <text x="10" y="260" font-size="12">0</text>
+    <text x="10" y="220" font-size="12">20</text>
+    <text x="10" y="180" font-size="12">40</text>
+    <text x="10" y="140" font-size="12">60</text>
+  </svg>
+
+  <p class="mt-6 text-lg">Pertanyaan: Apa hubungan antara suhu air dengan waktu melarutnya gula berdasarkan grafik?</p>
+
+  <ul class="mt-4 text-lg">
+    <li><input type="radio" name="lat3soal11"> A. Semakin tinggi suhu, semakin lama gula melarut</li>
+    <li><input type="radio" name="lat3soal11"> B. Suhu tidak mempengaruhi pelarutan gula</li>
+    <li><input type="radio" name="lat3soal11"> C. Semakin tinggi suhu, semakin cepat gula melarut</li>
+    <li><input type="radio" name="lat3soal11"> D. Gula melarut lebih cepat pada suhu rendah</li>
+  </ul>
+
+  <button onclick="togglePembahasan('pembahasan-lat3-no11')" 
+      class="mt-6 px-5 py-3 bg-[#4dd4a3] text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition-all duration-300">
+      Lihat Pembahasan
+  </button>
+
+  <div id="pembahasan-lat3-no11" class="mt-6 p-5 bg-white rounded-lg hidden transition-all duration-300">
+    <h3 class="font-semibold text-lg text-green-700">Pembahasan:</h3>
+    <p>Berdasarkan grafik, terlihat bahwa semakin tinggi suhu air, waktu yang dibutuhkan untuk melarutkan gula menjadi lebih singkat. Artinya, suhu berbanding terbalik dengan waktu melarut.</p>
+    <p class="font-medium mt-3 text-[#4dd4a3] text-lg">Jawaban: C. Semakin tinggi suhu, semakin cepat gula melarut</p>
+  </div>
+</div>
+<!-- Soal 12 -->
+<div class="p-6 bg-yellow-100 rounded-lg shadow-md mt-6">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mt-6">Soal 12</h2>
+  <p class="mt-4 text-lg">
+    Seorang siswa melakukan percobaan untuk mengetahui pengaruh intensitas cahaya terhadap proses fotosintesis. Hasilnya diukur berdasarkan jumlah gelembung oksigen yang dihasilkan tanaman air dalam waktu 1 menit.
+  </p>
+
+  <table class="table-auto border border-black mt-4 mx-auto text-center text-lg">
+    <thead class="bg-[#4dd4a3] text-white">
+      <tr>
+        <th class="px-4 py-2 border border-black">Intensitas Cahaya (lux)</th>
+        <th class="px-4 py-2 border border-black">Jumlah Gelembung Oksigen / Menit</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td class="border border-black px-4 py-2">100</td><td class="border border-black px-4 py-2">5</td></tr>
+      <tr><td class="border border-black px-4 py-2">200</td><td class="border border-black px-4 py-2">10</td></tr>
+      <tr><td class="border border-black px-4 py-2">300</td><td class="border border-black px-4 py-2">15</td></tr>
+      <tr><td class="border border-black px-4 py-2">400</td><td class="border border-black px-4 py-2">20</td></tr>
+    </tbody>
+  </table>
+
+  <p class="mt-6 text-lg">Berikut adalah grafik batang hasil pengamatan tersebut:</p>
+
+  <!-- Grafik Batang SVG -->
+  <svg width="400" height="300" class="mt-6 mx-auto">
+    <!-- Background -->
+    <rect width="100%" height="100%" fill="white" />
+    
+    <!-- Grid -->
+    <g stroke="#065f46" stroke-width="1">
+      <!-- Horizontal lines -->
+      <line x1="50" y1="250" x2="360" y2="250" />
+      <line x1="50" y1="200" x2="360" y2="200" />
+      <line x1="50" y1="150" x2="360" y2="150" />
+      <line x1="50" y1="100" x2="360" y2="100" />
+      <line x1="50" y1="50" x2="360" y2="50" />
+      <!-- Vertical axis -->
+      <line x1="50" y1="250" x2="50" y2="30" stroke="black" />
+      <!-- Horizontal axis -->
+      <line x1="50" y1="250" x2="360" y2="250" stroke="black" />
+    </g>
+
+    <!-- Bars -->
+    <rect x="80" y="200" width="40" height="50" fill="#4dd4a3" />
+    <rect x="140" y="150" width="40" height="100" fill="#4dd4a3" />
+    <rect x="200" y="100" width="40" height="150" fill="#4dd4a3" />
+    <rect x="260" y="50"  width="40" height="200" fill="#4dd4a3" />
+
+    <!-- Labels -->
+    <text x="85" y="270" font-size="12">100 lux</text>
+    <text x="145" y="270" font-size="12">200 lux</text>
+    <text x="205" y="270" font-size="12">300 lux</text>
+    <text x="265" y="270" font-size="12">400 lux</text>
+
+    <text x="10" y="255" font-size="12">0</text>
+    <text x="10" y="205" font-size="12">5</text>
+    <text x="10" y="155" font-size="12">10</text>
+    <text x="10" y="105" font-size="12">15</text>
+    <text x="10" y="55"  font-size="12">20</text>
+  </svg>
+
+  <p class="mt-6 text-lg">
+    Berdasarkan grafik batang di atas, bagaimana hubungan antara intensitas cahaya dan jumlah gelembung oksigen yang terbentuk?
+  </p>
+
+  <ul class="mt-4 text-lg">
+    <li><input type="radio" name="lat3soal12"> A. Semakin besar intensitas cahaya, jumlah gelembung berkurang</li>
+    <li><input type="radio" name="lat3soal12"> B. Intensitas cahaya tidak berpengaruh</li>
+    <li><input type="radio" name="lat3soal12"> C. Semakin tinggi intensitas cahaya, semakin banyak gelembung terbentuk</li>
+    <li><input type="radio" name="lat3soal12"> D. Gelembung hanya muncul pada intensitas cahaya rendah</li>
+  </ul>
+
+  <button onclick="togglePembahasan('pembahasan-lat3-no12')" 
+      class="mt-6 px-5 py-3 bg-[#4dd4a3] text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition-all duration-300">
+      Lihat Pembahasan
+  </button>
+
+  <div id="pembahasan-lat3-no12" class="mt-6 p-5 bg-white rounded-lg hidden transition-all duration-300">
+    <h3 class="font-semibold text-lg text-green-700">Pembahasan:</h3>
+    <p>Grafik menunjukkan bahwa semakin tinggi intensitas cahaya, semakin banyak jumlah gelembung yang terbentuk. Hal ini menunjukkan bahwa fotosintesis berlangsung lebih cepat pada intensitas cahaya tinggi.</p>
+    <p class="font-medium mt-3 text-[#4dd4a3] text-lg">Jawaban: C. Semakin tinggi intensitas cahaya, semakin banyak gelembung terbentuk</p>
+  </div>
+</div>
+<div class="p-6 bg-yellow-100 rounded-lg shadow-md mt-6">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mt-6">Soal 13</h2>
+  <p class="mt-4 text-lg">
+    Seorang siswa ingin mengetahui pengaruh suhu terhadap laju pelarutan gula. Ia melakukan percobaan dengan melarutkan 1 sendok teh gula dalam 100 ml air pada suhu berbeda. Berikut data yang diperoleh:
+  </p>
+
+  <table class="table-auto border border-black mt-4 mx-auto text-center text-lg">
+    <thead class="bg-[#4dd4a3] text-white">
+      <tr>
+        <th class="px-4 py-2 border border-black">Suhu Air (°C)</th>
+        <th class="px-4 py-2 border border-black">Waktu Larut (detik)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td class="border border-black px-4 py-2">20</td><td class="border border-black px-4 py-2">120</td></tr>
+      <tr><td class="border border-black px-4 py-2">40</td><td class="border border-black px-4 py-2">75</td></tr>
+      <tr><td class="border border-black px-4 py-2">60</td><td class="border border-black px-4 py-2">45</td></tr>
+      <tr><td class="border border-black px-4 py-2">80</td><td class="border border-black px-4 py-2">25</td></tr>
+    </tbody>
+  </table>
+
+  <p class="mt-6 text-lg">Dari data di atas, manakah kesimpulan yang paling tepat?</p>
+
+  <ul class="mt-4 text-lg">
+    <li><input type="radio" name="lat3soal13"> A. Gula larut lebih cepat jika suhu air lebih rendah</li>
+    <li><input type="radio" name="lat3soal13"> B. Suhu tidak memengaruhi waktu larut gula</li>
+    <li><input type="radio" name="lat3soal13"> C. Semakin tinggi suhu air, semakin lama gula larut</li>
+    <li><input type="radio" name="lat3soal13"> D. Semakin tinggi suhu air, semakin cepat gula larut</li>
+  </ul>
+
+  <button onclick="togglePembahasan('pembahasan-lat3-no13')" 
+      class="mt-6 px-5 py-3 bg-[#4dd4a3] text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition-all duration-300">
+      Lihat Pembahasan
+  </button>
+
+  <div id="pembahasan-lat3-no13" class="mt-6 p-5 bg-white rounded-lg hidden transition-all duration-300">
+    <h3 class="font-semibold text-lg text-green-700">Pembahasan:</h3>
+    <p>Data menunjukkan bahwa semakin tinggi suhu, waktu yang dibutuhkan untuk melarutkan gula semakin singkat.</p>
+    <p class="font-medium mt-3 text-[#4dd4a3] text-lg">Jawaban: D. Semakin tinggi suhu air, semakin cepat gula larut</p>
+  </div>
+</div>
+<div class="p-6 bg-yellow-100 rounded-lg shadow-md mt-6">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mt-6">Soal 14</h2>
+  <p class="mt-4 text-lg">
+    Dalam percobaan untuk mengetahui pengaruh cahaya terhadap pertumbuhan tanaman, 3 pot tanaman diberi perlakuan berbeda selama 10 hari:
+  </p>
+
+  <ul class="list-disc ml-8 mt-4 text-lg">
+    <li>Pot A: Disimpan di tempat terang</li>
+    <li>Pot B: Disimpan di tempat teduh</li>
+    <li>Pot C: Disimpan di tempat gelap</li>
+  </ul>
+
+  <p class="mt-4">Hasil pertumbuhan setelah 10 hari:</p>
+  <table class="table-auto border border-black mt-4 mx-auto text-center text-lg">
+    <thead class="bg-[#4dd4a3] text-white">
+      <tr>
+        <th class="px-4 py-2 border border-black">Pot</th>
+        <th class="px-4 py-2 border border-black">Pertumbuhan (cm)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td class="border border-black px-4 py-2">A</td><td class="border border-black px-4 py-2">12</td></tr>
+      <tr><td class="border border-black px-4 py-2">B</td><td class="border border-black px-4 py-2">8</td></tr>
+      <tr><td class="border border-black px-4 py-2">C</td><td class="border border-black px-4 py-2">3</td></tr>
+    </tbody>
+  </table>
+
+  <p class="mt-6 text-lg">Kesimpulan yang paling tepat dari data di atas adalah:</p>
+
+  <ul class="mt-4 text-lg">
+    <li><input type="radio" name="lat3soal14"> A. Tanaman tumbuh paling baik tanpa cahaya</li>
+    <li><input type="radio" name="lat3soal14"> B. Cahaya menghambat pertumbuhan tanaman</li>
+    <li><input type="radio" name="lat3soal14"> C. Cahaya sangat penting untuk pertumbuhan tanaman</li>
+    <li><input type="radio" name="lat3soal14"> D. Semua tanaman tumbuh sama tanpa pengaruh cahaya</li>
+  </ul>
+
+  <button onclick="togglePembahasan('pembahasan-lat3-no14')" 
+      class="mt-6 px-5 py-3 bg-[#4dd4a3] text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition-all duration-300">
+      Lihat Pembahasan
+  </button>
+
+  <div id="pembahasan-lat3-no14" class="mt-6 p-5 bg-white rounded-lg hidden transition-all duration-300">
+    <h3 class="font-semibold text-lg text-green-700">Pembahasan:</h3>
+    <p>Pertumbuhan tanaman paling tinggi terjadi pada tempat yang terang. Ini menunjukkan bahwa cahaya sangat penting dalam proses fotosintesis dan pertumbuhan tanaman.</p>
+    <p class="font-medium mt-3 text-[#4dd4a3] text-lg">Jawaban: C. Cahaya sangat penting untuk pertumbuhan tanaman</p>
+  </div>
+</div>
+<div class="p-6 bg-yellow-100 rounded-lg shadow-md mt-6">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mt-6">Soal 15</h2>
+  <p class="mt-4 text-lg">
+    Seorang siswa mengamati bahwa tanaman yang diberi pupuk organik tumbuh lebih cepat daripada tanaman yang tidak diberi pupuk. Ia ingin membuktikannya melalui percobaan.
+  </p>
+
+  <p class="mt-4 text-lg">
+    Ia menanam 2 kelompok tanaman yang sama, masing-masing terdiri dari 5 pot:
+  </p>
+  <ul class="list-disc ml-8 mt-4 text-lg">
+    <li>Kelompok A: Diberi pupuk organik setiap 3 hari</li>
+    <li>Kelompok B: Tidak diberi pupuk sama sekali</li>
+  </ul>
+
+  <p class="mt-4 text-lg">Setelah 2 minggu, tanaman dari Kelompok A tumbuh rata-rata 10 cm, sedangkan tanaman dari Kelompok B hanya tumbuh 5 cm.</p>
+
+  <p class="mt-6 text-lg">Apa kesimpulan terbaik dari percobaan tersebut?</p>
+
+  <ul class="mt-4 text-lg">
+    <li><input type="radio" name="lat3soal15"> A. Semua pupuk berbahaya bagi tanaman</li>
+    <li><input type="radio" name="lat3soal15"> B. Pupuk organik dapat mempercepat pertumbuhan tanaman</li>
+    <li><input type="radio" name="lat3soal15"> C. Tanaman tumbuh sama dengan atau tanpa pupuk</li>
+    <li><input type="radio" name="lat3soal15"> D. Tanaman tidak tumbuh jika tidak diberi pupuk</li>
+  </ul>
+
+  <button onclick="togglePembahasan('pembahasan-lat3-no15')" 
+      class="mt-6 px-5 py-3 bg-[#4dd4a3] text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition-all duration-300">
+      Lihat Pembahasan
+  </button>
+
+  <div id="pembahasan-lat3-no15" class="mt-6 p-5 bg-white rounded-lg hidden transition-all duration-300">
+    <h3 class="font-semibold text-lg text-green-700">Pembahasan:</h3>
+    <p>Pertumbuhan tanaman yang diberi pupuk organik lebih cepat dibandingkan yang tidak diberi pupuk. Maka dapat disimpulkan bahwa pupuk organik membantu mempercepat pertumbuhan tanaman.</p>
+    <p class="font-medium mt-3 text-[#4dd4a3] text-lg">Jawaban: B. Pupuk organik dapat mempercepat pertumbuhan tanaman</p>
+  </div>
+</div>
+
+<div id="4.-Pengukuran-dalam-Sains">
+    <p class="text-xl font-semibold mb-4 text-[#4dd4a3]">4. Pengukuran dalam Sains</p>
+    <p class="mt-2 ml-4">Pengukuran adalah proses penting dalam sains untuk memperoleh data kuantitatif yang dapat dianalisis secara objektif. Pengukuran dilakukan terhadap besaran fisik menggunakan satuan dan alat ukur yang sesuai. Ketepatan dan ketelitian dalam pengukuran sangat berpengaruh terhadap validitas hasil percobaan.</p>
+</div><br>
+
+<div id="4.1-Besaran-dan-Satuan">
+    <p class="text-xl font-semibold mb-4 text-[#4dd4a3]">4.1 Mengenal Besaran dan Satuan dalam Pengukuran</p>
+    <p class="mt-2 ml-4">Dalam sains, besaran dibagi menjadi dua yaitu:</p>
+    <ul class="mt-2 ml-8 list-disc">
+        <li><strong>Besaran pokok:</strong> Besaran dasar yang tidak diturunkan dari besaran lain, misalnya panjang (meter), massa (kilogram), waktu (sekon), suhu (kelvin), arus listrik (ampere), jumlah zat (mol), intensitas cahaya (candela).</li>
+        <li><strong>Besaran turunan:</strong> Besaran yang diturunkan dari besaran pokok, contohnya kecepatan (m/s), gaya (newton), dan volume (m³).</li>
+    </ul>
+    <p class="mt-2 ml-4">Setiap besaran memiliki satuan standar internasional (SI) agar pengukuran menjadi seragam dan dapat dibandingkan secara global.</p>
+</div>
+<div class="overflow-x-auto mt-6">
+  <h2 class="text-xl font-bold text-[#4dd4a3] mb-4">Tabel Besaran Pokok</h2>
+  <table class="min-w-full table-auto border border-gray-400 text-left">
+    <thead class="bg-[#4dd4a3] text-white">
+      <tr>
+        <th class="p-2 border border-gray-400">No</th>
+        <th class="p-2 border border-gray-400">Besaran Pokok</th>
+        <th class="p-2 border border-gray-400">Simbol</th>
+        <th class="p-2 border border-gray-400">Satuan (SI)</th>
+        <th class="p-2 border border-gray-400">Simbol Satuan</th>
+        <th class="p-2 border border-gray-400">Dimensi</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="bg-white">
+        <td class="p-2 border">1</td>
+        <td class="p-2 border">Panjang</td>
+        <td class="p-2 border">l</td>
+        <td class="p-2 border">meter</td>
+        <td class="p-2 border">m</td>
+        <td class="p-2 border">L</td>
+      </tr>
+      <tr class="bg-gray-50">
+        <td class="p-2 border">2</td>
+        <td class="p-2 border">Massa</td>
+        <td class="p-2 border">m</td>
+        <td class="p-2 border">kilogram</td>
+        <td class="p-2 border">kg</td>
+        <td class="p-2 border">M</td>
+      </tr>
+      <tr class="bg-white">
+        <td class="p-2 border">3</td>
+        <td class="p-2 border">Waktu</td>
+        <td class="p-2 border">t</td>
+        <td class="p-2 border">sekon</td>
+        <td class="p-2 border">s</td>
+        <td class="p-2 border">T</td>
+      </tr>
+      <tr class="bg-gray-50">
+        <td class="p-2 border">4</td>
+        <td class="p-2 border">Suhu</td>
+        <td class="p-2 border">T</td>
+        <td class="p-2 border">kelvin</td>
+        <td class="p-2 border">K</td>
+        <td class="p-2 border">Θ</td>
+      </tr>
+      <tr class="bg-white">
+        <td class="p-2 border">5</td>
+        <td class="p-2 border">Kuat arus listrik</td>
+        <td class="p-2 border">I</td>
+        <td class="p-2 border">ampere</td>
+        <td class="p-2 border">A</td>
+        <td class="p-2 border">I</td>
+      </tr>
+      <tr class="bg-gray-50">
+        <td class="p-2 border">6</td>
+        <td class="p-2 border">Jumlah zat</td>
+        <td class="p-2 border">n</td>
+        <td class="p-2 border">mol</td>
+        <td class="p-2 border">mol</td>
+        <td class="p-2 border">N</td>
+      </tr>
+      <tr class="bg-white">
+        <td class="p-2 border">7</td>
+        <td class="p-2 border">Intensitas cahaya</td>
+        <td class="p-2 border">Iv</td>
+        <td class="p-2 border">kandela</td>
+        <td class="p-2 border">cd</td>
+        <td class="p-2 border">J</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2 class="text-xl font-bold text-[#4dd4a3] mt-10 mb-4">Tabel Besaran Turunan</h2>
+  <table class="min-w-full table-auto border border-gray-400 text-left">
+    <thead class="bg-[#4dd4a3] text-white">
+      <tr>
+        <th class="p-2 border border-gray-400">No</th>
+        <th class="p-2 border border-gray-400">Besaran Turunan</th>
+        <th class="p-2 border border-gray-400">Simbol</th>
+        <th class="p-2 border border-gray-400">Satuan (SI)</th>
+        <th class="p-2 border border-gray-400">Simbol Satuan</th>
+        <th class="p-2 border border-gray-400">Dimensi</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="bg-white">
+        <td class="p-2 border">1</td>
+        <td class="p-2 border">Luas</td>
+        <td class="p-2 border">A</td>
+        <td class="p-2 border">meter persegi</td>
+        <td class="p-2 border">m²</td>
+        <td class="p-2 border">L²</td>
+      </tr>
+      <tr class="bg-gray-50">
+        <td class="p-2 border">2</td>
+        <td class="p-2 border">Volume</td>
+        <td class="p-2 border">V</td>
+        <td class="p-2 border">meter kubik</td>
+        <td class="p-2 border">m³</td>
+        <td class="p-2 border">L³</td>
+      </tr>
+      <tr class="bg-white">
+        <td class="p-2 border">3</td>
+        <td class="p-2 border">Kecepatan</td>
+        <td class="p-2 border">v</td>
+        <td class="p-2 border">meter per sekon</td>
+        <td class="p-2 border">m/s</td>
+        <td class="p-2 border">L T⁻¹</td>
+      </tr>
+      <tr class="bg-gray-50">
+        <td class="p-2 border">4</td>
+        <td class="p-2 border">Percepatan</td>
+        <td class="p-2 border">a</td>
+        <td class="p-2 border">meter per sekon kuadrat</td>
+        <td class="p-2 border">m/s²</td>
+        <td class="p-2 border">L T⁻²</td>
+      </tr>
+      <tr class="bg-white">
+        <td class="p-2 border">5</td>
+        <td class="p-2 border">Gaya</td>
+        <td class="p-2 border">F</td>
+        <td class="p-2 border">newton</td>
+        <td class="p-2 border">N</td>
+        <td class="p-2 border">M L T⁻²</td>
+      </tr>
+      <tr class="bg-gray-50">
+        <td class="p-2 border">6</td>
+        <td class="p-2 border">Tekanan</td>
+        <td class="p-2 border">P</td>
+        <td class="p-2 border">pascal</td>
+        <td class="p-2 border">Pa</td>
+        <td class="p-2 border">M L⁻¹ T⁻²</td>
+      </tr>
+      <tr class="bg-white">
+        <td class="p-2 border">7</td>
+        <td class="p-2 border">Usaha/Energi</td>
+        <td class="p-2 border">W</td>
+        <td class="p-2 border">joule</td>
+        <td class="p-2 border">J</td>
+        <td class="p-2 border">M L² T⁻²</td>
+      </tr>
+      <tr class="bg-gray-50">
+        <td class="p-2 border">8</td>
+        <td class="p-2 border">Daya</td>
+        <td class="p-2 border">P</td>
+        <td class="p-2 border">watt</td>
+        <td class="p-2 border">W</td>
+        <td class="p-2 border">M L² T⁻³</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<br>
+
+<div id="4.2-Memilih-Alat-Ukur">
+    <p class="text-xl font-semibold mb-4 text-[#4dd4a3]">4.2 Memilih Alat Ukur yang Tepat Digunakan dalam Percobaan</p>
+    <p class="mt-2 ml-4">Pemilihan alat ukur bergantung pada jenis besaran yang akan diukur dan tingkat ketelitian yang dibutuhkan. Beberapa contoh alat ukur yang umum digunakan:</p>
+    <ul class="mt-2 ml-8 list-disc">
+        <li><strong>Mistar/penggaris:</strong> untuk mengukur panjang benda secara langsung (ketelitian ±0,1 cm).</li>
+        <li><strong>Jangka sorong:</strong> untuk mengukur diameter atau ketebalan benda kecil dengan lebih teliti (ketelitian ±0,01 cm).</li>
+        <li><strong>Mikrometer sekrup:</strong> untuk mengukur benda yang sangat tipis seperti kawat (ketelitian ±0,001 cm).</li>
+        <li><strong>Stopwatch:</strong> untuk mengukur waktu dengan ketelitian tinggi.</li>
+        <li><strong>Neraca:</strong> untuk mengukur massa benda.</li>
+        <li><strong>Termometer:</strong> untuk mengukur suhu.</li>
+    </ul>
+</div><br>
+
+<p class="text-xl text-[#4dd4a3] font-semibold">Contoh Pengukuran Panjang dengan Penggaris</p>
+
+<!-- Penjelasan -->
+<div class="p-6 bg-yellow-100 rounded-lg shadow-md mt-4">
+  <p class="text-lg">
+    Berikut adalah contoh cara mengukur panjang sebuah pensil menggunakan penggaris skala sentimeter.
+  </p>
+  <ul class="mt-4 list-decimal ml-6 text-base">
+    <li>Letakkan pensil sejajar dengan penggaris, pastikan ujungnya berada di angka nol (0 cm).</li>
+    <li>Lihat ujung pensil lainnya untuk mengetahui panjangnya pada skala penggaris.</li>
+    <li>Pastikan mata sejajar dengan skala agar tidak terjadi kesalahan paralaks.</li>
+  </ul>
+
+
+<!-- Gambar SVG -->
+<div class="mt-6 border rounded-lg overflow-x-auto bg-white p-4">
+  <svg width="520" height="130" xmlns="http://www.w3.org/2000/svg">
+    <!-- Penggaris -->
+    <rect x="10" y="60" width="500" height="40" fill="#e0e0e0" stroke="black" />
+
+    <!-- Skala utama -->
+    <g stroke="black" font-size="10" fill="black">
+      <line x1="10" y1="60" x2="10" y2="80" /><text x="10" y="90">0</text>
+      <line x1="30" y1="60" x2="30" y2="70" />
+      <line x1="50" y1="60" x2="50" y2="70" />
+      <line x1="70" y1="60" x2="70" y2="70" />
+      <line x1="90" y1="60" x2="90" y2="70" />
+      <line x1="110" y1="60" x2="110" y2="80" /><text x="105" y="90">5</text>
+      <line x1="130" y1="60" x2="130" y2="70" />
+      <line x1="150" y1="60" x2="150" y2="70" />
+      <line x1="170" y1="60" x2="170" y2="70" />
+      <line x1="190" y1="60" x2="190" y2="70" />
+      <line x1="210" y1="60" x2="210" y2="80" /><text x="205" y="90">10</text>
+      <line x1="230" y1="60" x2="230" y2="70" />
+      <line x1="250" y1="60" x2="250" y2="70" />
+      <line x1="270" y1="60" x2="270" y2="70" />
+      <line x1="290" y1="60" x2="290" y2="70" />
+      <line x1="310" y1="60" x2="310" y2="80" /><text x="305" y="90">15</text>
+      <line x1="330" y1="60" x2="330" y2="70" />
+      <line x1="350" y1="60" x2="350" y2="70" />
+      <line x1="370" y1="60" x2="370" y2="70" />
+      <line x1="390" y1="60" x2="390" y2="70" />
+      <line x1="410" y1="60" x2="410" y2="80" /><text x="405" y="90">20</text>
+      <line x1="430" y1="60" x2="430" y2="70" />
+      <line x1="450" y1="60" x2="450" y2="70" />
+      <line x1="470" y1="60" x2="470" y2="70" />
+      <line x1="490" y1="60" x2="490" y2="70" />      
+       
+    </g>
+
+
+    <!-- Pensil -->
+    <rect x="10" y="30" width="340" height="20" fill="#f4a261" stroke="black" />
+    <polygon points="350,30 370,40 350,50" fill="#8d5524" stroke="black" />
+
+    <!-- Keterangan -->
+    <text x="10" y="20" font-size="13" fill="black">Panjang pensil = 18 cm</text>
+  </svg>
+</div>
+
+<!-- Perhitungan -->
+<div class="mt-6 p-6 bg-green-100 rounded-lg shadow-md">
+  <h2 class="text-xl font-bold text-[#4dd4a3] mb-2">🔍 Perhitungan Panjang</h2>
+  <p class="text-lg">
+    Benda mulai diukur dari angka <strong>0 cm</strong> dan berakhir di angka <strong>18 cm</strong>.
+  </p>
+  <p class="text-lg mt-2">Maka panjang benda dapat dihitung sebagai berikut:</p>
+  <div class="bg-white rounded p-4 mt-4 border-l-4 border-green-400 text-base font-mono">
+    Panjang benda = Skala akhir - Skala awal<br>
+    Panjang benda = 18 cm - 0 cm = <strong>18 cm</strong>
+  </div>
+</div>
+</div><br>
+<p class="text-2xl text-[#4dd4a3] font-semibold">Contoh Pengukuran Panjang dengan Jangka Sorong</p>
+
+<!-- Penjelasan -->
+<div class="p-6 bg-yellow-100 rounded-lg shadow-md mt-4">
+  <p class="text-lg">
+    Jangka sorong digunakan untuk mengukur panjang benda dengan ketelitian tinggi hingga 0,01 cm. Jangka sorong memiliki dua bagian skala:
+  </p>
+  <ul class="mt-4 list-decimal ml-6 text-base">
+    <li><strong>Skala utama:</strong> terbaca pada bagian tetap (dalam cm).</li>
+    <li><strong>Skala nonius:</strong> terbaca pada bagian geser (vernier) yang menunjukkan bagian pecahan dari skala utama (dalam 0,01 cm).</li>
+  </ul>
+
+<div class="mt-6 border rounded-lg overflow-x-auto bg-white p-4">
+<svg width="600" height="140" xmlns="http://www.w3.org/2000/svg">
+  <!-- Keterangan -->
+  <text x="50" y="20" font-size="14" fill="black">Contoh posisi jangka sorong: 1,44 cm</text>
+
+  <!-- Skala utama -->
+  <line x1="50" y1="60" x2="270" y2="60" stroke="black" stroke-width="2" />
+
+  <!-- Skala utama lengkap 0 - 10 cm -->
+  <g font-size="12" fill="black">
+    <!-- Buat 101 garis dari 0 sampai 10 cm (tiap 0.1 cm = 5px) -->
+    <!-- Garis dimulai dari x=50 -->
+    <!-- 1 cm = 50px maka 0.1 cm = 5px -->
+    <!-- Jadi total panjang 500px, dari x=50 ke x=550 -->
+    <!-- Garis utama, menengah, pendek -->
+    <!-- 0–10 cm = 101 titik (0-100) -->
+    <!-- Setiap titik = 5px -->
+    <!-- i = 0 sampai 100 -->
+
+    <!-- Gunakan JS atau manual berikut ini untuk membuatnya: -->
+    <!-- (Manual contoh hanya sebagian) -->
+    <!-- Garis utama dan angka -->
+    <line x1="50" y1="60" x2="50" y2="45" stroke="black" />
+    <text x="46" y="40">0</text>
+    <line x1="100" y1="60" x2="100" y2="45" stroke="black" />
+    <text x="96" y="40">1</text>
+    <line x1="150" y1="60" x2="150" y2="45" stroke="black" />
+    <text x="146" y="40">2</text>
+    <line x1="200" y1="60" x2="200" y2="45" stroke="black" />
+    <text x="196" y="40">3</text>
+    <line x1="250" y1="60" x2="250" y2="45" stroke="black" />
+    <text x="246" y="40">4</text>
+        
+
+    <!-- Garis menengah (tiap 0.5 cm) -->
+    <line x1="75" y1="60" x2="75" y2="50" stroke="black" />
+    <line x1="125" y1="60" x2="125" y2="50" stroke="black" />
+    <line x1="175" y1="60" x2="175" y2="50" stroke="black" />
+    <line x1="225" y1="60" x2="225" y2="50" stroke="black" />
+    
+    <!-- Garis pendek tiap 0.1 cm -->
+    <!-- Contoh sebagian -->
+    <!-- Garis pendek setiap 0.1 cm (5px) dari x=55 hingga x=545 -->
+<!-- Lewati kelipatan 50 (garis utama) dan 25 (garis tengah) -->
+<line x1="55" y1="60" x2="55" y2="55" stroke="black" />
+<line x1="60" y1="60" x2="60" y2="55" stroke="black" />
+<line x1="65" y1="60" x2="65" y2="55" stroke="black" />
+<line x1="70" y1="60" x2="70" y2="55" stroke="black" />
+<line x1="80" y1="60" x2="80" y2="55" stroke="black" />
+<line x1="85" y1="60" x2="85" y2="55" stroke="black" />
+<line x1="90" y1="60" x2="90" y2="55" stroke="black" />
+<line x1="95" y1="60" x2="95" y2="55" stroke="black" />
+
+<line x1="105" y1="60" x2="105" y2="55" stroke="black" />
+<line x1="110" y1="60" x2="110" y2="55" stroke="black" />
+<line x1="115" y1="60" x2="115" y2="55" stroke="black" />
+<line x1="120" y1="60" x2="120" y2="55" stroke="black" />
+<line x1="130" y1="60" x2="130" y2="55" stroke="black" />
+<line x1="135" y1="60" x2="135" y2="55" stroke="black" />
+<line x1="140" y1="60" x2="140" y2="55" stroke="black" />
+<line x1="145" y1="60" x2="145" y2="55" stroke="black" />
+
+<line x1="155" y1="60" x2="155" y2="55" stroke="black" />
+<line x1="160" y1="60" x2="160" y2="55" stroke="black" />
+<line x1="165" y1="60" x2="165" y2="55" stroke="black" />
+<line x1="170" y1="60" x2="170" y2="55" stroke="black" />
+<line x1="180" y1="60" x2="180" y2="55" stroke="black" />
+<line x1="185" y1="60" x2="185" y2="55" stroke="black" />
+<line x1="190" y1="60" x2="190" y2="55" stroke="black" />
+<line x1="195" y1="60" x2="195" y2="55" stroke="black" />
+
+<!-- Skipping x=200 (garis utama) -->
+
+<line x1="205" y1="60" x2="205" y2="55" stroke="black" />
+<line x1="210" y1="60" x2="210" y2="55" stroke="black" />
+<line x1="215" y1="60" x2="215" y2="55" stroke="black" />
+<line x1="220" y1="60" x2="220" y2="55" stroke="black" />
+<line x1="230" y1="60" x2="230" y2="55" stroke="black" />
+<line x1="235" y1="60" x2="235" y2="55" stroke="black" />
+<line x1="240" y1="60" x2="240" y2="55" stroke="black" />
+<line x1="245" y1="60" x2="245" y2="55" stroke="black" />
+<line x1="255" y1="60" x2="255" y2="55" stroke="black" />
+<line x1="260" y1="60" x2="260" y2="55" stroke="black" />
+<line x1="265" y1="60" x2="265" y2="55" stroke="black" />
+<line x1="270" y1="60" x2="270" y2="55" stroke="black" />
+<line x1="140" y1="60" x2="140" y2="55" stroke="red" />
+
+<!-- ...lanjutkan pola ini sampai x=545 -->
+
+  </g>
+
+  <!-- Skala nonius -->
+  <rect x="122" y="60" width="55" height="30" fill="#c0e6ff" stroke="black" />
+  <g font-size="10" fill="black">
+    <!-- Garis nonius 0-9 -->
+    <text x="121" y="85">0</text>
+    <line x1="122" y1="60" x2="122" y2="70" stroke="black" />
+    <line x1="126.5" y1="60" x2="126.5" y2="70" stroke="black" />
+<line x1="131" y1="60" x2="131" y2="70" stroke="black" />
+<line x1="135.5" y1="60" x2="135.5" y2="70" stroke="black" />
+<line x1="140" y1="60" x2="140" y2="70" stroke="red" />
+<line x1="144.5" y1="60" x2="144.5" y2="75" stroke="black" /><text x="143.5" y="85">5</text>
+<line x1="149" y1="60" x2="149" y2="70" stroke="black" />
+<line x1="153.5" y1="60" x2="153.5" y2="70" stroke="black" />
+<line x1="158" y1="60" x2="158" y2="70" stroke="black" />
+<line x1="162.5" y1="60" x2="162.5" y2="70" stroke="black" />
+<line x1="167" y1="60" x2="167" y2="75" stroke="black" />
+<text x="166" y="85">10</text>
+      </g>
+</svg>
+</div>
+
+<!-- Perhitungan -->
+<div class="mt-6 p-6 bg-green-100 rounded-lg shadow-md">
+  <h2 class="text-xl font-bold text-[#4dd4a3] mb-2">🔍 Cara Membaca Hasil Pengukuran</h2>
+  <ul class="list-decimal ml-6 text-base">
+    <li>Skala utama menunjukkan angka sebelum garis nol vernier, yaitu <strong>1,4 cm</strong>.</li>
+    <li>Skala nonius menunjukkan garis yang sejajar tepat dengan garis skala utama, misalnya pada angka ke-4.</li>
+    <li>Maka, hasil pembacaan skala nonius adalah<strong> 0,04 cm.</strong></li>
+  </ul>
+
+  <div class="bg-white rounded p-4 mt-4 border-l-4 border-green-400 text-base font-mono">
+    Panjang benda = Skala utama + Skala nonius<br>
+    Panjang benda = 1,4 cm + 0,04 cm = <strong>1,44 cm</strong>
+</div>
+  </div>
+</div><br>
+
+<p class="text-2xl text-[#4dd4a3] font-semibold">Contoh Pengukuran Panjang dengan Mikrometer Sekrup</p>
+
+<!-- Penjelasan -->
+<div class="p-6 bg-yellow-100 rounded-lg shadow-md mt-4">
+  <p class="text-lg">
+    Mikrometer sekrup digunakan untuk mengukur panjang atau tebal benda kecil dengan ketelitian tinggi hingga 0,01 mm. Mikrometer terdiri dari dua bagian skala:
+  </p>
+  <ul class="mt-4 list-decimal ml-6 text-base">
+    <li><strong>Skala utama:</strong> terdapat pada batang mikrometer, terbaca dalam satuan mm.</li>
+    <li><strong>Skala nonius (putar):</strong> terdapat pada selubung berputar dan menunjukkan pecahan dari skala utama, biasanya dalam 0,01 mm.</li>
+  </ul>
+
+<svg width="700px" height="300px" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect x="0" y="0" width="700px" height="300px" fill="#f0f0f0"/>
+
+  <!-- Sleeve (Skala Utama) -->
+  <rect x="50" y="100" width="300" height="100" fill="#dcdcdc" stroke="black"/>
+  <text x="65" y="120" font-size="20px" fill="black">0</text>
+  <text x="165" y="120" font-size="20px" fill="black">5</text>
+<text x="258" y="120" font-size="20px" fill="black">10</text>
+
+  <!-- Garis-garis skala utama -->
+<line x1="70" y1="150" x2="350" y2="150" stroke="black" stroke-width="2"/>
+  <line x1="70" y1="120" x2="70" y2="150" stroke="black" stroke-width="2"/>
+  <line x1="90" y1="130" x2="90" y2="150" stroke="black"/>
+  <line x1="110" y1="130" x2="110" y2="150" stroke="black"/>
+  <line x1="130" y1="130" x2="130" y2="150" stroke="black"/>
+  <line x1="150" y1="130" x2="150" y2="150" stroke="black" />
+  <line x1="170" y1="120" x2="170" y2="150" stroke="black" stroke-width="2"/>
+  <line x1="190" y1="130" x2="190" y2="150" stroke="black" />
+  <line x1="210" y1="130" x2="210" y2="150" stroke="black"/>
+  <line x1="230" y1="130" x2="230" y2="150" stroke="black" />
+  <line x1="250" y1="130" x2="250" y2="150" stroke="black"/>
+  <line x1="270" y1="120" x2="270" y2="150" stroke="black" stroke-width="2"/>
+   <line x1="290" y1="130" x2="290" y2="150" stroke="black"/>
+<line x1="310" y1="130" x2="310" y2="150" stroke="black"/>
+<line x1="330" y1="130" x2="330" y2="150" stroke="black"/>
+<line x1="350" y1="130" x2="350" y2="150" stroke="black"/>
+<line x1="370" y1="130" x2="370" y2="150" stroke="black"/>
+<line x1="80" y1="170" x2="80" y2="150" stroke="black"/>
+<line x1="100" y1="170" x2="100" y2="150" stroke="black"/>
+<line x1="120" y1="170" x2="120" y2="150" stroke="black"/>
+<line x1="140" y1="170" x2="140" y2="150" stroke="black"/>
+<line x1="160" y1="170" x2="160" y2="150" stroke="black"/>
+<line x1="180" y1="170" x2="180" y2="150" stroke="black"/>
+<line x1="200" y1="170" x2="200" y2="150" stroke="black"/>
+<line x1="220" y1="170" x2="220" y2="150" stroke="black"/>
+<line x1="240" y1="170" x2="240" y2="150" stroke="black"/>
+<line x1="260" y1="170" x2="260" y2="150" stroke="black"/>
+<line x1="280" y1="170" x2="280" y2="150" stroke="black"/>
+<line x1="300" y1="170" x2="300" y2="150" stroke="black"/>
+<line x1="320" y1="170" x2="320" y2="150" stroke="black"/>
+<line x1="340" y1="170" x2="340" y2="150" stroke="black"/>
+
+  <!-- Penutup skala utama (penampang silinder thimble) -->
+  <polygon points="350,100 420,70 420,230 350,200" fill="#bfbfbf" stroke="black"/>
+ 
+  <!-- Garis skala putar -->
+  <line x1="350" y1="105" x2="370" y2="105" stroke="black" stroke-width="2"/>
+  <line x1="350" y1="120" x2="370" y2="120" stroke="black" stroke-width="2"/>
+  <line x1="350" y1="135" x2="370" y2="135" stroke="black" stroke-width="2"/>
+  <line x1="350" y1="150" x2="370" y2="150" stroke="black" stroke-width="2"/>
+  <line x1="350" y1="165" x2="370" y2="165" stroke="black" stroke-width="2"/>
+  <line x1="350" y1="180" x2="370" y2="180" stroke="black" stroke-width="2"/>
+
+  <!-- Label angka thimble -->
+  <text x="380" y="105" font-size="20px" fill="black">25</text>
+  <text x="380" y="190" font-size="20px" fill="black">20</text>
+
+  <!-- Garis pembacaan sejajar -->
+  <line x1="350" y1="150" x2="370" y2="150" stroke="red" stroke-width="3"/>
+</svg>
+
+<div class="mt-4 bg-white border border-gray-300 p-4 rounded shadow">
+  <p class="text-lg"><strong>Ilustrasi Pembacaan:</strong> Skala utama menunjukkan 13,5 mm dan skala nonius sejajar pada angka 23.</p>
+</div>
+
+<!-- Perhitungan -->
+<div class="mt-6 p-6 bg-green-100 rounded-lg shadow-md">
+  <h2 class="text-xl font-bold text-[#4dd4a3] mb-2">🔍 Cara Membaca Hasil Pengukuran</h2>
+  <ul class="list-decimal ml-6 text-base">
+    <li>Skala utama menunjukkan angka sebelum ujung selubung putar, yaitu <strong>13,5 mm</strong>.</li>
+    <li>Skala nonius menunjukkan garis yang sejajar pada angka ke-<strong>23</strong>.</li>
+    <li>Maka, hasil pembacaan skala nonius adalah <strong>0,23 mm</strong>.</li>
+  </ul>
+
+  <div class="bg-white rounded p-4 mt-4 border-l-4 border-green-400 text-base font-mono">
+    Panjang benda = Skala utama + Skala nonius<br>
+    Panjang benda = 13,5 mm + 0,23 mm = <strong>13,73 mm</strong>
+  </div>
+</div>
+</div><br>
+
+
+<br>
+
+
+<div id="4.3-Melakukan-Pengukuran">
+    <p class="text-xl font-semibold mb-4 text-[#4dd4a3]">4.3 Melakukan Pengukuran dan Membaca Skala dengan Benar</p>
+    <p class="mt-2 ml-4">Saat melakukan pengukuran, penting untuk memperhatikan posisi mata agar sejajar dengan skala alat ukur agar terhindar dari kesalahan paralaks.</p>
+    <ul class="mt-2 ml-8 list-disc">
+        <li>Pastikan alat ukur dalam kondisi baik dan terkalibrasi.</li>
+        <li>Gunakan alat ukur yang sesuai dengan jenis dan rentang pengukuran.</li>
+        <li>Baca skala secara hati-hati dan catat hasilnya dengan satuan yang tepat.</li>
+        <li>Gunakan angka penting (significant figures) sesuai ketelitian alat ukur.</li>
+    </ul>
+    <p class="mt-2 ml-4">Contoh: Saat menggunakan mistar untuk mengukur panjang pensil, posisi mata harus sejajar dengan angka pada mistar, dan dibaca hingga ketelitian 0,1 cm.</p>
+</div><br>
+
+<div id="4.4-Mengevaluasi-Teknik-Pengukuran">
+    <p class="text-xl font-semibold mb-4 text-[#4dd4a3]">4.4 Mengevaluasi Teknik Pengukuran</p>
+    <p class="mt-2 ml-4">Setelah pengukuran dilakukan, langkah penting selanjutnya adalah mengevaluasi teknik yang digunakan agar hasilnya dapat dipercaya.</p>
+    <ul class="mt-2 ml-8 list-disc">
+        <li>Apakah alat ukur yang digunakan sudah sesuai?</li>
+        <li>Apakah pengukuran dilakukan lebih dari sekali (pengulangan) untuk mendapatkan nilai rata-rata?</li>
+        <li>Apakah terdapat kesalahan sistematik atau kesalahan acak?</li>
+        <li>Apakah ada pengaruh dari faktor luar seperti suhu, kelembaban, atau medan magnet?</li>
+    </ul>
+    <p class="mt-2 ml-4">Evaluasi ini membantu memperbaiki proses pengukuran pada percobaan selanjutnya dan meningkatkan keandalan data.</p>
+</div><br>
+
+<p class="text-2xl text-[#4dd4a3] font-semibold">Latihan 4</p>
+
+<!-- Soal 1 -->
+<div class="p-6 bg-yellow-100 rounded-lg shadow-md mt-6">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mt-6">Soal 1</h2>
+  <p class="mt-4 text-lg">
+    Besaran panjang termasuk dalam kategori besaran pokok. Alat ukur yang umum digunakan untuk mengukur besaran panjang adalah...
+  </p>
+  <ul class="mt-4 text-lg">
+    <li><input type="radio" name="lat4soal1"> A. Stopwatch</li>
+    <li><input type="radio" name="lat4soal1"> B. Termometer</li>
+    <li><input type="radio" name="lat4soal1"> C. Penggaris</li>
+    <li><input type="radio" name="lat4soal1"> D. Timbangan</li>
+  </ul>
+  <button onclick="togglePembahasan('pembahasan-lat4-no1')" 
+      class="mt-6 px-5 py-3 bg-[#4dd4a3] text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition-all duration-300">
+      Lihat Pembahasan
+  </button>
+  <div id="pembahasan-lat4-no1" class="mt-6 p-5 bg-white rounded-lg hidden transition-all duration-300">
+    <h3 class="font-semibold text-lg text-green-700">Pembahasan:</h3>
+    <p>Penggaris digunakan untuk mengukur panjang, termasuk besaran pokok dengan satuan meter.</p>
+    <p class="font-medium mt-3 text-[#4dd4a3] text-lg">Jawaban: C</p>
+  </div>
+</div>
+
+<!-- Soal 2 -->
+<div class="p-6 bg-yellow-100 rounded-lg shadow-md mt-6">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mt-6">Soal 2</h2>
+  <p class="mt-4 text-lg">
+    Untuk mengukur massa sebuah benda dengan presisi tinggi di laboratorium, alat yang paling sesuai digunakan adalah...
+  </p>
+  <ul class="mt-4 text-lg">
+    <li><input type="radio" name="lat4soal2"> A. Neraca dua lengan</li>
+    <li><input type="radio" name="lat4soal2"> B. Penggaris</li>
+    <li><input type="radio" name="lat4soal2"> C. Stopwatch</li>
+    <li><input type="radio" name="lat4soal2"> D. Termometer</li>
+  </ul>
+  <button onclick="togglePembahasan('pembahasan-lat4-no2')" 
+      class="mt-6 px-5 py-3 bg-[#4dd4a3] text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition-all duration-300">
+      Lihat Pembahasan
+  </button>
+  <div id="pembahasan-lat4-no2" class="mt-6 p-5 bg-white rounded-lg hidden transition-all duration-300">
+    <h3 class="font-semibold text-lg text-green-700">Pembahasan:</h3>
+    <p>Neraca dua lengan digunakan untuk mengukur massa secara tepat, dan biasa digunakan di laboratorium.</p>
+    <p class="font-medium mt-3 text-[#4dd4a3] text-lg">Jawaban: A</p>
+  </div>
+</div>
+
+<!-- Soal 3 -->
+<div class="p-6 bg-yellow-100 rounded-lg shadow-md mt-6">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mt-6">Soal 3</h2>
+  <p class="mt-4 text-lg">
+    Perhatikan gambar skala berikut (misal: skala jangka sorong). Jika skala utama menunjukkan 4,5 cm dan skala nonius sejajar di angka ke-7, maka panjang benda adalah...
+  </p>
+  <ul class="mt-4 text-lg">
+    <li><input type="radio" name="lat4soal3"> A. 4,57 cm</li>
+    <li><input type="radio" name="lat4soal3"> B. 4,07 cm</li>
+    <li><input type="radio" name="lat4soal3"> C. 4,75 cm</li>
+    <li><input type="radio" name="lat4soal3"> D. 5,07 cm</li>
+  </ul>
+  <button onclick="togglePembahasan('pembahasan-lat4-no3')" 
+      class="mt-6 px-5 py-3 bg-[#4dd4a3] text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition-all duration-300">
+      Lihat Pembahasan
+  </button>
+  <div id="pembahasan-lat4-no3" class="mt-6 p-5 bg-white rounded-lg hidden transition-all duration-300">
+    <h3 class="font-semibold text-lg text-green-700">Pembahasan:</h3>
+    <p>Jangka sorong memiliki ketelitian 0,01 cm. Skala utama 4,5 cm dan nonius menunjukkan angka ke-7 berarti 0,07 cm.</p>
+    <p>Jadi total panjang = 4,5 + 0,07 = 4,57 cm.</p>
+    <p class="font-medium mt-3 text-[#4dd4a3] text-lg">Jawaban: A</p>
+  </div>
+</div>
+
+<!-- Soal 4 -->
+<div class="p-6 bg-yellow-100 rounded-lg shadow-md mt-6">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mt-6">Soal 4</h2>
+  <p class="mt-4 text-lg">
+    Seorang siswa melakukan pengukuran tinggi air di gelas ukur, tetapi membaca permukaan air dari atas. Hasil pengukurannya menjadi tidak akurat. Kesalahan ini disebut...
+  </p>
+  <ul class="mt-4 text-lg">
+    <li><input type="radio" name="lat4soal4"> A. Kesalahan sistematik</li>
+    <li><input type="radio" name="lat4soal4"> B. Kesalahan acak</li>
+    <li><input type="radio" name="lat4soal4"> C. Kesalahan paralaks</li>
+    <li><input type="radio" name="lat4soal4"> D. Kesalahan kalibrasi</li>
+  </ul>
+  <button onclick="togglePembahasan('pembahasan-lat4-no4')" 
+      class="mt-6 px-5 py-3 bg-[#4dd4a3] text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition-all duration-300">
+      Lihat Pembahasan
+  </button>
+  <div id="pembahasan-lat4-no4" class="mt-6 p-5 bg-white rounded-lg hidden transition-all duration-300">
+    <h3 class="font-semibold text-lg text-green-700">Pembahasan:</h3>
+    <p>Kesalahan paralaks terjadi karena kesalahan posisi mata saat membaca skala alat ukur, seperti membaca dari atas atau samping.</p>
+    <p class="font-medium mt-3 text-[#4dd4a3] text-lg">Jawaban: C</p>
+  </div>
+</div>
+<!-- Soal 5 -->
+<div class="p-6 bg-yellow-100 rounded-lg shadow-md mt-6">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mt-6">Soal 5</h2>
+  <p class="mt-4 text-lg">
+    Manakah dari berikut ini yang merupakan contoh besaran pokok?
+  </p>
+  <ul class="mt-4 text-lg">
+    <li><input type="radio" name="lat4soal5"> A. Kecepatan</li>
+    <li><input type="radio" name="lat4soal5"> B. Gaya</li>
+    <li><input type="radio" name="lat4soal5"> C. Massa</li>
+    <li><input type="radio" name="lat4soal5"> D. Luas</li>
+  </ul>
+  <button onclick="togglePembahasan('pembahasan-lat4-no5')" 
+      class="mt-6 px-5 py-3 bg-[#4dd4a3] text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition-all duration-300">
+      Lihat Pembahasan
+  </button>
+  <div id="pembahasan-lat4-no5" class="mt-6 p-5 bg-white rounded-lg hidden transition-all duration-300">
+    <h3 class="font-semibold text-lg text-green-700">Pembahasan:</h3>
+    <p>Besaran pokok adalah besaran yang tidak diturunkan dari besaran lain. Massa termasuk salah satu dari 7 besaran pokok dalam SI.</p>
+    <p class="font-medium mt-3 text-[#4dd4a3] text-lg">Jawaban: C</p>
+  </div>
+</div>
+<!-- Soal 6 -->
+<div class="p-6 bg-yellow-100 rounded-lg shadow-md mt-6">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mt-6">Soal 6</h2>
+  <p class="mt-4 text-lg">
+    Manakah dari berikut ini yang termasuk besaran turunan?
+  </p>
+  <ul class="mt-4 text-lg">
+    <li><input type="radio" name="lat4soal6"> A. Panjang</li>
+    <li><input type="radio" name="lat4soal6"> B. Waktu</li>
+    <li><input type="radio" name="lat4soal6"> C. Kuat arus</li>
+    <li><input type="radio" name="lat4soal6"> D. Luas</li>
+  </ul>
+  <button onclick="togglePembahasan('pembahasan-lat4-no6')" 
+      class="mt-6 px-5 py-3 bg-[#4dd4a3] text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition-all duration-300">
+      Lihat Pembahasan
+  </button>
+  <div id="pembahasan-lat4-no6" class="mt-6 p-5 bg-white rounded-lg hidden transition-all duration-300">
+    <h3 class="font-semibold text-lg text-green-700">Pembahasan:</h3>
+    <p>Luas adalah hasil perkalian dari dua besaran pokok (panjang × panjang), sehingga termasuk besaran turunan.</p>
+    <p class="font-medium mt-3 text-[#4dd4a3] text-lg">Jawaban: D</p>
+  </div>
+</div>
+<!-- Soal 7 -->
+<div class="p-6 bg-yellow-100 rounded-lg shadow-md mt-6">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mt-6">Soal 7</h2>
+  <p class="mt-4 text-lg">
+    Seorang siswa ingin mengetahui apakah jenis bahan pakaian memengaruhi waktu yang dibutuhkan untuk mengering saat dijemur. Ia menyiapkan kain katun, nilon, dan wol, lalu membasahi dan menjemurnya di tempat yang sama.
+  </p>
+  <p class="mt-4 text-lg">
+    Alat ukur yang paling tepat digunakan untuk mengetahui waktu pengeringan masing-masing kain adalah...
+  </p>
+  <ul class="mt-4 text-lg">
+    <li><input type="radio" name="lat4soal7"> A. Termometer</li>
+    <li><input type="radio" name="lat4soal7"> B. Stopwatch</li>
+    <li><input type="radio" name="lat4soal7"> C. Timbangan digital</li>
+    <li><input type="radio" name="lat4soal7"> D. Hygrometer</li>
+  </ul>
+  <button onclick="togglePembahasan('pembahasan-lat4-no7')" 
+      class="mt-6 px-5 py-3 bg-[#4dd4a3] text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition-all duration-300">
+      Lihat Pembahasan
+  </button>
+  <div id="pembahasan-lat4-no7" class="mt-6 p-5 bg-white rounded-lg hidden transition-all duration-300">
+    <h3 class="font-semibold text-lg text-green-700">Pembahasan:</h3>
+    <p>Untuk mengetahui waktu yang dibutuhkan kain mengering, dibutuhkan alat pengukur waktu, yaitu stopwatch.</p>
+    <p class="font-medium mt-3 text-[#4dd4a3] text-lg">Jawaban: B</p>
+  </div>
+</div>
+
+<!-- Soal 8 -->
+<div class="p-6 bg-yellow-100 rounded-lg shadow-md mt-6">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mt-6">Soal 8</h2>
+  <p class="mt-4 text-lg">
+    Dalam percobaan fisika, seorang siswa diminta mengamati perubahan suhu air setelah dipanaskan selama 10 menit. Untuk mencatat hasil pengamatan secara akurat, alat ukur yang harus disiapkan adalah...
+  </p>
+  <ul class="mt-4 text-lg">
+    <li><input type="radio" name="lat4soal8"> A. Stopwatch dan termometer</li>
+    <li><input type="radio" name="lat4soal8"> B. Penggaris dan stopwatch</li>
+    <li><input type="radio" name="lat4soal8"> C. Neraca dan termometer</li>
+    <li><input type="radio" name="lat4soal8"> D. Stopwatch dan neraca</li>
+  </ul>
+  <button onclick="togglePembahasan('pembahasan-lat4-no8')" 
+      class="mt-6 px-5 py-3 bg-[#4dd4a3] text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition-all duration-300">
+      Lihat Pembahasan
+  </button>
+  <div id="pembahasan-lat4-no8" class="mt-6 p-5 bg-white rounded-lg hidden transition-all duration-300">
+    <h3 class="font-semibold text-lg text-green-700">Pembahasan:</h3>
+    <p>Karena pengamatan melibatkan waktu dan suhu, maka alat ukur yang dibutuhkan adalah stopwatch untuk waktu dan termometer untuk suhu.</p>
+    <p class="font-medium mt-3 text-[#4dd4a3] text-lg">Jawaban: A</p>
+  </div>
+</div>
+<!-- Soal 9 -->
+<div class="p-6 bg-yellow-100 rounded-lg shadow-md mt-6">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mt-6">Soal 9</h2>
+  <p class="mt-4 text-lg">
+    Perhatikan gambar skala jangka sorong berikut ini! Berapakah hasil pengukuran diameter kelereng tersebut?
+  </p>
+
+  <!-- SVG Jangka Sorong -->
+  <div class="my-6">
+    <svg width="400" height="80">
+      <!-- Skala Utama -->
+      <line x1="20" y1="30" x2="380" y2="30" stroke="black" stroke-width="2"/>
+      <!-- Garis Skala Utama -->
+      <g stroke="black">
+        <!-- 0 cm sampai 5 cm (tiap 0.1 cm) -->
+        <!-- Tiap 0.1 cm: 10px -->
+        <!-- 0 -->
+        <line x1="20" y1="30" x2="20" y2="20"/>
+        <text x="20" y="15" font-size="12">0</text>
+        <!-- 1 -->
+        <line x1="120" y1="30" x2="120" y2="20"/>
+        <text x="118" y="15" font-size="12">1</text>
+        <!-- 2 -->
+        <line x1="220" y1="30" x2="220" y2="20"/>
+        <text x="218" y="15" font-size="12">2</text>
+        <!-- 3 -->
+        <line x1="320" y1="30" x2="320" y2="20"/>
+        <text x="318" y="15" font-size="12">3</text>
+
+	
+        
+
+        <!-- Garis pendek tiap 0.1 -->
+        <!-- dari 0 sampai 3.9 (total 40 garis) -->
+        <!-- Start at x=20, increment 10 -->
+	
+        <g>
+          <!-- draw 40 garis -->
+          <!-- total panjang garis = (40 x 10) = 400 -->
+          <!-- hanya sebagian untuk ilustrasi -->
+          <!-- garis pendek -->
+          <!-- mulai dari x=30 -->
+          <line x1="30" y1="30" x2="30" y2="25"/>
+          <line x1="40" y1="30" x2="40" y2="25"/>
+          <line x1="50" y1="30" x2="50" y2="25"/>
+          <line x1="60" y1="30" x2="60" y2="25"/>
+          <line x1="70" y1="30" x2="70" y2="25"/>
+          <line x1="80" y1="30" x2="80" y2="25"/>
+          <line x1="90" y1="30" x2="90" y2="25"/>
+          <line x1="100" y1="30" x2="100" y2="25"/>
+          <line x1="110" y1="30" x2="110" y2="25"/>
+	  <line x1="120" y1="30" x2="120" y2="25"/>
+          <line x1="130" y1="30" x2="130" y2="25"/>
+          <line x1="140" y1="30" x2="140" y2="25"/>
+          <line x1="150" y1="30" x2="150" y2="25"/>
+          <line x1="160" y1="30" x2="160" y2="25"/>
+          <line x1="170" y1="30" x2="170" y2="25"/>
+          <line x1="180" y1="30" x2="180" y2="25"/>
+          <line x1="190" y1="30" x2="190" y2="25"/>
+          <line x1="200" y1="30" x2="200" y2="25"/>
+          <line x1="210" y1="30" x2="210" y2="25"/>
+	  <line x1="220" y1="30" x2="220" y2="25"/>
+          <line x1="230" y1="30" x2="230" y2="25"/>
+          <line x1="240" y1="30" x2="240" y2="25"/>
+          <line x1="250" y1="30" x2="250" y2="25"/>
+          <line x1="260" y1="30" x2="260" y2="25"/>
+          <line x1="270" y1="30" x2="270" y2="25"/>
+          <line x1="280" y1="30" x2="280" y2="25"/>
+          <line x1="290" y1="30" x2="290" y2="25"/>
+          <line x1="300" y1="30" x2="300" y2="25"/>
+          <line x1="310" y1="30" x2="310" y2="25"/>
+	  <line x1="320" y1="30" x2="320" y2="25"/>
+          <line x1="330" y1="30" x2="330" y2="25"/>
+          <line x1="340" y1="30" x2="340" y2="25"/>
+          <line x1="350" y1="30" x2="350" y2="25"/>
+          <line x1="360" y1="30" x2="360" y2="25"/>
+          <line x1="370" y1="30" x2="370" y2="25"/>
+          <line x1="227" y1="30" x2="227" y2="60"/>
+<text x="229" y="65" font-size="12">0</text>
+          <line x1="236" y1="30" x2="236" y2="50"/>
+          <line x1="245" y1="30" x2="245" y2="50"/>
+          <line x1="254" y1="30" x2="254" y2="50"/>
+          <line x1="263" y1="30" x2="263" y2="50"/>
+          <line x1="272" y1="30" x2="272" y2="60"/>
+<text x="274" y="65" font-size="12">5</text>
+          <line x1="281" y1="30" x2="281" y2="50"/>
+          <line x1="290" y1="30" x2="290" y2="50"/>
+          <line x1="299" y1="30" x2="299" y2="50"/>
+          <line x1="308" y1="30" x2="308" y2="50"/>
+	  <line x1="317" y1="30" x2="317" y2="60"/>
+<text x="319" y="65" font-size="12">10</text>
+        </g>
+      </g>
+
+                  </svg>
+  </div>
+
+  <ul class="mt-4 text-lg">
+    <li><input type="radio" name="lat4soal9"> A. 1,07 cm</li>
+    <li><input type="radio" name="lat4soal9"> B. 1,57 cm</li>
+    <li><input type="radio" name="lat4soal9"> C. 2,07 cm</li>
+    <li><input type="radio" name="lat4soal9"> D. 2,57 cm</li>
+  </ul>
+  <button onclick="togglePembahasan('pembahasan-lat4-no9')" 
+      class="mt-6 px-5 py-3 bg-[#4dd4a3] text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition-all duration-300">
+      Lihat Pembahasan
+  </button>
+  <div id="pembahasan-lat4-no9" class="mt-6 p-5 bg-white rounded-lg hidden transition-all duration-300">
+    <h3 class="font-semibold text-lg text-green-700">Pembahasan:</h3>
+    <p>Skala utama menunjukkan 2,0 cm. Garis skala nonius yang tepat sejajar dengan skala utama adalah garis ke-7 (0,07 cm).</p>
+    <p>Jadi, panjang total = 2,00 + 0,07 = 2,07 cm.</p>
+    <p class="font-medium mt-3 text-[#4dd4a3] text-lg">Jawaban: C</p>
+  </div>
+</div>
+<!-- Soal 10 -->
+<div class="p-6 bg-yellow-100 rounded-lg shadow-md mt-6">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mt-6">Soal 10</h2>
+  <p class="mt-4 text-lg">
+    Seorang siswa mengukur volume sebuah balok dan mendapatkan hasil 3 m³. Ia diminta mengubah hasil pengukuran tersebut ke dalam satuan cm³.
+  </p>
+  <p class="mt-4 text-lg">
+    Berapakah hasil konversi volume tersebut dalam satuan cm³?
+  </p>
+  <ul class="mt-4 text-lg">
+    <li><input type="radio" name="lat4soal10"> A. 30.000 cm³</li>
+    <li><input type="radio" name="lat4soal10"> B. 300.000 cm³</li>
+    <li><input type="radio" name="lat4soal10"> C. 3.000.000 cm³</li>
+    <li><input type="radio" name="lat4soal10"> D. 30.000.000 cm³</li>
+  </ul>
+  <button onclick="togglePembahasan('pembahasan-lat4-no10')" 
+      class="mt-6 px-5 py-3 bg-[#4dd4a3] text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition-all duration-300">
+      Lihat Pembahasan
+  </button>
+  <div id="pembahasan-lat4-no10" class="mt-6 p-5 bg-white rounded-lg hidden transition-all duration-300">
+    <h3 class="font-semibold text-lg text-green-700">Pembahasan:</h3>
+    <p>Untuk mengubah m³ ke cm³, kita gunakan konversi satuan panjang: 1 m = 100 cm.</p>
+    <p>Karena ini volume, maka: 1 m³ = (100 cm)³ = 1.000.000 cm³</p>
+    <p>Jadi, 3 m³ = 3 × 1.000.000 = 3.000.000 cm³</p>
+    <p class="font-medium mt-3 text-[#4dd4a3] text-lg">Jawaban: C</p>
+  </div>
+</div>
+<!-- Soal 11 -->
+<div class="p-6 bg-yellow-100 rounded-lg shadow-md mt-6">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mt-6">Soal 11</h2>
+  <p class="mt-4 text-lg">
+    Seorang siswa bersepeda sejauh 12 km dari rumah ke sekolah dalam waktu 40 menit. Berapakah kecepatan rata-rata siswa tersebut dalam satuan km/jam?
+  </p>
+  <ul class="mt-4 text-lg">
+    <li><input type="radio" name="lat4soal11"> A. 12 km/jam</li>
+    <li><input type="radio" name="lat4soal11"> B. 16 km/jam</li>
+    <li><input type="radio" name="lat4soal11"> C. 18 km/jam</li>
+    <li><input type="radio" name="lat4soal11"> D. 24 km/jam</li>
+  </ul>
+  <button onclick="togglePembahasan('pembahasan-lat4-no11')" 
+      class="mt-6 px-5 py-3 bg-[#4dd4a3] text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition-all duration-300">
+      Lihat Pembahasan
+  </button>
+  <div id="pembahasan-lat4-no11" class="mt-6 p-5 bg-white rounded-lg hidden transition-all duration-300">
+    <h3 class="font-semibold text-lg text-green-700">Pembahasan:</h3>
+    <p>Waktu 40 menit = 2/3 jam. Kecepatan = Jarak / Waktu = 12 ÷ (2/3) = 18 km/jam</p>
+    <p class="font-medium mt-3 text-[#4dd4a3] text-lg">Jawaban: C</p>
+  </div>
+</div>
+
+<!-- Soal 12 -->
+<div class="p-6 bg-yellow-100 rounded-lg shadow-md mt-6">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mt-6">Soal 12</h2>
+  <p class="mt-4 text-lg">
+    Sebuah mobil menempuh jarak 150 km dalam waktu 2 jam 30 menit. Berapakah kecepatan rata-rata mobil tersebut?
+  </p>
+  <ul class="mt-4 text-lg">
+    <li><input type="radio" name="lat4soal12"> A. 50 km/jam</li>
+    <li><input type="radio" name="lat4soal12"> B. 55 km/jam</li>
+    <li><input type="radio" name="lat4soal12"> C. 60 km/jam</li>
+    <li><input type="radio" name="lat4soal12"> D. 65 km/jam</li>
+  </ul>
+  <button onclick="togglePembahasan('pembahasan-lat4-no12')" 
+      class="mt-6 px-5 py-3 bg-[#4dd4a3] text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition-all duration-300">
+      Lihat Pembahasan
+  </button>
+  <div id="pembahasan-lat4-no12" class="mt-6 p-5 bg-white rounded-lg hidden transition-all duration-300">
+    <h3 class="font-semibold text-lg text-green-700">Pembahasan:</h3>
+    <p>Waktu = 2 jam 30 menit = 2,5 jam. Kecepatan = 150 ÷ 2,5 = 60 km/jam</p>
+    <p class="font-medium mt-3 text-[#4dd4a3] text-lg">Jawaban: C</p>
+  </div>
+</div>
+
+<!-- Soal 13 -->
+<div class="p-6 bg-yellow-100 rounded-lg shadow-md mt-6">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mt-6">Soal 13</h2>
+  <p class="mt-4 text-lg">
+    Rani berjalan kaki sejauh 1.200 meter dalam waktu 15 menit. Jika ia ingin sampai di tempat tujuan dua kali lebih cepat, berapa kecepatan rata-rata minimal yang harus ia capai?
+  </p>
+  <ul class="mt-4 text-lg">
+    <li><input type="radio" name="lat4soal13"> A. 1,6 m/s</li>
+    <li><input type="radio" name="lat4soal13"> B. 2,0 m/s</li>
+    <li><input type="radio" name="lat4soal13"> C. 2,4 m/s</li>
+    <li><input type="radio" name="lat4soal13"> D. 2,6 m/s</li>
+  </ul>
+  <button onclick="togglePembahasan('pembahasan-lat4-no13')" 
+      class="mt-6 px-5 py-3 bg-[#4dd4a3] text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition-all duration-300">
+      Lihat Pembahasan
+  </button>
+  <div id="pembahasan-lat4-no13" class="mt-6 p-5 bg-white rounded-lg hidden transition-all duration-300">
+    <h3 class="font-semibold text-lg text-green-700">Pembahasan:</h3>
+    <p>Waktu awal: 15 menit = 900 detik → Kecepatan awal = 1200 ÷ 900 = 1,33 m/s</p>
+    <p>Agar dua kali lebih cepat, waktu = 450 detik → Kecepatan = 1200 ÷ 450 = 2,67 m/s ≈ 2,6 m/s</p>
+    <p class="font-medium mt-3 text-[#4dd4a3] text-lg">Jawaban: D</p>
+  </div>
+</div>
+<!-- Soal 14 -->
+<div class="p-6 bg-yellow-100 rounded-lg shadow-md mt-6">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mt-6">Soal 14</h2>
+  <p class="mt-4 text-lg">
+    Perhatikan gambar berikut ini! Berapakah panjang pensil berdasarkan hasil pengukuran pada skala penggaris?
+  </p>
+
+  <!-- SVG Gambar Penggaris -->
+  <div class="my-6">
+    <svg width="700" height="100" xmlns="http://www.w3.org/2000/svg">
+  <!-- Garis Utama Penggaris -->
+  <line x1="50" y1="30" x2="650" y2="30" stroke="black" stroke-width="2"/>
+
+  <!-- Skala mm dan cm -->
+  <g font-size="12" fill="black">
+    <!-- Tiap cm = garis panjang + angka -->
+    <!-- Tiap mm = garis pendek -->
+    <!-- 0–6 cm (tiap 1 cm = 100px / 10 mm = 10px) -->
+    <!-- Garis dan angka cm -->
+    <line x1="50" y1="30" x2="50" y2="10" stroke="black"/>
+    <text x="46" y="60">0</text>
+
+    <line x1="150" y1="30" x2="150" y2="10" stroke="black"/>
+    <text x="146" y="60">1</text>
+
+    <line x1="250" y1="30" x2="250" y2="10" stroke="black"/>
+    <text x="246" y="60">2</text>
+
+    <line x1="350" y1="30" x2="350" y2="10" stroke="black"/>
+    <text x="346" y="60">3</text>
+
+    <line x1="450" y1="30" x2="450" y2="10" stroke="black"/>
+    <text x="446" y="60">4</text>
+
+    <line x1="550" y1="30" x2="550" y2="10" stroke="black"/>
+    <text x="546" y="60">5</text>
+
+    <line x1="650" y1="30" x2="650" y2="10" stroke="black"/>
+    <text x="646" y="60">6</text>
+
+    <!-- Garis tiap mm -->
+    <g>
+      <!-- 60 mm total = 600px -->
+      <!-- dimulai dari x=50 -->
+      <!-- setiap 10 mm sudah digambarkan di atas -->
+      <!-- buat garis tiap 1 mm (kecuali kelipatan 10) -->
+      <!-- manual contoh 1–9 mm -->
+      <line x1="60" y1="30" x2="60" y2="20" stroke="black"/>
+      <line x1="70" y1="30" x2="70" y2="20" stroke="black"/>
+      <line x1="80" y1="30" x2="80" y2="20" stroke="black"/>
+      <line x1="90" y1="30" x2="90" y2="20" stroke="black"/>
+      <line x1="100" y1="30" x2="100" y2="20" stroke="black"/>
+      <line x1="110" y1="30" x2="110" y2="20" stroke="black"/>
+      <line x1="120" y1="30" x2="120" y2="20" stroke="black"/>
+      <line x1="130" y1="30" x2="130" y2="20" stroke="black"/>
+      <line x1="140" y1="30" x2="140" y2="20" stroke="black"/>
+      <line x1="150" y1="30" x2="150" y2="20" stroke="black"/>
+      <line x1="160" y1="30" x2="160" y2="20" stroke="black"/>
+      <line x1="170" y1="30" x2="170" y2="20" stroke="black"/>
+      <line x1="180" y1="30" x2="180" y2="20" stroke="black"/>
+      <line x1="190" y1="30" x2="190" y2="20" stroke="black"/>
+      <line x1="200" y1="30" x2="200" y2="20" stroke="black"/>
+      <line x1="210" y1="30" x2="210" y2="20" stroke="black"/>
+      <line x1="220" y1="30" x2="220" y2="20" stroke="black"/>
+      <line x1="230" y1="30" x2="230" y2="20" stroke="black"/>
+      <line x1="240" y1="30" x2="240" y2="20" stroke="black"/>
+      <line x1="250" y1="30" x2="250" y2="20" stroke="black"/>
+      <line x1="260" y1="30" x2="260" y2="20" stroke="black"/>
+      <line x1="270" y1="30" x2="270" y2="20" stroke="black"/>
+      <line x1="280" y1="30" x2="280" y2="20" stroke="black"/>
+      <line x1="290" y1="30" x2="290" y2="20" stroke="black"/>
+      <line x1="300" y1="30" x2="300" y2="20" stroke="black"/>
+      <line x1="310" y1="30" x2="310" y2="20" stroke="black"/>
+      <line x1="320" y1="30" x2="320" y2="20" stroke="black"/>
+      <line x1="330" y1="30" x2="330" y2="20" stroke="black"/>
+      <line x1="340" y1="30" x2="340" y2="20" stroke="black"/>
+      <line x1="350" y1="30" x2="350" y2="20" stroke="black"/>
+      <line x1="360" y1="30" x2="360" y2="20" stroke="black"/>
+      <line x1="370" y1="30" x2="370" y2="20" stroke="black"/>
+      <line x1="380" y1="30" x2="380" y2="20" stroke="black"/>
+      <line x1="390" y1="30" x2="390" y2="20" stroke="black"/>
+      <line x1="400" y1="30" x2="400" y2="20" stroke="black"/>
+      <line x1="410" y1="30" x2="410" y2="20" stroke="black"/>
+      <line x1="420" y1="30" x2="420" y2="20" stroke="black"/>
+      <line x1="430" y1="30" x2="430" y2="20" stroke="black"/>
+      <line x1="440" y1="30" x2="440" y2="20" stroke="black"/>
+      <line x1="450" y1="30" x2="450" y2="20" stroke="black"/>
+      <line x1="460" y1="30" x2="460" y2="20" stroke="black"/>
+      <line x1="470" y1="30" x2="470" y2="20" stroke="black"/>
+      <line x1="480" y1="30" x2="480" y2="20" stroke="black"/>
+      <line x1="490" y1="30" x2="490" y2="20" stroke="black"/>
+      <line x1="500" y1="30" x2="500" y2="20" stroke="black"/>
+      <line x1="510" y1="30" x2="510" y2="20" stroke="black"/>
+      <line x1="520" y1="30" x2="520" y2="20" stroke="black"/>
+      <line x1="530" y1="30" x2="530" y2="20" stroke="black"/>
+      <line x1="540" y1="30" x2="540" y2="20" stroke="black"/>
+      <line x1="550" y1="30" x2="550" y2="20" stroke="black"/>
+      <line x1="560" y1="30" x2="560" y2="20" stroke="black"/>
+      <line x1="570" y1="30" x2="570" y2="20" stroke="black"/>
+      <line x1="580" y1="30" x2="580" y2="20" stroke="black"/>
+      <line x1="590" y1="30" x2="590" y2="20" stroke="black"/>
+      <line x1="600" y1="30" x2="600" y2="20" stroke="black"/>
+      <line x1="610" y1="30" x2="610" y2="20" stroke="black"/>
+      <line x1="620" y1="30" x2="620" y2="20" stroke="black"/>
+      <line x1="630" y1="30" x2="630" y2="20" stroke="black"/>
+      <line x1="640" y1="30" x2="640" y2="20" stroke="black"/>
+      <line x1="650" y1="30" x2="650" y2="20" stroke="black"/>
+      
+    </g>
+  </g>
+
+  <!-- Gambar Pensil -->
+  <!-- Badan Pensil -->
+  <rect x="50" y="40" width="210" height="10" fill="#f4c542" rx="2"/>
+  <!-- Garis tepi -->
+  <line x1="50" y1="40" x2="260" y2="40" stroke="black" stroke-width="1"/>
+  <line x1="50" y1="50" x2="260" y2="50" stroke="black" stroke-width="1"/>
+
+  <!-- Ujung Runcing -->
+  <polygon points="260,40 280,45 260,50" fill="#a0522d" stroke="black"/>
+
+  
+  <!-- Penghapus -->
+  <rect x="50" y="40" width="5" height="10" fill="#ff6b6b" stroke="black"/>
+
+  <text x="320" y="80" font-size="12">Pensil</text>
+</svg>
+
+  </div>
+
+  <ul class="mt-4 text-lg">
+    <li><input type="radio" name="lat4soal14"> A. 2.0 cm</li>
+    <li><input type="radio" name="lat4soal14"> B. 2.1 cm</li>
+    <li><input type="radio" name="lat4soal14"> C. 2.2 cm</li>
+    <li><input type="radio" name="lat4soal14"> D. 2.3 cm</li>
+  </ul>
+  <button onclick="togglePembahasan('pembahasan-lat4-no14')" 
+      class="mt-6 px-5 py-3 bg-[#4dd4a3] text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition-all duration-300">
+      Lihat Pembahasan
+  </button>
+  <div id="pembahasan-lat4-no14" class="mt-6 p-5 bg-white rounded-lg hidden transition-all duration-300">
+    <h3 class="font-semibold text-lg text-green-700">Pembahasan:</h3>
+    <p>Gambar menunjukkan bahwa panjang pensil dimulai dari 0 cm dan berakhir tepat di angka 2.3 cm.</p>
+    <p class="font-medium mt-3 text-[#4dd4a3] text-lg">Jawaban: D</p>
+  </div>
+</div>
+
+<!-- Soal 15 -->
+<div class="p-6 bg-yellow-100 rounded-lg shadow-md mt-6">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mt-6">Soal 15</h2>
+  <p class="mt-4 text-lg">
+    Perhatikan gambar skala mikrometer sekrup berikut ini! Berapakah hasil pengukuran diameter kelereng berdasarkan skala yang ditunjukkan?
+  </p>
+
+  <!-- SVG Mikrometer Sekrup -->
+  <div class="my-6">
+    
+      <svg width="700px" height="300px" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect x="0" y="0" width="700px" height="300px" fill="#f0f0f0"/>
+
+  <!-- Sleeve (Skala Utama) -->
+  <rect x="50" y="100" width="300" height="100" fill="#dcdcdc" stroke="black"/>
+  <text x="65" y="120" font-size="20px" fill="black">5</text>
+  <text x="165" y="120" font-size="20px" fill="black">10</text>
+<text x="258" y="120" font-size="20px" fill="black">15</text>
+
+  <!-- Garis-garis skala utama -->
+<line x1="70" y1="150" x2="350" y2="150" stroke="black" stroke-width="2"/>
+  <line x1="70" y1="120" x2="70" y2="150" stroke="black" stroke-width="2"/>
+  <line x1="90" y1="130" x2="90" y2="150" stroke="black"/>
+  <line x1="110" y1="130" x2="110" y2="150" stroke="black"/>
+  <line x1="130" y1="130" x2="130" y2="150" stroke="black"/>
+  <line x1="150" y1="130" x2="150" y2="150" stroke="black" />
+  <line x1="170" y1="120" x2="170" y2="150" stroke="black" stroke-width="2"/>
+  <line x1="190" y1="130" x2="190" y2="150" stroke="black" />
+  <line x1="210" y1="130" x2="210" y2="150" stroke="black"/>
+  <line x1="230" y1="130" x2="230" y2="150" stroke="black" />
+  <line x1="250" y1="130" x2="250" y2="150" stroke="black"/>
+  <line x1="270" y1="120" x2="270" y2="150" stroke="black" stroke-width="2"/>
+   <line x1="290" y1="130" x2="290" y2="150" stroke="black"/>
+<line x1="310" y1="130" x2="310" y2="150" stroke="black"/>
+<line x1="330" y1="130" x2="330" y2="150" stroke="black"/>
+<line x1="350" y1="130" x2="350" y2="150" stroke="black"/>
+<line x1="370" y1="130" x2="370" y2="150" stroke="black"/>
+<line x1="80" y1="170" x2="80" y2="150" stroke="black"/>
+<line x1="100" y1="170" x2="100" y2="150" stroke="black"/>
+<line x1="120" y1="170" x2="120" y2="150" stroke="black"/>
+<line x1="140" y1="170" x2="140" y2="150" stroke="black"/>
+<line x1="160" y1="170" x2="160" y2="150" stroke="black"/>
+<line x1="180" y1="170" x2="180" y2="150" stroke="black"/>
+<line x1="200" y1="170" x2="200" y2="150" stroke="black"/>
+<line x1="220" y1="170" x2="220" y2="150" stroke="black"/>
+<line x1="240" y1="170" x2="240" y2="150" stroke="black"/>
+<line x1="260" y1="170" x2="260" y2="150" stroke="black"/>
+<line x1="280" y1="170" x2="280" y2="150" stroke="black"/>
+<line x1="300" y1="170" x2="300" y2="150" stroke="black"/>
+<line x1="320" y1="170" x2="320" y2="150" stroke="black"/>
+<line x1="340" y1="170" x2="340" y2="150" stroke="black"/>
+
+  <!-- Penutup skala utama (penampang silinder thimble) -->
+  <polygon points="350,100 440,70 440,230 350,200" fill="#bfbfbf" stroke="black"/>
+ 
+  <!-- Garis skala putar -->
+  <line x1="350" y1="105" x2="370" y2="105" stroke="black" stroke-width="2"/>
+  <line x1="350" y1="120" x2="390" y2="120" stroke="black" stroke-width="2"/>
+  <line x1="350" y1="135" x2="370" y2="135" stroke="black" stroke-width="2"/>
+  <line x1="350" y1="150" x2="370" y2="150" stroke="black" stroke-width="2"/>
+  <line x1="350" y1="165" x2="370" y2="165" stroke="black" stroke-width="2"/>
+  <line x1="350" y1="180" x2="370" y2="180" stroke="black" stroke-width="2"/>
+  <line x1="350" y1="195" x2="390" y2="195" stroke="black" stroke-width="2"/>
+
+
+  <!-- Label angka thimble -->
+  <text x="400" y="120" font-size="20px" fill="black">45</text>
+  <text x="400" y="195" font-size="20px" fill="black">40</text>
+
+  <!-- Garis pembacaan sejajar -->
+  <line x1="350" y1="150" x2="370" y2="150" stroke="red" stroke-width="3"/>
+</svg>
+
+  </div>
+
+  <ul class="mt-4 text-lg">
+    <li><input type="radio" name="lat4soal15"> A. 17,43 mm</li>
+    <li><input type="radio" name="lat4soal15"> B. 17,93 mm</li>
+    <li><input type="radio" name="lat4soal15"> C. 18,43 mm</li>
+    <li><input type="radio" name="lat4soal15"> D. 18,93 mm</li>
+  </ul>
+  <button onclick="togglePembahasan('pembahasan-lat4-no15')" 
+      class="mt-6 px-5 py-3 bg-[#4dd4a3] text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition-all duration-300">
+      Lihat Pembahasan
+  </button>
+  <div id="pembahasan-lat4-no15" class="mt-6 p-5 bg-white rounded-lg hidden transition-all duration-300">
+    <h3 class="font-semibold text-lg text-green-700">Pembahasan:</h3>
+    <p>Skala utama menunjukkan 18,5 mm, dan skala nonius menunjukkan angka 43, berarti 0,43 mm.</p>
+    <p>Jadi hasil pengukuran = 18,50 mm + 0,43 mm = <strong>18,93 mm</strong>.</p>
+    <p class="font-medium mt-3 text-[#4dd4a3] text-lg">Jawaban: D</p>
+  </div>
+</div>
+
+</div>
+
+
+
+<script>
+  function cekDropdown(idSelect, jawabanBenar, idHasil) {
+    const selected = document.getElementById(idSelect).value.toLowerCase();
+    const hasil = document.getElementById(idHasil);
+    if (selected === jawabanBenar) {
+      hasil.innerText = "✅ Benar!";
+      hasil.className = "text-green-600 font-semibold";
+    } else {
+      hasil.innerText = "❌ Coba lagi!";
+      hasil.className = "text-red-600 font-semibold";
+    }
+  }
+
+  function cekInput(idInput, kunciJawaban, idHasil) {
+    const input = document.getElementById(idInput).value.trim().toLowerCase();
+    const hasil = document.getElementById(idHasil);
+    if (kunciJawaban.includes(input)) {
+      hasil.innerText = "✅ Benar!";
+      hasil.className = "text-green-600 font-semibold";
+    } else {
+      hasil.innerText = "❌ Coba lagi!";
+      hasil.className = "text-red-600 font-semibold";
+    }
+  }
+</script>
+
+
+
+<script>
+  function cekInput(inputId, kunciList, hasilId) {
+    const userJawabanRaw = document.getElementById(inputId).value.trim().toLowerCase();
+    const hasilEl = document.getElementById(hasilId);
+
+    if (userJawabanRaw === "") {
+      hasilEl.innerHTML = "Isi dulu ya!";
+      hasilEl.className = "font-semibold text-yellow-600";
+      return;
+    }
+
+    const userList = userJawabanRaw.split(',').map(x => x.trim()).filter(Boolean);
+    const kunciLower = kunciList.map(x => x.toLowerCase()).sort();
+    const userSorted = userList.sort();
+
+    const isCorrect = userSorted.length === kunciLower.length && userSorted.every((val, idx) => val === kunciLower[idx]);
+
+    if (isCorrect) {
+      hasilEl.innerHTML = "✅ Benar";
+      hasilEl.className = "font-semibold text-green-600";
+    } else {
+      hasilEl.innerHTML = "❌ Salah";
+      hasilEl.className = "font-semibold text-red-600";
+    }
+  }
+</script>
+</div><br>
+
+
+
+
+
+
+
+
+
+
+</div>
+    <script>
+    function togglePembahasan(id) {
+        var x = document.getElementById(id);
+        if (x.style.display === "none" || x.style.display === "") {
+            x.style.display = "block";
+        } else {
+            x.style.display = "none";
+        }
+    }
+</script>
+
+
+<script>
+    function togglePembahasan(id) {
+        var pembahasan = document.getElementById(id);
+        pembahasan.classList.toggle("hidden");
+    }
+</script>
+
+<script>
+function cekPilihan(name, jawabanBenar, idHasil) {
+  const pilihan = document.querySelector(`input[name="${name}"]:checked`);
+  const hasil = document.getElementById(idHasil);
+  if (!pilihan) {
+    hasil.textContent = "Pilih jawaban terlebih dahulu!";
+    hasil.style.color = "red";
+    return;
+  }
+  if (pilihan.value === jawabanBenar) {
+    hasil.textContent = "Jawaban benar!";
+    hasil.style.color = "green";
+  } else {
+    hasil.textContent = "Jawaban salah, coba lagi.";
+    hasil.style.color = "red";
+  }
+}
+</script>
+    <script>
+        function toggleSidebar() {
+            let sidebar = document.getElementById("sidebar");
+            if (sidebar.style.left === "-250px") {
+                sidebar.style.left = "0";
+            } else {
+                sidebar.style.left = "-250px";
+            }
+        }
+    </script>
+<script>
+  function checkLogin() {
+    const user = document.getElementById("username").value;
+    const pass = document.getElementById("password").value;
+
+    // Akun yang sudah disediakan
+    const validAccounts = [
+      { username: "admin", password: "12345" },
+      { username: "user1", password: "abcde" },
+      { username: "Diza MTSN 1 Brebes 7", password: "semangatbelajar45" },
+    { username: "kelas7", password: "kelas7" }
+];
+
+    const found = validAccounts.find(acc => acc.username === user && acc.password === pass);
+
+    if (found) {
+      document.getElementById("loginForm").style.display = "none";
+      document.getElementById("content22").classList.remove("hidden");
+    } else {
+      document.getElementById("errorMsg").innerText = "Username atau password salah!";
+    }
+  }
+</script>
+
+</body>
+</html>
