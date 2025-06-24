@@ -1,0 +1,2219 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Media Pembelajaran Interaktif</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script> 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+        body {
+            display: flex;
+            flex-direction: column;
+            background: linear-gradient(135deg, #e3f2fd, #fce4ec);
+            position: relative;
+	    justify-content: center;
+	    align-items: center;
+	    min-height: 100vh
+	
+	}
+        body::before,
+        body::after {
+            content: "";
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            background: white;
+            border-radius: 50%;
+            z-index: -1;
+        }
+        body::before {
+            top: -30%;
+            right: -30%;
+        }
+        body::after {
+            bottom: -50%;
+            left: -30%;
+        }
+	html, body {
+    overflow-x: hidden;
+}
+
+.login-box {
+    background: linear-gradient(135deg, #ce9ffc, #f9c7d9); /* Ganti background */
+    padding: 30px;
+    border-radius: 12px;
+    max-width: 500px;
+    margin: 10px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.2);
+    text-align: center;
+}
+
+.login-box h2 {
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.login-box input {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: none;
+    border-radius: 6px;
+    outline: none;
+}
+
+.login-box button {
+    width: 100%;
+    padding: 10px;
+    background: linear-gradient(135deg, #6a11cb, #2575fc); /* Ganti background tombol */
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.login-box button:hover {
+    background: linear-gradient(135deg, #5e0dca, #1d60e7); /* Hover efek */
+}
+    .hidden {
+      display: none;
+    }
+        .sidebar {
+            width: 250px;
+            height: 100vh;
+            background: #4dd4a3;
+            position: fixed;
+            left: -250px;
+            transition: left 0.3s ease-in-out;
+            padding-top: 20px;
+            z-index: 1300;
+        }
+        .sidebar h2 {
+            color: white;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+        }
+        .sidebar ul li {
+            padding: 5px;
+            text-align: left;
+        }
+        .sidebar ul li a {
+            text-decoration: none;
+            color: white;
+            font-size: 16px;
+            display: block;
+        }
+        .sidebar ul li:hover {
+            background: #f8d444;
+        }
+        .toggle-btn {
+            position: fixed;
+            left: 20px;
+            top: 20px;
+            font-size: 24px;
+            cursor: pointer;
+            background: #f8d444;
+            padding: 5px 10px;
+            border-radius: 5px;
+            color: white;
+            z-index: 1400;
+        }
+        .close-btn {
+            position: absolute;
+            right: 20px;
+            top: 20px;
+            font-size: 24px;
+            cursor: pointer;
+            color: white;
+            background: #f8d444;
+            padding: 5px 10px;
+            border-radius: 5px;
+        }
+        .header {
+            background: white;
+            padding: 20px;
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+            border-radius: 10px;
+            position: sticky;
+            top: 0;
+            z-index: 1200;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .header span {
+            flex: 80%;
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+	    color: #4dd4a3;
+        }
+        .header img {
+            flex: 20%;
+            max-width: 60px;
+            height: auto;
+            margin-left: 10px;
+        }
+        .content {
+            width: 100%;
+            padding: 20px;
+            text-align: center;
+                }
+	
+    </style>
+</head>
+<body>
+<div class="login-box" id="loginForm">
+  <h2>Login</h2>
+  <input type="text" id="username" placeholder="Username" /><br><br>
+  <input type="password" id="password" placeholder="Password" /><br><br>
+  <button onclick="checkLogin()">Masuk</button>
+  <p id="errorMsg" style="color:red;"></p>
+</div>
+
+<div id="content22" class="hidden">
+
+    <div class="sidebar" id="sidebar">
+        <span class="close-btn" onclick="toggleSidebar()">&times;</span>
+        <h2 class=" text-2xl text-semibold ">Menu</h2>
+        <ul>
+            <li ><a href="persamaan garis lurus.html" ▶️ Persamaan Garis Lurus</a></li>
+	    <li ><a href="Peluang.html" ">▶️ Peluang</a></li>
+	    <li ><a href="#Relasi dan Fungsi" >▶️ Relasi dan Fungsi</a></li>
+	    <li ><a href="Statistika.html" >▶️ Statistika</a></li>
+	    <li ><a href="Segitiga dan Segi Empat.html" >▶️ Segitiga dan Segi Empat</a></li>
+	    <li ><a href="Aljabar.html" >▶️ Aljabar</a></li>
+
+        </ul>
+    </div>
+    
+    <div class="toggle-btn" onclick="toggleSidebar()">
+        <i class="fas fa-bars"></i>
+    </div>
+    
+    <div class="header">
+        <span>Media Pembelajaran Interaktif</span>
+        <img src="logo.png" alt="Logo">
+    </div>
+    
+    <!-- Konten Utama -->
+    <div class="ml-0 w-full max-w-7xl mx-auto bg-white p-8 rounded-lg shadow-2xl" style="margin-right: 10px;">
+        <h1 class="text-3xl font-bold text-center text-[#4dd4a3] mb-6">IPA SMP</h1>
+        
+        <!-- Zat dan Perubahannya  -->
+
+<div id="HakikatSains" class="mb-8">
+    <h1 class="text-2xl font-bold mb-4 text-[#4dd4a3]">Zat dan Perubahannya</h1>
+    <ul class="text-black p-6 bg-[#4dd4a3] rounded-lg shadow-md">
+    <li class="mb-3">
+        <a href="#1.-Wujud-Zat-dan-Model-Partikel" class="hover:text-white">1. Wujud Zat dan Model Partikel</a>
+    </li>
+    <li class="mb-3 ml-6">
+        <a href="#1.1-Menyelidiki-Sifat-Kompresibilitas-Zat" class="hover:text-white">1.1 Menyelidiki Sifat Kompresibilitas Zat (Materi)</a>
+    </li>
+    <li class="mb-3 ml-6">
+        <a href="#1.2-Menyelidiki-Proses-Perubahan-Wujud-Zat" class="hover:text-white">1.2 Menyelidiki Proses Perubahan Wujud Zat</a>
+    </li>
+    <li class="mb-3 ml-6">
+        <a href="#1.3-Menyusun-Model-Partikel-Zat" class="hover:text-white">1.3 Menyusun Model Partikel Zat Padat, Cair, dan Gas</a>
+    </li>
+
+    <li class="mb-3">
+        <a href="#2.-Perubahan-Fisika-dan-Kimia" class="hover:text-white">2. Perubahan Fisika dan Kimia</a>
+    </li>
+    <li class="mb-3 ml-6">
+        <a href="#2.1-Membandingkan-Perubahan-Fisika-dan-Kimia" class="hover:text-white">2.1 Membandingkan Perubahan Fisika dan Kimia</a>
+    </li>
+    <li class="mb-3 ml-6">
+        <a href="#2.2-Mengidentifikasi-Perubahan-Zat-Sehari-hari" class="hover:text-white">2.2 Mengidentifikasi Perubahan Zat dalam Kehidupan Sehari-hari</a>
+    </li>
+    <li class="mb-3 ml-6">
+        <a href="#2.3-Mendeskripsikan-Siklus-Air-dan-Reaksi-Kimia" class="hover:text-white">2.3 Mendeskripsikan Siklus Air dan Tanda Reaksi Kimia</a>
+    </li>
+
+    <li class="mb-3">
+        <a href="#3.-Kerapatan-Massa-Jenis-Zat" class="hover:text-white">3. Kerapatan (Massa Jenis) Zat</a>
+    </li>
+    <li class="mb-3 ml-6">
+        <a href="#3.1-Mengukur-dan-Menentukan-Massa-Jenis" class="hover:text-white">3.1 Mengukur dan Menentukan Massa Jenis Benda</a>
+    </li>
+    <li class="mb-3 ml-6">
+        <a href="#3.2-Mengidentifikasi-Massa-Jenis" class="hover:text-white">3.2 Mengidentifikasi Massa Jenis sebagai Sifat Benda</a>
+    </li>
+    <li class="mb-3 ml-6">
+        <a href="#3.3-Menganalisis-Hubungan-Massa-Jenis-dengan-Kondisi-di-Air" class="hover:text-white">3.3 Menganalisis Hubungan Massa Jenis dengan Kondisi Benda di Air</a>
+    </li>
+</ul>
+
+
+<br>
+	<div id="1.-Sains-dan-Metode-Ilmiah">
+    <p class="text-xl font-semibold mb-4 text-[#4dd4a3]">1. Sains dan Metode Ilmiah</p>
+    <p class="mt-2 ml-4"><strong>Sains</strong> adalah suatu cara sistematis dalam memahami alam semesta melalui pengamatan, eksperimen, dan penalaran logis. Sains mencakup pengetahuan yang diperoleh dari penyelidikan dan pengujian terhadap fenomena alam.</p>
+</div><br>
+
+<div id="1.-Wujud-Zat-dan-Model-Partikel">
+    <p class="text-2xl font-semibold mb-4 text-[#4dd4a3]">1. Wujud Zat dan Model Partikel</p>
+</div><br>
+
+<div id="1.1-Menyelidiki-Sifat-Kompresibilitas-Zat">
+    <p class="text-xl font-semibold mb-4 text-[#4dd4a3]">1.1 Menyelidiki Sifat Kompresibilitas Zat (Materi)</p>
+    <p class="mt-2 ml-4">Kompresibilitas adalah kemampuan suatu zat untuk ditekan sehingga volumenya berkurang.</p>
+    <p class="mt-2 ml-4">Zat memiliki tiga wujud utama yaitu padat, cair, dan gas. Masing-masing memiliki tingkat kompresibilitas yang berbeda:</p>
+    <ul class="mt-2 ml-8 list-disc">
+        <li><strong>Zat padat:</strong> Tidak dapat dikompresi karena partikel-partikelnya tersusun sangat rapat.</li>
+        <li><strong>Zat cair:</strong> Hampir tidak dapat dikompresi karena partikel masih cukup rapat, namun lebih longgar dari zat padat.</li>
+        <li><strong>Zat gas:</strong> Sangat mudah dikompresi karena partikel-partikelnya sangat renggang dan bergerak bebas.</li>
+    </ul>
+    <p class="mt-2 ml-4">Contoh: Balon udara dapat ditiup karena udara (gas) dapat ditekan dan volumenya berubah.</p>
+</div><br>
+
+<div id="1.2-Menyelidiki-Proses-Perubahan-Wujud-Zat">
+    <p class="text-xl font-semibold mb-4 text-[#4dd4a3]">1.2 Menyelidiki Proses Perubahan Wujud Zat</p>
+    <p class="mt-2 ml-4">Perubahan wujud zat adalah perubahan fisik yang terjadi ketika suatu zat berpindah dari satu wujud ke wujud lain, akibat perubahan suhu atau tekanan.</p>
+    <ul class="mt-2 ml-8 list-disc">
+        <li><strong>Mencair (meleleh):</strong> Padat → Cair (contoh: es mencair)</li>
+        <li><strong>Membeku:</strong> Cair → Padat (contoh: air menjadi es)</li>
+        <li><strong>Menguap:</strong> Cair → Gas (contoh: air mendidih menjadi uap)</li>
+        <li><strong>Mengkristal:</strong> Gas → Padat (contoh: uap air menjadi salju di suhu dingin)</li>
+        <li><strong>Mengkondensasi:</strong> Gas → Cair (contoh: embun di pagi hari)</li>
+        <li><strong>Menyublim:</strong> Padat → Gas (contoh: kapur barus menguap)</li>
+        <li><strong>Mengendap (deposisi):</strong> Gas → Padat tanpa melalui fase cair</li>
+    </ul>
+    <p class="mt-2 ml-4">Perubahan ini tidak mengubah jenis zatnya, hanya bentuk fisiknya saja.</p>
+</div><br>
+
+<div id="1.3-Menyusun-Model-Partikel-Zat">
+    <p class="text-xl font-semibold mb-4 text-[#4dd4a3]">1.3 Menyusun Model Partikel Zat Padat, Cair, dan Gas</p>
+    <p class="mt-2 ml-4">Setiap zat terdiri dari partikel-partikel kecil yang tidak terlihat oleh mata, seperti atom atau molekul. Cara partikel-partikel ini tersusun menentukan sifat-sifat fisik zat tersebut.</p>
+    <ul class="mt-2 ml-8 list-disc">
+        <li><strong>Zat Padat:</strong> Partikel tersusun rapat dan teratur, hanya bergetar di tempatnya. Bentuk dan volume tetap.</li>
+        <li><strong>Zat Cair:</strong> Partikel tersusun agak renggang, bergerak bebas tapi masih saling menarik. Bentuk berubah sesuai wadah, volume tetap.</li>
+        <li><strong>Zat Gas:</strong> Partikel sangat renggang dan bergerak bebas ke segala arah. Bentuk dan volume mengikuti wadah.</li>
+    </ul>
+    <div class="p-4 bg-[#4dd4a3] rounded-lg shadow-md mt-4">
+        <p class="font-semibold">Ilustrasi Model Partikel</p>
+        <svg viewBox="0 0 640 470" width="100%" height="auto" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="100%" height="100%" fill="#f4fdfc" />
+
+  <!-- Label Atas -->
+  <text x="115" y="40" font-size="16" font-family="Segoe UI" fill="#2abfa3" font-weight="600" text-anchor="middle">Zat Padat</text>
+  <text x="305" y="40" font-size="16" font-family="Segoe UI" fill="#2abfa3" font-weight="600" text-anchor="middle">Zat Cair</text>
+  <text x="495" y="40" font-size="16" font-family="Segoe UI" fill="#2abfa3" font-weight="600" text-anchor="middle">Zat Gas</text>
+
+  <!-- Wadah -->
+  <rect x="40" y="60" width="150" height="250" rx="20" fill="white" stroke="#b2dfdb" stroke-width="2" filter="url(#shadow)"/>
+  <rect x="230" y="60" width="150" height="250" rx="20" fill="white" stroke="#b2dfdb" stroke-width="2" filter="url(#shadow)"/>
+  <rect x="420" y="60" width="150" height="250" rx="20" fill="white" stroke="#b2dfdb" stroke-width="2" filter="url(#shadow)"/>
+
+  <!-- Filter Shadow -->
+  <defs>
+    <filter id="shadow" x="-10%" y="-10%" width="150%" height="150%">
+      <feDropShadow dx="0" dy="4" stdDeviation="4" flood-color="#ccc" />
+    </filter>
+  </defs>
+
+  <!-- Partikel Padat -->
+  <g fill="url(#padatGrad)">
+    <circle r="8"><animate attributeName="cx" values="60;62;60" dur="1s" repeatCount="indefinite"/>
+      <animate attributeName="cy" values="90;92;90" dur="1s" repeatCount="indefinite"/></circle>
+    <circle r="8"><animate attributeName="cx" values="90;92;90" dur="1s" repeatCount="indefinite"/>
+      <animate attributeName="cy" values="90;88;90" dur="1s" repeatCount="indefinite"/></circle>
+    <circle r="8"><animate attributeName="cx" values="120;122;120" dur="1s" repeatCount="indefinite"/>
+      <animate attributeName="cy" values="90;92;90" dur="1s" repeatCount="indefinite"/></circle>
+
+    <circle r="8"><animate attributeName="cx" values="60;58;60" dur="1s" repeatCount="indefinite"/>
+      <animate attributeName="cy" values="120;118;120" dur="1s" repeatCount="indefinite"/></circle>
+    <circle r="8"><animate attributeName="cx" values="90;92;90" dur="1s" repeatCount="indefinite"/>
+      <animate attributeName="cy" values="120;122;120" dur="1s" repeatCount="indefinite"/></circle>
+    <circle r="8"><animate attributeName="cx" values="120;118;120" dur="1s" repeatCount="indefinite"/>
+      <animate attributeName="cy" values="120;118;120" dur="1s" repeatCount="indefinite"/></circle>
+  </g>
+
+  <!-- Partikel Cair -->
+  <g fill="url(#cairGrad)">
+    <circle cx="260" cy="100" r="10"><animate attributeName="cx" values="260;265;260" dur="3s" repeatCount="indefinite"/>
+      <animate attributeName="cy" values="100;105;100" dur="3s" repeatCount="indefinite"/></circle>
+    <circle cx="290" cy="120" r="10"><animate attributeName="cx" values="290;295;290" dur="2.5s" repeatCount="indefinite"/>
+      <animate attributeName="cy" values="120;125;120" dur="2.5s" repeatCount="indefinite"/></circle>
+    <circle cx="320" cy="100" r="10"><animate attributeName="cx" values="320;325;320" dur="2s" repeatCount="indefinite"/>
+      <animate attributeName="cy" values="100;95;100" dur="2s" repeatCount="indefinite"/></circle>
+    <circle cx="280" cy="150" r="10"><animate attributeName="cx" values="280;285;280" dur="2.5s" repeatCount="indefinite"/>
+      <animate attributeName="cy" values="150;155;150" dur="2.5s" repeatCount="indefinite"/></circle>
+  </g>
+
+  <!-- Partikel Gas -->
+  <g fill="url(#gasGrad)">
+    <circle cx="450" cy="100" r="10"><animate attributeName="cx" values="450;530;450" dur="2s" repeatCount="indefinite"/>
+      <animate attributeName="cy" values="100;180;100" dur="2s" repeatCount="indefinite"/></circle>
+    <circle cx="490" cy="150" r="10"><animate attributeName="cx" values="490;430;490" dur="1.5s" repeatCount="indefinite"/>
+      <animate attributeName="cy" values="150;80;150" dur="1.5s" repeatCount="indefinite"/></circle>
+    <circle cx="520" cy="110" r="10"><animate attributeName="cx" values="520;460;520" dur="2s" repeatCount="indefinite"/>
+      <animate attributeName="cy" values="110;180;110" dur="2s" repeatCount="indefinite"/></circle>
+  </g>
+
+  <!-- Gradien warna -->
+  <defs>
+    <radialGradient id="padatGrad" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#2196f3"/>
+      <stop offset="100%" stop-color="#64b5f6"/>
+    </radialGradient>
+    <radialGradient id="cairGrad" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#43a047"/>
+      <stop offset="100%" stop-color="#81c784"/>
+    </radialGradient>
+    <radialGradient id="gasGrad" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#f4511e"/>
+      <stop offset="100%" stop-color="#ff8a65"/>
+    </radialGradient>
+  </defs>
+
+  <!-- Keterangan Rata Tengah -->
+  <text x="115" y="350" font-size="13" font-family="Segoe UI" fill="#444" font-style="italic" text-anchor="middle">Sangat rapat dan hanya bergetar</text>
+  <text x="305" y="370" font-size="13" font-family="Segoe UI" fill="#444" font-style="italic" text-anchor="middle">Agak renggang, bergerak acak</text>
+  <text x="495" y="350" font-size="13" font-family="Segoe UI" fill="#444" font-style="italic" text-anchor="middle">Sangat renggang, bebas bergerak</text>
+</svg><br>
+<button onclick="window.open('https://phet.colorado.edu/sims/html/states-of-matter/latest/states-of-matter_all.html', '_blank');"
+  style="padding: 12px 24px; font-size: 16px; font-weight: bold; color: white; background: linear-gradient(135deg, #4e54c8, #8f94fb); border: none; border-radius: 12px; cursor: pointer; transition: transform 0.3s ease, box-shadow 0.3s ease;"
+  onmouseover="this.style.transform='scale(1.05)'; this.style.boxShadow='0 8px 16px rgba(0,0,0,0.3)'"
+  onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='none'">
+  Simulasi Model Partikel
+</button>
+
+    </div><br>
+
+<p class="text-xl font-semibold text-center text-[#4dd4a3]">Tebel Perbedaan Zat Padat, Cair, dan Gas</p>
+
+<div class="overflow-x-auto mt-6">
+  <table class="min-w-full text-sm text-left text-gray-700 border border-gray-300 rounded-lg shadow-md">
+    <thead class="bg-[#4dd4a3] text-white">
+      <tr>
+        <th class="px-4 py-2">Ciri</th>
+        <th class="px-4 py-2">Zat Padat</th>
+        <th class="px-4 py-2">Zat Cair</th>
+        <th class="px-4 py-2">Zat Gas</th>
+      </tr>
+    </thead>
+    <tbody class="bg-white divide-y divide-gray-200">
+      <tr>
+        <td class="px-4 py-2 font-medium">Bentuk</td>
+        <td class="px-4 py-2">Tetap</td>
+        <td class="px-4 py-2">Mengikuti wadah</td>
+        <td class="px-4 py-2">Mengikuti wadah</td>
+      </tr>
+      <tr>
+        <td class="px-4 py-2 font-medium">Volume</td>
+        <td class="px-4 py-2">Tetap</td>
+        <td class="px-4 py-2">Tetap</td>
+        <td class="px-4 py-2">Berubah-ubah</td>
+      </tr>
+      <tr>
+        <td class="px-4 py-2 font-medium">Jarak antar partikel</td>
+        <td class="px-4 py-2">Sangat rapat</td>
+        <td class="px-4 py-2">Agak renggang</td>
+        <td class="px-4 py-2">Sangat renggang</td>
+      </tr>
+      <tr>
+        <td class="px-4 py-2 font-medium">Gerak partikel</td>
+        <td class="px-4 py-2">Bergetar di tempat</td>
+        <td class="px-4 py-2">Bergerak bebas terbatas</td>
+        <td class="px-4 py-2">Bergerak sangat bebas</td>
+      </tr>
+      <tr>
+        <td class="px-4 py-2 font-medium">Gaya antar partikel</td>
+        <td class="px-4 py-2">Sangat kuat</td>
+        <td class="px-4 py-2">Cukup kuat</td>
+        <td class="px-4 py-2">Sangat lemah</td>
+      </tr>
+      <tr>
+        <td class="px-4 py-2 font-medium">Sifat kompresibel</td>
+        <td class="px-4 py-2">Tidak dapat dikompresi</td>
+        <td class="px-4 py-2">Sulit dikompresi</td>
+        <td class="px-4 py-2">Mudah dikompresi</td>
+      </tr>
+      <tr>
+        <td class="px-4 py-2 font-medium">Kecepatan gerak partikel</td>
+        <td class="px-4 py-2">Sangat lambat</td>
+        <td class="px-4 py-2">Sedang</td>
+        <td class="px-4 py-2">Sangat cepat</td>
+      </tr>
+    </tbody>
+  </table>
+</div><br>
+
+<p class="text-xl font-semibold mb-4 text-[#4dd4a3]">Diagram Perubahan Zat</p>
+<svg width="600" height="450" viewBox="0 0 800 600" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- Gradien -->
+    <linearGradient id="gradSolid" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#4dd4a3;" />
+      <stop offset="100%" style="stop-color:#2ca88c;" />
+    </linearGradient>
+    <linearGradient id="gradLiquid" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#4da3d4;" />
+      <stop offset="100%" style="stop-color:#227cb3;" />
+    </linearGradient>
+    <linearGradient id="gradGas" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#f6c90e;" />
+      <stop offset="100%" style="stop-color:#d4a700;" />
+    </linearGradient>
+
+    <!-- Marker Panah -->
+    <marker id="arrowHead" markerWidth="12" markerHeight="12" refX="7" refY="3.5" orient="auto">
+      <path d="M0,0 L0,7 L10,3.5 Z" fill="#2c3e50" />
+    </marker>
+
+    <!-- Bayangan -->
+    <filter id="shadow" x="-50%" y="-50%" width="200%" height="200%">
+      <feDropShadow dx="2" dy="3" stdDeviation="3" flood-color="#aaa" />
+    </filter>
+  </defs>
+
+  <!-- Lingkaran Zat -->
+  <circle cx="200" cy="300" r="50" fill="url(#gradSolid)" filter="url(#shadow)" />
+  <circle cx="400" cy="120" r="50" fill="url(#gradLiquid)" filter="url(#shadow)" />
+  <circle cx="600" cy="300" r="50" fill="url(#gradGas)" filter="url(#shadow)" />
+
+  <!-- Label Zat -->
+  <text x="200" y="305" text-anchor="middle" font-size="15" fill="white" font-family="Segoe UI" font-weight="bold">Padat</text>
+  <text x="400" y="125" text-anchor="middle" font-size="15" fill="white" font-family="Segoe UI" font-weight="bold">Cair</text>
+  <text x="600" y="305" text-anchor="middle" font-size="15" fill="white" font-family="Segoe UI" font-weight="bold">Gas</text>
+
+  <!-- Garis Panah & Label -->
+
+  <!-- Padat ke Cair (Melebur) -->
+  <path d="M250,250 C290,220 330,180 370,150" stroke="#27ae60" stroke-width="2.5" fill="none" marker-end="url(#arrowHead)" />
+  <text x="250" y="190" font-size="14" fill="#27ae60" font-weight="bold" font-family="Segoe UI">Melebur</text>
+
+  <!-- Cair ke Padat (Membeku) -->
+  <path d="M430,150 C390,180 340,220 270,280" stroke="#2980b9" stroke-width="2.5" fill="none" marker-end="url(#arrowHead)" />
+  <text x="350" y="230" font-size="14" fill="#2980b9" font-weight="bold" font-family="Segoe UI">Membeku</text>
+
+  <!-- Cair ke Gas (Menguap) -->
+  <path d="M440,150 C470,200 470,200 570,270" stroke="#e67e22" stroke-width="2.5" fill="none" marker-end="url(#arrowHead)" />
+  <text x="430" y="250" font-size="14" fill="#e67e22" font-weight="bold" font-family="Segoe UI">Menguap</text>
+
+  <!-- Gas ke Cair (Mengembun) -->
+  <path d="M590,250 C550,200 500,140 450,130" stroke="#3498db" stroke-width="2.5" fill="none" marker-end="url(#arrowHead)" />
+  <text x="550" y="190" font-size="14" fill="#3498db" font-weight="bold" font-family="Segoe UI">Mengembun</text>
+
+  <!-- Padat ke Gas (Menyublim) -->
+  <path d="M250,320 C350,350 450,350 530,320" stroke="#9b59b6" stroke-width="2.5" fill="none" marker-end="url(#arrowHead)" />
+  <text x="400" y="335" text-anchor="middle" font-size="14" fill="#9b59b6" font-weight="bold" font-family="Segoe UI">Menyublim</text>
+
+  <!-- Gas ke Padat (Mengkristal) -->
+  <path d="M540,340 C450,410 350,410 260,340" stroke="#7f8c8d" stroke-width="2.5" fill="none" marker-end="url(#arrowHead)" />
+  <text x="400" y="430" text-anchor="middle" font-size="14" fill="#7f8c8d" font-weight="bold" font-family="Segoe UI">Mengkristal</text>
+
+</svg>
+
+</div><br>
+
+
+<p class="text-2xl text-[#4dd4a3] font-semibold">Latihan 1</p>
+
+<!-- Soal 1 -->
+<div class="p-6 bg-yellow-100 rounded-lg shadow-md mt-6">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mt-6">Soal 1</h2>
+  <p class="mt-4 text-lg">
+    Zat padat, cair, dan gas memiliki kemampuan yang berbeda dalam dikompresi (ditekan). Zat yang paling mudah dikompresi adalah...
+  </p>
+
+  <ul class="mt-4 text-lg">
+    <li><input type="radio" name="wujud1"> A. Zat padat</li>
+    <li><input type="radio" name="wujud1"> B. Zat cair</li>
+    <li><input type="radio" name="wujud1"> C. Zat gas</li>
+    <li><input type="radio" name="wujud1"> D. Semua sama</li>
+  </ul>
+
+  <button onclick="togglePembahasan('pembahasan-latihan1-wujud1')" 
+    class="mt-6 px-5 py-3 bg-[#4dd4a3] text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition-all duration-300">
+    Lihat Pembahasan
+  </button>
+
+  <div id="pembahasan-latihan1-wujud1" class="mt-6 p-5 bg-white rounded-lg hidden transition-all duration-300">
+    <h3 class="font-semibold text-lg text-green-700">Pembahasan:</h3>
+    <p>Zat gas sangat mudah dikompresi karena jarak antar partikelnya sangat renggang, berbeda dengan zat padat atau cair yang partikelnya lebih rapat.</p>
+    <p class="font-medium mt-3 text-[#4dd4a3] text-lg">Jawaban: C</p>
+  </div>
+</div>
+
+<!-- Soal 2 -->
+<div class="p-6 bg-yellow-100 rounded-lg shadow-md mt-6">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mt-6">Soal 2</h2>
+  <p class="mt-4 text-lg">
+    Perubahan dari wujud cair menjadi gas disebut...
+  </p>
+
+  <ul class="mt-4 text-lg">
+    <li><input type="radio" name="wujud2"> A. Membeku</li>
+    <li><input type="radio" name="wujud2"> B. Mengembun</li>
+    <li><input type="radio" name="wujud2"> C. Menguap</li>
+    <li><input type="radio" name="wujud2"> D. Mencair</li>
+  </ul>
+
+  <button onclick="togglePembahasan('pembahasan-latihan1-wujud2')" 
+    class="mt-6 px-5 py-3 bg-[#4dd4a3] text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition-all duration-300">
+    Lihat Pembahasan
+  </button>
+
+  <div id="pembahasan-latihan1-wujud2" class="mt-6 p-5 bg-white rounded-lg hidden transition-all duration-300">
+    <h3 class="font-semibold text-lg text-green-700">Pembahasan:</h3>
+    <p>Menguap adalah proses perubahan wujud zat dari cair menjadi gas, seperti air yang dipanaskan menjadi uap.</p>
+    <p class="font-medium mt-3 text-[#4dd4a3] text-lg">Jawaban: C</p>
+  </div>
+</div>
+
+<!-- Soal 3 -->
+<div class="p-6 bg-yellow-100 rounded-lg shadow-md mt-6">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mt-6">Soal 3</h2>
+  <p class="mt-4 text-lg">
+    Peristiwa membeku terjadi ketika...
+  </p>
+
+  <ul class="mt-4 text-lg">
+    <li><input type="radio" name="wujud3"> A. Gas berubah menjadi cair</li>
+    <li><input type="radio" name="wujud3"> B. Cair berubah menjadi padat</li>
+    <li><input type="radio" name="wujud3"> C. Padat berubah menjadi cair</li>
+    <li><input type="radio" name="wujud3"> D. Padat berubah menjadi gas</li>
+  </ul>
+
+  <button onclick="togglePembahasan('pembahasan-latihan1-wujud3')" 
+    class="mt-6 px-5 py-3 bg-[#4dd4a3] text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition-all duration-300">
+    Lihat Pembahasan
+  </button>
+
+  <div id="pembahasan-latihan1-wujud3" class="mt-6 p-5 bg-white rounded-lg hidden transition-all duration-300">
+    <h3 class="font-semibold text-lg text-green-700">Pembahasan:</h3>
+    <p>Membeku adalah perubahan dari zat cair menjadi zat padat, misalnya air yang dimasukkan ke dalam freezer menjadi es batu.</p>
+    <p class="font-medium mt-3 text-[#4dd4a3] text-lg">Jawaban: B</p>
+  </div>
+</div>
+
+<!-- Soal 4 -->
+<div class="p-6 bg-yellow-100 rounded-lg shadow-md mt-6">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mt-6">Soal 4</h2>
+  <p class="mt-4 text-lg">
+    Model partikel zat padat ditunjukkan dengan ciri-ciri...
+  </p>
+
+  <ul class="mt-4 text-lg">
+    <li><input type="radio" name="wujud4"> A. Partikel berjauhan dan bergerak bebas</li>
+    <li><input type="radio" name="wujud4"> B. Partikel tersusun rapat dan teratur</li>
+    <li><input type="radio" name="wujud4"> C. Partikel bebas dan tidak beraturan</li>
+    <li><input type="radio" name="wujud4"> D. Partikel sangat renggang dan diam</li>
+  </ul>
+
+  <button onclick="togglePembahasan('pembahasan-latihan1-wujud4')" 
+    class="mt-6 px-5 py-3 bg-[#4dd4a3] text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition-all duration-300">
+    Lihat Pembahasan
+  </button>
+
+  <div id="pembahasan-latihan1-wujud4" class="mt-6 p-5 bg-white rounded-lg hidden transition-all duration-300">
+    <h3 class="font-semibold text-lg text-green-700">Pembahasan:</h3>
+    <p>Zat padat memiliki partikel yang tersusun sangat rapat dan teratur, sehingga bentuknya tetap dan tidak mudah berubah.</p>
+    <p class="font-medium mt-3 text-[#4dd4a3] text-lg">Jawaban: B</p>
+  </div>
+</div>
+
+<!-- Soal 5 -->
+<div class="p-6 bg-yellow-100 rounded-lg shadow-md mt-6">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mt-6">Soal 5</h2>
+  <p class="mt-4 text-lg">
+    Di bawah ini yang merupakan urutan perubahan wujud dari padat menjadi gas secara langsung adalah...
+  </p>
+
+  <ul class="mt-4 text-lg">
+    <li><input type="radio" name="wujud5"> A. Mengembun</li>
+    <li><input type="radio" name="wujud5"> B. Menguap</li>
+    <li><input type="radio" name="wujud5"> C. Menyublim</li>
+    <li><input type="radio" name="wujud5"> D. Membeku</li>
+  </ul>
+
+  <button onclick="togglePembahasan('pembahasan-latihan1-wujud5')" 
+    class="mt-6 px-5 py-3 bg-[#4dd4a3] text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition-all duration-300">
+    Lihat Pembahasan
+  </button>
+
+  <div id="pembahasan-latihan1-wujud5" class="mt-6 p-5 bg-white rounded-lg hidden transition-all duration-300">
+    <h3 class="font-semibold text-lg text-green-700">Pembahasan:</h3>
+    <p>Menyublim adalah proses perubahan zat dari padat langsung menjadi gas, contohnya kapur barus yang menguap.</p>
+    <p class="font-medium mt-3 text-[#4dd4a3] text-lg">Jawaban: C</p>
+  </div>
+</div>
+<br>
+<!-- Soal 6 -->
+<div class="p-6 bg-yellow-100 rounded-lg shadow-md mt-6">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mt-6">Soal 6</h2>
+  <p class="mt-4 text-lg">
+    Perhatikan pernyataan berikut:
+  </p>
+  <p class="mt-2 text-lg italic">
+    "Zat ini memiliki partikel yang tersusun agak renggang dan tidak teratur. Partikelnya dapat bergerak bebas tetapi tetap saling bersentuhan. Bentuknya menyesuaikan wadah, tetapi volumenya tetap."
+  </p>
+  <p class="mt-4 text-lg">Zat yang dimaksud dalam pernyataan tersebut adalah...</p>
+
+  <ul class="mt-4 text-lg">
+    <li><input type="radio" name="wujud6"> A. Zat padat</li>
+    <li><input type="radio" name="wujud6"> B. Zat cair</li>
+    <li><input type="radio" name="wujud6"> C. Zat gas</li>
+    <li><input type="radio" name="wujud6"> D. Plasma</li>
+  </ul>
+
+  <button onclick="togglePembahasan('pembahasan-latihan1-wujud6')" 
+    class="mt-6 px-5 py-3 bg-[#4dd4a3] text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition-all duration-300">
+    Lihat Pembahasan
+  </button>
+
+  <div id="pembahasan-latihan1-wujud6" class="mt-6 p-5 bg-white rounded-lg hidden transition-all duration-300">
+    <h3 class="font-semibold text-lg text-green-700">Pembahasan:</h3>
+    <p>Deskripsi tersebut menggambarkan sifat partikel zat cair: partikel agak renggang, bergerak bebas, menyesuaikan bentuk wadah tetapi volume tetap.</p>
+    <p class="font-medium mt-3 text-[#4dd4a3] text-lg">Jawaban: B</p>
+  </div>
+</div>
+
+<!-- Soal 7 -->
+<div class="p-6 bg-yellow-100 rounded-lg shadow-md mt-6">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mt-6">Soal 7</h2>
+  <p class="mt-4 text-lg">
+    Perbedaan utama antara susunan partikel zat cair dan zat gas adalah...
+  </p>
+
+  <ul class="mt-4 text-lg">
+    <li><input type="radio" name="wujud7"> A. Partikel zat cair lebih rapat dan dapat bergerak bebas, sedangkan partikel zat gas sangat rapat dan tidak bergerak</li>
+    <li><input type="radio" name="wujud7"> B. Partikel zat cair sangat renggang, sedangkan partikel zat gas rapat dan teratur</li>
+    <li><input type="radio" name="wujud7"> C. Partikel zat cair saling bersentuhan dan agak teratur, sedangkan partikel zat gas berjauhan dan bergerak sangat bebas</li>
+    <li><input type="radio" name="wujud7"> D. Tidak ada perbedaan, keduanya memiliki bentuk dan volume tetap</li>
+  </ul>
+
+  <button onclick="togglePembahasan('pembahasan-latihan1-wujud7')" 
+    class="mt-6 px-5 py-3 bg-[#4dd4a3] text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition-all duration-300">
+    Lihat Pembahasan
+  </button>
+
+  <div id="pembahasan-latihan1-wujud7" class="mt-6 p-5 bg-white rounded-lg hidden transition-all duration-300">
+    <h3 class="font-semibold text-lg text-green-700">Pembahasan:</h3>
+    <p>Partikel zat cair tersusun agak renggang dan tetap bersentuhan, sementara partikel gas berjauhan dan bebas bergerak ke segala arah.</p>
+    <p class="font-medium mt-3 text-[#4dd4a3] text-lg">Jawaban: C</p>
+  </div>
+</div>
+<!-- Soal 8 -->
+<div class="p-6 bg-yellow-100 rounded-lg shadow-md mt-6">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mt-6">Soal 8</h2>
+  <p class="mt-4 text-lg">
+    Ketika ibu sedang merebus air di dapur, lama-kelamaan air dalam panci berkurang dan terlihat uap naik ke atas. Peristiwa tersebut merupakan contoh dari...
+  </p>
+
+  <ul class="mt-4 text-lg">
+    <li><input type="radio" name="wujud8"> A. Pengembunan</li>
+    <li><input type="radio" name="wujud8"> B. Pembekuan</li>
+    <li><input type="radio" name="wujud8"> C. Penguapan</li>
+    <li><input type="radio" name="wujud8"> D. Penyubliman</li>
+  </ul>
+
+  <button onclick="togglePembahasan('pembahasan-latihan1-wujud8')" 
+    class="mt-6 px-5 py-3 bg-[#4dd4a3] text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition-all duration-300">
+    Lihat Pembahasan
+  </button>
+
+  <div id="pembahasan-latihan1-wujud8" class="mt-6 p-5 bg-white rounded-lg hidden transition-all duration-300">
+    <h3 class="font-semibold text-lg text-green-700">Pembahasan:</h3>
+    <p>Air yang berubah menjadi uap saat direbus menunjukkan proses penguapan, yaitu perubahan wujud dari cair ke gas.</p>
+    <p class="font-medium mt-3 text-[#4dd4a3] text-lg">Jawaban: C</p>
+  </div>
+</div>
+
+<!-- Soal 9 -->
+<div class="p-6 bg-yellow-100 rounded-lg shadow-md mt-6">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mt-6">Soal 9</h2>
+  <p class="mt-4 text-lg">
+    Dika meletakkan sepotong es batu di atas meja. Setelah beberapa waktu, es batu itu mencair dan menjadi genangan air. Perubahan wujud yang terjadi adalah...
+  </p>
+
+  <ul class="mt-4 text-lg">
+    <li><input type="radio" name="wujud9"> A. Membeku</li>
+    <li><input type="radio" name="wujud9"> B. Menguap</li>
+    <li><input type="radio" name="wujud9"> C. Mencair</li>
+    <li><input type="radio" name="wujud9"> D. Mengembun</li>
+  </ul>
+
+  <button onclick="togglePembahasan('pembahasan-latihan1-wujud9')" 
+    class="mt-6 px-5 py-3 bg-[#4dd4a3] text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition-all duration-300">
+    Lihat Pembahasan
+  </button>
+
+  <div id="pembahasan-latihan1-wujud9" class="mt-6 p-5 bg-white rounded-lg hidden transition-all duration-300">
+    <h3 class="font-semibold text-lg text-green-700">Pembahasan:</h3>
+    <p>Es batu yang berubah menjadi air menunjukkan peristiwa mencair, yaitu perubahan wujud dari padat ke cair.</p>
+    <p class="font-medium mt-3 text-[#4dd4a3] text-lg">Jawaban: C</p>
+  </div>
+</div>
+<!-- Soal 10 -->
+<div class="p-6 bg-yellow-100 rounded-lg shadow-md mt-6">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mt-6">Soal 10</h2>
+  <p class="mt-4 text-lg">Perhatikan gambar model partikel berikut:</p>
+
+  <!-- SVG Model Partikel Padat -->
+  <svg width="200" height="200" class="mt-4 block mx-auto">
+    <rect width="200" height="200" fill="#fef3c7" />
+    <circle cx="40" cy="40" r="10" fill="#4dd4a3" />
+    <circle cx="80" cy="40" r="10" fill="#4dd4a3" />
+    <circle cx="120" cy="40" r="10" fill="#4dd4a3" />
+    <circle cx="160" cy="40" r="10" fill="#4dd4a3" />
+
+    <circle cx="40" cy="80" r="10" fill="#4dd4a3" />
+    <circle cx="80" cy="80" r="10" fill="#4dd4a3" />
+    <circle cx="120" cy="80" r="10" fill="#4dd4a3" />
+    <circle cx="160" cy="80" r="10" fill="#4dd4a3" />
+  </svg>
+
+  <p class="mt-4 text-lg">Model partikel pada gambar di atas menunjukkan susunan partikel dari wujud zat...</p>
+
+  <ul class="mt-4 text-lg">
+    <li><input type="radio" name="wujud10"> A. Gas</li>
+    <li><input type="radio" name="wujud10"> B. Cair</li>
+    <li><input type="radio" name="wujud10"> C. Padat</li>
+    <li><input type="radio" name="wujud10"> D. Plasma</li>
+  </ul>
+
+  <button onclick="togglePembahasan('pembahasan-latihan1-wujud10')" 
+    class="mt-6 px-5 py-3 bg-[#4dd4a3] text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition-all duration-300">
+    Lihat Pembahasan
+  </button>
+
+  <div id="pembahasan-latihan1-wujud10" class="mt-6 p-5 bg-white rounded-lg hidden transition-all duration-300">
+    <h3 class="font-semibold text-lg text-green-700">Pembahasan:</h3>
+    <p>Gambar menunjukkan partikel tersusun sangat rapat dan teratur. Ini adalah ciri khas dari zat padat.</p>
+    <p class="font-medium mt-3 text-[#4dd4a3] text-lg">Jawaban: C</p>
+  </div>
+</div>
+<!-- Soal 11 -->
+<div class="p-6 bg-yellow-100 rounded-lg shadow-md mt-6">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mt-6">Soal 11</h2>
+  <p class="mt-4 text-lg">Perhatikan gambar model partikel berikut:</p>
+
+  <!-- SVG Model Partikel Gas -->
+  <svg width="200" height="200" class="mt-4 block mx-auto">
+    <rect width="200" height="200" fill="#fef3c7" />
+    <circle cx="30" cy="40" r="10" fill="#60a5fa" />
+    <circle cx="90" cy="20" r="10" fill="#60a5fa" />
+    <circle cx="150" cy="70" r="10" fill="#60a5fa" />
+    <circle cx="60" cy="130" r="10" fill="#60a5fa" />
+    <circle cx="160" cy="150" r="10" fill="#60a5fa" />
+  </svg>
+
+  <p class="mt-4 text-lg">Berdasarkan susunan partikel pada gambar, dapat disimpulkan bahwa zat tersebut berbentuk...</p>
+
+  <ul class="mt-4 text-lg">
+    <li><input type="radio" name="wujud11"> A. Padat</li>
+    <li><input type="radio" name="wujud11"> B. Cair</li>
+    <li><input type="radio" name="wujud11"> C. Gas</li>
+    <li><input type="radio" name="wujud11"> D. Padat dan cair</li>
+  </ul>
+
+  <button onclick="togglePembahasan('pembahasan-latihan1-wujud11')" 
+    class="mt-6 px-5 py-3 bg-[#4dd4a3] text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition-all duration-300">
+    Lihat Pembahasan
+  </button>
+
+  <div id="pembahasan-latihan1-wujud11" class="mt-6 p-5 bg-white rounded-lg hidden transition-all duration-300">
+    <h3 class="font-semibold text-lg text-green-700">Pembahasan:</h3>
+    <p>Gambar menunjukkan partikel yang tersebar jauh dan tidak teratur, ini adalah ciri dari zat gas.</p>
+    <p class="font-medium mt-3 text-[#4dd4a3] text-lg">Jawaban: C</p>
+  </div>
+</div>
+<!-- Soal 12 -->
+<div class="p-6 bg-yellow-100 rounded-lg shadow-md mt-6">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mt-6">Soal 12</h2>
+  <p class="mt-4 text-lg">
+    Seorang siswa mengisi udara ke dalam balon. Ketika ditekan, balon menjadi kempis dan volumenya mengecil. Namun, ketika ditekan air dalam kantong plastik, bentuknya berubah tetapi volumenya tetap. 
+    Apa kesimpulan yang dapat diambil dari kegiatan tersebut?
+  </p>
+
+  <ul class="mt-4 text-lg">
+    <li><input type="radio" name="wujud12"> A. Zat gas dan cair memiliki volume dan bentuk tetap</li>
+    <li><input type="radio" name="wujud12"> B. Zat cair dapat dikompres, sedangkan zat gas tidak</li>
+    <li><input type="radio" name="wujud12"> C. Zat gas bersifat mudah dikompres, zat cair sulit dikompres</li>
+    <li><input type="radio" name="wujud12"> D. Semua zat tidak dapat dikompres</li>
+  </ul>
+
+  <button onclick="togglePembahasan('pembahasan-latihan1-wujud12')" 
+    class="mt-6 px-5 py-3 bg-[#4dd4a3] text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition-all duration-300">
+    Lihat Pembahasan
+  </button>
+
+  <div id="pembahasan-latihan1-wujud12" class="mt-6 p-5 bg-white rounded-lg hidden transition-all duration-300">
+    <h3 class="font-semibold text-lg text-green-700">Pembahasan:</h3>
+    <p>Zat gas memiliki sifat mudah dikompresi karena partikel-partikelnya berjauhan. Sementara zat cair tidak mudah dikompresi karena partikelnya lebih rapat.</p>
+    <p class="font-medium mt-3 text-[#4dd4a3] text-lg">Jawaban: C</p>
+  </div>
+</div>
+
+<!-- Soal 13 -->
+<div class="p-6 bg-yellow-100 rounded-lg shadow-md mt-6">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mt-6">Soal 13</h2>
+  <p class="mt-4 text-lg">
+    Dalam sebuah eksperimen, es batu diletakkan dalam gelas dan dipanaskan. Setelah mencair, air dididihkan hingga habis. Berdasarkan pengamatan tersebut, urutan perubahan wujud zat yang terjadi adalah...
+  </p>
+
+  <ul class="mt-4 text-lg">
+    <li><input type="radio" name="wujud13"> A. Mencair → Mengembun</li>
+    <li><input type="radio" name="wujud13"> B. Mencair → Menguap</li>
+    <li><input type="radio" name="wujud13"> C. Membeku → Menguap</li>
+    <li><input type="radio" name="wujud13"> D. Mengembun → Membeku</li>
+  </ul>
+
+  <button onclick="togglePembahasan('pembahasan-latihan1-wujud13')" 
+    class="mt-6 px-5 py-3 bg-[#4dd4a3] text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition-all duration-300">
+    Lihat Pembahasan
+  </button>
+
+  <div id="pembahasan-latihan1-wujud13" class="mt-6 p-5 bg-white rounded-lg hidden transition-all duration-300">
+    <h3 class="font-semibold text-lg text-green-700">Pembahasan:</h3>
+    <p>Es mencair menjadi air, kemudian air menguap menjadi uap air. Ini menunjukkan urutan perubahan dari padat → cair → gas.</p>
+    <p class="font-medium mt-3 text-[#4dd4a3] text-lg">Jawaban: B</p>
+  </div>
+</div>
+
+<!-- Soal 14 -->
+<div class="p-6 bg-yellow-100 rounded-lg shadow-md mt-6">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mt-6">Soal 14</h2>
+  <p class="mt-4 text-lg">
+    Seorang siswa diminta menyusun model partikel zat berdasarkan sifat-sifat berikut:
+  </p>
+  <ul class="list-disc pl-6 mt-2 text-lg">
+    <li>Sifat bentuk tetap dan volume tetap</li>
+    <li>Partikel tersusun rapat dan teratur</li>
+    <li>Getaran partikel sangat kecil</li>
+  </ul>
+  <p class="mt-4 text-lg">Model yang tepat untuk menggambarkan zat tersebut adalah...</p>
+
+  <ul class="mt-4 text-lg">
+    <li><input type="radio" name="wujud14"> A. Partikel berjauhan dan tidak teratur</li>
+    <li><input type="radio" name="wujud14"> B. Partikel agak renggang dan bergerak bebas</li>
+    <li><input type="radio" name="wujud14"> C. Partikel rapat dan bergerak cepat</li>
+    <li><input type="radio" name="wujud14"> D. Partikel rapat, teratur, dan sedikit bergerak</li>
+  </ul>
+
+  <button onclick="togglePembahasan('pembahasan-latihan1-wujud14')" 
+    class="mt-6 px-5 py-3 bg-[#4dd4a3] text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition-all duration-300">
+    Lihat Pembahasan
+  </button>
+
+  <div id="pembahasan-latihan1-wujud14" class="mt-6 p-5 bg-white rounded-lg hidden transition-all duration-300">
+    <h3 class="font-semibold text-lg text-green-700">Pembahasan:</h3>
+    <p>Zat padat memiliki partikel tersusun rapat dan teratur, serta hanya bergetar di tempat. Jawaban yang paling sesuai adalah D.</p>
+    <p class="font-medium mt-3 text-[#4dd4a3] text-lg">Jawaban: D</p>
+  </div>
+</div>
+
+<!-- Soal 15 -->
+<div class="p-6 bg-yellow-100 rounded-lg shadow-md mt-6">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mt-6">Soal 15</h2>
+  <p class="mt-4 text-lg">
+    Seorang siswa melakukan percobaan dengan menekan tiga suntikan yang berisi zat padat, cair, dan gas. Ternyata hanya suntikan berisi gas yang volumenya dapat ditekan.
+    Berdasarkan hasil tersebut, bagaimana sebaiknya siswa menyusun model partikel ketiga zat tersebut agar mencerminkan perbedaan sifat kompresibilitasnya?
+  </p>
+
+  <ul class="mt-4 text-lg">
+    <li><input type="radio" name="wujud15"> A. Zat padat: partikel berjauhan, zat cair: partikel sangat renggang, zat gas: partikel rapat</li>
+    <li><input type="radio" name="wujud15"> B. Zat padat dan cair: partikel renggang, zat gas: partikel rapat</li>
+    <li><input type="radio" name="wujud15"> C. Zat padat: partikel rapat dan teratur, zat cair: agak renggang dan tidak teratur, zat gas: sangat renggang dan acak</li>
+    <li><input type="radio" name="wujud15"> D. Semua zat: partikel tersebar bebas karena semua bisa ditekan</li>
+  </ul>
+
+  <button onclick="togglePembahasan('pembahasan-latihan1-wujud15')" 
+    class="mt-6 px-5 py-3 bg-[#4dd4a3] text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition-all duration-300">
+    Lihat Pembahasan
+  </button>
+
+  <div id="pembahasan-latihan1-wujud15" class="mt-6 p-5 bg-white rounded-lg hidden transition-all duration-300">
+    <h3 class="font-semibold text-lg text-green-700">Pembahasan:</h3>
+    <p>Zat padat: partikel rapat dan teratur. Zat cair: partikel agak renggang dan tidak teratur. Zat gas: partikel sangat renggang dan bergerak bebas. Inilah susunan yang menjelaskan kompresibilitas masing-masing zat.</p>
+    <p class="font-medium mt-3 text-[#4dd4a3] text-lg">Jawaban: C</p>
+  </div>
+</div>
+
+<br>
+<div id="2.-Perubahan-Fisika-dan-Kimia">
+    <p class="text-xl font-semibold mb-4 text-[#4dd4a3]">2. Perubahan Fisika dan Kimia</p>
+    <p class="mt-2 ml-4">Dalam kehidupan sehari-hari, zat dapat mengalami perubahan. Perubahan tersebut dikelompokkan menjadi dua, yaitu perubahan fisika dan perubahan kimia. Memahami perbedaan keduanya membantu kita mengenali jenis perubahan yang terjadi di sekitar kita.</p>
+</div><br>
+
+<div id="2.1-Membandingkan-Perubahan-Fisika-dan-Kimia">
+    <p class="text-xl font-semibold mb-4 text-[#4dd4a3]">2.1 Membandingkan Perubahan Fisika dan Kimia</p>
+    <p class="mt-2 ml-4">Perubahan fisika adalah perubahan pada zat yang tidak menghasilkan zat baru, sedangkan perubahan kimia menghasilkan zat baru yang memiliki sifat berbeda dari zat asalnya. Berikut perbandingan antara keduanya:</p>
+    <ul class="mt-2 ml-8 list-disc">
+        <li><strong>Perubahan Fisika</strong>:
+            <ul class="list-disc ml-6">
+                <li>Tidak menghasilkan zat baru.</li>
+                <li>Sifat zat tetap sama.</li>
+                <li>Contoh: es mencair, air menguap, kertas dipotong.</li>
+            </ul>
+        </li>
+        <li><strong>Perubahan Kimia</strong>:
+            <ul class="list-disc ml-6">
+                <li>Menghasilkan zat baru.</li>
+                <li>Sifat zat berubah.</li>
+                <li>Contoh: kayu dibakar, besi berkarat, makanan basi.</li>
+            </ul>
+        </li>
+    </ul>
+</div><br>
+
+<div id="tabel-perbedaan-perubahan-fisika-dan-kimia" class="mt-8">
+  <p class="text-xl font-semibold mb-4 text-center text-[#4dd4a3]">Tabel Perbedaan Perubahan Fisika dan Kimia</p>
+
+  <div class="overflow-x-auto">
+    <table class="min-w-full border border-gray-300 text-left text-sm">
+      <thead class="bg-[#4dd4a3] text-white">
+        <tr>
+          <th class="px-4 py-2 border border-gray-300">Aspek</th>
+          <th class="px-4 py-2 border border-gray-300">Perubahan Fisika</th>
+          <th class="px-4 py-2 border border-gray-300">Perubahan Kimia</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="bg-white">
+          <td class="px-4 py-2 border border-gray-300 font-semibold">Pengertian</td>
+          <td class="px-4 py-2 border border-gray-300">Perubahan pada zat yang tidak menghasilkan zat baru.</td>
+          <td class="px-4 py-2 border border-gray-300">Perubahan pada zat yang menghasilkan zat baru.</td>
+        </tr>
+        <tr class="bg-gray-50">
+          <td class="px-4 py-2 border border-gray-300 font-semibold">Ciri-ciri</td>
+          <td class="px-4 py-2 border border-gray-300">
+            <ul class="list-disc ml-4">
+              <li>Tidak menghasilkan zat baru</li>
+              <li>Sifat zat tetap</li>
+              <li>Perubahan biasanya reversibel (bisa balik)</li>
+              <li>Hanya melibatkan perubahan fisik</li>
+            </ul>
+          </td>
+          <td class="px-4 py-2 border border-gray-300">
+            <ul class="list-disc ml-4">
+              <li>Menghasilkan zat baru</li>
+              <li>Sifat zat berubah</li>
+              <li>Perubahan bersifat permanen</li>
+              <li>Terjadi reaksi kimia</li>
+            </ul>
+          </td>
+        </tr>
+        <tr class="bg-white">
+          <td class="px-4 py-2 border border-gray-300 font-semibold">Macam-macam</td>
+          <td class="px-4 py-2 border border-gray-300">
+            <ul class="list-disc ml-4">
+              <li>Perubahan wujud zat</li>
+              <li>Perubahan bentuk</li>
+              <li>Perubahan ukuran</li>
+            </ul>
+          </td>
+          <td class="px-4 py-2 border border-gray-300">
+            <ul class="list-disc ml-4">
+              <li>Pembakaran</li>
+              <li>Perkaratan</li>
+              <li>Fermentasi</li>
+              <li>Pembusukan</li>
+            </ul>
+          </td>
+        </tr>
+        <tr class="bg-gray-50">
+          <td class="px-4 py-2 border border-gray-300 font-semibold">Contoh</td>
+          <td class="px-4 py-2 border border-gray-300">
+            <ul class="list-disc ml-4">
+              <li>Es mencair</li>
+              <li>Air menguap</li>
+              <li>Kaca pecah</li>
+              <li>Kertas dipotong</li>
+            </ul>
+          </td>
+          <td class="px-4 py-2 border border-gray-300">
+            <ul class="list-disc ml-4">
+              <li>Kayu dibakar</li>
+              <li>Susu basi</li>
+              <li>Besi berkarat</li>
+              <li>Nasi menjadi basi</li>
+            </ul>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div><br>
+
+
+<div id="2.2-Mengidentifikasi-Perubahan-Zat-Sehari-hari">
+    <p class="text-xl font-semibold mb-4 text-[#4dd4a3]">2.2 Mengidentifikasi Perubahan Zat dalam Kehidupan Sehari-hari</p>
+    <p class="mt-2 ml-4">Banyak perubahan fisika dan kimia yang terjadi dalam kehidupan sehari-hari. Beberapa contoh antara lain:</p>
+    <ul class="mt-2 ml-8 list-disc">
+        <li><strong>Perubahan Fisika</strong>:
+            <ul class="list-disc ml-6">
+                <li>Air yang didinginkan menjadi es.</li>
+                <li>Air yang dipanaskan menjadi uap.</li>
+                <li>Kertas dilipat menjadi pesawat kertas.</li>
+            </ul>
+        </li>
+        <li><strong>Perubahan Kimia</strong>:
+            <ul class="list-disc ml-6">
+                <li>Susu yang dibiarkan hingga basi.</li>
+                <li>Kue yang dipanggang dalam oven.</li>
+                <li>Besi yang dibiarkan di udara hingga berkarat.</li>
+            </ul>
+        </li>
+    </ul>
+</div><br>
+
+<div id="2.3-Siklus-Air-dan-Tanda-Reaksi-Kimia">
+    <p class="text-xl font-semibold mb-4 text-[#4dd4a3]">2.3 Mendeskripsikan Siklus Air dan Tanda Reaksi Kimia</p>
+    <p class="mt-2 ml-4"><strong>Siklus air</strong> adalah proses alami yang menggambarkan pergerakan air di bumi melalui beberapa tahapan: penguapan, kondensasi, presipitasi (hujan), dan infiltrasi.</p>
+    <ul class="mt-2 ml-8 list-disc">
+        <li><strong>Penguapan</strong>: Air dari permukaan laut, danau, dan sungai berubah menjadi uap air karena panas matahari.</li>
+        <li><strong>Kondensasi</strong>: Uap air naik ke atmosfer dan mendingin, lalu berubah menjadi awan.</li>
+        <li><strong>Presipitasi</strong>: Awan menjadi jenuh dan turun sebagai hujan, salju, atau hujan es.</li>
+        <li><strong>Infiltrasi dan aliran permukaan</strong>: Air hujan meresap ke dalam tanah atau mengalir kembali ke laut.</li>
+    </ul>
+
+    <p class="mt-4 ml-4"><strong>Tanda-tanda terjadinya reaksi kimia</strong> dapat diamati dari:</p>
+    <ul class="mt-2 ml-8 list-disc">
+        <li>Terbentuknya gas (gelembung).</li>
+        <li>Perubahan warna zat.</li>
+        <li>Munculnya bau baru.</li>
+        <li>Terjadinya endapan.</li>
+        <li>Perubahan suhu (eksoterm atau endoterm).</li>
+    </ul>
+</div>
+</div>
+
+<br>
+
+<p class="text-2xl text-[#4dd4a3] font-semibold">Latihan 2</p>
+
+<!-- Soal 1 -->
+<div class="p-6 bg-yellow-100 rounded-lg shadow-md mt-6">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mt-6">Soal 1</h2>
+  <p class="mt-4 text-lg">Berikut ini yang merupakan contoh perubahan fisika adalah...</p>
+  <ul class="mt-4 text-lg">
+    <li><input type="radio" name="latihan2_1"> A. Pembakaran kertas menjadi abu</li>
+    <li><input type="radio" name="latihan2_1"> B. Kayu lapuk karena terkena hujan</li>
+    <li><input type="radio" name="latihan2_1"> C. Air menguap saat dijemur</li>
+    <li><input type="radio" name="latihan2_1"> D. Besi berkarat</li>
+  </ul>
+  <button onclick="togglePembahasan('pembahasan-latihan2-1')" class="mt-6 px-5 py-3 bg-[#4dd4a3] text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition-all duration-300">
+    Lihat Pembahasan
+  </button>
+  <div id="pembahasan-latihan2-1" class="mt-6 p-5 bg-white rounded-lg hidden transition-all duration-300">
+    <h3 class="font-semibold text-lg text-green-700">Pembahasan:</h3>
+    <p>Perubahan fisika adalah perubahan yang tidak menghasilkan zat baru. Air yang menguap tetap menjadi air dalam bentuk gas.</p>
+    <p class="font-medium mt-3 text-[#4dd4a3] text-lg">Jawaban: C</p>
+  </div>
+</div>
+
+<!-- Soal 2 -->
+<div class="p-6 bg-yellow-100 rounded-lg shadow-md mt-6">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mt-6">Soal 2</h2>
+  <p class="mt-4 text-lg">Manakah pernyataan berikut yang menunjukkan perubahan kimia?</p>
+  <ul class="mt-4 text-lg">
+    <li><input type="radio" name="latihan2_2"> A. Air dibekukan menjadi es</li>
+    <li><input type="radio" name="latihan2_2"> B. Gula dilarutkan dalam air</li>
+    <li><input type="radio" name="latihan2_2"> C. Kertas dibakar hingga menjadi abu</li>
+    <li><input type="radio" name="latihan2_2"> D. Air dimasukkan ke dalam botol</li>
+  </ul>
+  <button onclick="togglePembahasan('pembahasan-latihan2-2')" class="mt-6 px-5 py-3 bg-[#4dd4a3] text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition-all duration-300">
+    Lihat Pembahasan
+  </button>
+  <div id="pembahasan-latihan2-2" class="mt-6 p-5 bg-white rounded-lg hidden transition-all duration-300">
+    <h3 class="font-semibold text-lg text-green-700">Pembahasan:</h3>
+    <p>Kertas yang dibakar menghasilkan zat baru berupa abu, gas, dan panas. Ini adalah perubahan kimia.</p>
+    <p class="font-medium mt-3 text-[#4dd4a3] text-lg">Jawaban: C</p>
+  </div>
+</div>
+
+<!-- Soal 3 -->
+<div class="p-6 bg-yellow-100 rounded-lg shadow-md mt-6">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mt-6">Soal 3</h2>
+  <p class="mt-4 text-lg">Perubahan zat berikut yang paling sering terjadi dalam kehidupan sehari-hari dan merupakan perubahan fisika adalah...</p>
+  <ul class="mt-4 text-lg">
+    <li><input type="radio" name="latihan2_3"> A. Membakar sate di atas bara</li>
+    <li><input type="radio" name="latihan2_3"> B. Membuat es batu dari air</li>
+    <li><input type="radio" name="latihan2_3"> C. Menggoreng telur</li>
+    <li><input type="radio" name="latihan2_3"> D. Menyetrika baju hingga gosong</li>
+  </ul>
+  <button onclick="togglePembahasan('pembahasan-latihan2-3')" class="mt-6 px-5 py-3 bg-[#4dd4a3] text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition-all duration-300">
+    Lihat Pembahasan
+  </button>
+  <div id="pembahasan-latihan2-3" class="mt-6 p-5 bg-white rounded-lg hidden transition-all duration-300">
+    <h3 class="font-semibold text-lg text-green-700">Pembahasan:</h3>
+    <p>Membuat es batu hanya mengubah bentuk fisik air menjadi padat, tidak menghasilkan zat baru, sehingga termasuk perubahan fisika.</p>
+    <p class="font-medium mt-3 text-[#4dd4a3] text-lg">Jawaban: B</p>
+  </div>
+</div>
+
+<!-- Soal 4 -->
+<div class="p-6 bg-yellow-100 rounded-lg shadow-md mt-6">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mt-6">Soal 4</h2>
+  <p class="mt-4 text-lg">Manakah dari peristiwa berikut yang menunjukkan adanya reaksi kimia?</p>
+  <ul class="mt-4 text-lg">
+    <li><input type="radio" name="latihan2_4"> A. Lilin mencair saat dinyalakan</li>
+    <li><input type="radio" name="latihan2_4"> B. Gula mencair di atas wajan</li>
+    <li><input type="radio" name="latihan2_4"> C. Kayu dibakar menghasilkan arang dan asap</li>
+    <li><input type="radio" name="latihan2_4"> D. Es mencair menjadi air</li>
+  </ul>
+  <button onclick="togglePembahasan('pembahasan-latihan2-4')" class="mt-6 px-5 py-3 bg-[#4dd4a3] text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition-all duration-300">
+    Lihat Pembahasan
+  </button>
+  <div id="pembahasan-latihan2-4" class="mt-6 p-5 bg-white rounded-lg hidden transition-all duration-300">
+    <h3 class="font-semibold text-lg text-green-700">Pembahasan:</h3>
+    <p>Kayu yang dibakar mengalami perubahan kimia karena menghasilkan zat baru berupa asap dan arang.</p>
+    <p class="font-medium mt-3 text-[#4dd4a3] text-lg">Jawaban: C</p>
+  </div>
+</div>
+
+<!-- Soal 5 -->
+<div class="p-6 bg-yellow-100 rounded-lg shadow-md mt-6">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mt-6">Soal 5</h2>
+  <p class="mt-4 text-lg">Siklus air terdiri dari tahapan-tahapan berikut, kecuali...</p>
+  <ul class="mt-4 text-lg">
+    <li><input type="radio" name="latihan2_5"> A. Penguapan</li>
+    <li><input type="radio" name="latihan2_5"> B. Kondensasi</li>
+    <li><input type="radio" name="latihan2_5"> C. Presipitasi</li>
+    <li><input type="radio" name="latihan2_5"> D. Pembakaran</li>
+  </ul>
+  <button onclick="togglePembahasan('pembahasan-latihan2-5')" class="mt-6 px-5 py-3 bg-[#4dd4a3] text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition-all duration-300">
+    Lihat Pembahasan
+  </button>
+  <div id="pembahasan-latihan2-5" class="mt-6 p-5 bg-white rounded-lg hidden transition-all duration-300">
+    <h3 class="font-semibold text-lg text-green-700">Pembahasan:</h3>
+    <p>Pembakaran tidak termasuk dalam siklus air. Siklus air melibatkan proses perubahan fisika seperti penguapan, kondensasi, dan presipitasi (hujan).</p>
+    <p class="font-medium mt-3 text-[#4dd4a3] text-lg">Jawaban: D</p>
+  </div>
+</div>
+<!-- Soal 6 -->
+<div class="p-6 bg-yellow-100 rounded-lg shadow-md mt-6">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mt-6">Soal 6</h2>
+  <p class="mt-4 text-lg">
+    Perhatikan pernyataan berikut:
+  </p>
+  <ul class="list-disc pl-6 mt-4 text-lg">
+    <li>(1) Lilin meleleh saat dipanaskan</li>
+    <li>(2) Besi berkarat karena terkena air dan udara</li>
+    <li>(3) Kertas digunting menjadi kecil</li>
+    <li>(4) Kayu dibakar hingga menjadi arang</li>
+  </ul>
+  <p class="mt-4 text-lg">
+    Pernyataan yang menunjukkan perubahan fisika dan kimia secara berurutan adalah...
+  </p>
+
+  <ul class="mt-4 text-lg">
+    <li><input type="radio" name="latihan2_6"> A. (1) dan (4)</li>
+    <li><input type="radio" name="latihan2_6"> B. (2) dan (3)</li>
+    <li><input type="radio" name="latihan2_6"> C. (3) dan (2)</li>
+    <li><input type="radio" name="latihan2_6"> D. (1) dan (2)</li>
+  </ul>
+
+  <button onclick="togglePembahasan('pembahasan-latihan2-6')" 
+    class="mt-6 px-5 py-3 bg-[#4dd4a3] text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition-all duration-300">
+    Lihat Pembahasan
+  </button>
+
+  <div id="pembahasan-latihan2-6" class="mt-6 p-5 bg-white rounded-lg hidden transition-all duration-300">
+    <h3 class="font-semibold text-lg text-green-700">Pembahasan:</h3>
+    <p>(1) Lilin meleleh = perubahan fisika karena tidak menghasilkan zat baru. (2) Besi berkarat = perubahan kimia karena terbentuk zat baru (karat).</p>
+    <p class="font-medium mt-3 text-[#4dd4a3] text-lg">Jawaban: D</p>
+  </div>
+</div>
+
+<!-- Soal 7 -->
+<div class="p-6 bg-yellow-100 rounded-lg shadow-md mt-6">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mt-6">Soal 7</h2>
+  <p class="mt-4 text-lg">
+    Seorang siswa sedang mengamati beberapa peristiwa berikut:
+  </p>
+  <ul class="list-disc pl-6 mt-4 text-lg">
+    <li>A. Gula larut dalam air</li>
+    <li>B. Nasi basi setelah disimpan lama</li>
+    <li>C. Es mencair di bawah sinar matahari</li>
+    <li>D. Kaca pecah saat terjatuh</li>
+  </ul>
+  <p class="mt-4 text-lg">
+    Berdasarkan pengamatan tersebut, manakah kombinasi peristiwa yang benar untuk menyimpulkan perbedaan antara perubahan fisika dan perubahan kimia?
+  </p>
+
+  <ul class="mt-4 text-lg">
+    <li><input type="radio" name="latihan2_7"> A. A dan C</li>
+    <li><input type="radio" name="latihan2_7"> B. A dan B</li>
+    <li><input type="radio" name="latihan2_7"> C. B dan D</li>
+    <li><input type="radio" name="latihan2_7"> D. B dan C</li>
+  </ul>
+
+  <button onclick="togglePembahasan('pembahasan-latihan2-7')" 
+    class="mt-6 px-5 py-3 bg-[#4dd4a3] text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition-all duration-300">
+    Lihat Pembahasan
+  </button>
+
+  <div id="pembahasan-latihan2-7" class="mt-6 p-5 bg-white rounded-lg hidden transition-all duration-300">
+    <h3 class="font-semibold text-lg text-green-700">Pembahasan:</h3>
+    <p>B adalah perubahan kimia karena nasi basi mengalami pembusukan (reaksi kimia). C adalah perubahan fisika karena hanya bentuk es yang berubah menjadi air tanpa zat baru.</p>
+    <p class="font-medium mt-3 text-[#4dd4a3] text-lg">Jawaban: D</p>
+  </div>
+</div>
+<!-- Soal 8 -->
+<div class="p-6 bg-yellow-100 rounded-lg shadow-md mt-6">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mt-6">Soal 8</h2>
+  <p class="mt-4 text-lg">
+    Perhatikan beberapa contoh peristiwa berikut:
+  </p>
+  <ul class="list-disc pl-6 mt-2 text-lg">
+    <li>(1) Air menguap saat dijemur</li>
+    <li>(2) Kayu dibakar menjadi abu</li>
+    <li>(3) Kaca pecah ketika terjatuh</li>
+    <li>(4) Makanan basi setelah dibiarkan beberapa hari</li>
+  </ul>
+  <p class="mt-4 text-lg">
+    Contoh peristiwa yang termasuk perubahan fisika ditunjukkan oleh nomor...
+  </p>
+
+  <ul class="mt-4 text-lg">
+    <li><input type="radio" name="latihan2_8"> A. (1) dan (2)</li>
+    <li><input type="radio" name="latihan2_8"> B. (1) dan (3)</li>
+    <li><input type="radio" name="latihan2_8"> C. (2) dan (4)</li>
+    <li><input type="radio" name="latihan2_8"> D. (3) dan (4)</li>
+  </ul>
+
+  <button onclick="togglePembahasan('pembahasan-latihan2-8')" 
+    class="mt-6 px-5 py-3 bg-[#4dd4a3] text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition-all duration-300">
+    Lihat Pembahasan
+  </button>
+
+  <div id="pembahasan-latihan2-8" class="mt-6 p-5 bg-white rounded-lg hidden transition-all duration-300">
+    <h3 class="font-semibold text-lg text-green-700">Pembahasan:</h3>
+    <p>(1) Air menguap dan (3) Kaca pecah merupakan perubahan fisika karena tidak menghasilkan zat baru.</p>
+    <p class="font-medium mt-3 text-[#4dd4a3] text-lg">Jawaban: B</p>
+  </div>
+</div>
+
+<!-- Soal 9 -->
+<div class="p-6 bg-yellow-100 rounded-lg shadow-md mt-6">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mt-6">Soal 9</h2>
+  <p class="mt-4 text-lg">
+    Perhatikan pernyataan berikut:
+  </p>
+  <ul class="list-disc pl-6 mt-2 text-lg">
+    <li>(1) Es batu mencair menjadi air</li>
+    <li>(2) Roti dibakar hingga gosong</li>
+    <li>(3) Gula larut dalam teh hangat</li>
+    <li>(4) Kertas dibakar hingga menjadi abu</li>
+  </ul>
+  <p class="mt-4 text-lg">
+    Peristiwa yang termasuk perubahan fisika terdapat pada nomor...
+  </p>
+
+  <ul class="mt-4 text-lg">
+    <li><input type="radio" name="latihan2_9"> A. (2) dan (4)</li>
+    <li><input type="radio" name="latihan2_9"> B. (1) dan (3)</li>
+    <li><input type="radio" name="latihan2_9"> C. (1) dan (2)</li>
+    <li><input type="radio" name="latihan2_9"> D. (3) dan (4)</li>
+  </ul>
+
+  <button onclick="togglePembahasan('pembahasan-latihan2-9')" 
+    class="mt-6 px-5 py-3 bg-[#4dd4a3] text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition-all duration-300">
+    Lihat Pembahasan
+  </button>
+
+  <div id="pembahasan-latihan2-9" class="mt-6 p-5 bg-white rounded-lg hidden transition-all duration-300">
+    <h3 class="font-semibold text-lg text-green-700">Pembahasan:</h3>
+    <p>(1) Es mencair dan (3) Gula larut dalam teh merupakan perubahan fisika karena tidak terbentuk zat baru, hanya berubah wujud atau bentuk.</p>
+    <p class="font-medium mt-3 text-[#4dd4a3] text-lg">Jawaban: B</p>
+  </div>
+</div>
+<!-- Soal 10 -->
+<div class="p-6 bg-yellow-100 rounded-lg shadow-md mt-6">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mt-6">Soal 10</h2>
+  <p class="mt-4 text-lg">
+    Dalam siklus air, air laut menguap karena panas matahari, kemudian berubah menjadi awan, dan akhirnya turun kembali ke bumi sebagai hujan.
+  </p>
+  <p class="mt-4 text-lg">
+    Berdasarkan peristiwa tersebut, manakah pernyataan yang benar mengenai proses kimia yang terjadi?
+  </p>
+
+  <ul class="mt-4 text-lg">
+    <li><input type="radio" name="latihan2_10"> A. Penguapan dan hujan merupakan reaksi kimia karena terjadi perubahan zat.</li>
+    <li><input type="radio" name="latihan2_10"> B. Proses dalam siklus air hanya melibatkan perubahan fisika, bukan reaksi kimia.</li>
+    <li><input type="radio" name="latihan2_10"> C. Pembentukan awan merupakan reaksi kimia karena melibatkan uap dan gas.</li>
+    <li><input type="radio" name="latihan2_10"> D. Air berubah menjadi oksigen dan hidrogen melalui siklus air.</li>
+  </ul>
+
+  <button onclick="togglePembahasan('pembahasan-latihan2-10')" 
+    class="mt-6 px-5 py-3 bg-[#4dd4a3] text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition-all duration-300">
+    Lihat Pembahasan
+  </button>
+
+  <div id="pembahasan-latihan2-10" class="mt-6 p-5 bg-white rounded-lg hidden transition-all duration-300">
+    <h3 class="font-semibold text-lg text-green-700">Pembahasan:</h3>
+    <p>Seluruh proses dalam siklus air (penguapan, kondensasi, presipitasi) merupakan perubahan fisika karena tidak terbentuk zat baru.</p>
+    <p class="font-medium mt-3 text-[#4dd4a3] text-lg">Jawaban: B</p>
+  </div>
+</div>
+
+<!-- Soal 11 -->
+<div class="p-6 bg-yellow-100 rounded-lg shadow-md mt-6">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mt-6">Soal 11</h2>
+  <p class="mt-4 text-lg">
+    Perhatikan pernyataan berikut ini:
+  </p>
+  <ul class="list-disc pl-6 mt-2 text-lg">
+    <li>(1) Terjadi perubahan warna</li>
+    <li>(2) Timbul gas atau gelembung</li>
+    <li>(3) Terbentuk endapan</li>
+    <li>(4) Perubahan wujud dari cair ke gas</li>
+  </ul>
+  <p class="mt-4 text-lg">
+    Pernyataan yang merupakan tanda-tanda terjadinya reaksi kimia adalah...
+  </p>
+
+  <ul class="mt-4 text-lg">
+    <li><input type="radio" name="latihan2_11"> A. (1), (2), dan (4)</li>
+    <li><input type="radio" name="latihan2_11"> B. (2), (3), dan (4)</li>
+    <li><input type="radio" name="latihan2_11"> C. (1), (2), dan (3)</li>
+    <li><input type="radio" name="latihan2_11"> D. (1), (3), dan (4)</li>
+  </ul>
+
+  <button onclick="togglePembahasan('pembahasan-latihan2-11')" 
+    class="mt-6 px-5 py-3 bg-[#4dd4a3] text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition-all duration-300">
+    Lihat Pembahasan
+  </button>
+
+  <div id="pembahasan-latihan2-11" class="mt-6 p-5 bg-white rounded-lg hidden transition-all duration-300">
+    <h3 class="font-semibold text-lg text-green-700">Pembahasan:</h3>
+    <p>Tanda-tanda reaksi kimia meliputi perubahan warna, timbul gas, dan terbentuk endapan. Perubahan wujud (seperti menguap) termasuk perubahan fisika, bukan kimia.</p>
+    <p class="font-medium mt-3 text-[#4dd4a3] text-lg">Jawaban: C</p>
+  </div>
+</div>
+<!-- Soal 12 -->
+<div class="p-6 bg-yellow-100 rounded-lg shadow-md mt-6">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mt-6">Soal 12</h2>
+  <p class="mt-4 text-lg">
+    Seorang siswa melakukan percobaan dengan memanaskan dua benda: mentega dan roti. Setelah beberapa saat, mentega mencair, sementara roti berubah warna menjadi coklat kehitaman dan mengeluarkan aroma gosong.
+  </p>
+  <p class="mt-4 text-lg">
+    Berdasarkan pengamatan tersebut, jelaskan perbedaan antara perubahan yang terjadi pada mentega dan roti serta jenis perubahan yang dialami masing-masing!
+  </p>
+
+  <button onclick="togglePembahasan('pembahasan-latihan2-12')" 
+    class="mt-6 px-5 py-3 bg-[#4dd4a3] text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition-all duration-300">
+    Lihat Pembahasan
+  </button>
+
+  <div id="pembahasan-latihan2-12" class="mt-6 p-5 bg-white rounded-lg hidden transition-all duration-300">
+    <h3 class="font-semibold text-lg text-green-700">Pembahasan:</h3>
+    <p>Mentega mencair: perubahan fisika (tidak menghasilkan zat baru). <br>Roti gosong: perubahan kimia (terjadi perubahan warna, aroma, dan terbentuk zat baru).</p>
+    <p class="font-medium mt-3 text-[#4dd4a3] text-lg">Jawaban: Mentega → perubahan fisika; Roti → perubahan kimia.</p>
+  </div>
+</div>
+
+<!-- Soal 13 -->
+<div class="p-6 bg-yellow-100 rounded-lg shadow-md mt-6">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mt-6">Soal 13</h2>
+  <p class="mt-4 text-lg">
+    Seorang siswa menyatakan bahwa semua perubahan yang melibatkan api pasti termasuk perubahan kimia. Apakah pernyataan tersebut benar? Jelaskan alasanmu dengan memberikan contoh!
+  </p>
+
+  <button onclick="togglePembahasan('pembahasan-latihan2-13')" 
+    class="mt-6 px-5 py-3 bg-[#4dd4a3] text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition-all duration-300">
+    Lihat Pembahasan
+  </button>
+
+  <div id="pembahasan-latihan2-13" class="mt-6 p-5 bg-white rounded-lg hidden transition-all duration-300">
+    <h3 class="font-semibold text-lg text-green-700">Pembahasan:</h3>
+    <p>Pernyataan tersebut umumnya benar karena proses pembakaran menyebabkan reaksi kimia yang menghasilkan zat baru. Contoh: kayu dibakar → arang + asap.</p>
+    <p class="font-medium mt-3 text-[#4dd4a3] text-lg">Jawaban: Ya, karena pembakaran merupakan reaksi kimia yang menghasilkan zat baru.</p>
+  </div>
+</div>
+
+<!-- Soal 14 -->
+<div class="p-6 bg-yellow-100 rounded-lg shadow-md mt-6">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mt-6">Soal 14</h2>
+  <p class="mt-4 text-lg">
+    Dalam kehidupan sehari-hari, kita sering melihat perubahan zat seperti: es mencair, baju menjadi kering setelah dijemur, makanan basi, dan besi berkarat.
+  </p>
+  <p class="mt-4 text-lg">
+    Kelompokkan mana yang termasuk perubahan fisika dan mana yang termasuk perubahan kimia, serta berikan alasanmu!
+  </p>
+
+  <button onclick="togglePembahasan('pembahasan-latihan2-14')" 
+    class="mt-6 px-5 py-3 bg-[#4dd4a3] text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition-all duration-300">
+    Lihat Pembahasan
+  </button>
+
+  <div id="pembahasan-latihan2-14" class="mt-6 p-5 bg-white rounded-lg hidden transition-all duration-300">
+    <h3 class="font-semibold text-lg text-green-700">Pembahasan:</h3>
+    <ul class="list-disc pl-6">
+      <li>Perubahan fisika: es mencair, baju kering → tidak menghasilkan zat baru</li>
+      <li>Perubahan kimia: makanan basi, besi berkarat → menghasilkan zat baru dan tidak dapat dikembalikan ke bentuk semula</li>
+    </ul>
+    <p class="font-medium mt-3 text-[#4dd4a3] text-lg">Jawaban: Sesuai penjelasan di atas.</p>
+  </div>
+</div>
+
+<!-- Soal 15 -->
+<div class="p-6 bg-yellow-100 rounded-lg shadow-md mt-6">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mt-6">Soal 15</h2>
+  <p class="mt-4 text-lg">
+    Amati gambar siklus air berikut: penguapan dari laut, kondensasi membentuk awan, dan presipitasi (hujan) kembali ke daratan.  
+  </p>
+  <p class="mt-4 text-lg">
+    Apakah proses dalam siklus air tersebut termasuk reaksi kimia? Jelaskan dengan menyebutkan karakteristik reaksi kimia!
+  </p>
+
+  <button onclick="togglePembahasan('pembahasan-latihan2-15')" 
+    class="mt-6 px-5 py-3 bg-[#4dd4a3] text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition-all duration-300">
+    Lihat Pembahasan
+  </button>
+
+  <div id="pembahasan-latihan2-15" class="mt-6 p-5 bg-white rounded-lg hidden transition-all duration-300">
+    <h3 class="font-semibold text-lg text-green-700">Pembahasan:</h3>
+    <p>Siklus air hanya melibatkan perubahan wujud (fisika) seperti cair → gas → cair. Tidak ada zat baru yang terbentuk, sehingga bukan termasuk reaksi kimia.</p>
+    <p class="font-medium mt-3 text-[#4dd4a3] text-lg">Jawaban: Tidak. Karena tidak ada tanda reaksi kimia seperti perubahan warna, pembentukan gas, atau endapan.</p>
+  </div>
+</div>
+
+<br>
+
+
+<div id="3.-Kerapatan-Massa-Jenis-Zat">
+    <p class="text-xl font-semibold mb-4 text-[#4dd4a3]">3. Kerapatan (Massa Jenis) Zat</p>
+    <p class="mt-2 ml-4">Massa jenis (kerapatan) adalah besaran yang menyatakan massa suatu benda per satuan volume. Setiap zat memiliki massa jenis yang khas, sehingga dapat digunakan untuk mengidentifikasi jenis zat tersebut.</p>
+</div><br>
+
+<div id="3.1-Mengukur-Massa-Jenis">
+    <p class="text-xl font-semibold mb-4 text-[#4dd4a3]">3.1 Mengukur dan Menentukan Massa Jenis Benda</p>
+    <p class="mt-2 ml-4">Untuk menghitung massa jenis suatu benda digunakan rumus:</p>
+    <p class="mt-2 ml-8 font-mono bg-gray-100 p-2 rounded">\[ρ = \frac{m}{V}\]</p>
+    <p class="mt-2 ml-4">dengan:</p>
+    <ul class="mt-2 ml-8 list-disc">
+        <li>ρ = massa jenis (kg/m³ atau g/cm³)</li>
+        <li>m = massa benda (kg atau g)</li>
+        <li>V = volume benda (m³ atau cm³)</li>
+    </ul>
+    <p class="mt-2 ml-4">Alat yang digunakan:</p>
+    <ul class="mt-2 ml-8 list-disc">
+        <li>Neraca untuk mengukur massa</li>
+        <li>Gelas ukur atau jangka sorong untuk mengukur volume</li>
+    </ul>
+</div><br>
+
+<div id="3.2-Massa-Jenis-Sebagai-Sifat-Zat">
+    <p class="text-xl font-semibold mb-4 text-[#4dd4a3]">3.2 Mengidentifikasi Massa Jenis sebagai Sifat Benda</p>
+    <p class="mt-2 ml-4">Massa jenis merupakan sifat khas suatu zat. Dua benda yang berbeda jenis meskipun memiliki ukuran yang sama, bisa memiliki massa yang berbeda karena perbedaan massa jenisnya.</p>
+    <p class="mt-2 ml-4">Contoh:</p>
+    <ul class="mt-2 ml-8 list-disc">
+        <li>Kayu memiliki massa jenis lebih kecil dibanding logam, sehingga kayu terasa lebih ringan meskipun ukurannya sama.</li>
+        <li>Massa jenis air = 1 g/cm³, logam seperti besi ≈ 7,9 g/cm³ → logam lebih berat dari air.</li>
+    </ul>
+</div><br>
+
+<div id="3.3-Massa-Jenis-dan-Kondisi-di-Air">
+    <p class="text-xl font-semibold mb-4 text-[#4dd4a3]">3.3 Menganalisis Hubungan Massa Jenis dengan Kondisi Benda di Air</p>
+    <p class="mt-2 ml-4">Ketika suatu benda dimasukkan ke dalam air, benda tersebut bisa mengapung, melayang, atau tenggelam tergantung massa jenisnya dibandingkan air:</p>
+    <ul class="mt-2 ml-8 list-disc">
+        <li><strong>Mengapung</strong>: jika massa jenis benda &lt; massa jenis air.</li>
+        <li><strong>Melayang</strong>: jika massa jenis benda = massa jenis air.</li>
+        <li><strong>Tenggelam</strong>: jika massa jenis benda &gt; massa jenis air.</li>
+    </ul>
+    <p class="mt-2 ml-4">Contoh:</p>
+    <ul class="mt-2 ml-8 list-disc">
+        <li>Gabus mengapung karena massa jenisnya lebih kecil dari air.</li>
+        <li>Batu tenggelam karena massa jenisnya jauh lebih besar dari air.</li>
+    </ul>
+<svg width="300" height="400" viewBox="0 0 300 400" xmlns="http://www.w3.org/2000/svg">
+  <!-- Gelas terbuka -->
+  <path d="M70 60 Q150 40 230 60 L210 350 Q150 370 90 350 Z"
+        fill="none" stroke="#555" stroke-width="4" />
+
+  <!-- Air -->
+  <path d="M75 100 Q150 85 225 100 L205 345 Q150 360 95 345 Z"
+        fill="#a0d6f9" opacity="0.6" />
+
+  <!-- Benda mengapung (kayu) -->
+  <rect x="110" y="85" width="80" height="20" rx="4" ry="4"
+        fill="#c08457" stroke="#8b5a2b" stroke-width="1" />
+  <text x="150" y="80" text-anchor="middle" font-size="12" fill="#333">Mengapung</text>
+
+  <!-- Benda melayang (es batu) -->
+  <rect x="110" y="200" width="80" height="20" rx="4" ry="4"
+        fill="#cde9f9" stroke="#79b2d9" stroke-width="1" />
+  <text x="150" y="195" text-anchor="middle" font-size="12" fill="#333">Melayang</text>
+
+  <!-- Benda tenggelam (batu bata) -->
+  <rect x="110" y="310" width="80" height="20" rx="4" ry="4"
+        fill="#8b0000" stroke="#5a0000" stroke-width="1" />
+  <text x="150" y="305" text-anchor="middle" font-size="12" fill="#333">Tenggelam</text>
+
+  <!-- Judul -->
+  <text x="150" y="30" text-anchor="middle" font-size="16" font-family="Arial" fill="#333">
+    Simulasi Benda dalam Air
+  </text>
+</svg>
+  <button onclick="window.open('https://phet.colorado.edu/sims/html/buoyancy-basics/latest/buoyancy-basics_all.html', '_blank');"
+    style="padding: 12px 24px; font-size: 16px; font-weight: bold; color: white; background: linear-gradient(135deg, #11998e, #38ef7d); border: none; border-radius: 12px; cursor: pointer; transition: transform 0.3s ease, box-shadow 0.3s ease;"
+    onmouseover="this.style.transform='scale(1.05)'; this.style.boxShadow='0 8px 16px rgba(0,0,0,0.3)'"
+    onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='none'">
+    ⚖️ Simulasi Massa Jenis
+  </button>
+
+
+</div>
+<br>
+
+<!-- Contoh Percobaan -->
+<div id="3.4-Menulis-Kesimpulan-Percobaan">
+    <p class="text-xl font-semibold mb-4 text-[#4dd4a3]">3.4 Menulis Kesimpulan dari Percobaan</p>
+    <p class="mt-2 ml-4">Berikut adalah contoh percobaan untuk menguji massa jenis dan pengaruhnya terhadap kondisi benda di air:</p>
+
+    <div class="p-4 bg-[#4dd4a3] rounded-lg shadow-md mt-4">
+        <p class="font-semibold">Contoh :</p>
+        <p class="font-semibold">Judul Percobaan:</p><br>
+        <p class="text-white text-center font-bold">Menguji Hubungan Massa Jenis dengan Kemampuan Benda Mengapung di Air</p><br>
+
+        <p class="font-semibold">Identifikasi Variabel</p>
+        <ul class="mt-2 ml-6 list-disc">
+            <li><strong>Variabel bebas:</strong> Jenis benda (gabus, kayu, logam, plastik)</li>
+            <li><strong>Variabel terikat:</strong> Kondisi benda di air (mengapung, melayang, tenggelam)</li>
+            <li><strong>Variabel kontrol:</strong> Suhu air, volume air</li>
+        </ul><br>
+
+        <p class="font-semibold">Rancangan Percobaan</p>
+        <p class="mt-2 ml-4">Tujuan: Menentukan hubungan massa jenis benda terhadap kemampuannya mengapung di air.</p>
+        <p class="mt-2 ml-4">Langkah-langkah:</p>
+        <ul class="mt-2 ml-8 list-decimal">
+            <li>Siapkan benda-benda kecil dari berbagai bahan (gabus, kayu, plastik, logam).</li>
+            <li>Ukur massa masing-masing benda dengan neraca.</li>
+            <li>Ukur volume masing-masing benda (dengan jangka sorong atau gelas ukur melalui pencelupan air).</li>
+            <li>Hitung massa jenis setiap benda menggunakan rumus ρ = m/V.</li>
+            <li>Masukkan masing-masing benda ke dalam gelas berisi air, amati kondisinya (mengapung/melayang/tenggelam).</li>
+            <li>Catat hasil dan buat tabel serta grafik hubungan massa jenis terhadap kondisi benda.</li>
+        </ul>
+
+        <!-- Tabel Data -->
+        <div class="chart-container mt-4">
+            <h3 class="font-semibold mb-2 text-[#4dd4a3]">Tabel Hasil Pengamatan</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Jenis Benda</th>
+                        <th>Massa (g)</th>
+                        <th>Volume (cm³)</th>
+                        <th>Massa Jenis (g/cm³)</th>
+                        <th>Kondisi di Air</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Gabus</td>
+                        <td>2</td>
+                        <td>5</td>
+                        <td>0.4</td>
+                        <td>Mengapung</td>
+                    </tr>
+                    <tr>
+                        <td>Kayu</td>
+                        <td>12</td>
+                        <td>15</td>
+                        <td>0.8</td>
+                        <td>Mengapung</td>
+                    </tr>
+                    <tr>
+                        <td>Plastik</td>
+                        <td>10</td>
+                        <td>10</td>
+                        <td>1.0</td>
+                        <td>Melayang</td>
+                    </tr>
+                    <tr>
+                        <td>Logam</td>
+                        <td>40</td>
+                        <td>5</td>
+                        <td>8.0</td>
+                        <td>Tenggelam</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <p class="font-semibold mt-4">Kesimpulan</p>
+        <p class="mt-2 ml-4">Benda dengan massa jenis lebih kecil dari air (1 g/cm³) akan mengapung, yang massa jenisnya sama akan melayang, dan yang lebih besar akan tenggelam. Percobaan ini membuktikan bahwa massa jenis sangat berpengaruh terhadap apakah suatu benda akan mengapung atau tenggelam di dalam air. Maka, hipotesis bahwa “massa jenis menentukan kondisi benda di air” terbukti benar.</p>
+    </div>
+</div>
+<br>
+
+
+<p class="text-2xl text-[#4dd4a3] font-semibold">Latihan 3</p>
+
+<!-- Soal 1 -->
+<div class="p-6 bg-yellow-100 rounded-lg shadow-md mt-6">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mt-6">Soal 1</h2>
+  <p class="mt-4 text-lg">
+    Sebuah benda memiliki massa 200 gram dan volume 100 cm³. Berapakah massa jenis benda tersebut?
+  </p>
+
+  <ul class="mt-4 text-lg">
+    <li><input type="radio" name="latihan3_1"> A. 0,5 g/cm³</li>
+    <li><input type="radio" name="latihan3_1"> B. 1 g/cm³</li>
+    <li><input type="radio" name="latihan3_1"> C. 2 g/cm³</li>
+    <li><input type="radio" name="latihan3_1"> D. 4 g/cm³</li>
+  </ul>
+
+  <button onclick="togglePembahasan('pembahasan-latihan3-1')" 
+    class="mt-6 px-5 py-3 bg-[#4dd4a3] text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition-all duration-300">
+    Lihat Pembahasan
+  </button>
+
+  <div id="pembahasan-latihan3-1" class="mt-6 p-5 bg-white rounded-lg hidden transition-all duration-300">
+    <h3 class="font-semibold text-lg text-green-700">Pembahasan:</h3>
+    <p>Massa jenis = massa ÷ volume = 200 ÷ 100 = 2 g/cm³.</p>
+    <p class="font-medium mt-3 text-[#4dd4a3] text-lg">Jawaban: C</p>
+  </div>
+</div>
+
+<!-- Soal 2 -->
+<div class="p-6 bg-yellow-100 rounded-lg shadow-md mt-6">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mt-6">Soal 2</h2>
+  <p class="mt-4 text-lg">
+    Massa jenis suatu benda merupakan sifat khas karena...
+  </p>
+
+  <ul class="mt-4 text-lg">
+    <li><input type="radio" name="latihan3_2"> A. Tidak berubah walaupun massa dan volumenya berubah</li>
+    <li><input type="radio" name="latihan3_2"> B. Selalu berubah tergantung bentuknya</li>
+    <li><input type="radio" name="latihan3_2"> C. Sama untuk semua benda</li>
+    <li><input type="radio" name="latihan3_2"> D. Tidak dapat diukur</li>
+  </ul>
+
+  <button onclick="togglePembahasan('pembahasan-latihan3-2')" 
+    class="mt-6 px-5 py-3 bg-[#4dd4a3] text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition-all duration-300">
+    Lihat Pembahasan
+  </button>
+
+  <div id="pembahasan-latihan3-2" class="mt-6 p-5 bg-white rounded-lg hidden transition-all duration-300">
+    <h3 class="font-semibold text-lg text-green-700">Pembahasan:</h3>
+    <p>Massa jenis adalah sifat khas suatu zat karena nilainya tetap meskipun ukuran atau bentuk benda berubah, selama jenis zatnya sama.</p>
+    <p class="font-medium mt-3 text-[#4dd4a3] text-lg">Jawaban: A</p>
+  </div>
+</div>
+
+<!-- Soal 3 -->
+<div class="p-6 bg-yellow-100 rounded-lg shadow-md mt-6">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mt-6">Soal 3</h2>
+  <p class="mt-4 text-lg">
+    Sebuah benda dicelupkan ke dalam air. Benda tersebut tenggelam. Hal ini menunjukkan bahwa...
+  </p>
+
+  <ul class="mt-4 text-lg">
+    <li><input type="radio" name="latihan3_3"> A. Massa jenis benda lebih kecil dari air</li>
+    <li><input type="radio" name="latihan3_3"> B. Massa benda lebih ringan dari air</li>
+    <li><input type="radio" name="latihan3_3"> C. Massa jenis benda lebih besar dari air</li>
+    <li><input type="radio" name="latihan3_3"> D. Volume benda lebih kecil dari air</li>
+  </ul>
+
+  <button onclick="togglePembahasan('pembahasan-latihan3-3')" 
+    class="mt-6 px-5 py-3 bg-[#4dd4a3] text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition-all duration-300">
+    Lihat Pembahasan
+  </button>
+
+  <div id="pembahasan-latihan3-3" class="mt-6 p-5 bg-white rounded-lg hidden transition-all duration-300">
+    <h3 class="font-semibold text-lg text-green-700">Pembahasan:</h3>
+    <p>Benda akan tenggelam jika massa jenisnya lebih besar daripada massa jenis air.</p>
+    <p class="font-medium mt-3 text-[#4dd4a3] text-lg">Jawaban: C</p>
+  </div>
+</div>
+
+<!-- Soal 4 -->
+<div class="p-6 bg-yellow-100 rounded-lg shadow-md mt-6">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mt-6">Soal 4</h2>
+  <p class="mt-4 text-lg">
+    Diketahui massa jenis air adalah 1 g/cm³. Jika sebuah benda bermassa 50 gram dan volumenya 60 cm³, maka benda tersebut jika dimasukkan ke air akan...
+  </p>
+
+  <ul class="mt-4 text-lg">
+    <li><input type="radio" name="latihan3_4"> A. Mengapung</li>
+    <li><input type="radio" name="latihan3_4"> B. Tenggelam</li>
+    <li><input type="radio" name="latihan3_4"> C. Melayang di tengah</li>
+    <li><input type="radio" name="latihan3_4"> D. Meledak</li>
+  </ul>
+
+  <button onclick="togglePembahasan('pembahasan-latihan3-4')" 
+    class="mt-6 px-5 py-3 bg-[#4dd4a3] text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition-all duration-300">
+    Lihat Pembahasan
+  </button>
+
+  <div id="pembahasan-latihan3-4" class="mt-6 p-5 bg-white rounded-lg hidden transition-all duration-300">
+    <h3 class="font-semibold text-lg text-green-700">Pembahasan:</h3>
+    <p>Massa jenis benda = 50 ÷ 60 = 0,83 g/cm³. Karena lebih kecil dari air, maka benda akan mengapung.</p>
+    <p class="font-medium mt-3 text-[#4dd4a3] text-lg">Jawaban: A</p>
+  </div>
+</div>
+<!-- Soal 5 -->
+<div class="p-6 bg-yellow-100 rounded-lg shadow-md mt-6">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mt-6">Soal 5</h2>
+  <p class="mt-4 text-lg">
+    Seorang siswa mengukur massa sebuah batu dan mendapat hasil 300 gram. Volume batu tersebut diukur menggunakan gelas ukur dan diperoleh 100 cm³. Berdasarkan data tersebut, massa jenis batu adalah...
+  </p>
+
+  <ul class="mt-4 text-lg">
+    <li><input type="radio" name="latihan3_5"> A. 1 g/cm³</li>
+    <li><input type="radio" name="latihan3_5"> B. 2 g/cm³</li>
+    <li><input type="radio" name="latihan3_5"> C. 3 g/cm³</li>
+    <li><input type="radio" name="latihan3_5"> D. 4 g/cm³</li>
+  </ul>
+
+  <button onclick="togglePembahasan('pembahasan-latihan3-5')" 
+    class="mt-6 px-5 py-3 bg-[#4dd4a3] text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition-all duration-300">
+    Lihat Pembahasan
+  </button>
+
+  <div id="pembahasan-latihan3-5" class="mt-6 p-5 bg-white rounded-lg hidden transition-all duration-300">
+    <h3 class="font-semibold text-lg text-green-700">Pembahasan:</h3>
+    <p>Massa jenis = massa ÷ volume = 300 ÷ 100 = 3 g/cm³.</p>
+    <p class="font-medium mt-3 text-[#4dd4a3] text-lg">Jawaban: C</p>
+  </div>
+</div>
+
+<!-- Soal 6 -->
+<div class="p-6 bg-yellow-100 rounded-lg shadow-md mt-6">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mt-6">Soal 6</h2>
+  <p class="mt-4 text-lg">
+    Sebuah benda logam memiliki volume 50 cm³ dan beratnya adalah 400 gram. Benda tersebut dimasukkan ke dalam air dan langsung tenggelam.
+    Berdasarkan data tersebut, pernyataan yang paling tepat adalah...
+  </p>
+
+  <ul class="mt-4 text-lg">
+    <li><input type="radio" name="latihan3_6"> A. Massa jenis benda adalah 8 g/cm³ dan lebih kecil dari air</li>
+    <li><input type="radio" name="latihan3_6"> B. Massa jenis benda adalah 8 g/cm³ dan lebih besar dari air</li>
+    <li><input type="radio" name="latihan3_6"> C. Massa jenis benda adalah 0,8 g/cm³ dan benda akan mengapung</li>
+    <li><input type="radio" name="latihan3_6"> D. Massa jenis benda tidak dapat dihitung</li>
+  </ul>
+
+  <button onclick="togglePembahasan('pembahasan-latihan3-6')" 
+    class="mt-6 px-5 py-3 bg-[#4dd4a3] text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition-all duration-300">
+    Lihat Pembahasan
+  </button>
+
+  <div id="pembahasan-latihan3-6" class="mt-6 p-5 bg-white rounded-lg hidden transition-all duration-300">
+    <h3 class="font-semibold text-lg text-green-700">Pembahasan:</h3>
+    <p>Massa jenis = 400 ÷ 50 = 8 g/cm³. Karena lebih besar dari massa jenis air (1 g/cm³), benda akan tenggelam.</p>
+    <p class="font-medium mt-3 text-[#4dd4a3] text-lg">Jawaban: B</p>
+  </div>
+</div>
+<!-- Soal 7 -->
+<div class="p-6 bg-yellow-100 rounded-lg shadow-md mt-6">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mt-6">Soal 7</h2>
+  <p class="mt-4 text-lg">
+    Diketahui massa jenis benda A adalah 2,7 g/cm³ dan benda B adalah 11,3 g/cm³. Kedua benda tersebut terbuat dari logam dan memiliki bentuk yang sama. Berdasarkan data tersebut, pernyataan berikut yang benar adalah...
+  </p>
+
+  <ul class="mt-4 text-lg">
+    <li><input type="radio" name="latihan3_7"> A. Benda A lebih berat daripada benda B</li>
+    <li><input type="radio" name="latihan3_7"> B. Benda A dan B memiliki sifat fisika yang sama</li>
+    <li><input type="radio" name="latihan3_7"> C. Benda B lebih rapat susunan partikelnya dibandingkan benda A</li>
+    <li><input type="radio" name="latihan3_7"> D. Benda A memiliki massa lebih besar untuk volume yang sama</li>
+  </ul>
+
+  <button onclick="togglePembahasan('pembahasan-latihan3-7')" 
+    class="mt-6 px-5 py-3 bg-[#4dd4a3] text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition-all duration-300">
+    Lihat Pembahasan
+  </button>
+
+  <div id="pembahasan-latihan3-7" class="mt-6 p-5 bg-white rounded-lg hidden transition-all duration-300">
+    <h3 class="font-semibold text-lg text-green-700">Pembahasan:</h3>
+    <p>Massa jenis menunjukkan seberapa rapat partikel suatu benda. Benda B memiliki massa jenis lebih besar, artinya susunan partikel lebih rapat dari benda A.</p>
+    <p class="font-medium mt-3 text-[#4dd4a3] text-lg">Jawaban: C</p>
+  </div>
+</div>
+
+<!-- Soal 8 -->
+<div class="p-6 bg-yellow-100 rounded-lg shadow-md mt-6">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mt-6">Soal 8</h2>
+  <p class="mt-4 text-lg">
+    Dua benda, yaitu balok kayu (massa jenis 0,6 g/cm³) dan balok plastik (massa jenis 1,2 g/cm³), memiliki ukuran yang sama. Jika keduanya diletakkan di atas air, maka...
+  </p>
+
+  <ul class="mt-4 text-lg">
+    <li><input type="radio" name="latihan3_8"> A. Kedua balok akan tenggelam</li>
+    <li><input type="radio" name="latihan3_8"> B. Balok kayu akan tenggelam sedangkan balok plastik akan mengapung</li>
+    <li><input type="radio" name="latihan3_8"> C. Balok kayu akan mengapung sedangkan balok plastik akan tenggelam</li>
+    <li><input type="radio" name="latihan3_8"> D. Keduanya akan melayang di tengah air</li>
+  </ul>
+
+  <button onclick="togglePembahasan('pembahasan-latihan3-8')" 
+    class="mt-6 px-5 py-3 bg-[#4dd4a3] text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition-all duration-300">
+    Lihat Pembahasan
+  </button>
+
+  <div id="pembahasan-latihan3-8" class="mt-6 p-5 bg-white rounded-lg hidden transition-all duration-300">
+    <h3 class="font-semibold text-lg text-green-700">Pembahasan:</h3>
+    <p>Air memiliki massa jenis 1 g/cm³. Benda dengan massa jenis < 1 g/cm³ akan mengapung, sedangkan > 1 g/cm³ akan tenggelam. Jadi balok kayu mengapung, plastik tenggelam.</p>
+    <p class="font-medium mt-3 text-[#4dd4a3] text-lg">Jawaban: C</p>
+  </div>
+</div>
+<!-- Soal 9 -->
+<div class="p-6 bg-yellow-100 rounded-lg shadow-md mt-6">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mt-6">Soal 9</h2>
+  <p class="mt-4 text-lg">Perhatikan gambar berikut ini!</p>
+
+  <!-- Gambar SVG langsung -->
+  <div class="my-4 flex justify-center">
+    <svg width="300" height="300" viewBox="0 0 300 300">
+      <!-- Air -->
+      <rect x="30" y="30" width="240" height="240" fill="#cceeff" stroke="blue" stroke-width="2"/>
+      
+      <!-- Benda A (Mengapung) -->
+      <rect x="60" y="50" width="40" height="20" fill="orange" stroke="black"/>
+      <text x="80" y="45" font-size="16" text-anchor="middle">A</text>
+      
+      <!-- Benda B (Melayang) -->
+      <rect x="130" y="130" width="40" height="20" fill="green" stroke="black"/>
+      <text x="150" y="125" font-size="16" text-anchor="middle">B</text>
+      
+      <!-- Benda C (Tenggelam) -->
+      <rect x="200" y="230" width="40" height="20" fill="red" stroke="black"/>
+      <text x="220" y="225" font-size="16" text-anchor="middle">C</text>
+    </svg>
+  </div>
+
+  <p class="mt-4 text-lg">
+    Berdasarkan gambar, benda manakah yang memiliki massa jenis paling kecil?
+  </p>
+
+  <ul class="mt-4 text-lg">
+    <li><input type="radio" name="latihan3_9"> A. Benda A</li>
+    <li><input type="radio" name="latihan3_9"> B. Benda B</li>
+    <li><input type="radio" name="latihan3_9"> C. Benda C</li>
+    <li><input type="radio" name="latihan3_9"> D. Semua sama</li>
+  </ul>
+
+  <button onclick="togglePembahasan('pembahasan-latihan3-9')" 
+    class="mt-6 px-5 py-3 bg-[#4dd4a3] text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition-all duration-300">
+    Lihat Pembahasan
+  </button>
+
+  <div id="pembahasan-latihan3-9" class="mt-6 p-5 bg-white rounded-lg hidden transition-all duration-300">
+    <h3 class="font-semibold text-lg text-green-700">Pembahasan:</h3>
+    <p>Benda A berada di atas air (mengapung), menunjukkan massa jenisnya paling kecil dibanding benda lain.</p>
+    <p class="font-medium mt-3 text-[#4dd4a3] text-lg">Jawaban: A</p>
+  </div>
+</div>
+
+<!-- Soal 10 -->
+<div class="p-6 bg-yellow-100 rounded-lg shadow-md mt-6">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mt-6">Soal 10</h2>
+  <p class="mt-4 text-lg">
+    Berdasarkan gambar sebelumnya, benda manakah yang memiliki massa jenis lebih besar dari air?
+  </p>
+
+  <ul class="mt-4 text-lg">
+    <li><input type="radio" name="latihan3_10"> A. Benda A</li>
+    <li><input type="radio" name="latihan3_10"> B. Benda B</li>
+    <li><input type="radio" name="latihan3_10"> C. Benda C</li>
+    <li><input type="radio" name="latihan3_10"> D. Tidak ada</li>
+  </ul>
+
+  <button onclick="togglePembahasan('pembahasan-latihan3-10')" 
+    class="mt-6 px-5 py-3 bg-[#4dd4a3] text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition-all duration-300">
+    Lihat Pembahasan
+  </button>
+
+  <div id="pembahasan-latihan3-10" class="mt-6 p-5 bg-white rounded-lg hidden transition-all duration-300">
+    <h3 class="font-semibold text-lg text-green-700">Pembahasan:</h3>
+    <p>Benda C berada di dasar air (tenggelam), menandakan massa jenisnya lebih besar dari massa jenis air.</p>
+    <p class="font-medium mt-3 text-[#4dd4a3] text-lg">Jawaban: C</p>
+  </div>
+</div>
+<!-- Soal 11 -->
+<div class="p-6 bg-yellow-100 rounded-lg shadow-md mt-6">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mt-6">Soal 11</h2>
+  <p class="mt-4 text-lg">
+    Seorang siswa ingin menentukan massa jenis logam yang tidak diketahui jenisnya. Ia menimbang logam tersebut dan mendapatkan massa 250 gram. Kemudian, ia memasukkan logam ke dalam gelas ukur yang berisi air dan volume naik dari 100 mL menjadi 130 mL. Berdasarkan hasil pengukuran tersebut, siswa menyimpulkan bahwa logam tersebut adalah aluminium. Apakah kesimpulan tersebut tepat? Jelaskan alasannya!
+  </p>
+
+  <ul class="mt-4 text-lg">
+    <li><input type="radio" name="latihan3_11"> A. Tepat, karena massa jenisnya 8,3 g/cm³ sama dengan aluminium</li>
+    <li><input type="radio" name="latihan3_11"> B. Tidak tepat, karena massa jenisnya 3,3 g/cm³ lebih kecil dari aluminium</li>
+    <li><input type="radio" name="latihan3_11"> C. Tepat, karena massa jenisnya 2,7 g/cm³ sesuai aluminium</li>
+    <li><input type="radio" name="latihan3_11"> D. Tidak tepat, karena massa jenisnya 1,5 g/cm³ bukan logam</li>
+  </ul>
+
+  <button onclick="togglePembahasan('pembahasan-latihan3-11')" 
+    class="mt-6 px-5 py-3 bg-[#4dd4a3] text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition-all duration-300">
+    Lihat Pembahasan
+  </button>
+
+  <div id="pembahasan-latihan3-11" class="mt-6 p-5 bg-white rounded-lg hidden transition-all duration-300">
+    <h3 class="font-semibold text-lg text-green-700">Pembahasan:</h3>
+    <p>Volume logam = 130 - 100 = 30 cm³. Maka massa jenis = 250 ÷ 30 ≈ 8,3 g/cm³, yang jauh lebih tinggi dari aluminium (2,7 g/cm³). Maka kesimpulan siswa tidak tepat.</p>
+    <p class="font-medium mt-3 text-[#4dd4a3] text-lg">Jawaban: B</p>
+  </div>
+</div>
+
+<!-- Soal 12 -->
+<div class="p-6 bg-yellow-100 rounded-lg shadow-md mt-6">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mt-6">Soal 12</h2>
+  <p class="mt-4 text-lg">
+    Dua benda memiliki volume sama yaitu 100 cm³. Benda X memiliki massa 400 gram, sedangkan benda Y memiliki massa 200 gram. Keduanya dimasukkan ke dalam air. Apa yang kemungkinan terjadi?
+  </p>
+
+  <ul class="mt-4 text-lg">
+    <li><input type="radio" name="latihan3_12"> A. Kedua benda akan mengapung</li>
+    <li><input type="radio" name="latihan3_12"> B. Benda X tenggelam, benda Y melayang</li>
+    <li><input type="radio" name="latihan3_12"> C. Benda X tenggelam, benda Y mengapung</li>
+    <li><input type="radio" name="latihan3_12"> D. Kedua benda melayang</li>
+  </ul>
+
+  <button onclick="togglePembahasan('pembahasan-latihan3-12')" 
+    class="mt-6 px-5 py-3 bg-[#4dd4a3] text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition-all duration-300">
+    Lihat Pembahasan
+  </button>
+
+  <div id="pembahasan-latihan3-12" class="mt-6 p-5 bg-white rounded-lg hidden transition-all duration-300">
+    <h3 class="font-semibold text-lg text-green-700">Pembahasan:</h3>
+    <p>Massa jenis X = 4 g/cm³, Y = 2 g/cm³. Karena keduanya lebih besar dari air (1 g/cm³), keduanya tenggelam. Namun benda Y lebih ringan, jadi bisa saja melayang tergantung bentuk. Jawaban paling tepat: C.</p>
+    <p class="font-medium mt-3 text-[#4dd4a3] text-lg">Jawaban: C</p>
+  </div>
+</div>
+
+<!-- Soal 13 -->
+<div class="p-6 bg-yellow-100 rounded-lg shadow-md mt-6">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mt-6">Soal 13</h2>
+  <p class="mt-4 text-lg">
+    Seseorang meletakkan bola kayu di air dan bola tersebut mengapung. Ia menyimpulkan bahwa semua kayu pasti mengapung di air. Apakah kesimpulan tersebut valid? Jelaskan secara ilmiah.
+  </p>
+
+  <ul class="mt-4 text-lg">
+    <li><input type="radio" name="latihan3_13"> A. Tidak valid, karena tidak semua jenis kayu memiliki massa jenis yang lebih kecil dari air</li>
+    <li><input type="radio" name="latihan3_13"> B. Valid, karena semua kayu adalah benda ringan</li>
+    <li><input type="radio" name="latihan3_13"> C. Valid, karena semua benda padat mengapung</li>
+    <li><input type="radio" name="latihan3_13"> D. Tidak valid, karena kesimpulan tidak perlu bukti</li>
+  </ul>
+
+  <button onclick="togglePembahasan('pembahasan-latihan3-13')" 
+    class="mt-6 px-5 py-3 bg-[#4dd4a3] text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition-all duration-300">
+    Lihat Pembahasan
+  </button>
+
+  <div id="pembahasan-latihan3-13" class="mt-6 p-5 bg-white rounded-lg hidden transition-all duration-300">
+    <h3 class="font-semibold text-lg text-green-700">Pembahasan:</h3>
+    <p>Tidak semua kayu memiliki massa jenis < 1 g/cm³. Misalnya kayu ulin dan jati tua bisa tenggelam. Maka generalisasi tersebut tidak valid.</p>
+    <p class="font-medium mt-3 text-[#4dd4a3] text-lg">Jawaban: A</p>
+  </div>
+</div>
+
+<!-- Soal 14 -->
+<div class="p-6 bg-yellow-100 rounded-lg shadow-md mt-6">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mt-6">Soal 14</h2>
+  <p class="mt-4 text-lg">
+    Dua benda berbentuk dan berukuran sama, tetapi terbuat dari bahan berbeda. Benda A tenggelam saat dimasukkan ke air, sedangkan benda B mengapung. Apa yang dapat disimpulkan tentang sifat kedua benda tersebut?
+  </p>
+
+  <ul class="mt-4 text-lg">
+    <li><input type="radio" name="latihan3_14"> A. Benda A lebih berat dari benda B</li>
+    <li><input type="radio" name="latihan3_14"> B. Benda A memiliki massa jenis lebih kecil</li>
+    <li><input type="radio" name="latihan3_14"> C. Benda B memiliki massa jenis lebih kecil dari air</li>
+    <li><input type="radio" name="latihan3_14"> D. Kedua benda memiliki massa jenis yang sama</li>
+  </ul>
+
+  <button onclick="togglePembahasan('pembahasan-latihan3-14')" 
+    class="mt-6 px-5 py-3 bg-[#4dd4a3] text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition-all duration-300">
+    Lihat Pembahasan
+  </button>
+
+  <div id="pembahasan-latihan3-14" class="mt-6 p-5 bg-white rounded-lg hidden transition-all duration-300">
+    <h3 class="font-semibold text-lg text-green-700">Pembahasan:</h3>
+    <p>Benda B mengapung → massa jenis < air. Benda A tenggelam → massa jenis > air. Maka perbedaan massa jenis menjadi faktor penentu, bukan berat atau ukuran.</p>
+    <p class="font-medium mt-3 text-[#4dd4a3] text-lg">Jawaban: C</p>
+  </div>
+</div>
+
+<!-- Soal 15 -->
+<div class="p-6 bg-yellow-100 rounded-lg shadow-md mt-6">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mt-6">Soal 15</h2>
+  <p class="mt-4 text-lg">
+    Mengapa massa jenis digunakan sebagai salah satu cara untuk mengidentifikasi zat dalam kehidupan sehari-hari?
+  </p>
+
+  <ul class="mt-4 text-lg">
+    <li><input type="radio" name="latihan3_15"> A. Karena massa jenis setiap zat pasti berbeda dan khas</li>
+    <li><input type="radio" name="latihan3_15"> B. Karena massa jenis bisa berubah-ubah tergantung suhu</li>
+    <li><input type="radio" name="latihan3_15"> C. Karena massa jenis sama pada semua zat padat</li>
+    <li><input type="radio" name="latihan3_15"> D. Karena massa jenis tidak dapat diukur dengan alat</li>
+  </ul>
+
+  <button onclick="togglePembahasan('pembahasan-latihan3-15')" 
+    class="mt-6 px-5 py-3 bg-[#4dd4a3] text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition-all duration-300">
+    Lihat Pembahasan
+  </button>
+
+  <div id="pembahasan-latihan3-15" class="mt-6 p-5 bg-white rounded-lg hidden transition-all duration-300">
+    <h3 class="font-semibold text-lg text-green-700">Pembahasan:</h3>
+    <p>Massa jenis adalah sifat khas zat yang nilainya unik untuk setiap jenis zat, sehingga dapat digunakan untuk mengidentifikasi jenisnya secara akurat.</p>
+    <p class="font-medium mt-3 text-[#4dd4a3] text-lg">Jawaban: A</p>
+  </div>
+</div><br>
+
+</div>
+
+
+
+<script>
+  function cekDropdown(idSelect, jawabanBenar, idHasil) {
+    const selected = document.getElementById(idSelect).value.toLowerCase();
+    const hasil = document.getElementById(idHasil);
+    if (selected === jawabanBenar) {
+      hasil.innerText = "✅ Benar!";
+      hasil.className = "text-green-600 font-semibold";
+    } else {
+      hasil.innerText = "❌ Coba lagi!";
+      hasil.className = "text-red-600 font-semibold";
+    }
+  }
+
+  function cekInput(idInput, kunciJawaban, idHasil) {
+    const input = document.getElementById(idInput).value.trim().toLowerCase();
+    const hasil = document.getElementById(idHasil);
+    if (kunciJawaban.includes(input)) {
+      hasil.innerText = "✅ Benar!";
+      hasil.className = "text-green-600 font-semibold";
+    } else {
+      hasil.innerText = "❌ Coba lagi!";
+      hasil.className = "text-red-600 font-semibold";
+    }
+  }
+</script>
+
+
+
+<script>
+  function cekInput(inputId, kunciList, hasilId) {
+    const userJawabanRaw = document.getElementById(inputId).value.trim().toLowerCase();
+    const hasilEl = document.getElementById(hasilId);
+
+    if (userJawabanRaw === "") {
+      hasilEl.innerHTML = "Isi dulu ya!";
+      hasilEl.className = "font-semibold text-yellow-600";
+      return;
+    }
+
+    const userList = userJawabanRaw.split(',').map(x => x.trim()).filter(Boolean);
+    const kunciLower = kunciList.map(x => x.toLowerCase()).sort();
+    const userSorted = userList.sort();
+
+    const isCorrect = userSorted.length === kunciLower.length && userSorted.every((val, idx) => val === kunciLower[idx]);
+
+    if (isCorrect) {
+      hasilEl.innerHTML = "✅ Benar";
+      hasilEl.className = "font-semibold text-green-600";
+    } else {
+      hasilEl.innerHTML = "❌ Salah";
+      hasilEl.className = "font-semibold text-red-600";
+    }
+  }
+</script>
+</div><br>
+
+
+
+
+
+
+
+
+
+
+</div>
+    <script>
+    function togglePembahasan(id) {
+        var x = document.getElementById(id);
+        if (x.style.display === "none" || x.style.display === "") {
+            x.style.display = "block";
+        } else {
+            x.style.display = "none";
+        }
+    }
+</script>
+
+
+<script>
+    function togglePembahasan(id) {
+        var pembahasan = document.getElementById(id);
+        pembahasan.classList.toggle("hidden");
+    }
+</script>
+
+<script>
+function cekPilihan(name, jawabanBenar, idHasil) {
+  const pilihan = document.querySelector(`input[name="${name}"]:checked`);
+  const hasil = document.getElementById(idHasil);
+  if (!pilihan) {
+    hasil.textContent = "Pilih jawaban terlebih dahulu!";
+    hasil.style.color = "red";
+    return;
+  }
+  if (pilihan.value === jawabanBenar) {
+    hasil.textContent = "Jawaban benar!";
+    hasil.style.color = "green";
+  } else {
+    hasil.textContent = "Jawaban salah, coba lagi.";
+    hasil.style.color = "red";
+  }
+}
+</script>
+    <script>
+        function toggleSidebar() {
+            let sidebar = document.getElementById("sidebar");
+            if (sidebar.style.left === "-250px") {
+                sidebar.style.left = "0";
+            } else {
+                sidebar.style.left = "-250px";
+            }
+        }
+    </script>
+<script>
+  function checkLogin() {
+    const user = document.getElementById("username").value;
+    const pass = document.getElementById("password").value;
+
+    // Akun yang sudah disediakan
+    const validAccounts = [
+      { username: "admin", password: "12345" },
+      { username: "user1", password: "abcde" },
+      { username: "Diza MTSN 1 Brebes 7", password: "semangatbelajar45" },
+    { username: "kelas7", password: "kelas7" }
+];
+
+    const found = validAccounts.find(acc => acc.username === user && acc.password === pass);
+
+    if (found) {
+      document.getElementById("loginForm").style.display = "none";
+      document.getElementById("content22").classList.remove("hidden");
+    } else {
+      document.getElementById("errorMsg").innerText = "Username atau password salah!";
+    }
+  }
+</script>
+
+</body>
+</html>
