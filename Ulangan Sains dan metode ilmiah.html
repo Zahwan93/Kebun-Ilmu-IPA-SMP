@@ -7,6 +7,8 @@
   <script id="MathJax-script" async
     src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
   </script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+
   <style>
     body {
       margin: 0;
@@ -188,6 +190,8 @@
     </thead>
     <tbody id="rankingBody"></tbody>
   </table>
+<button onclick="exportToExcel()" style="margin-top: 15px; padding: 10px 18px; background-color: #1e88e5; color: white; border: none; border-radius: 6px; font-weight: bold;">Unduh Excel</button>
+
 </div>
 
   </div>
@@ -762,6 +766,25 @@ function checkLogin() {
   document.getElementById('namaPeserta').value = namaLengkap;
 }
 
+function exportToExcel() {
+  const data = JSON.parse(localStorage.getItem('rankingPeserta')) || [];
+
+  // Format data menjadi array 2 dimensi
+  const exportData = [
+    ["Peringkat", "Nama Peserta", "Skor"],
+    ...data
+      .sort((a, b) => b.skor - a.skor)
+      .map((item, index) => [index + 1, item.nama, item.skor])
+  ];
+
+  // Buat worksheet dan workbook
+  const worksheet = XLSX.utils.aoa_to_sheet(exportData);
+  const workbook = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(workbook, worksheet, "Ranking");
+
+  // Ekspor ke file Excel
+  XLSX.writeFile(workbook, "Ranking_Peserta_Ulangan.xlsx");
+}
 
 </script>
 
