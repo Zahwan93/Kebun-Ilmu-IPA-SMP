@@ -1,0 +1,791 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Ulangan Zat dan Perubahannya</title>
+	 <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async
+    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+  </script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f4f9ff;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      background-color: #1e88e5;
+      color: white;
+      padding: 15px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .menu-button, .timer {
+      background: white;
+      color: #1e88e5;
+      border: none;
+      padding: 8px 14px;
+      border-radius: 6px;
+      font-weight: bold;
+      cursor: default;
+    }
+
+    .container {
+      display: flex;
+      height: calc(100vh - 60px);
+    }
+
+    .left-panel {
+      width: 25%;
+      background-color: #e3f2fd;
+      padding: 20px;
+      border-right: 1px solid #cfd8dc;
+      overflow-y: auto;
+    }
+
+    .right-panel {
+      width: 75%;
+      padding: 30px;
+      overflow-y: auto;
+    }
+
+    .question-buttons {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 8px;
+    }
+
+    .question-buttons button {
+      padding: 6px;
+      font-size: 13px;
+      background-color: white;
+      border: 1.5px solid #1e88e5;
+      border-radius: 6px;
+      color: #1e88e5;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .question-buttons button:hover {
+      background-color: #bbdefb;
+    }
+
+    .question-buttons button.active {
+      background-color: #1565c0;
+      color: white;
+    }
+
+    .navigation {
+      margin-top: 30px;
+    }
+
+    .navigation button {
+      padding: 10px 18px;
+      margin: 5px;
+      background-color: #1e88e5;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .navigation button:disabled {
+      background-color: #ccc;
+      cursor: not-allowed;
+    }
+
+    .option {
+      display: block;
+      padding: 10px 15px;
+      margin: 10px 0;
+      border: 1.5px solid #90caf9;
+      border-radius: 6px;
+      background-color: white;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .option:hover {
+      background-color: #e3f2fd;
+    }
+
+    .option input {
+      margin-right: 10px;
+    }
+
+    #scoreDisplay {
+      margin-top: 20px;
+      font-weight: bold;
+      color: #1e88e5;
+      display: none;
+    }
+
+    #submitBtn {
+      padding: 10px 18px;
+      margin-top: 20px;
+      background-color: #43a047;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-weight: bold;
+      cursor: pointer;
+      display: none;
+    }
+
+    #submitBtn:hover {
+      background-color: #388e3c;
+    }
+  </style>
+
+</head>
+<body>
+
+<header>
+<!-- Form Login Peserta -->
+<div id="loginModal" style="position:fixed; top:0; left:0; width:100%; height:100%; background-color:rgba(0,0,0,0.6); display:flex; justify-content:center; align-items:center; z-index:1000;">
+  <div style="background:white; padding:30px; border-radius:12px; width:300px; box-shadow:0 4px 12px rgba(0,0,0,0.3);">
+    <h3 style="text-align:center; color:#1e88e5;">Login Peserta</h3>
+    <label>Nama:</label>
+    <input type="text" id="loginNama" placeholder="Masukkan Nama" style="width:100%; padding:8px; margin-bottom:10px;"><br>
+    <label>Kelas:</label>
+    <input type="text" id="loginKelas" placeholder="Misal: 8A" style="width:100%; padding:8px; margin-bottom:10px;"><br>
+    <label>Password:</label>
+    <input type="password" id="loginPassword" placeholder="Masukkan Password" style="width:100%; padding:8px; margin-bottom:10px;"><br>
+    <button onclick="checkLogin()" style="width:100%; padding:10px; background:#1e88e5; color:white; border:none; border-radius:8px; font-weight:bold;">Masuk</button>
+  </div>
+</div>
+
+  <h2>Ulangan Zat dan Perubahannya </h2>
+  
+<div>
+    <span class="timer" id="timer">40:00</span>
+  </div>
+<label for="namaPeserta">Nama Peserta:</label>
+<input type="text" id="namaPeserta" placeholder="Masukkan nama Anda" required>
+
+</header>
+
+<div class="container">
+  <div class="left-panel">
+    <h3>Soal</h3>
+    <div class="question-buttons" id="questionButtons"></div>
+    <div id="scoreDisplay"></div>
+<div id="rankingDisplay" style="margin-top: 30px;">
+  <h3>Ranking Peserta:</h3>
+  <table id="rankingTable" style="width:100%; border-collapse: collapse; margin-top: 10px; background-color: white;">
+    <thead>
+      <tr style="background-color: #1e88e5; color: white;">
+        <th style="padding: 10px; border: 1px solid #ccc;">Peringkat</th>
+        <th style="padding: 10px; border: 1px solid #ccc;">Nama Peserta</th>
+        <th style="padding: 10px; border: 1px solid #ccc;">Skor</th>
+      </tr>
+    </thead>
+    <tbody id="rankingBody"></tbody>
+  </table>
+<button onclick="exportToExcel()" style="margin-top: 15px; padding: 10px 18px; background-color: #1e88e5; color: white; border: none; border-radius: 6px; font-weight: bold;">Unduh Excel</button>
+
+</div>
+
+  </div>
+
+  <div class="right-panel">
+    <div id="questionDisplay"></div>
+    <div class="navigation">
+      <button id="prevBtn">Sebelumnya</button>
+      <button id="nextBtn">Selanjutnya</button>
+      <button id="submitBtn">Submit</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  const questions = [
+  {
+  "type": "mc",
+  "text": "Sebuah zat memiliki partikel yang tersusun tidak terlalu rapat, dapat bergerak bebas tetapi masih saling berdekatan, serta dapat mengikuti bentuk wadahnya. Berdasarkan ciri-ciri tersebut, zat tersebut termasuk ke dalam jenis zat apa?",
+  "options": [
+    "Zat padat",
+    "Zat cair",
+    "Zat gas",
+    "Tidak ada jawaban yang benar"
+  ],
+  "correct": 1
+},
+
+{
+  "type": "mc",
+  "text": "Setelah dikeluarkan dari lemari es, es batu di dalam gelas perlahan-lahan berubah menjadi air. Peristiwa yang terjadi pada es batu tersebut merupakan contoh dari perubahan wujud zat apa?",
+  "options": [
+    "Membeku",
+    "Menguap",
+    "Mencair",
+    "Mengembun",
+    "Menyublim"
+  ],
+  "correct": 2
+},
+{
+  "type": "mc",
+  "text": "Perhatikan gambar susunan partikel berikut ini:<br><br><img src=\"https://imgix2.ruangguru.com/assets/miscellaneous/jpg_p9h6gq_1314.JPG\" alt=\"Gambar Susunan Partikel\" width=\"300\"><br><br>Gambar menunjukkan tiga jenis susunan partikel berbeda. Berdasarkan gambar tersebut, manakah urutan jenis zat dari kiri ke kanan yang paling tepat?",
+  "options": [
+    "Padat – Cair – Gas",
+    "Cair – Padat – Gas",
+    "Gas – Cair – Padat",
+    "Gas – Padat – Cair",
+    "Cair – Gas – Padat"
+  ],
+  "correct": 4
+},
+{
+  "type": "mc",
+  "text": "Perhatikan beberapa pernyataan berikut:<br><br><ol><li>Es mencair menjadi air</li><li>Kertas dibakar menjadi abu</li><li>Air menguap saat dipanaskan</li><li>Besi berkarat setelah terkena air dan udara</li></ol><br>Manakah yang merupakan contoh perubahan fisika dan perubahan kimia secara berurutan?",
+  "options": [
+    "1 dan 2 merupakan perubahan kimia, 3 dan 4 perubahan fisika",
+    "1 dan 3 merupakan perubahan fisika, 2 dan 4 perubahan kimia",
+    "2 dan 3 merupakan perubahan fisika, 1 dan 4 perubahan kimia",
+    "1 dan 4 merupakan perubahan kimia, 2 dan 3 perubahan fisika",
+    "Semua pernyataan merupakan perubahan kimia"
+  ],
+  "correct": 1
+},
+{
+  "type": "mc",
+  "text": "Perhatikan pernyataan-pernyataan berikut ini:<br><br><ol><li>Tidak terbentuk zat baru</li><li>Terjadi perubahan bentuk atau wujud</li><li>Menimbulkan gas atau endapan</li><li>Terjadi perubahan warna dan bau secara permanen</li></ol><br>Manakah pernyataan yang termasuk ciri-ciri perubahan fisika dan ciri-ciri perubahan kimia secara berurutan?",
+  "options": [
+    "1 dan 2 perubahan kimia, 3 dan 4 perubahan fisika",
+    "1 dan 3 perubahan fisika, 2 dan 4 perubahan kimia",
+    "1 dan 2 perubahan fisika, 3 dan 4 perubahan kimia",
+    "1 dan 4 perubahan kimia, 2 dan 3 perubahan fisika",
+    "Semua pernyataan merupakan ciri perubahan fisika"
+  ],
+  "correct": 2
+},
+{
+  "type": "mc",
+  "text": "Perhatikan pernyataan tentang proses siklus air berikut ini:<br><br><ol><li>Air laut menguap karena panas matahari</li><li>Uap air naik ke atmosfer dan mengalami kondensasi membentuk awan</li><li>Awan menjadi jenuh dan turun sebagai hujan</li></ol><br>Berdasarkan pernyataan tersebut, manakah kesimpulan yang paling tepat terkait dengan ada atau tidaknya tanda-tanda reaksi kimia dalam proses siklus air?",
+  "options": [
+    "Semua proses dalam siklus air merupakan reaksi kimia karena melibatkan perubahan wujud",
+    "Proses pembentukan awan merupakan reaksi kimia karena menghasilkan zat baru",
+    "Proses hujan termasuk reaksi kimia karena terjadi di atmosfer",
+    "Tidak ada tanda-tanda reaksi kimia karena tidak terbentuk zat baru dalam semua proses",
+    "Reaksi kimia hanya terjadi saat air menguap menjadi uap"
+  ],
+  "correct": 3
+},
+{
+  "type": "mc",
+  "text": "Seorang siswa melakukan percobaan dengan sebuah balok logam yang massanya 300 gram dan volumenya 100 cm³. Siswa tersebut ingin mengetahui massa jenis balok logam tersebut. Berdasarkan data tersebut, berapakah massa jenis balok logam itu?",
+  "options": [
+    "0,3 g/cm³",
+    "3 g/cm³",
+    "30 g/cm³",
+    "300 g/cm³",
+    "400 g/cm³"
+  ],
+  "correct": 1
+},
+{
+  "type": "mc",
+  "text": "Sebuah benda memiliki massa jenis sebesar 0,8 g/cm³. Jika benda tersebut dimasukkan ke dalam air yang memiliki massa jenis 1 g/cm³, apa yang akan terjadi pada benda tersebut?",
+  "options": [
+    "Benda akan tenggelam ke dasar wadah",
+    "Benda akan melayang di dalam air",
+    "Benda akan mengapung di permukaan air",
+    "Benda akan larut dalam air",
+    "Benda akan berubah wujud menjadi air"
+  ],
+  "correct": 2
+},
+{
+  "type": "mc",
+  "text": "Perhatikan gambar berikut ini:<br><br><svg width=\"200\" height=\"300\" style=\"border:1px solid #000;background:#ccf\">\n  <rect x=\"0\" y=\"0\" width=\"200\" height=\"300\" fill=\"#ccf\" />\n  <!-- Benda A (Mengapung) -->\n  <circle cx=\"100\" cy=\"40\" r=\"15\" fill=\"red\" />\n  <text x=\"95\" y=\"45\" font-size=\"12\" fill=\"white\">A</text>\n\n  <!-- Benda B (Melayang) -->\n  <circle cx=\"100\" cy=\"150\" r=\"15\" fill=\"green\" />\n  <text x=\"95\" y=\"155\" font-size=\"12\" fill=\"white\">B</text>\n\n  <!-- Benda C (Tenggelam) -->\n  <circle cx=\"100\" cy=\"260\" r=\"15\" fill=\"blue\" />\n  <text x=\"95\" y=\"265\" font-size=\"12\" fill=\"white\">C</text>\n</svg><br><br>Berdasarkan gambar di atas. Urutkan benda yang memiliki masa jenis paling besar sampai yang paling kecil!",
+  "options": [
+    "A - B - C",
+    "C - B - A",
+    "B - A - C",
+    "A - C - B",
+    "B - C - A"
+  ],
+  "correct": 1
+},
+{
+  "type": "mc",
+  "text": "Perhatikan pernyataan dan tabel berikut:<br><br><ol><li>Ketika sebuah kayu dimasukkan ke dalam air, kayu tersebut tetap berada di permukaan air.</li><li>Ketika sebuah batu dimasukkan ke dalam air, batu tersebut langsung tenggelam ke dasar wadah.</li></ol><br><strong>Tabel Massa Jenis:</strong><br><table border=\"1\" cellpadding=\"5\" cellspacing=\"0\">\n<thead>\n<tr><th>Benda</th><th>Massa Jenis (g/cm³)</th></tr>\n</thead>\n<tbody>\n<tr><td>Kayu</td><td>0,6</td></tr>\n<tr><td>Batu</td><td>2,5</td></tr>\n<tr><td>Air</td><td>1,0</td></tr>\n</tbody>\n</table><br>Berdasarkan tabel dan pernyataan tersebut, manakah kesimpulan yang paling tepat?",
+  "options": [
+    "Benda akan mengapung jika massanya kecil",
+    "Benda akan selalu mengapung di dalam air jika terbuat dari kayu",
+    "Benda mengapung jika massa jenisnya lebih kecil dari air",
+    "Benda akan tenggelam jika bentuknya padat",
+    "Semua benda yang berat pasti tenggelam"
+  ],
+  "correct": 2
+},
+{
+  "type": "mc",
+  "text": "Perhatikan pernyataan berikut:<br><br>\"Partikel-partikel dalam suatu zat bergerak sangat bebas, tersebar jauh satu sama lain, dan tidak memiliki bentuk serta volume tetap.\"<br><br>Berdasarkan sifat partikel tersebut, zat tersebut termasuk ke dalam jenis zat apa?",
+  "options": [
+    "Zat padat",
+    "Zat cair",
+    "Zat gas",
+    "Zat campuran",
+    "Zat terlarut"
+  ],
+  "correct": 2
+},
+{
+  "type": "mc",
+  "text": "Ketika kamper (kapur barus) diletakkan di dalam lemari, lama-kelamaan ukurannya mengecil dan akhirnya habis tanpa meninggalkan cairan. Peristiwa tersebut menunjukkan terjadinya perubahan wujud zat. Perubahan wujud apa yang terjadi pada kapur barus tersebut?",
+  "options": [
+    "Menguap",
+    "Membeku",
+    "Mencair",
+    "Mengembun",
+    "Menyublim"
+  ],
+  "correct": 4
+},
+{
+  "type": "mc",
+  "text": "Perhatikan gambar susunan partikel zat berikut ini:<br><br><strong>Gambar A (zat pertama):</strong><br><img src=\"https://cdn.tentorku.com/wp-content/uploads/2015/09/zat-padat.jpg\" alt=\"Zat padat\" width=\"250\"><br><br><strong>Gambar B (zat kedua):</strong><br><img src=\https://cdn.tentorku.com/wp-content/uploads/2015/09/zat-cair.jpg\" alt=\"Zat cair\" width=\"250\"><br><br>Berdasarkan gambar tersebut, wujud zat yang ditunjukkan pada gambar A adalah...",
+  "options": [
+    "Zat padat",
+    "Zat cair",
+    "Zat gas",
+    "Zat campuran",
+    "Zat terlarut"
+  ],
+  "correct": 0
+},
+{
+  "type": "mc",
+  "text": "Perhatikan pernyataan berikut:<br><br>\"Ketika besi dibiarkan di tempat terbuka dalam waktu lama, permukaannya berubah warna menjadi kecokelatan dan berkarat.\"<br><br>Berdasarkan pernyataan tersebut, perubahan yang terjadi termasuk dalam jenis...",
+  "options": [
+    "Perubahan fisika, karena hanya bentuk luar yang berubah",
+    "Perubahan fisika, karena tidak terbentuk zat baru",
+    "Perubahan kimia, karena tidak ada perubahan warna",
+    "Perubahan kimia, karena terbentuk zat baru berupa karat",
+    "Perubahan fisika, karena bisa kembali seperti semula"
+  ],
+  "correct": 3
+},
+{
+  "type": "mc",
+  "text": "Perhatikan beberapa pernyataan berikut ini:<br><br><ol><li>Kayu mudah terbakar saat didekatkan dengan api.</li><li>Logam dapat menghantarkan panas dan listrik.</li><li>Garam larut dalam air.</li><li>Besi dapat berkarat jika terkena air dan udara.</li></ol><br>Manakah pernyataan yang menunjukkan sifat kimia suatu zat?",
+  "options": [
+    "1 dan 2",
+    "1 dan 3",
+    "2 dan 3",
+    "1 dan 4",
+    "2 dan 4"
+  ],
+  "correct": 3
+},
+{
+  "type": "mc",
+  "text": "Seorang siswa memiliki sebuah balok logam dengan massa 600 gram. Diketahui massa jenis logam tersebut adalah 3 g/cm³. Berdasarkan data tersebut, berapakah volume balok logam itu?",
+  "options": [
+    "1800 cm³",
+    "200 cm³",
+    "150 cm³",
+    "100 cm³",
+    "50 cm³"
+  ],
+  "correct": 3
+},
+{
+  "type": "mc",
+  "text": "Dina memiliki sebuah batu dengan massa 400 gram dan volume 200 cm³. Ia ingin mengetahui besar massa jenis batu tersebut. Berdasarkan informasi tersebut, berapakah massa jenis batu itu?",
+  "options": [
+    "0,5 g/cm³",
+    "1 g/cm³",
+    "1,5 g/cm³",
+    "2 g/cm³",
+    "2,5 g/cm³"
+  ],
+  "correct": 3
+},
+{
+  "type": "mc",
+  "text": "Perhatikan gambar berikut ini:<br><br><img src=\"https://assets.kompasiana.com/items/album/2022/04/08/whatsapp-image-2022-04-08-at-14-52-00-624fea42bb448642c724c1c3.jpeg?t=o&v=770\" alt=\"Benda di dalam air\" width=\"400\"><br><br>Pada gambar tampak tiga benda dengan posisi berbeda di dalam air: satu mengapung, satu melayang, dan satu tenggelam.<br><br>Apa penyebab perbedaan posisi ketiga benda tersebut di dalam air?",
+  "options": [
+    "Benda yang ukurannya lebih besar selalu mengapung",
+    "Benda yang massanya lebih kecil akan selalu tenggelam",
+    "Perbedaan massa jenis benda dibandingkan massa jenis air",
+    "Benda yang berwarna cerah akan mengapung di air",
+    "Semua benda akan tenggelam jika dimasukkan cukup dalam"
+  ],
+  "correct": 2
+},
+{
+  "type": "mc",
+  "text": "Perhatikan tabel massa jenis berikut ini:<br><br>\n<table border=\"1\" cellpadding=\"6\" cellspacing=\"0\">\n<thead>\n<tr><th>Benda</th><th>Massa Jenis (g/cm³)</th></tr>\n</thead>\n<tbody>\n<tr><td>Kayu</td><td>0,6</td></tr>\n<tr><td>Batu</td><td>2,5</td></tr>\n<tr><td>Es</td><td>0,9</td></tr>\n<tr><td>Aluminium</td><td>2,7</td></tr>\n<tr><td><strong>Air</strong></td><td><strong>1,0</strong></td></tr>\n</tbody>\n</table><br><br>Manakah pernyataan berikut yang benar berdasarkan data pada tabel?",
+  "options": [
+    "Kayu tenggelam karena massa jenisnya lebih besar dari air",
+    "Es tenggelam karena massa jenisnya lebih besar dari air",
+    "Batu mengapung karena massa jenisnya lebih kecil dari air",
+    "Aluminium mengapung karena massa jenisnya sama dengan air",
+    "Es mengapung karena massa jenisnya lebih kecil dari air"
+  ],
+  "correct": 4
+},
+{
+  "type": "mc",
+  "text": "Perhatikan gambar balok berikut ini:<br><br><img src=\"https://down-id.img.susercontent.com/file/id-11134207-7r98p-lqyl0c46fc6x3b@resize_w900_nl.webp\" alt=\"Balok dengan ukuran\" width=\"300\"><br><br>Sebuah balok memiliki ukuran seperti pada gambar. Jika massa balok tersebut adalah 4800 gram, maka berapakah massa jenis balok tersebut?",
+  "options": [
+    "0.5 g/cm³",
+    "1 g/cm³",
+    "1.5 g/cm³",
+    "2 g/cm³",
+    "2.5 g/cm³"
+  ],
+  "correct": 0
+}
+
+
+
+
+
+
+];
+
+
+  
+
+  let answers = questions.map(q => (q.type === 'mc_multiple' ? [] : null));
+  let currentQuestion = 0;
+  let timerRunning = true;
+
+  const questionDisplay = document.getElementById('questionDisplay');
+  const questionButtonsContainer = document.getElementById('questionButtons');
+  const prevBtn = document.getElementById('prevBtn');
+  const nextBtn = document.getElementById('nextBtn');
+  const submitBtn = document.getElementById('submitBtn');
+  const scoreDisplay = document.getElementById('scoreDisplay');
+  const timerDisplay = document.getElementById('timer');
+function renderQuestionButtons() {
+    questionButtonsContainer.innerHTML = '';
+    questions.forEach((_, i) => {
+      const btn = document.createElement('button');
+      btn.textContent = i + 1;
+      if (i === currentQuestion) btn.classList.add('active');
+      // Tandai soal sudah dijawab
+      if (answers[i] !== null && (Array.isArray(answers[i]) ? answers[i].length > 0 : true)) {
+        btn.style.backgroundColor = '#43a047'; // hijau tanda sudah jawab
+        btn.style.color = 'white';
+      }
+      btn.addEventListener('click', () => {
+        currentQuestion = i;
+        renderQuestion(currentQuestion);
+        updateNavigationButtons();
+      });
+      questionButtonsContainer.appendChild(btn);
+    });
+  }
+
+  function renderQuestion(index) {
+  const q = questions[index];
+  let html = `<h3>Soal ${index + 1}</h3><p>${q.text}</p>`;
+
+  if (q.type === 'mc') {
+    q.options.forEach((opt, i) => {
+      const checked = answers[index] === i ? 'checked' : '';
+      html += `
+        <label class="option">
+          <input type="radio" name="option" value="${i}" ${checked}>
+          ${opt}
+        </label>
+      `;
+    });
+  } else if (q.type === 'mc_multiple') {
+    q.options.forEach((opt, i) => {
+      const checked = (answers[index] && answers[index].includes(i)) ? 'checked' : '';
+      html += `
+        <label class="option">
+          <input type="checkbox" name="option" value="${i}" ${checked}>
+          ${opt}
+        </label>
+      `;
+    });
+  } else if (q.type === 'dropdown') {
+    html += `<select id="dropdownAnswer">`;
+    html += `<option value="">--Pilih jawaban--</option>`;
+    q.options.forEach((opt, i) => {
+      const selected = answers[index] === i ? 'selected' : '';
+      html += `<option value="${i}" ${selected}>${opt}</option>`;
+    });
+    html += `</select>`;
+  } else if (q.type === 'input') {
+    const val = answers[index] || '';
+    html += `<input type="text" id="textAnswer" value="${val}" placeholder="Jawaban Anda">`;
+  }
+
+  questionDisplay.innerHTML = html;
+
+  if (window.MathJax) {
+    MathJax.typesetPromise([questionDisplay]).catch(err => console.error('MathJax error:', err));
+  }
+
+  // Event Listener
+  const options = document.querySelectorAll('input[name="option"]');
+  options.forEach(option => {
+    option.addEventListener('change', (e) => {
+      if (q.type === 'mc') {
+        answers[index] = parseInt(e.target.value);
+      } else if (q.type === 'mc_multiple') {
+        if (!answers[index]) answers[index] = [];
+        const val = parseInt(e.target.value);
+        if (e.target.checked) {
+          if (!answers[index].includes(val)) answers[index].push(val);
+        } else {
+          answers[index] = answers[index].filter(v => v !== val);
+        }
+      }
+      renderQuestionButtons();
+    });
+  });
+
+  if (q.type === 'dropdown') {
+    document.getElementById('dropdownAnswer').addEventListener('change', (e) => {
+      answers[index] = parseInt(e.target.value);
+      renderQuestionButtons();
+    });
+  }
+
+  if (q.type === 'input') {
+    document.getElementById('textAnswer').addEventListener('input', (e) => {
+      answers[index] = e.target.value.trim();
+      renderQuestionButtons();
+    });
+  }
+
+  updateButtons();
+  updateNavButtons();
+}
+
+
+  function updateButtons() {
+    const buttons = document.querySelectorAll('.question-buttons button');
+    buttons.forEach((btn, idx) => {
+      btn.classList.toggle('active', idx === currentQuestion);
+    });
+  }
+
+  function updateNavButtons() {
+    prevBtn.disabled = currentQuestion === 0;
+    nextBtn.disabled = currentQuestion === questions.length - 1;
+    submitBtn.style.display = currentQuestion === questions.length - 1 ? 'inline-block' : 'none';
+  }
+
+  function initButtons() {
+    for (let i = 1; i <= questions.length; i++) {
+      const btn = document.createElement('button');
+      btn.textContent = i;
+      btn.addEventListener('click', () => {
+        currentQuestion = i - 1;
+        renderQuestion(currentQuestion);
+      });
+      questionButtonsContainer.appendChild(btn);
+    }
+  }
+
+  function arraysEqual(a, b) {
+  if (!Array.isArray(a) || !Array.isArray(b)) return false;
+  if (a.length !== b.length) return false;
+  const sortedA = [...a].sort();
+  const sortedB = [...b].sort();
+  return sortedA.every((val, idx) => val === sortedB[idx]);
+}
+function calculateScore() {
+  let score = 0;
+  questions.forEach((q, i) => {
+    if (q.type === 'mc') {
+      if (answers[i] === q.correct) score++;
+    } else if (q.type === 'mc_multiple') {
+      if (arraysEqual(answers[i], q.correct)) score++;
+    } else if (q.type === 'dropdown') {
+      if (answers[i] === q.correct) score++;
+    } else if (q.type === 'input') {
+      if (typeof answers[i] === 'string' && answers[i].toLowerCase() === q.correct.toLowerCase()) {
+        score++;
+      }
+    }
+  });
+
+  const finalScore = score * 5; // ⬅️ Skor dikali 5
+  scoreDisplay.textContent = `Skor Anda: ${finalScore} dari maksimum ${questions.length * 5}`;
+  scoreDisplay.style.display = 'block';
+}
+
+
+  function disableAll() {
+    document.querySelectorAll('button').forEach(btn => btn.disabled = true);
+    document.querySelectorAll('input[type="radio"]').forEach(r => r.disabled = true);
+  }
+function simpanSkorKeLocalStorage(nama, skor) {
+  let hasil = JSON.parse(localStorage.getItem('rankingPeserta')) || [];
+  hasil.push({ nama: `${namaPesertaGlobal} (${kelasPesertaGlobal})`, skor });
+  localStorage.setItem('rankingPeserta', JSON.stringify(hasil));
+}
+
+function tampilkanRanking() {
+  const rankingBody = document.getElementById('rankingBody');
+  let hasil = JSON.parse(localStorage.getItem('rankingPeserta')) || [];
+
+  // Urutkan berdasarkan skor tertinggi
+  hasil.sort((a, b) => b.skor - a.skor);
+
+  rankingBody.innerHTML = '';
+  hasil.forEach((peserta, index) => {
+    const row = document.createElement('tr');
+    row.innerHTML = `
+      <td style="padding: 10px; border: 1px solid #ccc; text-align: center;">${index + 1}</td>
+      <td style="padding: 10px; border: 1px solid #ccc;">${peserta.nama}</td>
+      <td style="padding: 10px; border: 1px solid #ccc; text-align: center;">${peserta.skor}</td>
+    `;
+    rankingBody.appendChild(row);
+  });
+}
+
+  function endTryout() {
+  if (timerRunning) {
+    calculateScore();
+    disableAll();
+    timerRunning = false;
+
+    const namaPeserta = document.getElementById('namaPeserta').value.trim();
+    if (!namaPeserta) {
+      alert("Nama peserta harus diisi untuk menyimpan skor.");
+      return;
+    }
+
+    const skorBenar = questions.reduce((acc, q, i) => {
+  if (q.type === 'mc' && answers[i] === q.correct) return acc + 1;
+  if (q.type === 'mc_multiple' && arraysEqual(answers[i], q.correct)) return acc + 1;
+  if (q.type === 'dropdown' && answers[i] === q.correct) return acc + 1;
+  if (q.type === 'input' && typeof answers[i] === 'string' && answers[i].toLowerCase() === q.correct.toLowerCase()) return acc + 1;
+  return acc;
+}, 0);
+
+const skor = skorBenar * 5; // ⬅️ Skor dikali 5
+
+simpanSkorKeLocalStorage(namaPeserta, skor);
+tampilkanRanking();
+
+  }
+}
+
+
+  submitBtn.addEventListener('click', () => {
+    endTryout();
+    submitBtn.disabled = true;
+  });
+
+  prevBtn.addEventListener('click', () => {
+    if (currentQuestion > 0) {
+      currentQuestion--;
+      renderQuestion(currentQuestion);
+    }
+  });
+
+  nextBtn.addEventListener('click', () => {
+    if (currentQuestion < questions.length - 1) {
+      currentQuestion++;
+      renderQuestion(currentQuestion);
+    }
+  });
+
+  function startTimer(duration) {
+    let timer = duration;
+    const interval = setInterval(() => {
+      if (!timerRunning) {
+        clearInterval(interval);
+        return;
+      }
+
+      const minutes = Math.floor(timer / 60);
+      const seconds = timer % 60;
+      timerDisplay.textContent =
+        `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+
+      if (--timer < 0) {
+        clearInterval(interval);
+        endTryout();
+        alert("Waktu habis! Jawaban Anda telah disubmit.");
+      }
+    }, 1000);
+  }
+
+  initButtons();
+  renderQuestion(currentQuestion);
+  startTimer(40 * 60); // 40 menit
+// Data Peserta
+let namaPesertaGlobal = '';
+let kelasPesertaGlobal = '';
+const PASSWORD = "sasmts2025"; // Ganti dengan password yang kamu inginkan
+
+function checkLogin() {
+  const nama = document.getElementById('loginNama').value.trim();
+  const kelas = document.getElementById('loginKelas').value.trim();
+  const password = document.getElementById('loginPassword').value.trim();
+
+  if (!nama || !kelas || !password) {
+    alert("Semua kolom harus diisi.");
+    return;
+  }
+
+  if (password !== PASSWORD) {
+    alert("Password salah!");
+    return;
+  }
+
+  const namaLengkap = `${nama} (${kelas})`;
+
+  // Cek apakah nama sudah pernah mengerjakan
+  const hasil = JSON.parse(localStorage.getItem('rankingPeserta')) || [];
+  const sudahAda = hasil.some(p => p.nama === namaLengkap);
+
+  if (sudahAda) {
+    alert("Anda sudah pernah mengerjakan. Tidak dapat mengerjakan ulang.");
+    return;
+  }
+
+  // Sukses login
+  namaPesertaGlobal = nama;
+  kelasPesertaGlobal = kelas;
+  document.getElementById('loginModal').style.display = 'none';
+  document.getElementById('namaPeserta').value = namaLengkap;
+}
+function exportToExcel() {
+  const data = JSON.parse(localStorage.getItem('rankingPeserta')) || [];
+
+  // Format data menjadi array 2 dimensi
+  const exportData = [
+    ["Peringkat", "Nama Peserta", "Skor"],
+    ...data
+      .sort((a, b) => b.skor - a.skor)
+      .map((item, index) => [index + 1, item.nama, item.skor])
+  ];
+
+  // Buat worksheet dan workbook
+  const worksheet = XLSX.utils.aoa_to_sheet(exportData);
+  const workbook = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(workbook, worksheet, "Ranking");
+
+  // Ekspor ke file Excel
+  XLSX.writeFile(workbook, "Ranking_Peserta_Ulangan.xlsx");
+}
+
+
+</script>
+
+</body>
+</html>
