@@ -182,12 +182,13 @@
   <h3>Ranking Peserta:</h3>
   <table id="rankingTable" style="width:100%; border-collapse: collapse; margin-top: 10px; background-color: white;">
     <thead>
-      <tr style="background-color: #1e88e5; color: white;">
-        <th style="padding: 10px; border: 1px solid #ccc;">Peringkat</th>
-        <th style="padding: 10px; border: 1px solid #ccc;">Nama Peserta</th>
-        <th style="padding: 10px; border: 1px solid #ccc;">Skor</th>
-      </tr>
-    </thead>
+  <tr style="background-color: #1e88e5; color: white;">
+    <th style="padding: 10px; border: 1px solid #ccc;">Peringkat</th>
+    <th style="padding: 10px; border: 1px solid #ccc;">Kelas</th>
+    <th style="padding: 10px; border: 1px solid #ccc;">Nama Peserta</th>
+    <th style="padding: 10px; border: 1px solid #ccc;">Skor</th>
+  </tr>
+</thead>
     <tbody id="rankingBody"></tbody>
   </table>
 <button onclick="exportToExcel()" style="margin-top: 15px; padding: 10px 18px; background-color: #1e88e5; color: white; border: none; border-radius: 6px; font-weight: bold;">Unduh Excel</button>
@@ -633,7 +634,7 @@ function calculateScore() {
   }
 function simpanSkorKeLocalStorage(nama, skor) {
   let hasil = JSON.parse(localStorage.getItem('rankingPeserta')) || [];
-  hasil.push({ nama: `${namaPesertaGlobal} (${kelasPesertaGlobal})`, skor });
+  hasil.push({ nama: namaPesertaGlobal, kelas: kelasPesertaGlobal, skor });
   localStorage.setItem('rankingPeserta', JSON.stringify(hasil));
 }
 
@@ -641,7 +642,6 @@ function tampilkanRanking() {
   const rankingBody = document.getElementById('rankingBody');
   let hasil = JSON.parse(localStorage.getItem('rankingPeserta')) || [];
 
-  // Urutkan berdasarkan skor tertinggi
   hasil.sort((a, b) => b.skor - a.skor);
 
   rankingBody.innerHTML = '';
@@ -649,12 +649,14 @@ function tampilkanRanking() {
     const row = document.createElement('tr');
     row.innerHTML = `
       <td style="padding: 10px; border: 1px solid #ccc; text-align: center;">${index + 1}</td>
+      <td style="padding: 10px; border: 1px solid #ccc; text-align: center;">${peserta.kelas}</td>
       <td style="padding: 10px; border: 1px solid #ccc;">${peserta.nama}</td>
       <td style="padding: 10px; border: 1px solid #ccc; text-align: center;">${peserta.skor}</td>
     `;
     rankingBody.appendChild(row);
   });
 }
+
 
   function endTryout() {
   if (timerRunning) {
@@ -769,21 +771,18 @@ function checkLogin() {
 function exportToExcel() {
   const data = JSON.parse(localStorage.getItem('rankingPeserta')) || [];
 
-  // Format data menjadi array 2 dimensi
   const exportData = [
-    ["Peringkat", "Nama Peserta", "Skor"],
+    ["Peringkat", "Kelas", "Nama Peserta", "Skor"],
     ...data
       .sort((a, b) => b.skor - a.skor)
-      .map((item, index) => [index + 1, item.nama, item.skor])
+      .map((item, index) => [index + 1, item.kelas, item.nama, item.skor])
   ];
 
-  // Buat worksheet dan workbook
   const worksheet = XLSX.utils.aoa_to_sheet(exportData);
   const workbook = XLSX.utils.book_new();
   XLSX.utils.book_append_sheet(workbook, worksheet, "Ranking");
 
-  // Ekspor ke file Excel
-  XLSX.writeFile(workbook, "Ranking_Peserta_Ulangan.xlsx");
+  XLSX.writeFile(workbook, "Ranking_Peserta_Ulangan_Sains.xlsx");
 }
 
 </script>
