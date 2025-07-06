@@ -1,0 +1,1759 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Media Pembelajaran Interaktif</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script> 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+        body {
+            display: flex;
+            flex-direction: column;
+            background: linear-gradient(135deg, #e3f2fd, #fce4ec);
+            position: relative;
+	    justify-content: center;
+	    align-items: center;
+	    min-height: 100vh
+	
+	}
+        body::before,
+        body::after {
+            content: "";
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            background: white;
+            border-radius: 50%;
+            z-index: -1;
+        }
+        body::before {
+            top: -30%;
+            right: -30%;
+        }
+        body::after {
+            bottom: -50%;
+            left: -30%;
+        }
+	html, body {
+    overflow-x: hidden;
+}
+
+.login-box {
+    background: linear-gradient(135deg, #ce9ffc, #f9c7d9); /* Ganti background */
+    padding: 30px;
+    border-radius: 12px;
+    max-width: 500px;
+    margin: 10px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.2);
+    text-align: center;
+}
+
+.login-box h2 {
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.login-box input {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: none;
+    border-radius: 6px;
+    outline: none;
+}
+
+.login-box button {
+    width: 100%;
+    padding: 10px;
+    background: linear-gradient(135deg, #6a11cb, #2575fc); /* Ganti background tombol */
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.login-box button:hover {
+    background: linear-gradient(135deg, #5e0dca, #1d60e7); /* Hover efek */
+}
+    .hidden {
+      display: none;
+    }
+        .sidebar {
+            width: 250px;
+            height: 100vh;
+            background: #4dd4a3;
+            position: fixed;
+            left: -250px;
+            transition: left 0.3s ease-in-out;
+            padding-top: 20px;
+            z-index: 1300;
+        }
+        .sidebar h2 {
+            color: white;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+        }
+        .sidebar ul li {
+            padding: 5px;
+            text-align: left;
+        }
+        .sidebar ul li a {
+            text-decoration: none;
+            color: white;
+            font-size: 16px;
+            display: block;
+        }
+        .sidebar ul li:hover {
+            background: #f8d444;
+        }
+        .toggle-btn {
+            position: fixed;
+            left: 20px;
+            top: 20px;
+            font-size: 24px;
+            cursor: pointer;
+            background: #f8d444;
+            padding: 5px 10px;
+            border-radius: 5px;
+            color: white;
+            z-index: 1400;
+        }
+        .close-btn {
+            position: absolute;
+            right: 20px;
+            top: 20px;
+            font-size: 24px;
+            cursor: pointer;
+            color: white;
+            background: #f8d444;
+            padding: 5px 10px;
+            border-radius: 5px;
+        }
+        .header {
+            background: white;
+            padding: 20px;
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+            border-radius: 10px;
+            position: sticky;
+            top: 0;
+            z-index: 1200;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .header span {
+            flex: 80%;
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+	    color: #4dd4a3;
+        }
+        .header img {
+            flex: 20%;
+            max-width: 60px;
+            height: auto;
+            margin-left: 10px;
+        }
+        .content {
+            width: 100%;
+            padding: 20px;
+            text-align: center;
+                }
+	
+    </style>
+</head>
+<body>
+<div class="login-box" id="loginForm">
+  <h2>Login</h2>
+  <input type="text" id="username" placeholder="Username" /><br><br>
+  <input type="password" id="password" placeholder="Password" /><br><br>
+  <button onclick="checkLogin()">Masuk</button>
+  <p id="errorMsg" style="color:red;"></p>
+</div>
+
+<div id="content22" class="hidden">
+
+    <div class="sidebar" id="sidebar">
+        <span class="close-btn" onclick="toggleSidebar()">&times;</span>
+        <h2 class=" text-2xl text-semibold ">Menu</h2>
+        <ul>
+            <li ><a href="persamaan garis lurus.html" ▶️ Persamaan Garis Lurus</a></li>
+	    <li ><a href="Peluang.html" ">▶️ Peluang</a></li>
+	    <li ><a href="#Relasi dan Fungsi" >▶️ Relasi dan Fungsi</a></li>
+	    <li ><a href="Statistika.html" >▶️ Statistika</a></li>
+	    <li ><a href="Segitiga dan Segi Empat.html" >▶️ Segitiga dan Segi Empat</a></li>
+	    <li ><a href="Aljabar.html" >▶️ Aljabar</a></li>
+
+        </ul>
+    </div>
+    
+    <div class="toggle-btn" onclick="toggleSidebar()">
+        <i class="fas fa-bars"></i>
+    </div>
+    
+    <div class="header">
+        <span>Media Pembelajaran Interaktif</span>
+        <img src="logo.png" alt="Logo">
+    </div>
+    
+    <!-- Konten Utama -->
+    <div class="ml-0 w-full max-w-7xl mx-auto bg-white p-8 rounded-lg shadow-2xl" style="margin-right: 10px;">
+        <h1 class="text-3xl font-bold text-center text-[#4dd4a3] mb-6">IPA SMP</h1>
+        
+        <!-- Suhu Kalor dan Pemuaian  -->
+
+<div id="HakikatSains" class="mb-8">
+    <h1 class="text-2xl font-bold mb-4 text-[#4dd4a3]">Suhu Kalor dan Pemuaian</h1>
+    <ul class="text-black p-6 bg-[#4dd4a3] rounded-lg shadow-md">
+    <li class="mb-3">
+        <a href="#1.-Suhu" class="hover:text-white">1. Suhu</a>
+    </li>
+    <li class="mb-3 ml-6">
+        <a href="#1.1-Memahami-Konsep-Suhu" class="hover:text-white">1.1 Memahami Konsep Suhu Suatu Benda</a>
+    </li>
+    <li class="mb-3 ml-6">
+        <a href="#1.2-Mengukur-Suhu" class="hover:text-white">1.2 Mengukur Suhu Suatu Benda</a>
+    </li>
+
+    <li class="mb-3">
+        <a href="#2.-Kalor" class="hover:text-white">2. Kalor</a>
+    </li>
+    <li class="mb-3 ml-6">
+        <a href="#2.1-Perbedaan-Suhu-dan-Kalor" class="hover:text-white">2.1 Mendeskripsikan Perbedaan Suhu dan Kalor</a>
+    </li>
+    <li class="mb-3 ml-6">
+        <a href="#2.2-Perpindahan-Kalor" class="hover:text-white">2.2 Menganalisis Fenomena Perpindahan Kalor</a>
+    </li>
+    <li class="mb-3 ml-6">
+        <a href="#2.3-Menghitung-Kalor-Perubahan-Suhu" class="hover:text-white">2.3 Menggunakan Perumusan untuk Menghitung Kalor saat Perubahan Suhu</a>
+    </li>
+<li class="mb-3 ml-6">
+        <a href="#2.4-Perubahan-Wujud-dan-Kalor-Laten" class="hover:text-white">2.4 Perubahan Wujud Zat dan Kalor Laten</a>
+    </li>
+    <li class="mb-3">
+        <a href="#3.-Pemuaian" class="hover:text-white">3. Pemuaian</a>
+    </li>
+    <li class="mb-3 ml-6">
+        <a href="#3.1-Konsep-Pemuaian" class="hover:text-white">3.1 Menjelaskan Konsep Pemuaian</a>
+    </li>
+    <li class="mb-3 ml-6">
+        <a href="#3.2-Contoh-Pemuaian" class="hover:text-white">3.2 Menyebutkan Contoh-contoh Pemuaian dalam Kehidupan Sehari-hari</a>
+    </li>
+<li class="mb-3">
+        <a href="#Ulangan-Harian" class="hover:text-white">Ulangan Harian</a>
+</ul>
+<br>
+
+	<div id="1.-Suhu">
+    <p class="text-2xl font-semibold mb-4 text-[#4dd4a3]">1. Suhu</p>
+</div><br>
+
+<div id="1.1-Memahami-Konsep-Suhu">
+    <p class="text-xl font-semibold mb-4 text-[#4dd4a3]">1.1 Memahami Konsep Suhu Suatu Benda</p>
+    <p class="mt-2 ml-4">
+        <strong>Suhu</strong> adalah ukuran derajat panas atau dingin suatu benda. Suhu menunjukkan energi panas yang dimiliki oleh partikel-partikel dalam suatu benda. Semakin tinggi suhu suatu benda, maka partikel-partikel di dalamnya bergerak semakin cepat.
+    </p>
+    <p class="mt-2 ml-4">
+        Suhu tidak dapat dilihat, tetapi dapat dirasakan dan diukur. Misalnya, kita bisa merasakan bahwa air mendidih itu panas dan es batu itu dingin. Namun, untuk mengetahui nilai suhu secara tepat, kita perlu menggunakan alat ukur.
+    </p>
+    <p class="mt-2 ml-4">
+        Dalam kehidupan sehari-hari, pemahaman tentang suhu sangat penting, seperti untuk memasak, menyimpan makanan, atau merawat tubuh saat demam.
+    </p>
+</div><br>
+
+<div id="1.2-Mengukur-Suhu">
+    <p class="text-xl font-semibold mb-4 text-[#4dd4a3]">1.2 Mengukur Suhu Suatu Benda</p>
+    <p class="mt-2 ml-4">
+        Untuk mengukur suhu, digunakan alat yang disebut <strong>termometer</strong>. Termometer bekerja berdasarkan prinsip bahwa zat cair (biasanya air raksa atau alkohol) akan memuai saat dipanaskan dan menyusut saat didinginkan.
+    </p>
+    <p class="mt-4 ml-4 font-semibold">Tabel Jenis Termometer</p>
+    <div class="overflow-x-auto mt-2 ml-4">
+      <table class="min-w-full text-sm text-left text-gray-700 border border-gray-300 rounded-lg shadow-md">
+        <thead class="bg-[#4dd4a3] text-white">
+          <tr>
+            <th class="px-4 py-2">Jenis Termometer</th>
+            <th class="px-4 py-2">Prinsip Kerja</th>
+            <th class="px-4 py-2">Kegunaan</th>
+            <th class="px-4 py-2">Pemakaian Umum</th>
+          </tr>
+        </thead>
+        <tbody class="bg-white divide-y divide-gray-200">
+          <tr>
+            <td class="px-4 py-2">Air Raksa</td>
+            <td class="px-4 py-2">Pemuaian air raksa akibat perubahan suhu</td>
+            <td class="px-4 py-2">Mengukur suhu dengan presisi tinggi</td>
+            <td class="px-4 py-2">Laboratorium, rumah sakit</td>
+          </tr>
+          <tr>
+            <td class="px-4 py-2">Alkohol</td>
+            <td class="px-4 py-2">Pemuaian alkohol berwarna akibat perubahan suhu</td>
+            <td class="px-4 py-2">Mengukur suhu rendah (karena titik beku alkohol rendah)</td>
+            <td class="px-4 py-2">Daerah dingin, termometer ruangan</td>
+          </tr>
+          <tr>
+            <td class="px-4 py-2">Digital</td>
+            <td class="px-4 py-2">Sensor elektronik mendeteksi perubahan suhu</td>
+            <td class="px-4 py-2">Cepat dan mudah dibaca</td>
+            <td class="px-4 py-2">Rumah tangga, medis, industri</td>
+          </tr>
+          <tr>
+            <td class="px-4 py-2">Inframerah</td>
+            <td class="px-4 py-2">Mengukur radiasi panas tanpa kontak langsung</td>
+            <td class="px-4 py-2">Mengukur suhu dari kejauhan</td>
+            <td class="px-4 py-2">Bandara, rumah sakit, industri</td>
+          </tr>
+          <tr>
+            <td class="px-4 py-2">Bimetal</td>
+            <td class="px-4 py-2">Pemuaian dua logam berbeda yang dilapiskan bersama</td>
+            <td class="px-4 py-2">Mendeteksi dan mengatur suhu</td>
+            <td class="px-4 py-2">Oven, AC, kulkas</td>
+          </tr>
+          <tr>
+            <td class="px-4 py-2">Termistor</td>
+            <td class="px-4 py-2">Perubahan resistansi bahan semikonduktor terhadap suhu</td>
+            <td class="px-4 py-2">Pengukuran suhu presisi dalam rangkaian elektronik</td>
+            <td class="px-4 py-2">Perangkat elektronik, sensor suhu</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p class="mt-4 ml-4 font-semibold">Tabel Konversi Suhu</p>
+    <div class="overflow-x-auto mt-2 ml-4">
+      <img src="https://mathcyber1997.com/wp-content/uploads/2020/12/Tabel-Konversi-Suhu-768x280.png" alt="Tabel Konversi Suhu" class="rounded-lg shadow-md">
+    </div>
+<p class="mt-4 ml-4 font-semibold">Gambar Skala Termometer</p>
+    <div class="overflow-x-auto mt-2 ml-4">
+      <img src="https://mathcyber1997.com/wp-content/uploads/2020/12/Skala-Termometer-FIX-768x333.png" alt="Skala Termometer" class="rounded-lg shadow-md">
+    </div>
+
+     <div class="p-4 bg-[#4dd4a3] rounded-lg shadow-md mt-4">
+    <p class="mt-4 ml-4 font-semibold">Contoh:</p>
+    <ul class="mt-2 ml-8">
+      <li>
+        Jika suhu air adalah <strong>25°C</strong>, maka dalam <strong>Fahrenheit</strong>:
+        \[
+        \text{°F} = \left(25 \times \frac{9}{5}\right) + 32 = 45 + 32 = 77\text{°F}
+        \]
+      </li>
+
+      <li>
+        Jika suhu udara adalah <strong>68°F</strong>, maka dalam <strong>Celsius</strong>:
+        \[
+        \text{°C} = (68 - 32) \times \frac{5}{9} = 36 \times \frac{5}{9} = 20\text{°C}
+        \]
+      </li>
+
+      <li>
+        Jika suhu suatu benda adalah <strong>30°C</strong>, maka dalam <strong>Kelvin</strong>:
+        \[
+        K = 30 + 273 = 303\text{K}
+        \]
+        </li>
+
+      <li>
+        Jika suhu benda adalah <strong>300K</strong>, maka dalam <strong>Fahrenheit</strong>:
+        \[
+        \text{°F} = \left((300 - 273) \times \frac{9}{5}\right) + 32 = (27 \times \frac{9}{5}) + 32 = 48.6 + 32 = 80.6\text{°F}
+        \]
+      </li>
+    </ul>
+  </div>
+
+    <p class="mt-4 ml-4">
+        Memahami konversi suhu sangat penting, terutama saat membaca data dari berbagai negara atau sumber yang menggunakan satuan suhu yang berbeda.
+    </p>
+</div><br>
+
+
+<p class="text-2xl text-[#4dd4a3] font-semibold">Latihan 1</p>
+
+<!-- Soal 1 -->
+<div class="p-6 bg-yellow-100 rounded-lg shadow-md mt-6">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mt-6">Soal 1</h2>
+  <p class="mt-4 text-lg">
+    Apa yang dimaksud dengan suhu suatu benda?
+  </p>
+
+  <ul class="mt-4 text-lg">
+    <li><input type="radio" name="suhu1"> A. Banyaknya partikel dalam benda</li>
+    <li><input type="radio" name="suhu1"> B. Derajat panas atau dinginnya suatu benda</li>
+    <li><input type="radio" name="suhu1"> C. Ukuran besar kecilnya benda</li>
+    <li><input type="radio" name="suhu1"> D. Banyaknya gaya yang bekerja pada benda</li>
+  </ul>
+
+  <button onclick="togglePembahasan('pembahasan-latihan1-suhu1')" 
+    class="mt-6 px-5 py-3 bg-[#4dd4a3] text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition-all duration-300">
+    Lihat Pembahasan
+  </button>
+
+  <div id="pembahasan-latihan1-suhu1" class="mt-6 p-5 bg-white rounded-lg hidden transition-all duration-300">
+    <h3 class="font-semibold text-lg text-green-700">Pembahasan:</h3>
+    <p>Suhu adalah ukuran tingkat panas atau dinginnya suatu benda yang dinyatakan dalam satuan tertentu, seperti Celsius, Fahrenheit, atau Kelvin.</p>
+    <p class="font-medium mt-3 text-[#4dd4a3] text-lg">Jawaban: B</p>
+  </div>
+</div>
+
+<!-- Soal 2 -->
+<div class="p-6 bg-yellow-100 rounded-lg shadow-md mt-6">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mt-6">Soal 2</h2>
+  <p class="mt-4 text-lg">
+    Alat yang digunakan untuk mengukur suhu adalah...
+  </p>
+
+  <ul class="mt-4 text-lg">
+    <li><input type="radio" name="suhu2"> A. Barometer</li>
+    <li><input type="radio" name="suhu2"> B. Hygrometer</li>
+    <li><input type="radio" name="suhu2"> C. Termometer</li>
+    <li><input type="radio" name="suhu2"> D. Anemometer</li>
+  </ul>
+
+  <button onclick="togglePembahasan('pembahasan-latihan1-suhu2')" 
+    class="mt-6 px-5 py-3 bg-[#4dd4a3] text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition-all duration-300">
+    Lihat Pembahasan
+  </button>
+
+  <div id="pembahasan-latihan1-suhu2" class="mt-6 p-5 bg-white rounded-lg hidden transition-all duration-300">
+    <h3 class="font-semibold text-lg text-green-700">Pembahasan:</h3>
+    <p>Termometer adalah alat yang digunakan untuk mengukur suhu. Contohnya seperti termometer air raksa atau digital.</p>
+    <p class="font-medium mt-3 text-[#4dd4a3] text-lg">Jawaban: C</p>
+  </div>
+</div>
+
+<!-- Soal 3 -->
+<div class="p-6 bg-yellow-100 rounded-lg shadow-md mt-6">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mt-6">Soal 3</h2>
+  <p class="mt-4 text-lg">
+    Jika suhu suatu benda diukur menggunakan termometer Celsius dan menunjukkan angka 0°C, maka suhu tersebut termasuk dalam kondisi...
+  </p>
+
+  <ul class="mt-4 text-lg">
+    <li><input type="radio" name="suhu3"> A. Panas</li>
+    <li><input type="radio" name="suhu3"> B. Dingin</li>
+    <li><input type="radio" name="suhu3"> C. Normal</li>
+    <li><input type="radio" name="suhu3"> D. Mendidih</li>
+  </ul>
+
+  <button onclick="togglePembahasan('pembahasan-latihan1-suhu3')" 
+    class="mt-6 px-5 py-3 bg-[#4dd4a3] text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition-all duration-300">
+    Lihat Pembahasan
+  </button>
+
+  <div id="pembahasan-latihan1-suhu3" class="mt-6 p-5 bg-white rounded-lg hidden transition-all duration-300">
+    <h3 class="font-semibold text-lg text-green-700">Pembahasan:</h3>
+    <p>Suhu 0°C adalah titik beku air, yang artinya termasuk suhu dingin, terutama di iklim tropis seperti Indonesia.</p>
+    <p class="font-medium mt-3 text-[#4dd4a3] text-lg">Jawaban: B</p>
+  </div>
+</div>
+
+<!-- Soal 4 -->
+<div class="p-6 bg-yellow-100 rounded-lg shadow-md mt-6">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mt-6">Soal 4</h2>
+  <p class="mt-4 text-lg">
+    Perhatikan tabel berikut!
+  </p>
+
+  <table class="mt-4 mb-4 text-lg w-full border border-gray-400">
+    <thead>
+      <tr class="bg-gray-200">
+        <th class="border border-gray-400 px-4 py-2">No</th>
+        <th class="border border-gray-400 px-4 py-2">Titik Tetap Bawah</th>
+        <th class="border border-gray-400 px-4 py-2">Titik Tetap Atas</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="border border-gray-400 px-4 py-2">1</td>
+        <td class="border border-gray-400 px-4 py-2">0</td>
+        <td class="border border-gray-400 px-4 py-2">100</td>
+      </tr>
+      <tr>
+        <td class="border border-gray-400 px-4 py-2">2</td>
+        <td class="border border-gray-400 px-4 py-2">0</td>
+        <td class="border border-gray-400 px-4 py-2">80</td>
+      </tr>
+      <tr>
+        <td class="border border-gray-400 px-4 py-2">3</td>
+        <td class="border border-gray-400 px-4 py-2">32</td>
+        <td class="border border-gray-400 px-4 py-2">212</td>
+      </tr>
+      <tr>
+        <td class="border border-gray-400 px-4 py-2">4</td>
+        <td class="border border-gray-400 px-4 py-2">273</td>
+        <td class="border border-gray-400 px-4 py-2">373</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p class="text-lg">Berdasarkan tabel di atas, yang menunjukkan skala Fahrenheit adalah nomor...</p>
+
+  <ul class="mt-4 text-lg">
+    <li><input type="radio" name="suhu4"> A. 1</li>
+    <li><input type="radio" name="suhu4"> B. 2</li>
+    <li><input type="radio" name="suhu4"> C. 3</li>
+    <li><input type="radio" name="suhu4"> D. 4</li>
+  </ul>
+
+  <button onclick="togglePembahasan('pembahasan-latihan1-suhu4')" 
+    class="mt-6 px-5 py-3 bg-[#4dd4a3] text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition-all duration-300">
+    Lihat Pembahasan
+  </button>
+
+  <div id="pembahasan-latihan1-suhu4" class="mt-6 p-5 bg-white rounded-lg hidden transition-all duration-300">
+    <h3 class="font-semibold text-lg text-green-700">Pembahasan:</h3>
+    <p>Skala Fahrenheit memiliki titik tetap bawah 32 dan titik tetap atas 212. Berdasarkan tabel, ini sesuai dengan nomor 3.</p>
+    <p class="font-medium mt-3 text-[#4dd4a3] text-lg">Jawaban: C</p>
+  </div>
+</div>
+
+<!-- Soal 5 (Revisi: Konversi dari Celcius ke Kelvin) -->
+<div class="p-6 bg-yellow-100 rounded-lg shadow-md mt-6">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mt-6">Soal 5</h2>
+  <p class="mt-4 text-lg">
+    Suhu udara di suatu tempat adalah 27°C. Berapakah suhu tersebut dalam skala Kelvin?
+  </p>
+
+  <ul class="mt-4 text-lg">
+    <li><input type="radio" name="suhu5"> A. 246</li>
+    <li><input type="radio" name="suhu5"> B. 273</li>
+    <li><input type="radio" name="suhu5"> C. 300</li>
+    <li><input type="radio" name="suhu5"> D. 310</li>
+  </ul>
+
+  <button onclick="togglePembahasan('pembahasan-latihan1-suhu5')" 
+    class="mt-6 px-5 py-3 bg-[#4dd4a3] text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition-all duration-300">
+    Lihat Pembahasan
+  </button>
+
+  <div id="pembahasan-latihan1-suhu5" class="mt-6 p-5 bg-white rounded-lg hidden transition-all duration-300">
+    <h3 class="font-semibold text-lg text-green-700">Pembahasan:</h3>
+    <p>Untuk mengubah dari Celcius ke Kelvin digunakan rumus:</p>
+    <p>\( K = °C + 273 \)</p>
+    <p>Maka: \( K = 27 + 273 = 300 \)</p>
+    <p class="font-medium mt-3 text-[#4dd4a3] text-lg">Jawaban: C</p>
+  </div>
+</div>
+
+<!-- Soal 6 -->
+<div class="p-6 bg-yellow-100 rounded-lg shadow-md mt-6">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mt-6">Soal 6</h2>
+  <p class="mt-4 text-lg">
+    Suhu suatu zat tercatat 40°C menggunakan termometer Celsius. Berapakah suhu zat tersebut dalam skala Fahrenheit?
+  </p>
+
+  <ul class="mt-4 text-lg">
+    <li><input type="radio" name="suhu6"> A. 92</li>
+    <li><input type="radio" name="suhu6"> B. 100</li>
+    <li><input type="radio" name="suhu6"> C. 104</li>
+    <li><input type="radio" name="suhu6"> D. 112</li>
+  </ul>
+
+  <button onclick="togglePembahasan('pembahasan-latihan1-suhu6')" 
+    class="mt-6 px-5 py-3 bg-[#4dd4a3] text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition-all duration-300">
+    Lihat Pembahasan
+  </button>
+
+  <div id="pembahasan-latihan1-suhu6" class="mt-6 p-5 bg-white rounded-lg hidden transition-all duration-300">
+    <h3 class="font-semibold text-lg text-green-700">Pembahasan:</h3>
+    <p>Gunakan rumus konversi dari Celsius ke Fahrenheit:</p>
+    <p>\( \text{°F} = (40 \times \frac{9}{5}) + 32 = 72 + 32 = 104 \)</p>
+    <p class="font-medium mt-3 text-[#4dd4a3] text-lg">Jawaban: C</p>
+  </div>
+</div>
+
+<!-- Soal 7 -->
+<div class="p-6 bg-yellow-100 rounded-lg shadow-md mt-6">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mt-6">Soal 7</h2>
+  <p class="mt-4 text-lg">
+    Termometer menunjukkan suhu 60°C. Hitunglah suhu tersebut jika diukur menggunakan termometer Reamur!
+  </p>
+
+  <ul class="mt-4 text-lg">
+    <li><input type="radio" name="suhu7"> A. 45</li>
+    <li><input type="radio" name="suhu7"> B. 48</li>
+    <li><input type="radio" name="suhu7"> C. 50</li>
+    <li><input type="radio" name="suhu7"> D. 54</li>
+  </ul>
+
+  <button onclick="togglePembahasan('pembahasan-latihan1-suhu7')" 
+    class="mt-6 px-5 py-3 bg-[#4dd4a3] text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition-all duration-300">
+    Lihat Pembahasan
+  </button>
+
+  <div id="pembahasan-latihan1-suhu7" class="mt-6 p-5 bg-white rounded-lg hidden transition-all duration-300">
+    <h3 class="font-semibold text-lg text-green-700">Pembahasan:</h3>
+    <p>Gunakan rumus konversi dari Celsius ke Reamur:</p>
+    <p>\( \text{°R} = 60 \times \frac{4}{5} = 48 \)</p>
+    <p class="font-medium mt-3 text-[#4dd4a3] text-lg">Jawaban: B</p>
+  </div>
+</div>
+
+<!-- Soal 8 -->
+<div class="p-6 bg-yellow-100 rounded-lg shadow-md mt-6">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mt-6">Soal 8</h2>
+  <p class="mt-4 text-lg">
+    Suhu suatu benda adalah 310K. Berapakah suhu tersebut jika diubah ke dalam skala Celsius?
+  </p>
+
+  <ul class="mt-4 text-lg">
+    <li><input type="radio" name="suhu8"> A. 27</li>
+    <li><input type="radio" name="suhu8"> B. 30</li>
+    <li><input type="radio" name="suhu8"> C. 37</li>
+    <li><input type="radio" name="suhu8"> D. 40</li>
+  </ul>
+
+  <button onclick="togglePembahasan('pembahasan-latihan1-suhu8')" 
+    class="mt-6 px-5 py-3 bg-[#4dd4a3] text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition-all duration-300">
+    Lihat Pembahasan
+  </button>
+
+  <div id="pembahasan-latihan1-suhu8" class="mt-6 p-5 bg-white rounded-lg hidden transition-all duration-300">
+    <h3 class="font-semibold text-lg text-green-700">Pembahasan:</h3>
+    <p>Gunakan rumus: \( \text{°C} = K - 273 \)</p>
+    <p>\( \text{°C} = 310 - 273 = 37 \)</p>
+    <p class="font-medium mt-3 text-[#4dd4a3] text-lg">Jawaban: C</p>
+  </div>
+</div>
+
+<!-- Soal 9 -->
+<div class="p-6 bg-yellow-100 rounded-lg shadow-md mt-6">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mt-6">Soal 9</h2>
+  <p class="mt-4 text-lg">
+    Suhu udara tercatat 300K. Berapakah suhu tersebut dalam skala Fahrenheit?
+  </p>
+
+  <ul class="mt-4 text-lg">
+    <li><input type="radio" name="suhu9"> A. 76</li>
+    <li><input type="radio" name="suhu9"> B. 80,6</li>
+    <li><input type="radio" name="suhu9"> C. 85,5</li>
+    <li><input type="radio" name="suhu9"> D. 90</li>
+  </ul>
+
+  <button onclick="togglePembahasan('pembahasan-latihan1-suhu9')" 
+    class="mt-6 px-5 py-3 bg-[#4dd4a3] text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition-all duration-300">
+    Lihat Pembahasan
+  </button>
+
+  <div id="pembahasan-latihan1-suhu9" class="mt-6 p-5 bg-white rounded-lg hidden transition-all duration-300">
+    <h3 class="font-semibold text-lg text-green-700">Pembahasan:</h3>
+    <p>Langkah 1: \( \text{°C} = 300 - 273 = 27 \)</p>
+    <p>Langkah 2: \( \text{°F} = (27 \times \frac{9}{5}) + 32 = 48,6 + 32 = 80,6 \)</p>
+    <p class="font-medium mt-3 text-[#4dd4a3] text-lg">Jawaban: B</p>
+  </div>
+</div>
+
+<!-- Soal 10 -->
+<div class="p-6 bg-yellow-100 rounded-lg shadow-md mt-6">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mt-6">Soal 10</h2>
+  <p class="mt-4 text-lg">
+    Termometer menunjukkan suhu 290K. Berapakah suhu tersebut dalam skala Reamur?
+  </p>
+
+  <ul class="mt-4 text-lg">
+    <li><input type="radio" name="suhu10"> A. 12</li>
+    <li><input type="radio" name="suhu10"> B. 13,6</li>
+    <li><input type="radio" name="suhu10"> C. 15</li>
+    <li><input type="radio" name="suhu10"> D. 17</li>
+  </ul>
+
+  <button onclick="togglePembahasan('pembahasan-latihan1-suhu10')" 
+    class="mt-6 px-5 py-3 bg-[#4dd4a3] text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition-all duration-300">
+    Lihat Pembahasan
+  </button>
+
+  <div id="pembahasan-latihan1-suhu10" class="mt-6 p-5 bg-white rounded-lg hidden transition-all duration-300">
+    <h3 class="font-semibold text-lg text-green-700">Pembahasan:</h3>
+    <p>Langkah 1: \( \text{°C} = 290 - 273 = 17 \)</p>
+    <p>Langkah 2: \( \text{°R} = 17 \times \frac{4}{5} = 13,6 \)</p>
+    <p class="font-medium mt-3 text-[#4dd4a3] text-lg">Jawaban: B</p>
+  </div>
+</div>
+
+<br>
+<div id="2.-Kalor">
+    <p class="text-2xl font-semibold mb-4 text-[#4dd4a3]">2. Kalor</p>
+</div><br>
+
+<div id="2.1-Perbedaan-Suhu-dan-Kalor">
+    <p class="text-xl font-semibold mb-4 text-[#4dd4a3]">2.1 Mendeskripsikan Perbedaan Suhu dan Kalor</p>
+    <p class="mt-2 ml-4">
+        <strong>Kalor</strong> adalah energi panas yang berpindah dari benda bersuhu tinggi ke benda bersuhu rendah. Satuan kalor dalam SI adalah <strong>joule (J)</strong>.
+    </p>
+    <p class="mt-2 ml-4">
+        Sementara itu, <strong>suhu</strong> adalah ukuran derajat panas atau dingin suatu benda. Suhu menunjukkan seberapa panas suatu benda, sedangkan kalor menunjukkan banyaknya energi panas yang berpindah.
+    </p>
+    <p class="mt-4 ml-4 font-semibold">Tabel Perbedaan Suhu dan Kalor</p>
+<div class="overflow-x-auto mt-2 ml-4">
+  <table class="min-w-full text-sm text-left text-gray-700 border border-gray-300 rounded-lg shadow-md">
+    <thead class="bg-[#4dd4a3] text-white">
+      <tr>
+        <th class="px-4 py-2">Aspek</th>
+        <th class="px-4 py-2">Suhu</th>
+        <th class="px-4 py-2">Kalor</th>
+      </tr>
+    </thead>
+    <tbody class="bg-white divide-y divide-gray-200">
+      <tr>
+        <td class="px-4 py-2">Pengertian</td>
+        <td class="px-4 py-2">Ukuran derajat panas atau dingin suatu benda</td>
+        <td class="px-4 py-2">Energi panas yang berpindah dari benda bersuhu tinggi ke rendah</td>
+      </tr>
+      <tr>
+        <td class="px-4 py-2">Satuan</td>
+        <td class="px-4 py-2">Celsius (°C), Fahrenheit (°F), Kelvin (K)</td>
+        <td class="px-4 py-2">Joule (J)</td>
+      </tr>
+      <tr>
+        <td class="px-4 py-2">Dapat berpindah?</td>
+        <td class="px-4 py-2">Tidak</td>
+        <td class="px-4 py-2">Ya</td>
+      </tr>
+      <tr>
+        <td class="px-4 py-2">Dapat diukur oleh?</td>
+        <td class="px-4 py-2">Termometer</td>
+        <td class="px-4 py-2">Kalorimeter</td>
+      </tr>
+      <tr>
+        <td class="px-4 py-2">Contoh</td>
+        <td class="px-4 py-2">Air bersuhu 80°C</td>
+        <td class="px-4 py-2">Kalor dari air panas berpindah ke sendok logam</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+</div><br>
+
+<div id="2.2-Perpindahan-Kalor">
+    <p class="text-xl font-semibold mb-4 text-[#4dd4a3]">2.2 Menganalisis Fenomena Perpindahan Kalor</p>
+
+<div class="mt-4 ml-4">
+        <img src="https://asset-2.tstatic.net/medan/foto/bank/images/konduksi-konveksi-dan-radiasi-pada-perpindahan-kalor.jpg" alt="Ilustrasi konduksi, konveksi, dan radiasi" class="w-full max-w-xl rounded shadow-md">
+        <p class="text-sm text-gray-500 mt-1">Gambar: Ilustrasi konduksi, konveksi, dan radiasi</p>
+    </div>
+    <p class="mt-2 ml-4">
+        Kalor dapat berpindah melalui tiga cara utama:
+    </p>
+    <ul class="mt-2 ml-8 list-decimal">
+        <li>
+            <strong>Konduksi</strong> (hantaran): Perpindahan kalor melalui zat padat tanpa perpindahan partikel.
+            <br>Contoh: Sendok logam terasa panas jika salah satu ujungnya dicelupkan ke dalam air panas.
+        </li>
+        <li class="mt-2">
+            <strong>Konveksi</strong> (aliran): Perpindahan kalor melalui zat cair atau gas karena perpindahan partikel.
+            <br>Contoh: Udara panas dari kipas angin panas (heater) naik ke atas.
+        </li>
+        <li class="mt-2">
+            <strong>Radiasi</strong> (pancaran): Perpindahan kalor tanpa media, melalui gelombang elektromagnetik.
+            <br>Contoh: Panas matahari sampai ke bumi.
+        </li>
+    </ul>
+    <p class="mt-2 ml-4">
+        Setiap jenis perpindahan kalor ini terjadi dalam kehidupan sehari-hari dan memiliki penerapan penting, seperti pemanas ruangan (konveksi), panci memasak (konduksi), dan pemanas inframerah (radiasi).
+    </p>
+<h3 class="text-lg font-semibold mt-4 ml-4">Tabel Perbedaan Konduksi, Konveksi, dan Radiasi</h3>
+
+<table class="table-auto border-collapse border border-gray-400 mt-4 w-full">
+  <thead class="bg-[#4dd4a3] text-white">
+    <tr>
+      <th class="border border-gray-400 px-4 py-2">Aspek Perbandingan</th>
+      <th class="border border-gray-400 px-4 py-2">Konduksi</th>
+      <th class="border border-gray-400 px-4 py-2">Konveksi</th>
+      <th class="border border-gray-400 px-4 py-2">Radiasi</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td class="border border-gray-400 px-4 py-2">Media Perantara</td>
+      <td class="border border-gray-400 px-4 py-2">Zat padat</td>
+      <td class="border border-gray-400 px-4 py-2">Zat cair atau gas</td>
+      <td class="border border-gray-400 px-4 py-2">Tidak perlu media</td>
+    </tr>
+    <tr>
+      <td class="border border-gray-400 px-4 py-2">Cara Perpindahan</td>
+      <td class="border border-gray-400 px-4 py-2">Antar partikel tanpa perpindahan zat</td>
+      <td class="border border-gray-400 px-4 py-2">Melibatkan perpindahan partikel</td>
+      <td class="border border-gray-400 px-4 py-2">Melalui gelombang elektromagnetik</td>
+    </tr>
+    <tr>
+      <td class="border border-gray-400 px-4 py-2">Contoh Sehari-hari</td>
+      <td class="border border-gray-400 px-4 py-2">
+        Pegangan sendok logam menjadi panas saat digunakan mengaduk teh panas
+      </td>
+      <td class="border border-gray-400 px-4 py-2">
+        Air mendidih: air panas naik, air dingin turun menciptakan arus konveksi
+      </td>
+      <td class="border border-gray-400 px-4 py-2">
+        Tubuh merasa hangat saat berada di bawah sinar matahari
+      </td>
+    </tr>
+    <tr>
+      <td class="border border-gray-400 px-4 py-2">Kecepatan</td>
+      <td class="border border-gray-400 px-4 py-2">Lambat</td>
+      <td class="border border-gray-400 px-4 py-2">Sedang</td>
+      <td class="border border-gray-400 px-4 py-2">Cepat</td>
+    </tr>
+    <tr>
+      <td class="border border-gray-400 px-4 py-2">Arah Perpindahan</td>
+      <td class="border border-gray-400 px-4 py-2">Langsung dari suhu tinggi ke rendah</td>
+      <td class="border border-gray-400 px-4 py-2">Mengikuti arah aliran zat</td>
+      <td class="border border-gray-400 px-4 py-2">Dapat ke segala arah</td>
+    </tr>
+    <tr>
+      <td class="border border-gray-400 px-4 py-2">Energi yang Terlibat</td>
+      <td class="border border-gray-400 px-4 py-2">Energi kinetik antar partikel</td>
+      <td class="border border-gray-400 px-4 py-2">Energi dari pergerakan partikel zat</td>
+      <td class="border border-gray-400 px-4 py-2">Energi radiasi</td>
+    </tr>
+    <tr>
+      <td class="border border-gray-400 px-4 py-2">Perpindahan Partikel</td>
+      <td class="border border-gray-400 px-4 py-2">Partikel tidak berpindah, hanya bergetar dan mentransfer energi</td>
+      <td class="border border-gray-400 px-4 py-2">Partikel berpindah membawa energi panas</td>
+      <td class="border border-gray-400 px-4 py-2">Tidak melibatkan partikel</td>
+    </tr>
+  </tbody>
+</table>
+
+</div><br>
+
+<div id="2.3-Menghitung-Kalor-Perubahan-Suhu">
+    <p class="text-xl font-semibold mb-4 text-[#4dd4a3]">2.3 Menggunakan Perumusan untuk Menghitung Kalor saat Perubahan Suhu</p>
+    <p class="mt-2 ml-4">
+        Untuk menghitung besar kalor yang diperlukan atau dilepaskan suatu benda saat terjadi perubahan suhu, digunakan rumus:
+    </p>
+    <div class="p-4 bg-white border-l-4 border-[#4dd4a3] shadow-md ml-4 mt-2">
+        <p class="ml-2">
+            \[
+            Q = m \cdot c \cdot \Delta T
+            \]
+            di mana:
+            <br>Q = kalor (joule)
+            <br>m = massa benda (kg)
+            <br>c = kalor jenis zat (J/kg°C)
+            <br>ΔT = perubahan suhu (°C)
+        </p>
+    </div>
+
+<div class="p-4 bg-[#4dd4a3] rounded-lg shadow-md mt-4">
+    <p class="mt-4 ml-4 font-semibold">Contoh Soal:</p>
+    <div class="ml-8">
+        <p class="mt-2">
+            Sebuah benda bermassa 2 kg dipanaskan hingga suhunya naik dari 25°C menjadi 75°C. Jika kalor jenis benda tersebut 4200 J/kg°C, hitung kalor yang dibutuhkan!
+        </p>
+        <p class="mt-2">
+            Penyelesaian:
+            \[
+            Q = m \cdot c \cdot \Delta T = 2 \cdot 4200 \cdot (75 - 25) = 2 \cdot 4200 \cdot 50 = 420000\ \text{Joule}
+            \]
+        </p>
+    </div>
+</div>
+
+    <p class="mt-4 ml-4">
+        Pemahaman rumus ini penting dalam berbagai bidang, seperti teknik, memasak, hingga pengolahan makanan, karena melibatkan energi panas dan perubahan suhu.
+    </p>
+</div><br>
+<div id="2.4-Perubahan-Wujud-dan-Kalor-Laten">
+    <p class="text-xl font-semibold mb-4 text-[#4dd4a3]">2.4 Perubahan Wujud Zat dan Kalor Laten</p>
+    <p class="mt-2 ml-4">
+        Saat zat mengalami perubahan wujud (misalnya dari padat menjadi cair atau dari cair menjadi gas), suhu zat tersebut tidak berubah, tetapi tetap terjadi penyerapan atau pelepasan kalor. Kalor yang terlibat dalam proses ini disebut <strong>kalor laten</strong>.
+    </p>
+    <p class="mt-2 ml-4">
+        <strong>Kalor laten</strong> adalah kalor yang digunakan atau dilepaskan selama proses perubahan wujud zat tanpa perubahan suhu.
+    </p>
+
+    <p class="mt-4 ml-4 font-semibold">Tabel Jenis Perubahan Wujud Zat dan Peran Kalor</p>
+<div class="overflow-x-auto mt-2 ml-4">
+  <table class="min-w-full text-sm text-left text-gray-700 border border-gray-300 rounded-lg shadow-md">
+    <thead class="bg-[#4dd4a3] text-white">
+      <tr>
+        <th class="px-4 py-2">Perubahan Wujud</th>
+        <th class="px-4 py-2">Dari → Menjadi</th>
+        <th class="px-4 py-2">Kalor</th>
+        <th class="px-4 py-2">Contoh</th>
+      </tr>
+    </thead>
+    <tbody class="bg-white divide-y divide-gray-200">
+      <tr>
+        <td class="px-4 py-2">Mencair (Melebur)</td>
+        <td class="px-4 py-2">Padat → Cair</td>
+        <td class="px-4 py-2">Menyerap kalor</td>
+        <td class="px-4 py-2">Es mencair menjadi air</td>
+      </tr>
+      <tr>
+        <td class="px-4 py-2">Membeku</td>
+        <td class="px-4 py-2">Cair → Padat</td>
+        <td class="px-4 py-2">Melepaskan kalor</td>
+        <td class="px-4 py-2">Air menjadi es</td>
+      </tr>
+      <tr>
+        <td class="px-4 py-2">Menguap</td>
+        <td class="px-4 py-2">Cair → Gas</td>
+        <td class="px-4 py-2">Menyerap kalor</td>
+        <td class="px-4 py-2">Air mendidih menjadi uap</td>
+      </tr>
+      <tr>
+        <td class="px-4 py-2">Mengembun (Kondensasi)</td>
+        <td class="px-4 py-2">Gas → Cair</td>
+        <td class="px-4 py-2">Melepaskan kalor</td>
+        <td class="px-4 py-2">Uap air menjadi embun</td>
+      </tr>
+      <tr>
+        <td class="px-4 py-2">Menyublim</td>
+        <td class="px-4 py-2">Padat → Gas</td>
+        <td class="px-4 py-2">Menyerap kalor</td>
+        <td class="px-4 py-2">Kapur barus menguap</td>
+      </tr>
+      <tr>
+        <td class="px-4 py-2">Menghablur (mengkristal)</td>
+        <td class="px-4 py-2">Gas → Padat</td>
+        <td class="px-4 py-2">Melepaskan kalor</td>
+        <td class="px-4 py-2">Uap air menjadi es di freezer</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+
+    <p class="mt-4 ml-4">
+        Untuk menghitung kalor yang diperlukan dalam proses perubahan wujud, digunakan rumus:
+    </p>
+
+    <div class="p-4 bg-white border-l-4 border-[#4dd4a3] shadow-md ml-4 mt-2">
+        <p class="ml-2">
+            \[
+            Q = m \cdot L
+            \]
+            di mana:
+            <br>Q = kalor (joule)
+            <br>m = massa zat (kg)
+            <br>L = kalor laten (J/kg)
+        </p>
+    </div>
+<div class="p-4 bg-green-100 rounded-lg shadow-md mt-4">
+    <p class="mt-4 ml-4 font-semibold">Contoh Soal:</p>
+    <div class="ml-8">
+        <p class="mt-2">
+            Es bermassa 0,5 kg mencair seluruhnya pada suhu 0°C. Jika kalor lebur es adalah 334.000 J/kg, berapa besar kalor yang dibutuhkan?
+        </p>
+        <p class="mt-2">
+            Penyelesaian:
+            \[
+            Q = m \cdot L = 0{,}5 \cdot 334000 = 167000\ \text{Joule}
+            \]
+        </p>
+    </div>
+
+    <p class="mt-4 ml-4">
+        Pemahaman tentang kalor laten sangat penting dalam bidang teknik pendinginan, pembekuan makanan, distilasi air, dan pengolahan bahan kimia.
+    </p>
+
+<h2>Grafik Perpindahan Kalor (Suhu vs Waktu)</h2>
+
+  <!-- SVG Grafik -->
+  <svg viewBox="0 0 600 300" width="100%" xmlns="http://www.w3.org/2000/svg">
+    <!-- Sumbu -->
+    <line x1="50" y1="250" x2="550" y2="250" stroke="black" />
+    <line x1="50" y1="250" x2="50" y2="50" stroke="black" />
+    <text x="10" y="60" font-size="12">Suhu (°C)</text>
+    <text x="500" y="270" font-size="12">Waktu</text>
+
+    <!-- Grafik garis -->
+    <polyline points="50,230 120,180 190,180 260,130 330,130 400,80" fill="none" stroke="#4dd4a3" stroke-width="3" />
+
+    <!-- Titik -->
+    <circle cx="120" cy="180" r="3" fill="red" />
+    <circle cx="190" cy="180" r="3" fill="red" />
+    <circle cx="260" cy="130" r="3" fill="red" />
+    <circle cx="330" cy="130" r="3" fill="red" />
+
+    <!-- Label proses -->
+    <text x="80" y="220" font-size="12">1. Es naik suhu</text>
+    <text x="130" y="170" font-size="12">2. Melebur</text>
+    <text x="240" y="160" font-size="12">3. Air naik suhu</text>
+    <text x="270" y="120" font-size="12">4. Menguap</text>
+    <text x="410" y="90" font-size="12">5. Uap naik suhu</text>
+  </svg>
+
+  <!-- Penjelasan Tahapan -->
+  <div class="penjelasan">
+    <h3>Tahapan Proses dan Cara Menghitung Kalor</h3>
+    <ol>
+      <li><strong>Es naik suhu:</strong><br>
+        Gunakan rumus: <code>Q = m × c × ΔT</code><br>
+        (c es = 2,1 J/g°C)
+      </li>
+      <li><strong>Melebur menjadi air:</strong><br>
+        Gunakan rumus: <code>Q = m × L_f</code><br>
+        (Lf es = 334 J/g)
+      </li>
+      <li><strong>Air naik suhu:</strong><br>
+        Gunakan rumus: <code>Q = m × c × ΔT</code><br>
+        (c air = 4,2 J/g°C)
+      </li>
+      <li><strong>Menguap menjadi uap air:</strong><br>
+        Gunakan rumus: <code>Q = m × L_u</code><br>
+        (Lu air = 2260 J/g)
+      </li>
+      <li><strong>Uap air naik suhu:</strong><br>
+        Gunakan rumus: <code>Q = m × c × ΔT</code><br>
+        (c uap = 2,0 J/g°C)
+      </li>
+    </ol>
+  </div>
+</div><br>
+<p class="text-2xl text-[#4dd4a3] font-semibold">Latihan 2</p>
+
+<!-- Soal 1 -->
+<div class="p-6 bg-yellow-100 rounded-lg shadow-md mt-6">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mt-6">Soal 1</h2>
+  <p class="mt-4 text-lg">Perbedaan utama antara suhu dan kalor adalah...</p>
+  <ul class="mt-4 text-lg">
+    <li><input type="radio" name="latihan2_1"> A. Suhu adalah bentuk energi, sedangkan kalor menunjukkan derajat panas</li>
+    <li><input type="radio" name="latihan2_1"> B. Kalor menyatakan energi panas, suhu menunjukkan tingkat panas suatu benda</li>
+    <li><input type="radio" name="latihan2_1"> C. Kalor dan suhu memiliki satuan yang sama</li>
+    <li><input type="radio" name="latihan2_1"> D. Suhu hanya ada saat benda membeku</li>
+  </ul>
+  <button onclick="togglePembahasan('pembahasan-latihan2-1')" class="mt-6 px-5 py-3 bg-[#4dd4a3] text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition-all duration-300">
+    Lihat Pembahasan
+  </button>
+  <div id="pembahasan-latihan2-1" class="mt-6 p-5 bg-white rounded-lg hidden transition-all duration-300">
+    <h3 class="font-semibold text-lg text-green-700">Pembahasan:</h3>
+    <p>Kalor adalah bentuk energi panas yang berpindah, sedangkan suhu menunjukkan seberapa panas atau dingin suatu benda.</p>
+    <p class="font-medium mt-3 text-[#4dd4a3] text-lg">Jawaban: B</p>
+  </div>
+</div>
+
+<!-- Soal 2 -->
+<div class="p-6 bg-yellow-100 rounded-lg shadow-md mt-6">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mt-6">Soal 2</h2>
+  <p class="mt-4 text-lg">Peristiwa berikut yang menunjukkan perpindahan kalor secara konveksi adalah...</p>
+  <ul class="mt-4 text-lg">
+    <li><input type="radio" name="latihan2_2"> A. Gagang besi terasa panas saat ujungnya dipanaskan</li>
+    <li><input type="radio" name="latihan2_2"> B. Panas matahari sampai ke bumi</li>
+    <li><input type="radio" name="latihan2_2"> C. Udara panas naik ke atas dalam ruangan</li>
+    <li><input type="radio" name="latihan2_2"> D. Air dalam gelas panas jika dicelupkan sendok panas</li>
+  </ul>
+  <button onclick="togglePembahasan('pembahasan-latihan2-2')" class="mt-6 px-5 py-3 bg-[#4dd4a3] text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition-all duration-300">
+    Lihat Pembahasan
+  </button>
+  <div id="pembahasan-latihan2-2" class="mt-6 p-5 bg-white rounded-lg hidden transition-all duration-300">
+    <h3 class="font-semibold text-lg text-green-700">Pembahasan:</h3>
+    <p>Konveksi adalah perpindahan panas melalui pergerakan zat, seperti udara panas yang naik ke atas.</p>
+    <p class="font-medium mt-3 text-[#4dd4a3] text-lg">Jawaban: C</p>
+  </div>
+</div>
+
+<!-- Soal 3 -->
+<div class="p-6 bg-yellow-100 rounded-lg shadow-md mt-6">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mt-6">Soal 3</h2>
+  <p class="mt-4 text-lg">Sebuah benda memiliki massa 2 kg dan dipanaskan sehingga suhunya naik dari 30°C menjadi 80°C. Jika kalor jenis benda tersebut 500 J/kg°C, maka besar kalor yang diterima adalah...</p>
+  <ul class="mt-4 text-lg">
+    <li><input type="radio" name="latihan2_3"> A. 25.000 J</li>
+    <li><input type="radio" name="latihan2_3"> B. 35.000 J</li>
+    <li><input type="radio" name="latihan2_3"> C. 50.000 J</li>
+    <li><input type="radio" name="latihan2_3"> D. 75.000 J</li>
+  </ul>
+  <button onclick="togglePembahasan('pembahasan-latihan2-3')" class="mt-6 px-5 py-3 bg-[#4dd4a3] text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition-all duration-300">
+    Lihat Pembahasan
+  </button>
+  <div id="pembahasan-latihan2-3" class="mt-6 p-5 bg-white rounded-lg hidden transition-all duration-300">
+    <h3 class="font-semibold text-lg text-green-700">Pembahasan:</h3>
+    <p>Gunakan rumus Q = m × c × ΔT → Q = 2 × 500 × (80 - 30) = 2 × 500 × 50 = 50.000 J</p>
+    <p class="font-medium mt-3 text-[#4dd4a3] text-lg">Jawaban: C</p>
+  </div>
+</div>
+
+<!-- Soal 4 -->
+<div class="p-6 bg-yellow-100 rounded-lg shadow-md mt-6">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mt-6">Soal 4</h2>
+  <p class="mt-4 text-lg">Proses perubahan wujud dari es menjadi air dan tetap pada suhu 0°C menunjukkan bahwa kalor yang diberikan digunakan untuk...</p>
+  <ul class="mt-4 text-lg">
+    <li><input type="radio" name="latihan2_4"> A. Menaikkan suhu es</li>
+    <li><input type="radio" name="latihan2_4"> B. Mencairkan es (mengatasi gaya tarik antar molekul)</li>
+    <li><input type="radio" name="latihan2_4"> C. Menguapkan air</li>
+    <li><input type="radio" name="latihan2_4"> D. Mengubah suhu menjadi panas</li>
+  </ul>
+  <button onclick="togglePembahasan('pembahasan-latihan2-4')" class="mt-6 px-5 py-3 bg-[#4dd4a3] text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition-all duration-300">
+    Lihat Pembahasan
+  </button>
+  <div id="pembahasan-latihan2-4" class="mt-6 p-5 bg-white rounded-lg hidden transition-all duration-300">
+    <h3 class="font-semibold text-lg text-green-700">Pembahasan:</h3>
+    <p>Saat es mencair, kalor yang diberikan digunakan untuk mengatasi gaya tarik antar partikel, bukan untuk menaikkan suhu. Kalor ini disebut kalor laten.</p>
+    <p class="font-medium mt-3 text-[#4dd4a3] text-lg">Jawaban: B</p>
+  </div>
+</div>
+
+<!-- Soal 5 -->
+<div class="p-6 bg-yellow-100 rounded-lg shadow-md mt-6">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mt-6">Soal 5</h2>
+  <p class="mt-4 text-lg">Pernyataan yang tepat tentang kalor laten adalah...</p>
+  <ul class="mt-4 text-lg">
+    <li><input type="radio" name="latihan2_5"> A. Digunakan untuk menaikkan suhu zat</li>
+    <li><input type="radio" name="latihan2_5"> B. Digunakan saat zat mengubah suhu dan bentuk</li>
+    <li><input type="radio" name="latihan2_5"> C. Digunakan untuk mengubah wujud zat tanpa perubahan suhu</li>
+    <li><input type="radio" name="latihan2_5"> D. Tidak berkaitan dengan perubahan energi</li>
+  </ul>
+  <button onclick="togglePembahasan('pembahasan-latihan2-5')" class="mt-6 px-5 py-3 bg-[#4dd4a3] text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition-all duration-300">
+    Lihat Pembahasan
+  </button>
+  <div id="pembahasan-latihan2-5" class="mt-6 p-5 bg-white rounded-lg hidden transition-all duration-300">
+    <h3 class="font-semibold text-lg text-green-700">Pembahasan:</h3>
+    <p>Kalor laten adalah energi yang dibutuhkan untuk mengubah wujud zat tanpa disertai perubahan suhu.</p>
+    <p class="font-medium mt-3 text-[#4dd4a3] text-lg">Jawaban: C</p>
+  </div>
+</div>
+
+<!-- Soal 6 -->
+<div class="p-6 bg-yellow-100 rounded-lg shadow-md mt-6 mb-10">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mt-6">Soal 6</h2>
+  <p class="mt-4 text-lg">Perpindahan panas dari ujung logam ke bagian lainnya secara langsung disebut...</p>
+  <ul class="mt-4 text-lg">
+    <li><input type="radio" name="latihan2_6"> A. Konveksi</li>
+    <li><input type="radio" name="latihan2_6"> B. Radiasi</li>
+    <li><input type="radio" name="latihan2_6"> C. Konduksi</li>
+    <li><input type="radio" name="latihan2_6"> D. Evaporasi</li>
+  </ul>
+  <button onclick="togglePembahasan('pembahasan-latihan2-6')" class="mt-6 px-5 py-3 bg-[#4dd4a3] text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition-all duration-300">
+    Lihat Pembahasan
+  </button>
+  <div id="pembahasan-latihan2-6" class="mt-6 p-5 bg-white rounded-lg hidden transition-all duration-300">
+    <h3 class="font-semibold text-lg text-green-700">Pembahasan:</h3>
+    <p>Konduksi adalah perpindahan panas secara langsung dari partikel ke partikel, biasanya terjadi pada benda padat seperti logam.</p>
+    <p class="font-medium mt-3 text-[#4dd4a3] text-lg">Jawaban: C</p>
+  </div>
+</div>
+<!-- Soal 7 -->
+<div class="p-6 bg-yellow-100 rounded-lg shadow-md mt-6">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mt-6">Soal 7</h2>
+  <p class="mt-4 text-lg">Perhatikan pernyataan berikut:</p>
+  <p class="mt-2 text-lg italic">"Benda A dan B memiliki suhu yang sama, tetapi kalor yang dimiliki oleh B lebih besar dari A."</p>
+  <p class="mt-4 text-lg">Pernyataan tersebut menunjukkan bahwa...</p>
+  <ul class="mt-4 text-lg">
+    <li><input type="radio" name="latihan2_7"> A. Kalor dan suhu selalu sama jika massa benda sama</li>
+    <li><input type="radio" name="latihan2_7"> B. Suhu dipengaruhi oleh bentuk benda</li>
+    <li><input type="radio" name="latihan2_7"> C. Kalor tergantung pada massa dan jenis benda, suhu tidak</li>
+    <li><input type="radio" name="latihan2_7"> D. Kalor lebih penting dari suhu</li>
+  </ul>
+  <button onclick="togglePembahasan('pembahasan-latihan2-7')" class="mt-6 px-5 py-3 bg-[#4dd4a3] text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition-all duration-300">
+    Lihat Pembahasan
+  </button>
+  <div id="pembahasan-latihan2-7" class="mt-6 p-5 bg-white rounded-lg hidden transition-all duration-300">
+    <h3 class="font-semibold text-lg text-green-700">Pembahasan:</h3>
+    <p>Kalor merupakan energi panas yang bergantung pada massa dan jenis zat. Suhu menunjukkan tingkat panas, tetapi tidak tergantung pada jumlah zat. Maka meskipun suhunya sama, kalor bisa berbeda.</p>
+    <p class="font-medium mt-3 text-[#4dd4a3] text-lg">Jawaban: C</p>
+  </div>
+</div>
+
+<!-- Soal 8 -->
+<div class="p-6 bg-yellow-100 rounded-lg shadow-md mt-6 mb-10">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mt-6">Soal 8</h2>
+  <p class="mt-4 text-lg">Pilih pernyataan yang paling tepat mengenai perbedaan suhu dan kalor:</p>
+  <ul class="mt-4 text-lg">
+    <li><input type="radio" name="latihan2_8"> A. Kalor menyatakan seberapa panas benda, suhu menyatakan energi benda</li>
+    <li><input type="radio" name="latihan2_8"> B. Suhu dan kalor merupakan istilah yang sama dalam fisika</li>
+    <li><input type="radio" name="latihan2_8"> C. Suhu menunjukkan derajat panas benda, kalor adalah energi panas yang berpindah</li>
+    <li><input type="radio" name="latihan2_8"> D. Kalor tidak bisa berpindah, suhu bisa</li>
+  </ul>
+  <button onclick="togglePembahasan('pembahasan-latihan2-8')" class="mt-6 px-5 py-3 bg-[#4dd4a3] text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition-all duration-300">
+    Lihat Pembahasan
+  </button>
+  <div id="pembahasan-latihan2-8" class="mt-6 p-5 bg-white rounded-lg hidden transition-all duration-300">
+    <h3 class="font-semibold text-lg text-green-700">Pembahasan:</h3>
+    <p>Suhu menyatakan tingkat panas suatu benda (diukur dengan termometer), sedangkan kalor adalah energi panas yang berpindah dari benda bersuhu tinggi ke benda bersuhu rendah.</p>
+    <p class="font-medium mt-3 text-[#4dd4a3] text-lg">Jawaban: C</p>
+  </div>
+</div>
+<!-- Soal 9 -->
+<div class="p-6 bg-yellow-100 rounded-lg shadow-md mt-6">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mt-6">Soal 9</h2>
+  <p class="mt-4 text-lg">Perhatikan narasi berikut:</p>
+  <p class="mt-2 text-lg italic">"Saat sendok logam dimasukkan ke dalam air panas, bagian ujung sendok yang berada di luar air perlahan terasa hangat."</p>
+  <p class="mt-4 text-lg">Berdasarkan narasi di atas, jenis perpindahan kalor yang terjadi adalah...</p>
+  <ul class="mt-4 text-lg">
+    <li><input type="radio" name="latihan2_9"> A. Konduksi</li>
+    <li><input type="radio" name="latihan2_9"> B. Konveksi</li>
+    <li><input type="radio" name="latihan2_9"> C. Radiasi</li>
+    <li><input type="radio" name="latihan2_9"> D. Refleksi</li>
+  </ul>
+  <button onclick="togglePembahasan('pembahasan-latihan2-9')" class="mt-6 px-5 py-3 bg-[#4dd4a3] text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition-all duration-300">
+    Lihat Pembahasan
+  </button>
+  <div id="pembahasan-latihan2-9" class="mt-6 p-5 bg-white rounded-lg hidden transition-all duration-300">
+    <h3 class="font-semibold text-lg text-green-700">Pembahasan:</h3>
+    <p>Kalor berpindah dari air panas melalui sendok logam ke ujung yang tidak tercelup. Ini adalah perpindahan panas melalui benda padat, disebut konduksi.</p>
+    <p class="font-medium mt-3 text-[#4dd4a3] text-lg">Jawaban: A</p>
+  </div>
+</div>
+
+<!-- Soal 10 -->
+<div class="p-6 bg-yellow-100 rounded-lg shadow-md mt-6 mb-10">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mt-6">Soal 10</h2>
+  <p class="mt-4 text-lg">Perhatikan narasi berikut:</p>
+  <p class="mt-2 text-lg italic">"Saat membuka tudung panci, uap panas naik ke atas dan terasa hangat di wajah."</p>
+  <p class="mt-4 text-lg">Jenis perpindahan kalor yang terjadi pada peristiwa tersebut adalah...</p>
+  <ul class="mt-4 text-lg">
+    <li><input type="radio" name="latihan2_10"> A. Konduksi</li>
+    <li><input type="radio" name="latihan2_10"> B. Konveksi</li>
+    <li><input type="radio" name="latihan2_10"> C. Radiasi</li>
+    <li><input type="radio" name="latihan2_10"> D. Transmisi</li>
+  </ul>
+  <button onclick="togglePembahasan('pembahasan-latihan2-10')" class="mt-6 px-5 py-3 bg-[#4dd4a3] text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition-all duration-300">
+    Lihat Pembahasan
+  </button>
+  <div id="pembahasan-latihan2-10" class="mt-6 p-5 bg-white rounded-lg hidden transition-all duration-300">
+    <h3 class="font-semibold text-lg text-green-700">Pembahasan:</h3>
+    <p>Uap panas naik membawa kalor melalui pergerakan zat cair atau gas. Perpindahan kalor seperti ini disebut konveksi.</p>
+    <p class="font-medium mt-3 text-[#4dd4a3] text-lg">Jawaban: B</p>
+  </div>
+</div>
+<!-- Soal 11 -->
+<div class="p-6 bg-yellow-100 rounded-lg shadow-md mt-6">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mt-6">Soal 11</h2>
+  <p class="mt-4 text-lg">Perhatikan narasi berikut:</p>
+  <p class="mt-2 text-lg italic">"Sebuah logam bermassa 1,5 kg dipanaskan sehingga suhunya naik dari 25°C menjadi 75°C. Jika kalor jenis logam tersebut adalah 400 J/kg°C, maka berapa besar kalor yang diperlukan?"</p>
+  <p class="mt-4 text-lg">Jawaban yang benar adalah...</p>
+  <ul class="mt-4 text-lg">
+    <li><input type="radio" name="latihan2_11"> A. 20.000 J</li>
+    <li><input type="radio" name="latihan2_11"> B. 30.000 J</li>
+    <li><input type="radio" name="latihan2_11"> C. 40.000 J</li>
+    <li><input type="radio" name="latihan2_11"> D. 50.000 J</li>
+  </ul>
+  <button onclick="togglePembahasan('pembahasan-latihan2-11')" class="mt-6 px-5 py-3 bg-[#4dd4a3] text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition-all duration-300">
+    Lihat Pembahasan
+  </button>
+  <div id="pembahasan-latihan2-11" class="mt-6 p-5 bg-white rounded-lg hidden transition-all duration-300">
+    <h3 class="font-semibold text-lg text-green-700">Pembahasan:</h3>
+    <p>Gunakan rumus: Q = m × c × ΔT</p>
+    <p>Q = 1,5 × 400 × (75 - 25) = 1,5 × 400 × 50 = 30.000 J</p>
+    <p class="font-medium mt-3 text-[#4dd4a3] text-lg">Jawaban: B</p>
+  </div>
+</div>
+
+<!-- Soal 12 -->
+<div class="p-6 bg-yellow-100 rounded-lg shadow-md mt-6 mb-10">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mt-6">Soal 12</h2>
+  <p class="mt-4 text-lg">Perhatikan narasi berikut:</p>
+  <p class="mt-2 text-lg italic">"Air sebanyak 0,5 kg dipanaskan dari suhu 30°C hingga mendidih pada suhu 100°C. Kalor jenis air adalah 4200 J/kg°C."</p>
+  <p class="mt-4 text-lg">Kalor yang dibutuhkan untuk memanaskan air tersebut adalah...</p>
+  <ul class="mt-4 text-lg">
+    <li><input type="radio" name="latihan2_12"> A. 147.000 J</li>
+    <li><input type="radio" name="latihan2_12"> B. 168.000 J</li>
+    <li><input type="radio" name="latihan2_12"> C. 180.000 J</li>
+    <li><input type="radio" name="latihan2_12"> D. 210.000 J</li>
+  </ul>
+  <button onclick="togglePembahasan('pembahasan-latihan2-12')" class="mt-6 px-5 py-3 bg-[#4dd4a3] text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition-all duration-300">
+    Lihat Pembahasan
+  </button>
+  <div id="pembahasan-latihan2-12" class="mt-6 p-5 bg-white rounded-lg hidden transition-all duration-300">
+    <h3 class="font-semibold text-lg text-green-700">Pembahasan:</h3>
+    <p>Gunakan rumus: Q = m × c × ΔT</p>
+    <p>Q = 0,5 × 4200 × (100 - 30) = 0,5 × 4200 × 70 = 147.000 J</p>
+    <p class="font-medium mt-3 text-[#4dd4a3] text-lg">Jawaban: A</p>
+  </div>
+</div>
+<!-- Soal 13 -->
+<div class="p-6 bg-yellow-100 rounded-lg shadow-md mt-6">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mt-6">Soal 13</h2>
+  <p class="mt-4 text-lg">Perhatikan grafik pemanasan es berikut:</p>
+  <img src="https://fisikastudycenter.com/images/un-smp-fis2014-no4.png" alt="Grafik Pemanasan Es" class="my-4 w-full max-w-md">
+
+  <p class="mt-4 text-lg">Jika es memiliki massa 1 kg dan kalor jenis air 4200 J/kg°C, tentukan besar kalor yang dibutuhkan untuk menaikkan suhu air dari 0°C ke 60°C (bagian CD pada grafik)!</p>
+  <ul class="mt-4 text-lg">
+    <li><input type="radio" name="latihan2_13"> A. 25.200 J</li>
+    <li><input type="radio" name="latihan2_13"> B. 42.000 J</li>
+    <li><input type="radio" name="latihan2_13"> C. 84.000 J</li>
+    <li><input type="radio" name="latihan2_13"> D. 252.000 J</li>
+  </ul>
+  <button onclick="togglePembahasan('pembahasan-latihan2-13')" class="mt-6 px-5 py-3 bg-[#4dd4a3] text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition-all duration-300">
+    Lihat Pembahasan
+  </button>
+  <div id="pembahasan-latihan2-13" class="mt-6 p-5 bg-white rounded-lg hidden transition-all duration-300">
+    <h3 class="font-semibold text-lg text-green-700">Pembahasan:</h3>
+    <p>Pada bagian CD, terjadi kenaikan suhu air dari 0°C ke 60°C. Gunakan rumus: Q = m × c × ΔT</p>
+    <p>Q = 1 × 4200 × 60 = 252.000 J</p>
+    <p class="font-medium mt-3 text-[#4dd4a3] text-lg">Jawaban: D</p>
+  </div>
+</div>
+
+<!-- Soal 14 -->
+<div class="p-6 bg-yellow-100 rounded-lg shadow-md mt-6 mb-10">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mt-6">Soal 14</h2>
+  <p class="mt-4 text-lg">Perhatikan narasi berikut:</p>
+  <p class="mt-2 text-lg italic">"100 gram es pada suhu 0°C berubah seluruhnya menjadi air tanpa perubahan suhu. Kalor lebur es adalah 334 J/gram."</p>
+  <p class="mt-4 text-lg">Besar kalor yang dibutuhkan untuk melelehkan es tersebut adalah...</p>
+  <ul class="mt-4 text-lg">
+    <li><input type="radio" name="latihan2_14"> A. 33.400 J</li>
+    <li><input type="radio" name="latihan2_14"> B. 3.340 J</li>
+    <li><input type="radio" name="latihan2_14"> C. 334.000 J</li>
+    <li><input type="radio" name="latihan2_14"> D. 13.400 J</li>
+  </ul>
+  <button onclick="togglePembahasan('pembahasan-latihan2-14')" class="mt-6 px-5 py-3 bg-[#4dd4a3] text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition-all duration-300">
+    Lihat Pembahasan
+  </button>
+  <div id="pembahasan-latihan2-14" class="mt-6 p-5 bg-white rounded-lg hidden transition-all duration-300">
+    <h3 class="font-semibold text-lg text-green-700">Pembahasan:</h3>
+    <p>Gunakan rumus Q = m × L. Diketahui: m = 100 gram, L = 334 J/gram</p>
+    <p>Q = 100 × 334 = 33.400 J</p>
+    <p class="font-medium mt-3 text-[#4dd4a3] text-lg">Jawaban: A</p>
+  </div>
+</div>
+
+
+
+
+<br>
+
+
+<div id="3.-Pemuaian">
+    <p class="text-2xl font-semibold mb-4 text-[#4dd4a3]">3. Pemuaian</p>
+</div><br>
+
+<div id="3.1-Konsep-Pemuaian">
+    <p class="text-xl font-semibold mb-4 text-[#4dd4a3]">3.1 Menjelaskan Konsep Pemuaian</p>
+    <p class="mt-2 ml-4">
+        <strong>Pemuaian</strong> adalah bertambahnya ukuran suatu benda (panjang, luas, atau volume) karena kenaikan suhu. Ketika suatu benda dipanaskan, partikel-partikelnya bergerak lebih cepat dan saling menjauh, sehingga menyebabkan benda tersebut memuai.
+    </p>
+    <p class="mt-2 ml-4">
+        Pemuaian terjadi pada semua zat: padat, cair, dan gas, namun dengan karakteristik yang berbeda. Pemuaian penting diperhatikan dalam berbagai bidang seperti teknik bangunan, transportasi, dan peralatan rumah tangga.
+    </p>
+
+    <p class="mt-4 ml-4 font-semibold">Tabel Jenis Pemuaian, Penjelasan, dan Rumusnya</p>
+<div class="overflow-x-auto mt-2 ml-4">
+    <table class="min-w-full text-sm text-left text-gray-700 border border-gray-300 rounded-lg shadow-md">
+        <thead class="bg-[#4dd4a3] text-white">
+            <tr>
+                <th class="px-4 py-2">Jenis Pemuaian</th>
+                <th class="px-4 py-2">Penjelasan</th>
+                <th class="px-4 py-2">Contoh</th>
+                <th class="px-4 py-2">Rumus</th>
+            </tr>
+        </thead>
+        <tbody class="bg-white divide-y divide-gray-200">
+            <tr>
+                <td class="px-4 py-2">Pemuaian Panjang</td>
+                <td class="px-4 py-2">Pertambahan ukuran hanya terjadi pada panjang benda</td>
+                <td class="px-4 py-2">Rel kereta api yang memuai saat siang hari</td>
+                <td class="px-4 py-2 whitespace-nowrap">ΔL = L₀ × α × ΔT</td>
+            </tr>
+            <tr>
+                <td class="px-4 py-2">Pemuaian Luas</td>
+                <td class="px-4 py-2">Pertambahan ukuran terjadi pada dua dimensi (panjang dan lebar)</td>
+                <td class="px-4 py-2">Pelat logam yang dipanaskan</td>
+                <td class="px-4 py-2 whitespace-nowrap">ΔA = A₀ × 2α × ΔT</td>
+            </tr>
+            <tr>
+                <td class="px-4 py-2">Pemuaian Volume</td>
+                <td class="px-4 py-2">Pertambahan ukuran terjadi pada seluruh dimensi (panjang, lebar, dan tinggi)</td>
+                <td class="px-4 py-2">Air yang memuai saat dipanaskan</td>
+                <td class="px-4 py-2 whitespace-nowrap">ΔV = V₀ × 3α × ΔT</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+
+<div id="3.2-Contoh-Pemuaian">
+    <p class="text-xl font-semibold mb-4 text-[#4dd4a3]">3.2 Menyebutkan Contoh-contoh Pemuaian dalam Kehidupan Sehari-hari</p>
+    <p class="mt-2 ml-4">
+        Berikut adalah beberapa contoh pemuaian dalam kehidupan sehari-hari:
+    </p>
+    <ul class="mt-2 ml-8 list-disc">
+        <li><strong>Rel kereta api:</strong> Disisakan celah antar sambungan untuk menghindari rel melengkung karena pemuaian saat panas.</li>
+        <li><strong>Kabel listrik:</strong> Terlihat mengendur saat cuaca panas karena memuai dan menegang saat dingin karena menyusut.</li>
+        <li><strong>Tutup botol logam:</strong> Dipanaskan agar mudah dibuka karena logam tutup memuai lebih cepat daripada botol kaca.</li>
+        <li><strong>Kaca jendela:</strong> Pemasangan harus memperhatikan ruang untuk pemuaian agar tidak pecah saat suhu naik.</li>
+        <li><strong>Pemasangan rangka jembatan:</strong> Diberikan celah ekspansi agar rangka tidak rusak saat memuai akibat panas matahari.</li>
+    </ul>
+
+    <p class="mt-4 ml-4 font-semibold">Ilustrasi Pemuaian Rel Kereta Api</p>
+    <div class="mt-2 ml-4">
+        <img src="https://cdn-web.ruangguru.com/landing-pages/assets/hs/07FIS_-_Mempelajari_Proses_Pemuaian_pada_Zat_Padat-06.jpg" alt="Pemuaian rel kereta api" class="w-full max-w-xl rounded shadow-md">
+        <p class="text-sm text-gray-500 mt-1">Gambar: Sambungan rel kereta api</p>
+    </div>
+</div><br>
+
+
+
+<p class="text-2xl text-[#4dd4a3] font-semibold">Latihan 3: Pemuaian</p>
+
+<!-- Soal 1 -->
+<div class="p-6 bg-yellow-100 rounded-lg shadow-md mt-6">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mt-6">Soal 1</h2>
+  <p class="mt-4 text-lg">Apa yang dimaksud dengan pemuaian?</p>
+  <ul class="mt-4 text-lg">
+    <li><input type="radio" name="latihan3_1"> A. Perubahan bentuk benda menjadi zat baru</li>
+    <li><input type="radio" name="latihan3_1"> B. Penambahan ukuran benda karena kenaikan suhu</li>
+    <li><input type="radio" name="latihan3_1"> C. Perubahan wujud dari padat ke gas</li>
+    <li><input type="radio" name="latihan3_1"> D. Penurunan suhu benda hingga membeku</li>
+  </ul>
+  <button onclick="togglePembahasan('pembahasan-latihan3-1')" class="mt-6 px-5 py-3 bg-[#4dd4a3] text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition-all duration-300">
+    Lihat Pembahasan
+  </button>
+  <div id="pembahasan-latihan3-1" class="mt-6 p-5 bg-white rounded-lg hidden transition-all duration-300">
+    <h3 class="font-semibold text-lg text-green-700">Pembahasan:</h3>
+    <p>Pemuaian adalah bertambahnya ukuran (panjang, luas, atau volume) suatu benda akibat kenaikan suhu.</p>
+    <p class="font-medium mt-3 text-[#4dd4a3] text-lg">Jawaban: B</p>
+  </div>
+</div>
+
+<!-- Soal 2 -->
+<div class="p-6 bg-yellow-100 rounded-lg shadow-md mt-6">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mt-6">Soal 2</h2>
+  <p class="mt-4 text-lg">Jenis pemuaian apa yang terjadi pada kabel listrik di siang hari yang panas?</p>
+  <ul class="mt-4 text-lg">
+    <li><input type="radio" name="latihan3_2"> A. Pemuaian panjang</li>
+    <li><input type="radio" name="latihan3_2"> B. Pemuaian luas</li>
+    <li><input type="radio" name="latihan3_2"> C. Pemuaian volume</li>
+    <li><input type="radio" name="latihan3_2"> D. Tidak mengalami pemuaian</li>
+  </ul>
+  <button onclick="togglePembahasan('pembahasan-latihan3-2')" class="mt-6 px-5 py-3 bg-[#4dd4a3] text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition-all duration-300">
+    Lihat Pembahasan
+  </button>
+  <div id="pembahasan-latihan3-2" class="mt-6 p-5 bg-white rounded-lg hidden transition-all duration-300">
+    <h3 class="font-semibold text-lg text-green-700">Pembahasan:</h3>
+    <p>Kabel listrik akan memuai dan bertambah panjang saat terkena panas, ini disebut pemuaian panjang.</p>
+    <p class="font-medium mt-3 text-[#4dd4a3] text-lg">Jawaban: A</p>
+  </div>
+</div>
+
+<!-- Soal 3 -->
+<div class="p-6 bg-yellow-100 rounded-lg shadow-md mt-6">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mt-6">Soal 3</h2>
+  <p class="mt-4 text-lg">Mengapa rel kereta api dipasang dengan celah di antara sambungannya?</p>
+  <ul class="mt-4 text-lg">
+    <li><input type="radio" name="latihan3_3"> A. Agar tidak berkarat saat hujan</li>
+    <li><input type="radio" name="latihan3_3"> B. Agar mudah dibongkar saat dibutuhkan</li>
+    <li><input type="radio" name="latihan3_3"> C. Untuk menghindari pemuaian yang bisa merusak rel</li>
+    <li><input type="radio" name="latihan3_3"> D. Untuk mempercepat pergerakan kereta</li>
+  </ul>
+  <button onclick="togglePembahasan('pembahasan-latihan3-3')" class="mt-6 px-5 py-3 bg-[#4dd4a3] text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition-all duration-300">
+    Lihat Pembahasan
+  </button>
+  <div id="pembahasan-latihan3-3" class="mt-6 p-5 bg-white rounded-lg hidden transition-all duration-300">
+    <h3 class="font-semibold text-lg text-green-700">Pembahasan:</h3>
+    <p>Rel kereta dipasang dengan celah agar saat memuai di cuaca panas, rel tidak melengkung atau rusak.</p>
+    <p class="font-medium mt-3 text-[#4dd4a3] text-lg">Jawaban: C</p>
+  </div>
+</div>
+
+<!-- Soal 4 -->
+<div class="p-6 bg-yellow-100 rounded-lg shadow-md mt-6">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mt-6">Soal 4</h2>
+  <p class="mt-4 text-lg">Berikut ini yang merupakan contoh pemuaian dalam kehidupan sehari-hari adalah...</p>
+  <ul class="mt-4 text-lg">
+    <li><input type="radio" name="latihan3_4"> A. Kertas dibakar menjadi abu</li>
+    <li><input type="radio" name="latihan3_4"> B. Es mencair di bawah sinar matahari</li>
+    <li><input type="radio" name="latihan3_4"> C. Tutup botol logam mudah dibuka setelah disiram air panas</li>
+    <li><input type="radio" name="latihan3_4"> D. Besi berkarat karena terkena air</li>
+  </ul>
+  <button onclick="togglePembahasan('pembahasan-latihan3-4')" class="mt-6 px-5 py-3 bg-[#4dd4a3] text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition-all duration-300">
+    Lihat Pembahasan
+  </button>
+  <div id="pembahasan-latihan3-4" class="mt-6 p-5 bg-white rounded-lg hidden transition-all duration-300">
+    <h3 class="font-semibold text-lg text-green-700">Pembahasan:</h3>
+    <p>Tutup logam memuai saat disiram air panas, sehingga longgar dan lebih mudah dibuka — ini adalah contoh pemuaian.</p>
+    <p class="font-medium mt-3 text-[#4dd4a3] text-lg">Jawaban: C</p>
+  </div>
+</div>
+
+<!-- Soal 5 -->
+<div class="p-6 bg-yellow-100 rounded-lg shadow-md mt-6">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mt-6">Soal 5</h2>
+  <p class="mt-4 text-lg">Apa dampak dari pemuaian pada kabel listrik saat malam hari?</p>
+  <ul class="mt-4 text-lg">
+    <li><input type="radio" name="latihan3_5"> A. Kabel menjadi lebih tebal</li>
+    <li><input type="radio" name="latihan3_5"> B. Kabel menjadi lebih panas</li>
+    <li><input type="radio" name="latihan3_5"> C. Kabel menyusut dan bisa putus jika terlalu kencang</li>
+    <li><input type="radio" name="latihan3_5"> D. Kabel mengeluarkan percikan api</li>
+  </ul>
+  <button onclick="togglePembahasan('pembahasan-latihan3-5')" class="mt-6 px-5 py-3 bg-[#4dd4a3] text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition-all duration-300">
+    Lihat Pembahasan
+  </button>
+  <div id="pembahasan-latihan3-5" class="mt-6 p-5 bg-white rounded-lg hidden transition-all duration-300">
+    <h3 class="font-semibold text-lg text-green-700">Pembahasan:</h3>
+    <p>Pada malam hari, suhu turun dan kabel menyusut. Jika kabel dipasang terlalu kencang, dapat menyebabkan kabel putus karena kontraksi.</p>
+    <p class="font-medium mt-3 text-[#4dd4a3] text-lg">Jawaban: C</p>
+  </div>
+</div>
+<!-- Soal 6 -->
+<div class="p-6 bg-yellow-100 rounded-lg shadow-md mt-6">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mt-6">Soal 6</h2>
+  <p class="mt-4 text-lg">
+    Saat pagi hari, tutup botol logam pada botol kaca sulit dibuka. Namun setelah disiram air panas, tutup botol tersebut menjadi mudah dibuka. Fenomena ini menunjukkan adanya prinsip pemuaian. Penjelasan yang tepat adalah...
+  </p>
+  <ul class="mt-4 text-lg">
+    <li><input type="radio" name="latihan3_6"> A. Air panas membuat kaca memuai dan menekan tutup logam</li>
+    <li><input type="radio" name="latihan3_6"> B. Air panas membuat logam tutup memuai dan menjadi lebih longgar</li>
+    <li><input type="radio" name="latihan3_6"> C. Air panas melarutkan zat perekat pada tutup</li>
+    <li><input type="radio" name="latihan3_6"> D. Air panas menyebabkan tekanan udara berkurang dalam botol</li>
+  </ul>
+  <button onclick="togglePembahasan('pembahasan-latihan3-6')" class="mt-6 px-5 py-3 bg-[#4dd4a3] text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition-all duration-300">
+    Lihat Pembahasan
+  </button>
+  <div id="pembahasan-latihan3-6" class="mt-6 p-5 bg-white rounded-lg hidden transition-all duration-300">
+    <h3 class="font-semibold text-lg text-green-700">Pembahasan:</h3>
+    <p>Logam memiliki koefisien muai yang lebih besar dari kaca. Ketika disiram air panas, logam pada tutup memuai lebih cepat dan menjadi lebih longgar, sehingga mudah dibuka.</p>
+    <p class="font-medium mt-3 text-[#4dd4a3] text-lg">Jawaban: B</p>
+  </div>
+</div>
+
+<!-- Soal 7 -->
+<div class="p-6 bg-yellow-100 rounded-lg shadow-md mt-6">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mt-6">Soal 7</h2>
+  <p class="mt-4 text-lg">
+    Kabel listrik dipasang agak kendur pada tiang-tiang listrik. Pada siang hari kabel tampak mengendur, sedangkan saat malam hari kabel tampak lebih tegang. Hal ini terjadi karena...
+  </p>
+  <ul class="mt-4 text-lg">
+    <li><input type="radio" name="latihan3_7"> A. Kabel menjadi berat akibat embun malam</li>
+    <li><input type="radio" name="latihan3_7"> B. Kabel mengalami pemuaian di malam hari</li>
+    <li><input type="radio" name="latihan3_7"> C. Kabel mengalami pemuaian saat siang hari dan menyusut saat malam</li>
+    <li><input type="radio" name="latihan3_7"> D. Kabel menyusut pada siang hari karena tekanan udara tinggi</li>
+  </ul>
+  <button onclick="togglePembahasan('pembahasan-latihan3-7')" class="mt-6 px-5 py-3 bg-[#4dd4a3] text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition-all duration-300">
+    Lihat Pembahasan
+  </button>
+  <div id="pembahasan-latihan3-7" class="mt-6 p-5 bg-white rounded-lg hidden transition-all duration-300">
+    <h3 class="font-semibold text-lg text-green-700">Pembahasan:</h3>
+    <p>Pada siang hari suhu tinggi menyebabkan kabel memuai dan terlihat mengendur. Di malam hari, suhu turun dan kabel menyusut sehingga terlihat lebih tegang. Ini menunjukkan prinsip pemuaian dan penyusutan karena perubahan suhu.</p>
+    <p class="font-medium mt-3 text-[#4dd4a3] text-lg">Jawaban: C</p>
+  </div>
+</div>
+<!-- Soal 8 -->
+<div class="p-6 bg-yellow-100 rounded-lg shadow-md mt-6">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mt-6">Soal 8</h2>
+  <p class="mt-4 text-lg">
+    Manakah dari peristiwa berikut ini yang merupakan contoh pemuaian zat padat?
+  </p>
+  <ul class="mt-4 text-lg">
+    <li><input type="radio" name="latihan3_8"> A. Air dimasukkan ke dalam botol</li>
+    <li><input type="radio" name="latihan3_8"> B. Kabel listrik terlihat kendur saat siang hari</li>
+    <li><input type="radio" name="latihan3_8"> C. Air dimasak hingga mendidih</li>
+    <li><input type="radio" name="latihan3_8"> D. Es batu mencair menjadi air</li>
+  </ul>
+  <button onclick="togglePembahasan('pembahasan-latihan3-8')" class="mt-6 px-5 py-3 bg-[#4dd4a3] text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition-all duration-300">
+    Lihat Pembahasan
+  </button>
+  <div id="pembahasan-latihan3-8" class="mt-6 p-5 bg-white rounded-lg hidden transition-all duration-300">
+    <h3 class="font-semibold text-lg text-green-700">Pembahasan:</h3>
+    <p>Kabel listrik terbuat dari logam (zat padat) yang memuai saat panas. Karena itu, kabel terlihat lebih kendur saat siang hari.</p>
+    <p class="font-medium mt-3 text-[#4dd4a3] text-lg">Jawaban: B</p>
+  </div>
+</div>
+
+<!-- Soal 9 -->
+<div class="p-6 bg-yellow-100 rounded-lg shadow-md mt-6">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mt-6">Soal 9</h2>
+  <p class="mt-4 text-lg">
+    Berikut ini yang merupakan contoh pemuaian zat cair dalam kehidupan sehari-hari adalah...
+  </p>
+  <ul class="mt-4 text-lg">
+    <li><input type="radio" name="latihan3_9"> A. Air membeku di dalam freezer</li>
+    <li><input type="radio" name="latihan3_9"> B. Termometer raksa naik saat terkena panas</li>
+    <li><input type="radio" name="latihan3_9"> C. Panci logam menjadi panas</li>
+    <li><input type="radio" name="latihan3_9"> D. Balon meletus karena tertusuk</li>
+  </ul>
+  <button onclick="togglePembahasan('pembahasan-latihan3-9')" class="mt-6 px-5 py-3 bg-[#4dd4a3] text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition-all duration-300">
+    Lihat Pembahasan
+  </button>
+  <div id="pembahasan-latihan3-9" class="mt-6 p-5 bg-white rounded-lg hidden transition-all duration-300">
+    <h3 class="font-semibold text-lg text-green-700">Pembahasan:</h3>
+    <p>Raksa adalah zat cair dalam termometer. Saat suhu naik, raksa memuai dan permukaannya naik, ini adalah contoh pemuaian zat cair.</p>
+    <p class="font-medium mt-3 text-[#4dd4a3] text-lg">Jawaban: B</p>
+  </div>
+</div>
+
+<!-- Soal 10 -->
+<div class="p-6 bg-yellow-100 rounded-lg shadow-md mt-6">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mt-6">Soal 10</h2>
+  <p class="mt-4 text-lg">
+    Pemuaian udara dapat diamati melalui peristiwa berikut ini:
+  </p>
+  <ul class="mt-4 text-lg">
+    <li><input type="radio" name="latihan3_10"> A. Balon mengempis di suhu panas</li>
+    <li><input type="radio" name="latihan3_10"> B. Botol plastik penyok saat didinginkan</li>
+    <li><input type="radio" name="latihan3_10"> C. Ban sepeda terasa lebih keras saat terkena panas</li>
+    <li><input type="radio" name="latihan3_10"> D. Udara berubah menjadi uap</li>
+  </ul>
+  <button onclick="togglePembahasan('pembahasan-latihan3-10')" class="mt-6 px-5 py-3 bg-[#4dd4a3] text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition-all duration-300">
+    Lihat Pembahasan
+  </button>
+  <div id="pembahasan-latihan3-10" class="mt-6 p-5 bg-white rounded-lg hidden transition-all duration-300">
+    <h3 class="font-semibold text-lg text-green-700">Pembahasan:</h3>
+    <p>Udara di dalam ban akan memuai saat panas, menyebabkan tekanan dalam ban meningkat dan terasa lebih keras. Ini adalah contoh pemuaian gas.</p>
+    <p class="font-medium mt-3 text-[#4dd4a3] text-lg">Jawaban: C</p>
+  </div>
+</div>
+<br>
+<div id="Ulangan-Harian">
+    <p class="text-xl font-semibold mb-4 text-[#4dd4a3]">Ulangan Harian</p>
+<button onclick="window.open('Ulangan Suhu Kalor dan Pemuaian.html', '_blank');"
+  style="padding: 12px 24px; font-size: 16px; font-weight: bold; color: white; background: linear-gradient(135deg, #f7971e, #ffd200); border: none; border-radius: 12px; cursor: pointer; transition: transform 0.3s ease, box-shadow 0.3s ease;"
+  onmouseover="this.style.transform='scale(1.05)'; this.style.boxShadow='0 8px 16px rgba(0,0,0,0.3)'"
+  onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='none'">
+  Ulangan Suhu Kalor dan Pemuaian
+</button>
+
+
+    </div>
+
+</div>
+
+
+
+<script>
+  function cekDropdown(idSelect, jawabanBenar, idHasil) {
+    const selected = document.getElementById(idSelect).value.toLowerCase();
+    const hasil = document.getElementById(idHasil);
+    if (selected === jawabanBenar) {
+      hasil.innerText = "✅ Benar!";
+      hasil.className = "text-green-600 font-semibold";
+    } else {
+      hasil.innerText = "❌ Coba lagi!";
+      hasil.className = "text-red-600 font-semibold";
+    }
+  }
+
+  function cekInput(idInput, kunciJawaban, idHasil) {
+    const input = document.getElementById(idInput).value.trim().toLowerCase();
+    const hasil = document.getElementById(idHasil);
+    if (kunciJawaban.includes(input)) {
+      hasil.innerText = "✅ Benar!";
+      hasil.className = "text-green-600 font-semibold";
+    } else {
+      hasil.innerText = "❌ Coba lagi!";
+      hasil.className = "text-red-600 font-semibold";
+    }
+  }
+</script>
+
+
+
+<script>
+  function cekInput(inputId, kunciList, hasilId) {
+    const userJawabanRaw = document.getElementById(inputId).value.trim().toLowerCase();
+    const hasilEl = document.getElementById(hasilId);
+
+    if (userJawabanRaw === "") {
+      hasilEl.innerHTML = "Isi dulu ya!";
+      hasilEl.className = "font-semibold text-yellow-600";
+      return;
+    }
+
+    const userList = userJawabanRaw.split(',').map(x => x.trim()).filter(Boolean);
+    const kunciLower = kunciList.map(x => x.toLowerCase()).sort();
+    const userSorted = userList.sort();
+
+    const isCorrect = userSorted.length === kunciLower.length && userSorted.every((val, idx) => val === kunciLower[idx]);
+
+    if (isCorrect) {
+      hasilEl.innerHTML = "✅ Benar";
+      hasilEl.className = "font-semibold text-green-600";
+    } else {
+      hasilEl.innerHTML = "❌ Salah";
+      hasilEl.className = "font-semibold text-red-600";
+    }
+  }
+</script>
+</div><br>
+
+
+
+
+
+
+
+
+
+
+</div>
+    <script>
+    function togglePembahasan(id) {
+        var x = document.getElementById(id);
+        if (x.style.display === "none" || x.style.display === "") {
+            x.style.display = "block";
+        } else {
+            x.style.display = "none";
+        }
+    }
+</script>
+
+
+<script>
+    function togglePembahasan(id) {
+        var pembahasan = document.getElementById(id);
+        pembahasan.classList.toggle("hidden");
+    }
+</script>
+
+<script>
+function cekPilihan(name, jawabanBenar, idHasil) {
+  const pilihan = document.querySelector(`input[name="${name}"]:checked`);
+  const hasil = document.getElementById(idHasil);
+  if (!pilihan) {
+    hasil.textContent = "Pilih jawaban terlebih dahulu!";
+    hasil.style.color = "red";
+    return;
+  }
+  if (pilihan.value === jawabanBenar) {
+    hasil.textContent = "Jawaban benar!";
+    hasil.style.color = "green";
+  } else {
+    hasil.textContent = "Jawaban salah, coba lagi.";
+    hasil.style.color = "red";
+  }
+}
+</script>
+    <script>
+        function toggleSidebar() {
+            let sidebar = document.getElementById("sidebar");
+            if (sidebar.style.left === "-250px") {
+                sidebar.style.left = "0";
+            } else {
+                sidebar.style.left = "-250px";
+            }
+        }
+    </script>
+<script>
+  function checkLogin() {
+    const user = document.getElementById("username").value;
+    const pass = document.getElementById("password").value;
+
+    // Akun yang sudah disediakan
+    const validAccounts = [
+      { username: "admin", password: "12345" },
+      { username: "user1", password: "abcde" },
+      { username: "Diza MTSN 1 Brebes 7", password: "semangatbelajar45" },
+    { username: "kelas7", password: "kelas7" }
+];
+
+    const found = validAccounts.find(acc => acc.username === user && acc.password === pass);
+
+    if (found) {
+      document.getElementById("loginForm").style.display = "none";
+      document.getElementById("content22").classList.remove("hidden");
+    } else {
+      document.getElementById("errorMsg").innerText = "Username atau password salah!";
+    }
+  }
+</script>
+
+</body>
+</html>
