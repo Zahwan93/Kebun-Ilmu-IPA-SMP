@@ -1,0 +1,3401 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Media Pembelajaran Interaktif</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script> 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+        body {
+    display: flex;
+    flex-direction: column;
+    background: linear-gradient(135deg, #e3f2fd, #fce4ec);
+    position: relative;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+    overflow-x: hidden;
+}
+       body::before,
+body::after {
+    /* Ganti ukurannya jadi persentase agar aman di mobile */
+    width: 100vw;
+    height: 100vw;
+    background: white;
+    border-radius: 50%;
+    z-index: -1;
+    opacity: 0.2;
+}
+        body::before {
+            top: -30%;
+            right: -30%;
+        }
+        body::after {
+            bottom: -50%;
+            left: -30%;
+        }
+	html, body {
+    overflow-x: hidden;
+}
+
+
+.login-box {
+    background: linear-gradient(135deg, #ce9ffc, #f9c7d9); /* Ganti background */
+    padding: 30px;
+    border-radius: 12px;
+    max-width: 300px;
+    margin: 10px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.2);
+    text-align: center;
+}
+
+.login-box h2 {
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.login-box input {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: none;
+    border-radius: 6px;
+    outline: none;
+}
+
+.login-box button {
+    width: 100%;
+    padding: 10px;
+    background: linear-gradient(135deg, #6a11cb, #2575fc); /* Ganti background tombol */
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.login-box button:hover {
+    background: linear-gradient(135deg, #5e0dca, #1d60e7); /* Hover efek */
+}
+    .hidden {
+      display: none;
+    }
+        .sidebar {
+            width: 250px;
+            height: 100vh;
+            background: #4dd4a3;
+            position: fixed;
+            left: -250px;
+            transition: left 0.3s ease-in-out;
+            padding-top: 20px;
+            z-index: 1300;
+        }
+        .sidebar h2 {
+            color: white;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+        }
+        .sidebar ul li {
+            padding: 5px;
+            text-align: left;
+        }
+        .sidebar ul li a {
+            text-decoration: none;
+            color: white;
+            font-size: 16px;
+            display: block;
+        }
+        .sidebar ul li:hover {
+            background: #f8d444;
+        }
+        .toggle-btn {
+            position: fixed;
+            left: 20px;
+            top: 20px;
+            font-size: 24px;
+            cursor: pointer;
+            background: #f8d444;
+            padding: 5px 10px;
+            border-radius: 5px;
+            color: white;
+            z-index: 1400;
+        }
+        .close-btn {
+            position: absolute;
+            right: 20px;
+            top: 20px;
+            font-size: 24px;
+            cursor: pointer;
+            color: white;
+            background: #f8d444;
+            padding: 5px 10px;
+            border-radius: 5px;
+        }
+        .header {
+            background: white;
+            padding: 20px;
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+            border-radius: 10px;
+            position: sticky;
+            top: 0;
+            z-index: 1200;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .header span {
+            flex: 80%;
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+	    color: #4dd4a3;
+        }
+        .header img {
+            flex: 20%;
+            max-width: 60px;
+            height: auto;
+            margin-left: 10px;
+        }
+        .content {
+            width: 100%;
+            padding: 20px;
+            text-align: center;
+        }
+        .card-container {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            padding: 20px;
+        }
+        .card {
+            padding: 20px;
+            width: 250px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            transition: transform 0.3s, box-shadow 0.3s;
+            color: white;
+        }
+        .card:nth-child(1) { background: #4dd4a3; }
+        .card:nth-child(2) { background: #4dd4a3; }
+        .card:nth-child(3) { background: #4dd4a3; }
+        .card:nth-child(4) { background: #4dd4a3; }
+	.card:nth-child(5) { background: #4dd4a3; }
+        .card:nth-child(6) { background: #4dd4a3; }
+        .card:nth-child(7) { background: #4dd4a3; }
+        .card:nth-child(8) { background: #4dd4a3; }
+        .card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+        .card a {
+            text-decoration: none;
+            font-size: 18px;
+            color: white;
+            font-weight: bold;
+        }
+/* Tambahan untuk responsif mobile */
+@media screen and (max-width: 768px) {
+  .card-container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .card {
+    width: 90%;
+  }
+
+  .sidebar {
+    width: 80%;
+    left: -80%;
+  }
+
+  .toggle-btn {
+    font-size: 20px;
+    padding: 8px 12px;
+  }
+
+  .header span {
+    font-size: 20px;
+  }
+
+  .login-box {
+    width: 90%;
+    max-width: 90%;
+    margin: 20px auto;
+  }
+
+  body::before,
+  body::after {
+    display: none;
+  }
+}
+    </style>
+</head>
+<body>
+<div class="login-box" id="loginForm">
+  <h2>Login</h2>
+  <input type="text" id="username" placeholder="Username" /><br><br>
+  <input type="password" id="password" placeholder="Password" /><br><br>
+  <button onclick="checkLogin()">Masuk</button>
+  <p id="errorMsg" style="color:red;"></p>
+</div>
+
+<div id="content22" class="hidden">
+
+    <div class="sidebar" id="sidebar">
+        <span class="close-btn" onclick="toggleSidebar()">&times;</span>
+        <h2 class=" text-2xl text-semibold ">Menu</h2>
+        <ul class="text-black p-6 bg-[#4dd4a3] rounded-lg shadow-md">
+  <li class="mb-3"><a href="#1.-What-delicious-bakso" class="hover:text-white">1. What delicious bakso!</a></li>
+  <li class="mb-3"><a href="#2.-I-want-an-ice-cream-cone" class="hover:text-white">2. I want an ice cream cone</a></li>
+  <li class="mb-3"><a href="#3.-How-much-is-it" class="hover:text-white">3. How much is it?</a></li>
+  <li class="mb-3"><a href="#4.-I-have-a-stomachache" class="hover:text-white">4. I have a stomachache</a></li>
+  <li class="mb-3"><a href="#5.-What-a-nice-skirt" class="hover:text-white">5. What a nice skirt!</a></li>
+</ul>
+
+
+    </div>
+    
+    <div class="toggle-btn" onclick="toggleSidebar()">
+        <i class="fas fa-bars"></i>
+    </div>
+    
+    <div class="header">
+        <span>Media Pembelajaran Interaktif</span>
+        <img src="https://zahwan93.github.io/Kebun-Ilmu-Matematika-SMP/logo.png" alt="Logo">
+    </div>
+    
+    <!-- Konten Utama -->
+<div class="w-full max-w-7xl mx-auto bg-white px-4 sm:px-8 py-8 rounded-lg shadow-2xl">
+  <h1 class="text-3xl font-bold text-center text-[#4dd4a3] mb-6">IPA SMP/MTs</h1>
+
+  <!-- IPA SMP/MTs -->
+  <div id="IPA SMP/MTs" class="mb-8">
+    <h2 class="text-2xl font-bold mb-4 text-[#4dd4a3]">Sistem Organ</h2>
+
+    <ul class="text-black p-6 bg-[#4dd4a3] rounded-lg shadow-md">
+  <li class="mb-3"><a href="#1.-Sistem-Pernapasan" class="hover:text-white">1. Sistem Pernapasan</a></li>
+  <li class="mb-3"><a href="#2.-Sistem-Pencernaan" class="hover:text-white">2. Sistem Pencernaan</a></li>
+  <li class="mb-3"><a href="#3.-Sistem-Peredaran-Darah" class="hover:text-white">3. Sistem Peredaran Darah</a></li>
+  <li class="mb-3"><a href="#4.-Sistem-Eksresi" class="hover:text-white">4. Sistem Eksresi</a></li>
+<li class="mb-3">
+        <a href="#Ulangan-Harian" class="hover:text-white">Ulangan Harian</a>
+    </li>
+
+</ul>
+
+  </div>
+
+ <!-- Section 1 -->
+<div id="1.-Sistem-Pernapasan" class="text-gray-800 space-y-6">
+  <h2 class="text-2xl font-bold text-[#4dd4a3]">1. Sistem Pernapasan</h2>
+
+  <!-- A. Pengertian -->
+  <div>
+    <h3 class="text-xl font-semibold mb-2 text-[#4dd4a3]">A. Proses Dasar Pernapasan</h3>
+  <p class="mb-4">
+    Pernapasan (respirasi) adalah proses penting dalam tubuh manusia untuk memperoleh energi. Proses ini melibatkan beberapa tahap utama yang saling berkaitan, yaitu:
+  </p>
+
+  <ul class="list-decimal pl-5 space-y-3">
+    <li>
+      <strong>Bernapas:</strong> Merupakan proses mekanis keluar-masuknya udara dari dan ke paru-paru. Terdiri dari dua fase:
+      <ul class="list-disc pl-5 mt-1">
+        <li><strong>Inspirasi:</strong> Udara masuk ke paru-paru saat otot diafragma berkontraksi dan rongga dada membesar.</li>
+        <li><strong>Ekspirasi:</strong> Udara keluar dari paru-paru saat otot diafragma relaksasi dan rongga dada mengecil.</li>
+      </ul>
+    </li>
+
+    <li>
+      <strong>Respirasi Eksternal:</strong> Merupakan pertukaran gas antara udara di alveolus paru-paru dan darah dalam kapiler paru. Oksigen berdifusi dari alveolus ke darah, sedangkan karbon dioksida dari darah ke alveolus untuk dikeluarkan.
+    </li>
+
+    <li>
+      <strong>Respirasi Internal:</strong> Merupakan pertukaran gas antara darah kapiler dan sel-sel tubuh. Oksigen berdifusi dari darah ke sel, sedangkan karbon dioksida dari sel ke darah untuk dibawa kembali ke paru-paru.
+    </li>
+
+    <li>
+      <strong>Respirasi Seluler:</strong> Terjadi di dalam sel, yaitu proses biokimia pemecahan glukosa dengan bantuan oksigen untuk menghasilkan energi (ATP), air, dan karbon dioksida. Energi inilah yang digunakan untuk aktivitas sel dan tubuh.
+    </li>
+  </ul><br>
+
+    <img src="https://3.bp.blogspot.com/-bbq2yUceOEI/Vt5xQoanmfI/AAAAAAAAE04/9htvVveKj9o/s1600/alat%2Bpernafasan.png" alt="Ilustrasi Sistem Pernapasan" class="w-full max-w-md mx-auto rounded-lg shadow-lg border border-gray-300">
+    <p class="text-sm text-center text-gray-500 mt-2">Gambar: Organ-organ dalam sistem pernapasan manusia</p>
+  </div>
+
+
+
+  <!-- B. Organ Pernapasan -->
+  <div>
+    <h3 class="text-xl font-semibold mb-2 text-[#4dd4a3]">B. Organ-organ Pernapasan Manusia</h3>
+    <div class="overflow-x-auto">
+      <table class="table-auto w-full border border-gray-400 text-left text-sm sm:text-base">
+        <thead class="bg-[#4dd4a3] text-white">
+          <tr>
+            <th class="border px-4 py-2">Organ</th>
+            <th class="border px-4 py-2">Fungsi</th>
+          </tr>
+        </thead>
+        <tbody class="text-gray-800">
+          <tr><td class="border px-4 py-2">Hidung</td><td class="border px-4 py-2">Menyaring, menghangatkan, dan melembapkan udara yang masuk.</td></tr>
+          <tr><td class="border px-4 py-2">Tenggorokan (Faring dan Laring)</td><td class="border px-4 py-2">Saluran udara menuju paru-paru dan tempat pita suara berada.</td></tr>
+          <tr><td class="border px-4 py-2">Trakea</td><td class="border px-4 py-2">Mengalirkan udara dari laring ke bronkus.</td></tr>
+          <tr><td class="border px-4 py-2">Bronkus</td><td class="border px-4 py-2">Saluran cabang dari trakea menuju paru-paru.</td></tr>
+          <tr><td class="border px-4 py-2">Paru-paru</td><td class="border px-4 py-2">Tempat pertukaran gas oksigen dan karbon dioksida.</td></tr>
+          <tr><td class="border px-4 py-2">Alveolus</td><td class="border px-4 py-2">Tempat utama pertukaran gas di dalam paru-paru.</td></tr>
+        </tbody>
+      </table>
+    </div>
+<!-- Video Sistem Pernapasan -->
+  <div class="mt-8 aspect-w-16 aspect-h-9">
+    <iframe class="w-full h-64 rounded-lg border border-gray-300 shadow-lg"
+      src="https://www.youtube.com/embed/m1iu70tc3FA"
+      title="Video Sistem Pernapasan Manusia" 
+      frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+      allowfullscreen>
+    </iframe>
+  </div>
+  <p class="text-sm text-center text-gray-500 mt-2">Video: Penjelasan sistem pernapasan manusia (YouTube - dalam Bahasa Indonesia)</p>
+</div>
+  </div>
+
+ <!-- C. Proses Pernapasan -->
+<div>
+  <h3 class="text-xl font-semibold mb-2 text-[#4dd4a3]">C. Proses Pernapasan</h3>
+<p class="mb-3">Pernapasan manusia terdiri dari dua proses utama:</p>
+<ul class="list-disc list-inside ml-4 space-y-1 mb-4">
+  <li><strong>Pernapasan luar:</strong> pertukaran gas antara udara di alveolus dengan darah kapiler.</li>
+  <li><strong>Pernapasan dalam:</strong> pertukaran gas antara darah dengan sel-sel tubuh.</li>
+</ul>
+
+<h4 class="text-lg font-semibold mb-2 text-[#4dd4a3]">🔹 Jenis Pernapasan Manusia</h4>
+<p class="mb-3">Berdasarkan mekanismenya, pernapasan manusia dibagi menjadi dua jenis:</p>
+
+<!-- Pernapasan Dada -->
+<div class="mb-4">
+  <h5 class="font-semibold text-gray-700">1. Pernapasan Dada</h5>
+  <p class="ml-4 mt-1 text-gray-700">Pernapasan dada terjadi karena gerakan otot antar tulang rusuk. Saat inspirasi (menghirup udara), otot antar tulang rusuk berkontraksi sehingga rongga dada membesar dan udara masuk ke paru-paru. Saat ekspirasi (menghembuskan udara), otot-otot tersebut relaksasi sehingga rongga dada mengecil dan udara keluar dari paru-paru.</p>
+</div>
+
+<!-- Pernapasan Perut -->
+<div class="mb-4">
+  <h5 class="font-semibold text-gray-700">2. Pernapasan Perut (Diafragma)</h5>
+  <p class="ml-4 mt-1 text-gray-700">Pernapasan perut melibatkan otot diafragma. Saat inspirasi, diafragma berkontraksi dan mendatar sehingga volume rongga dada membesar dan udara masuk. Saat ekspirasi, diafragma relaksasi dan kembali melengkung ke atas, menyebabkan volume rongga dada mengecil dan udara terdorong keluar dari paru-paru.</p>
+</div>
+
+<!-- Gambar dan Video -->
+<img src="https://akupintar.id/documents/20143/0/8_bab8_4.JPG" alt="Pernapasan dada dan perut" class="w-full max-w-md mx-auto rounded-lg shadow-lg border border-gray-300 mt-4">
+<p class="text-sm text-center text-gray-500 mt-2">Gambar: Ilustrasi mekanisme pernapasan dada dan perut</p>
+
+<!-- Video YouTube -->
+<div class="mt-6 aspect-w-16 aspect-h-9">
+  <iframe class="w-full h-64 rounded-lg border border-gray-300 shadow-lg"
+    src="https://www.youtube.com/embed/xbeKGB3H_R8"
+    title="Video Pernapasan Dada dan Perut"
+    frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+    allowfullscreen>
+  </iframe>
+</div>
+<p class="text-sm text-center text-gray-500 mt-2">Video: Penjelasan pernapasan dada dan perut (YouTube)</p>
+<!-- Tabel Perbedaan Pernapasan Dada dan Perut -->
+<div class="mt-8">
+  <h4 class="text-lg font-semibold text-[#4dd4a3] mb-4">🔸 Tabel Perbedaan Pernapasan Dada dan Perut</h4>
+
+  <div class="overflow-x-auto">
+    <table class="table-auto w-full border border-gray-300 text-left text-sm">
+      <thead class="bg-[#4dd4a3] text-white">
+        <tr>
+          <th class="px-4 py-2 border">Aspek</th>
+          <th class="px-4 py-2 border">Pernapasan Dada</th>
+          <th class="px-4 py-2 border">Pernapasan Perut</th>
+        </tr>
+      </thead>
+      <tbody class="bg-white">
+        <!-- Inspirasi -->
+        <tr class="border-t">
+          <td class="px-4 py-2 font-semibold text-gray-700">Saat Inspirasi</td>
+          <td class="px-4 py-2">
+            Otot antar tulang rusuk berkontraksi, rongga dada membesar, tekanan paru-paru menurun, udara masuk.
+          </td>
+          <td class="px-4 py-2">
+            Diafragma berkontraksi dan mendatar, rongga dada membesar ke bawah, udara masuk ke paru-paru.
+          </td>
+        </tr>
+        <!-- Ekspirasi -->
+        <tr class="border-t">
+          <td class="px-4 py-2 font-semibold text-gray-700">Saat Ekspirasi</td>
+          <td class="px-4 py-2">
+            Otot antar tulang rusuk relaksasi, rongga dada mengecil, tekanan meningkat, udara keluar.
+          </td>
+          <td class="px-4 py-2">
+            Diafragma relaksasi dan melengkung ke atas, rongga dada mengecil, udara terdorong keluar.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p class="text-sm text-gray-500 mt-2 text-center">Tabel: Perbedaan mekanisme pernapasan dada dan perut saat inspirasi dan ekspirasi</p>
+</div>
+<!-- Alur Pernapasan -->
+<div class="mt-10">
+  <h4 class="text-lg font-semibold text-[#4dd4a3] mb-4">🔹 Alur Pernapasan Manusia</h4>
+  <p class="mb-4">Udara masuk dan keluar melalui saluran pernapasan dalam proses yang teratur. Berikut adalah alur pernapasan saat inspirasi (menghirup udara) dan ekspirasi (menghembuskan udara):</p>
+
+  <!-- Alur Pernapasan Diagram -->
+  <div class="bg-white rounded-lg shadow-lg border border-gray-200 p-6">
+    <h5 class="text-base font-semibold text-gray-700 mb-2">🔄 Alur Inspirasi (Menghirup Udara)</h5>
+    <ol class="list-decimal ml-5 space-y-1 text-gray-700">
+      <li>Udara masuk melalui <strong>hidung</strong> (atau mulut).</li>
+      <li>Udara melewati <strong>faring</strong> dan <strong>laring</strong>.</li>
+      <li>Masuk ke dalam <strong>trakea</strong> (batang tenggorokan).</li>
+      <li>Udara menuju ke <strong>bronkus</strong>, lalu ke <strong>bronkiolus</strong>.</li>
+      <li>Udara mencapai <strong>alveolus</strong> (gelembung paru-paru).</li>
+      <li>Oksigen berdifusi ke dalam <strong>darah kapiler</strong>.</li>
+    </ol>
+
+    <h5 class="text-base font-semibold text-gray-700 mt-6 mb-2">🔁 Alur Ekspirasi (Menghembuskan Udara)</h5>
+    <ol class="list-decimal ml-5 space-y-1 text-gray-700">
+      <li><strong>Karbon dioksida</strong> dari sel berdifusi ke dalam darah.</li>
+      <li>CO₂ diangkut ke <strong>alveolus</strong>.</li>
+      <li>Dari alveolus naik ke <strong>bronkiolus</strong> → <strong>bronkus</strong> → <strong>trakea</strong>.</li>
+      <li>Keluar melalui <strong>laring</strong> dan <strong>faring</strong>.</li>
+      <li>Dikeluarkan melalui <strong>hidung</strong> atau <strong>mulut</strong>.</li>
+    </ol>
+  </div>
+
+  </div>
+
+</div><br>
+
+<!-- D. Frekuensi dan Volume Pernapasan -->
+<div class="mt-10">
+  <h3 class="text-xl font-semibold mb-4 text-[#4dd4a3]">D. Frekuensi dan Volume Pernapasan</h3>
+  <p class="mb-4">
+    Pernapasan manusia memiliki parameter penting seperti frekuensi (jumlah napas per menit) dan volume (jumlah udara yang masuk dan keluar dari paru-paru). Berikut penjelasannya:
+  </p>
+
+  <!-- Tabel Frekuensi dan Volume Pernapasan -->
+  <div class="overflow-x-auto mb-6">
+    <table class="table-auto w-full border border-gray-300 text-sm text-left">
+      <thead class="bg-[#4dd4a3] text-white">
+        <tr>
+          <th class="px-4 py-2 border">Jenis</th>
+          <th class="px-4 py-2 border">Keterangan</th>
+          <th class="px-4 py-2 border">Nilai Rata-rata</th>
+        </tr>
+      </thead>
+      <tbody class="bg-white text-gray-700">
+        <tr>
+          <td class="px-4 py-2 border font-medium">Frekuensi Pernapasan</td>
+          <td class="px-4 py-2 border">Jumlah napas dalam 1 menit.</td>
+          <td class="px-4 py-2 border">12 – 20 kali/menit</td>
+        </tr>
+        <tr>
+          <td class="px-4 py-2 border font-medium">Volume Tidal</td>
+          <td class="px-4 py-2 border">Volume udara masuk dan keluar saat bernapas normal.</td>
+          <td class="px-4 py-2 border">± 500 mL</td>
+        </tr>
+        <tr>
+          <td class="px-4 py-2 border font-medium">Volume Cadangan Inspirasi</td>
+          <td class="px-4 py-2 border">Udara tambahan saat inspirasi maksimal.</td>
+          <td class="px-4 py-2 border">± 3.100 mL</td>
+        </tr>
+        <tr>
+          <td class="px-4 py-2 border font-medium">Volume Cadangan Ekspirasi</td>
+          <td class="px-4 py-2 border">Udara tambahan saat ekspirasi maksimal.</td>
+          <td class="px-4 py-2 border">± 1.200 mL</td>
+        </tr>
+        <tr>
+          <td class="px-4 py-2 border font-medium">Volume Residu</td>
+          <td class="px-4 py-2 border">Udara yang tersisa di paru-paru.</td>
+          <td class="px-4 py-2 border">± 1.200 mL</td>
+        </tr>
+        <tr>
+          <td class="px-4 py-2 border font-medium">Kapasitas Vital</td>
+          <td class="px-4 py-2 border">Total udara maksimum yang bisa dikeluarkan setelah inspirasi maksimal.</td>
+          <td class="px-4 py-2 border">± 4.800 mL</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Gambar Volume Pernapasan -->
+  <div class="mt-6">
+    <img src="https://static.promediateknologi.id/crop/0x0:0x0/750x500/webp/photo/p1/748/2024/03/25/Udara-suplementer-3374802652.jpeg" 
+         alt="Diagram Volume dan Kapasitas Paru-paru" 
+         class="w-full max-w-xl mx-auto rounded-lg shadow-lg border border-gray-300">
+    <p class="text-sm text-center text-gray-500 mt-2">
+      Gambar: Diagram volume dan kapasitas paru-paru manusia
+    </p>
+  </div>
+</div>
+
+
+  <!-- E. Gangguan pada Sistem Pernapasan -->
+<div class="mt-10">
+  <h3 class="text-xl font-semibold mb-4 text-[#4dd4a3]">E. Gangguan pada Sistem Pernapasan</h3>
+  <p class="mb-4">Berikut adalah beberapa gangguan pada sistem pernapasan beserta penjelasan dan penyebabnya:</p>
+
+  <div class="overflow-x-auto">
+    <table class="table-auto w-full border border-gray-300 text-sm text-left">
+      <thead class="bg-[#4dd4a3] text-white">
+        <tr>
+          <th class="px-4 py-2 border">No</th>
+          <th class="px-4 py-2 border">Nama Gangguan</th>
+          <th class="px-4 py-2 border">Penjelasan</th>
+          <th class="px-4 py-2 border">Penyebab</th>
+        </tr>
+      </thead>
+      <tbody class="bg-white text-gray-700">
+        <tr>
+          <td class="px-4 py-2 border">1</td>
+          <td class="px-4 py-2 border">Asma</td>
+          <td class="px-4 py-2 border">Penyempitan saluran napas yang menyebabkan sesak napas.</td>
+          <td class="px-4 py-2 border">Alergi, debu, dingin, stres, aktivitas berat.</td>
+        </tr>
+        <tr>
+          <td class="px-4 py-2 border">2</td>
+          <td class="px-4 py-2 border">Bronkitis</td>
+          <td class="px-4 py-2 border">Peradangan pada bronkus dengan gejala batuk berdahak.</td>
+          <td class="px-4 py-2 border">Infeksi virus atau bakteri, asap rokok, polusi udara.</td>
+        </tr>
+        <tr>
+          <td class="px-4 py-2 border">3</td>
+          <td class="px-4 py-2 border">Pneumonia</td>
+          <td class="px-4 py-2 border">Infeksi paru-paru yang menyebabkan sesak napas dan demam.</td>
+          <td class="px-4 py-2 border">Bakteri, virus, atau jamur (misal: Streptococcus pneumoniae).</td>
+        </tr>
+        <tr>
+          <td class="px-4 py-2 border">4</td>
+          <td class="px-4 py-2 border">Emfisema</td>
+          <td class="px-4 py-2 border">Kerusakan alveolus yang membuat sulit bernapas.</td>
+          <td class="px-4 py-2 border">Merokok jangka panjang, polusi, zat iritan.</td>
+        </tr>
+        <tr>
+          <td class="px-4 py-2 border">5</td>
+          <td class="px-4 py-2 border">TBC (Tuberkulosis)</td>
+          <td class="px-4 py-2 border">Infeksi paru-paru yang berlangsung lama dan menular.</td>
+          <td class="px-4 py-2 border">Bakteri *Mycobacterium tuberculosis*.</td>
+        </tr>
+        <tr>
+          <td class="px-4 py-2 border">6</td>
+          <td class="px-4 py-2 border">ISPA</td>
+          <td class="px-4 py-2 border">Infeksi akut pada saluran pernapasan atas dan bawah.</td>
+          <td class="px-4 py-2 border">Virus influenza, rhinovirus, perubahan cuaca.</td>
+        </tr>
+        <tr>
+          <td class="px-4 py-2 border">7</td>
+          <td class="px-4 py-2 border">Sinusitis</td>
+          <td class="px-4 py-2 border">Peradangan pada rongga sinus yang menyebabkan nyeri kepala dan hidung tersumbat.</td>
+          <td class="px-4 py-2 border">Infeksi bakteri/virus, alergi, flu yang tidak sembuh.</td>
+        </tr>
+        <tr>
+          <td class="px-4 py-2 border">8</td>
+          <td class="px-4 py-2 border">Laringitis</td>
+          <td class="px-4 py-2 border">Peradangan pada pita suara (laring), menyebabkan suara serak atau hilang.</td>
+          <td class="px-4 py-2 border">Infeksi virus, iritasi, penggunaan suara berlebihan.</td>
+        </tr>
+        <tr>
+          <td class="px-4 py-2 border">9</td>
+          <td class="px-4 py-2 border">COVID-19</td>
+          <td class="px-4 py-2 border">Penyakit pernapasan akibat virus corona yang bisa menyerang paru-paru secara serius.</td>
+          <td class="px-4 py-2 border">Virus SARS-CoV-2, penularan droplet atau kontak erat.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p class="text-sm text-gray-500 mt-3 text-center">Tabel: Jenis gangguan sistem pernapasan, penjelasan, dan penyebabnya</p>
+</div>
+
+
+  <!-- F. Cara Menjaga Kesehatan Pernapasan -->
+  <div>
+    <h3 class="text-xl font-semibold mb-2 text-[#4dd4a3]">F. Cara Menjaga Kesehatan Pernapasan</h3>
+    <ul class="list-disc list-inside ml-4 space-y-1">
+      <li>Menghindari asap rokok dan polusi udara.</li>
+      <li>Rutin berolahraga untuk melatih paru-paru.</li>
+      <li>Mengonsumsi makanan bergizi.</li>
+      <li>Menjaga kebersihan lingkungan.</li>
+    </ul>
+  </div>
+</div><br><br>
+
+<div class="max-w-4xl mx-auto bg-white p-6 rounded-xl shadow-md">
+    <h1 class="text-2xl font-bold mb-4 text-center text-blue-700">Kenali Organ Sistem Pernapasan Manusia</h1>
+    <p class="mb-4 text-center text-gray-700">Perhatikan gambar di bawah ini. Tiap nomor menunjukkan salah satu organ pernapasan. Pilih nama organ yang tepat untuk setiap nomor!</p>
+
+    <div class="flex justify-center mb-6">
+      <img src="https://imgix2.ruangguru.com/assets/miscellaneous/png_e5ssah_432.PNG" alt="Sistem Pernapasan" class="rounded-lg border shadow-lg max-h-[450px]">
+    </div>
+
+    <div id="quiz-container" class="space-y-4">
+      <!-- Soal dinamis akan ditambahkan di sini -->
+    </div>
+  </div><br>
+<div class="max-w-4xl mx-auto bg-white p-6 rounded-xl shadow-md">
+    <h1 class="text-2xl font-bold mb-4 text-center text-green-700">Fungsi Organ Pernapasan</h1>
+    <p class="mb-4 text-center text-gray-700">Bacalah fungsi organ berikut, lalu pilih nama organ yang sesuai dari dropdown.</p>
+
+    <div id="fungsi-quiz-container" class="space-y-4">
+      <!-- Soal akan di-generate lewat JavaScript -->
+    </div>
+  </div><br>
+<div class="w-full max-w-3xl mx-auto bg-white px-6 py-8 rounded-2xl shadow-lg" id="quizRespiration">
+  <h2 class="text-3xl font-extrabold text-center text-blue-600 mb-8 tracking-tight">🫁 Latihan Soal Interaktif: Sistem Pernapasan Manusia</h2>
+
+  <!-- Soal dan Pilihan -->
+  <div id="quizRespirationContainer" class="space-y-6">
+    <!-- Soal akan di-render di sini -->
+  </div>
+
+  <!-- Tombol Navigasi -->
+  <div class="flex justify-between items-center mt-8">
+    <button id="prevRespirationBtn" onclick="prevRespirationQuestion()" class="px-5 py-2 font-semibold rounded-lg bg-blue-500 text-white hover:bg-blue-600 disabled:bg-gray-300 disabled:text-gray-500 transition-all" disabled>Sebelumnya</button>
+    <div class="space-x-2">
+      <button id="checkRespirationBtn" onclick="checkRespirationAnswer()" class="px-5 py-2 font-semibold rounded-lg bg-blue-500 text-white hover:bg-blue-600 transition-all">Cek</button>
+      <button id="nextRespirationBtn" onclick="nextRespirationQuestion()" class="px-5 py-2 font-semibold rounded-lg bg-blue-500 text-white hover:bg-blue-600 disabled:bg-gray-300 disabled:text-gray-500 transition-all">Selanjutnya</button>
+    </div>
+  </div>
+
+  <!-- Pembahasan -->
+  <div id="respirationExplanation" class="mt-6 hidden bg-yellow-100 text-yellow-900 border border-yellow-300 p-4 rounded-lg shadow-inner"></div>
+</div><br>
+
+<div class="w-full max-w-3xl mx-auto bg-white px-6 py-8 rounded-2xl shadow-lg">
+<!-- Section 1 -->
+<div id="2.-Sistem-Pencernaan" class="text-gray-800 space-y-6">
+  <h2 class="text-2xl font-bold text-[#4dd4a3]">2. Sistem Pencernaan</h2>
+<!-- Video Edukasi -->
+  <div class="mt-8 aspect-w-16 aspect-h-9">
+    <iframe class="w-full h-64 rounded-lg border border-gray-300 shadow-lg"
+      src="https://www.youtube.com/embed/8gvvB9POcVQ"
+      title="Video Sistem Pencernaan Manusia"
+      frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+      allowfullscreen>
+    </iframe>
+  </div>
+  <p class="text-sm text-center text-gray-500 mt-2">Video: Penjelasan sistem pencernaan manusia (YouTube)</p>
+
+  <!-- A. Pengertian -->
+  <div>
+    <h3 class="text-xl font-semibold mb-2 text-[#4dd4a3]">A. Pengertian Sistem Pencernaan</h3>
+    <p class="mb-4">
+      Sistem pencernaan adalah sistem organ yang berfungsi untuk memproses makanan sehingga zat-zat gizi dapat diserap tubuh. Proses pencernaan terdiri dari mekanis dan kimiawi, dimulai dari mulut hingga ke anus.
+    </p>
+
+    <img src="https://res.cloudinary.com/dk0z4ums3/image/upload/v1619076495/attached_image/seperti-apa-proses-pencernaan-dan-penyerapan-makanan-di-dalam-tubuh-0-alodokter.jpg" 
+         alt="Ilustrasi Sistem Pencernaan" 
+         class="w-full max-w-md mx-auto rounded-lg shadow-lg border border-gray-300">
+    <p class="text-sm text-center text-gray-500 mt-2">Gambar: Organ-organ dalam sistem pencernaan manusia</p>
+  </div>
+
+  <!-- B. Organ-organ Pencernaan -->
+  <div>
+    <h3 class="text-xl font-semibold mb-2 text-[#4dd4a3]">B. Organ-organ Sistem Pencernaan</h3>
+    <div class="overflow-x-auto">
+      <table class="table-auto w-full border border-gray-400 text-left text-sm sm:text-base">
+        <thead class="bg-[#4dd4a3] text-white">
+          <tr>
+            <th class="border px-4 py-2">Organ</th>
+            <th class="border px-4 py-2">Fungsi</th>
+          </tr>
+        </thead>
+        <tbody class="text-gray-800">
+          <tr><td class="border px-4 py-2">Mulut</td><td class="border px-4 py-2">Mengunyah dan mencampur makanan dengan air liur.</td></tr>
+          <tr><td class="border px-4 py-2">Kerongkongan (Esofagus)</td><td class="border px-4 py-2">Menyalurkan makanan ke lambung melalui gerakan peristaltik.</td></tr>
+          <tr><td class="border px-4 py-2">Lambung</td><td class="border px-4 py-2">Mencerna makanan secara kimiawi dengan enzim dan asam lambung.</td></tr>
+          <tr><td class="border px-4 py-2">Usus Halus</td><td class="border px-4 py-2">Mencerna dan menyerap nutrisi dari makanan.</td></tr>
+          <tr><td class="border px-4 py-2">Usus Besar</td><td class="border px-4 py-2">Menyerap air dan membentuk feses.</td></tr>
+          <tr><td class="border px-4 py-2">Rektum dan Anus</td><td class="border px-4 py-2">Menyimpan dan mengeluarkan feses dari tubuh.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- C. Proses Pencernaan -->
+  <div>
+    <h3 class="text-xl font-semibold mb-2 text-[#4dd4a3]">C. Proses Pencernaan</h3>
+    <p class="mb-3">Proses pencernaan terdiri dari dua jenis:</p>
+    <ul class="list-disc list-inside ml-4 space-y-1 mb-4">
+      <li><strong>Pencernaan Mekanik:</strong> Penghancuran makanan secara fisik (misal: pengunyahan).</li>
+      <li><strong>Pencernaan Kimiawi:</strong> Penguraian makanan dengan enzim (misal: amilase, pepsin).</li>
+    </ul>
+  </div>
+
+  <!-- D. Organ Pendukung -->
+  <div>
+    <h3 class="text-xl font-semibold mb-2 text-[#4dd4a3]">D. Organ Pendukung Sistem Pencernaan</h3>
+    <p class="mb-4">Selain saluran pencernaan utama, ada organ-organ lain yang membantu proses pencernaan:</p>
+    <ul class="list-disc list-inside ml-4 space-y-2">
+      <li><strong>Kelenjar Ludah:</strong> Menghasilkan air liur untuk membantu pencernaan karbohidrat.</li>
+      <li><strong>Hati:</strong> Menghasilkan empedu untuk mengemulsikan lemak.</li>
+      <li><strong>Kantung Empedu:</strong> Menyimpan dan mengeluarkan empedu ke usus halus.</li>
+      <li><strong>Pankreas:</strong> Menghasilkan enzim pencernaan dan hormon insulin.</li>
+    </ul>
+  </div>
+
+  <!-- E. Gangguan pada Sistem Pencernaan -->
+  <div>
+    <h3 class="text-xl font-semibold mb-2 text-[#4dd4a3]">E. Gangguan pada Sistem Pencernaan</h3>
+    <div class="overflow-x-auto">
+      <table class="table-auto w-full border border-gray-300 text-sm text-left">
+        <thead class="bg-[#4dd4a3] text-white">
+          <tr>
+            <th class="px-4 py-2 border">No</th>
+            <th class="px-4 py-2 border">Nama Gangguan</th>
+            <th class="px-4 py-2 border">Gejala</th>
+            <th class="px-4 py-2 border">Penyebab</th>
+          </tr>
+        </thead>
+        <tbody class="bg-white text-gray-700">
+          <tr><td class="px-4 py-2 border">1</td><td class="px-4 py-2 border">Gastritis</td><td class="px-4 py-2 border">Nyeri ulu hati, mual, muntah</td><td class="px-4 py-2 border">Infeksi, stres, makanan pedas</td></tr>
+          <tr><td class="px-4 py-2 border">2</td><td class="px-4 py-2 border">Diare</td><td class="px-4 py-2 border">Feses cair, frekuensi buang air meningkat</td><td class="px-4 py-2 border">Infeksi bakteri atau virus</td></tr>
+          <tr><td class="px-4 py-2 border">3</td><td class="px-4 py-2 border">Sembelit</td><td class="px-4 py-2 border">Sulit buang air besar</td><td class="px-4 py-2 border">Kurang serat, dehidrasi</td></tr>
+          <tr><td class="px-4 py-2 border">4</td><td class="px-4 py-2 border">Maag</td><td class="px-4 py-2 border">Nyeri lambung, perut kembung</td><td class="px-4 py-2 border">Asam lambung berlebih</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- F. Cara Menjaga Kesehatan Sistem Pencernaan -->
+  <div>
+    <h3 class="text-xl font-semibold mb-2 text-[#4dd4a3]">F. Cara Menjaga Kesehatan Sistem Pencernaan</h3>
+    <ul class="list-disc list-inside ml-4 space-y-1">
+      <li>Mengonsumsi makanan bergizi dan kaya serat.</li>
+      <li>Minum air putih yang cukup setiap hari.</li>
+      <li>Menghindari makanan terlalu pedas atau berminyak.</li>
+      <li>Rutin berolahraga dan mengelola stres.</li>
+    </ul>
+  </div>
+
+  </div>
+</div><br>
+<div class="max-w-4xl mx-auto bg-white p-6 rounded-xl shadow-md mt-10">
+  <h1 class="text-2xl font-bold mb-4 text-center text-green-700">Kenali Organ Sistem Pencernaan Manusia</h1>
+  <p class="mb-4 text-center text-gray-700">Perhatikan gambar di bawah ini. Tiap nomor menunjukkan salah satu organ pencernaan. Pilih nama organ yang tepat untuk setiap nomor!</p>
+
+  <div class="flex justify-center mb-6">
+    <img src="https://a.cdn-myedisi.com/z_article/cilukba-65d45ad95a441.jpg" alt="Sistem Pencernaan" class="rounded-lg border shadow-lg max-h-[450px]">
+  </div>
+
+  <div id="digestive-quiz-container" class="space-y-4">
+    <!-- Soal organ pencernaan akan ditambahkan di sini -->
+  </div>
+</div>
+
+<script>
+  const digestiveQuestions = [
+    { number: 1, correct: "Mulut" },
+    { number: 2, correct: "Kerongkongan" },
+    { number: 3, correct: "Lambung" },
+    { number: 4, correct: "Usus halus" },
+    { number: 5, correct: "Usus besar" },
+    { number: 6, correct: "Rektum" },
+    { number: 7, correct: "Anus" }
+  ];
+
+  const digestiveOptions = [
+    "Mulut", "Kerongkongan", "Lambung",
+    "Usus halus", "Usus besar", "Rektum", "Anus"
+  ];
+
+  const digestiveContainer = document.getElementById("digestive-quiz-container");
+
+  digestiveQuestions.forEach((q) => {
+    const div = document.createElement("div");
+    div.className = "bg-green-50 p-4 rounded-lg shadow flex flex-col sm:flex-row sm:items-center justify-between";
+
+    div.innerHTML = `
+      <label class="text-lg font-semibold text-green-800 mb-2 sm:mb-0">Nomor ${q.number} adalah:</label>
+      <div class="flex items-center gap-2">
+        <select id="digestive-answer${q.number}" class="border p-2 rounded-md text-gray-700">
+          <option value="">-- Pilih Jawaban --</option>
+          ${digestiveOptions.map(opt => `<option value="${opt}">${opt}</option>`).join('')}
+        </select>
+        <button onclick="checkDigestiveAnswer(${q.number}, '${q.correct}')" class="bg-green-600 text-white px-3 py-1 rounded hover:bg-green-700">Cek</button>
+        <span id="digestive-result${q.number}" class="ml-3 font-medium"></span>
+      </div>
+    `;
+    digestiveContainer.appendChild(div);
+  });
+
+  function checkDigestiveAnswer(num, correctAnswer) {
+    const selected = document.getElementById(`digestive-answer${num}`).value;
+    const result = document.getElementById(`digestive-result${num}`);
+    if (selected === correctAnswer) {
+      result.textContent = "✅ Benar!";
+      result.className = "text-green-600 ml-3 font-medium";
+    } else {
+      result.textContent = "❌ Salah!";
+      result.className = "text-red-600 ml-3 font-medium";
+    }
+  }
+</script>
+<div class="max-w-4xl mx-auto bg-white p-6 rounded-xl shadow-md">
+  <h1 class="text-2xl font-bold mb-4 text-center text-orange-700">Fungsi Organ Pencernaan</h1>
+  <p class="mb-4 text-center text-gray-700">Bacalah fungsi organ berikut, lalu pilih nama organ yang sesuai dari dropdown.</p>
+
+  <div id="pencernaan-quiz-container" class="space-y-4">
+    <!-- Soal akan di-generate lewat JavaScript -->
+  </div>
+</div><br>
+
+<script>
+  const pencernaanQuestions = [
+    { number: 1, functionText: "Mengunyah makanan secara mekanis dan mencampurnya dengan enzim ptialin.", correct: "Mulut" },
+    { number: 2, functionText: "Menyalurkan makanan dari mulut ke lambung melalui gerakan peristaltik.", correct: "Kerongkongan" },
+    { number: 3, functionText: "Menghasilkan asam lambung dan enzim untuk mencerna protein.", correct: "Lambung" },
+    { number: 4, functionText: "Menghasilkan empedu untuk membantu pencernaan lemak.", correct: "Hati" },
+    { number: 5, functionText: "Menyimpan dan mengalirkan empedu dari hati ke usus halus.", correct: "Kantong empedu" },
+    { number: 6, functionText: "Menghasilkan enzim untuk mencerna karbohidrat, protein, dan lemak.", correct: "Pankreas" },
+    { number: 7, functionText: "Mencerna dan menyerap nutrisi dari makanan secara maksimal.", correct: "Usus halus" },
+    { number: 8, functionText: "Menyerap air dan membentuk feses.", correct: "Usus besar" },
+    { number: 9, functionText: "Tempat akhir pembuangan sisa pencernaan dalam bentuk feses.", correct: "Anus" }
+  ];
+
+  const organPencernaanOptions = [
+    "Mulut", "Kerongkongan", "Lambung", "Hati",
+    "Kantong empedu", "Pankreas", "Usus halus",
+    "Usus besar", "Anus"
+  ];
+
+  const pencernaanContainer = document.getElementById("pencernaan-quiz-container");
+
+  pencernaanQuestions.forEach((q) => {
+    const div = document.createElement("div");
+    div.className = "bg-orange-50 p-4 rounded-lg shadow flex flex-col gap-2";
+
+    div.innerHTML = `
+      <p class="text-gray-800 font-semibold">Nomor ${q.number}. ${q.functionText}</p>
+      <div class="flex items-center gap-3">
+        <select id="pencernaan_answer${q.number}" class="border p-2 rounded-md text-gray-700">
+          <option value="">-- Pilih Nama Organ --</option>
+          ${organPencernaanOptions.map(opt => `<option value="${opt}">${opt}</option>`).join('')}
+        </select>
+        <button onclick="checkPencernaanAnswer(${q.number}, '${q.correct}')" class="bg-orange-600 text-white px-3 py-1 rounded hover:bg-orange-700">Cek</button>
+        <span id="pencernaan_result${q.number}" class="ml-2 font-medium"></span>
+      </div>
+    `;
+    pencernaanContainer.appendChild(div);
+  });
+
+  function checkPencernaanAnswer(num, correctAnswer) {
+    const selected = document.getElementById(`pencernaan_answer${num}`).value;
+    const result = document.getElementById(`pencernaan_result${num}`);
+    if (selected === correctAnswer) {
+      result.textContent = "✅ Benar!";
+      result.className = "text-green-600 ml-3 font-medium";
+    } else {
+      result.textContent = "❌ Salah!";
+      result.className = "text-red-600 ml-3 font-medium";
+    }
+  }
+</script>
+<div class="w-full max-w-3xl mx-auto bg-white px-6 py-8 rounded-2xl shadow-lg" id="quizDigestion">
+  <h2 class="text-3xl font-extrabold text-center text-green-600 mb-8 tracking-tight">🍽️ Latihan Soal Interaktif: Sistem Pencernaan Manusia</h2>
+
+  <!-- Soal dan Pilihan -->
+  <div id="quizDigestionContainer" class="space-y-6">
+    <!-- Soal akan di-render di sini -->
+  </div>
+
+  <!-- Tombol Navigasi -->
+  <div class="flex justify-between items-center mt-8">
+    <button id="prevDigestionBtn" onclick="prevDigestionQuestion()" class="px-5 py-2 font-semibold rounded-lg bg-green-500 text-white hover:bg-green-600 disabled:bg-gray-300 disabled:text-gray-500 transition-all" disabled>Sebelumnya</button>
+    <div class="space-x-2">
+      <button id="checkDigestionBtn" onclick="checkDigestionAnswer()" class="px-5 py-2 font-semibold rounded-lg bg-green-500 text-white hover:bg-green-600 transition-all">Cek</button>
+      <button id="nextDigestionBtn" onclick="nextDigestionQuestion()" class="px-5 py-2 font-semibold rounded-lg bg-green-500 text-white hover:bg-green-600 disabled:bg-gray-300 disabled:text-gray-500 transition-all">Selanjutnya</button>
+    </div>
+  </div>
+
+  <!-- Pembahasan -->
+  <div id="digestionExplanation" class="mt-6 hidden bg-yellow-100 text-yellow-900 border border-yellow-300 p-4 rounded-lg shadow-inner"></div>
+</div>
+
+<script>
+  const digestionQuestions = [
+    {
+      question: "Apa fungsi utama lambung dalam sistem pencernaan manusia?",
+      choices: [
+        "Menyerap nutrisi",
+        "Mencerna protein secara kimiawi",
+        "Menyerap air dan mineral",
+        "Mengemulsi lemak"
+      ],
+      correctAnswer: 1,
+      explanation: "Lambung mengandung enzim pepsin dan asam lambung yang berperan penting dalam pencernaan protein."
+    },
+    {
+      question: "Organ apa yang berfungsi utama menyerap nutrisi dari makanan?",
+      choices: [
+        "Lambung",
+        "Usus besar",
+        "Usus halus",
+        "Kerongkongan"
+      ],
+      correctAnswer: 2,
+      explanation: "Usus halus memiliki permukaan luas yang dipenuhi vili dan mikrovili untuk menyerap nutrisi hasil pencernaan."
+    },
+    {
+      question: "Apa peran enzim amilase dalam proses pencernaan?",
+      choices: [
+        "Memecah protein menjadi asam amino",
+        "Mengubah lemak menjadi asam lemak",
+        "Memecah karbohidrat menjadi gula sederhana",
+        "Mengubah asam menjadi basa"
+      ],
+      correctAnswer: 2,
+      explanation: "Enzim amilase mengubah amilum (karbohidrat kompleks) menjadi maltosa dan glukosa."
+    },
+    {
+      question: "Mengapa hati penting dalam sistem pencernaan?",
+      choices: [
+        "Karena menghasilkan insulin",
+        "Karena menyimpan air",
+        "Karena menghasilkan empedu untuk memecah lemak",
+        "Karena menyerap vitamin"
+      ],
+      correctAnswer: 2,
+      explanation: "Hati menghasilkan empedu yang disimpan di kantong empedu dan berfungsi mengemulsi lemak."
+    },
+    {
+      question: "Apa fungsi utama usus besar dalam sistem pencernaan?",
+      choices: [
+        "Mencerna protein dan lemak",
+        "Mencerna karbohidrat kompleks",
+        "Menyerap air dan membentuk feses",
+        "Menghasilkan enzim pencernaan"
+      ],
+      correctAnswer: 2,
+      explanation: "Usus besar menyerap air dan membentuk sisa makanan menjadi feses."
+    },
+// A. Pengertian Sistem Pencernaan
+  {
+    question: "Mengapa sistem pencernaan dianggap sebagai sistem yang kompleks dan terintegrasi dalam tubuh manusia?",
+    choices: [
+      "Karena hanya terjadi di usus",
+      "Karena terdiri dari banyak organ yang bekerja secara terpisah",
+      "Karena melibatkan proses mekanik, kimia, dan penyerapan nutrisi yang saling bergantung",
+      "Karena makanan langsung diubah menjadi energi"
+    ],
+    correctAnswer: 2,
+    explanation: "Sistem pencernaan melibatkan berbagai organ dan proses yang saling mendukung untuk mencerna dan menyerap nutrisi secara optimal."
+  },
+  {
+    question: "Jika seseorang mengalami gangguan dalam proses penyerapan nutrisi, bagian manakah dari sistem pencernaan yang paling mungkin terganggu, dan mengapa?",
+    choices: [
+      "Lambung, karena mencerna protein",
+      "Usus besar, karena menyerap air",
+      "Usus halus, karena merupakan tempat utama penyerapan nutrisi",
+      "Kerongkongan, karena tempat masuk makanan"
+    ],
+    correctAnswer: 2,
+    explanation: "Usus halus memiliki struktur vili yang memungkinkan penyerapan nutrisi secara efisien ke dalam darah."
+  },
+
+  // B. Organ-organ Sistem Pencernaan
+  {
+    question: "Apa yang akan terjadi jika kerongkongan tidak dapat melakukan gerakan peristaltik?",
+    choices: [
+      "Makanan tetap akan sampai ke lambung dengan bantuan gravitasi",
+      "Proses penyerapan terganggu",
+      "Makanan tidak bisa turun ke lambung sehingga pencernaan terhambat",
+      "Enzim tidak bisa bekerja"
+    ],
+    correctAnswer: 2,
+    explanation: "Gerakan peristaltik penting untuk mendorong makanan ke lambung. Tanpa itu, makanan akan terjebak di kerongkongan."
+  },
+  {
+    question: "Bagaimana peran lambung dapat mempengaruhi kerja usus halus dalam mencerna makanan?",
+    choices: [
+      "Lambung menyerap nutrisi, sehingga usus halus tidak perlu bekerja",
+      "Lambung mencerna lemak secara sempurna",
+      "Lambung mengubah makanan menjadi kim yang siap dicerna lebih lanjut oleh usus halus",
+      "Lambung hanya tempat transit"
+    ],
+    correctAnswer: 2,
+    explanation: "Lambung menghancurkan makanan dan mencampurnya dengan enzim serta asam, membentuk kim yang kemudian diteruskan ke usus halus."
+  },
+
+  // C. Proses Pencernaan
+  {
+    question: "Mengapa enzim pencernaan harus dilepaskan secara bertahap selama proses pencernaan makanan?",
+    choices: [
+      "Agar makanan terasa lebih enak",
+      "Karena tubuh tidak punya cukup energi",
+      "Agar setiap jenis makanan bisa dicerna dengan enzim yang sesuai di tempat yang tepat",
+      "Karena enzim hanya bekerja di lambung"
+    ],
+    correctAnswer: 2,
+    explanation: "Setiap bagian saluran pencernaan memiliki enzim tertentu untuk memecah komponen makanan yang spesifik."
+  },
+  {
+    question: "Apa dampaknya jika proses pencernaan mekanik tidak terjadi dengan sempurna di mulut?",
+    choices: [
+      "Enzim tidak diperlukan",
+      "Lambung tidak bisa menghancurkan makanan",
+      "Makanan yang masuk sulit dicerna secara kimiawi di lambung dan usus halus",
+      "Tidak ada efek apa-apa"
+    ],
+    correctAnswer: 2,
+    explanation: "Proses mekanik penting agar makanan lebih mudah dicerna enzim. Tanpa pengunyahan sempurna, beban lambung dan usus meningkat."
+  },
+
+  // D. Organ Pendukung Sistem Pencernaan
+  {
+    question: "Mengapa empedu penting dalam proses pencernaan meskipun tidak mengandung enzim?",
+    choices: [
+      "Karena membantu penyerapan protein",
+      "Karena empedu memecah lemak menjadi tetesan kecil agar lebih mudah dicerna enzim lipase",
+      "Karena empedu menghasilkan glukosa",
+      "Karena empedu menetralkan asam"
+    ],
+    correctAnswer: 1,
+    explanation: "Empedu membantu mengemulsi lemak sehingga memperluas permukaan untuk kerja enzim lipase."
+  },
+  {
+    question: "Apa akibatnya jika pankreas tidak dapat menghasilkan enzim pencernaan?",
+    choices: [
+      "Makanan tetap dicerna di usus besar",
+      "Proses pencernaan protein, karbohidrat, dan lemak menjadi terganggu",
+      "Hati akan menggantikan fungsi pankreas",
+      "Lambung akan mempercepat proses pencernaan"
+    ],
+    correctAnswer: 1,
+    explanation: "Tanpa enzim dari pankreas, pencernaan tidak berjalan optimal karena tidak ada enzim untuk memecah zat makanan kompleks."
+  },
+
+  // E. Gangguan pada Sistem Pencernaan
+  {
+    question: "Seorang pasien mengalami nyeri ulu hati akibat produksi asam lambung berlebih. Apa kemungkinan gangguan yang dialaminya dan bagaimana hal tersebut mempengaruhi proses pencernaan?",
+    choices: [
+      "Sembelit; usus menyerap terlalu banyak air",
+      "Dispepsia; proses pencernaan terganggu akibat iritasi lambung",
+      "Diare; pencernaan terlalu cepat",
+      "Gastritis; usus kecil rusak"
+    ],
+    correctAnswer: 1,
+    explanation: "Dispepsia terjadi saat produksi asam lambung berlebih menyebabkan iritasi pada dinding lambung."
+  },
+  {
+    question: "Apa dampak jangka panjang dari kebiasaan menahan buang air besar terhadap sistem pencernaan?",
+    choices: [
+      "Tidak ada dampak",
+      "Membantu kerja usus besar",
+      "Menyebabkan sembelit kronis dan gangguan pada otot anus",
+      "Membantu menyerap lebih banyak nutrisi"
+    ],
+    correctAnswer: 2,
+    explanation: "Menahan BAB dapat menyebabkan penumpukan feses yang mengeras dan mengganggu gerakan peristaltik."
+  },
+
+  // F. Cara Menjaga Kesehatan Sistem Pencernaan
+  {
+    question: "Mengapa konsumsi makanan tinggi serat penting untuk menjaga kesehatan pencernaan?",
+    choices: [
+      "Serat membantu memecah protein",
+      "Serat mempercepat penyerapan lemak",
+      "Serat membantu pergerakan usus dan mencegah sembelit",
+      "Serat meningkatkan kadar asam lambung"
+    ],
+    correctAnswer: 2,
+    explanation: "Serat mendorong pergerakan usus (peristaltik) dan menjaga konsistensi feses agar mudah dikeluarkan."
+  },
+  {
+    question: "Seseorang sering makan cepat dan tidak mengunyah dengan baik. Apa potensi dampaknya terhadap sistem pencernaan?",
+    choices: [
+      "Proses kimiawi di lambung meningkat",
+      "Tidak ada dampak berarti",
+      "Proses mekanik tidak sempurna sehingga memperberat kerja lambung dan memperlambat pencernaan",
+      "Gigi jadi lebih kuat"
+    ],
+    correctAnswer: 2,
+    explanation: "Pengunyahan yang buruk memperberat kerja lambung karena makanan belum dihaluskan secara optimal."
+  }
+  ];
+
+  let currentDigestionIndex = 0;
+  let selectedDigestionChoice = null;
+
+  function renderDigestionQuestion() {
+    const container = document.getElementById("quizDigestionContainer");
+    const q = digestionQuestions[currentDigestionIndex];
+    selectedDigestionChoice = null;
+
+    container.innerHTML = `
+      <h3 class="text-xl font-semibold text-gray-800">${currentDigestionIndex + 1}. ${q.question}</h3>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4" id="digestionCardChoices">
+        ${q.choices.map((choice, i) => `
+          <div onclick="selectDigestionCard(${i})" id="digestCard${i}" class="cursor-pointer border-2 border-gray-300 rounded-xl p-4 text-gray-700 hover:border-green-500 transition-all">
+            ${choice}
+          </div>
+        `).join('')}
+      </div>
+    `;
+
+    // Reset penjelasan dan tombol
+    document.getElementById("digestionExplanation").classList.add("hidden");
+    document.getElementById("digestionExplanation").textContent = "";
+    document.getElementById("checkDigestionBtn").disabled = false;
+    document.getElementById("prevDigestionBtn").disabled = currentDigestionIndex === 0;
+    document.getElementById("nextDigestionBtn").disabled = currentDigestionIndex === digestionQuestions.length - 1;
+  }
+
+  function selectDigestionCard(index) {
+    selectedDigestionChoice = index;
+    const cards = document.querySelectorAll("#digestionCardChoices > div");
+    cards.forEach((card, i) => {
+      card.classList.remove("border-green-600", "bg-green-50");
+      if (i === index) {
+        card.classList.add("border-green-600", "bg-green-50");
+      }
+    });
+  }
+
+  function checkDigestionAnswer() {
+    if (selectedDigestionChoice === null) {
+      alert("Silakan pilih jawaban terlebih dahulu.");
+      return;
+    }
+
+    const correct = digestionQuestions[currentDigestionIndex].correctAnswer;
+    const explanation = digestionQuestions[currentDigestionIndex].explanation;
+    const resultDiv = document.getElementById("digestionExplanation");
+
+    if (selectedDigestionChoice === correct) {
+      resultDiv.innerHTML = `<strong class="text-green-700">✅ Jawaban benar!</strong><br>${explanation}`;
+    } else {
+      resultDiv.innerHTML = `<strong class="text-red-700">❌ Jawaban salah.</strong><br>${explanation}`;
+    }
+
+    resultDiv.classList.remove("hidden");
+    document.getElementById("checkDigestionBtn").disabled = true;
+  }
+
+  function nextDigestionQuestion() {
+    if (currentDigestionIndex < digestionQuestions.length - 1) {
+      currentDigestionIndex++;
+      renderDigestionQuestion();
+    }
+  }
+
+  function prevDigestionQuestion() {
+    if (currentDigestionIndex > 0) {
+      currentDigestionIndex--;
+      renderDigestionQuestion();
+    }
+  }
+
+  // Render pertama
+  renderDigestionQuestion();
+</script>
+
+  <script>
+    const questions = [
+      { number: 1, correct: "Rongga hidung" },
+      { number: 2, correct: "Faring" },
+      { number: 3, correct: "Laring" },
+      { number: 4, correct: "Trakea" },
+      { number: 5, correct: "Bronkus" },
+      { number: 6, correct: "Bronkiolus" },
+      { number: 7, correct: "Alveolus" },
+      { number: 8, correct: "Diafragma" }
+    ];
+
+    const options = [
+      "Rongga hidung", "Faring", "Laring", "Trakea",
+      "Bronkus", "Bronkiolus", "Alveolus", "Diafragma"
+    ];
+
+    const container = document.getElementById("quiz-container");
+
+    questions.forEach((q) => {
+      const div = document.createElement("div");
+      div.className = "bg-blue-50 p-4 rounded-lg shadow flex flex-col sm:flex-row sm:items-center justify-between";
+
+      div.innerHTML = `
+        <label class="text-lg font-semibold text-blue-800 mb-2 sm:mb-0">Nomor ${q.number} adalah:</label>
+        <div class="flex items-center gap-2">
+          <select id="answer${q.number}" class="border p-2 rounded-md text-gray-700">
+            <option value="">-- Pilih Jawaban --</option>
+            ${options.map(opt => `<option value="${opt}">${opt}</option>`).join('')}
+          </select>
+          <button onclick="checkAnswer(${q.number}, '${q.correct}')" class="bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700">Cek</button>
+          <span id="result${q.number}" class="ml-3 font-medium"></span>
+        </div>
+      `;
+      container.appendChild(div);
+    });
+
+    function checkAnswer(num, correctAnswer) {
+      const selected = document.getElementById(`answer${num}`).value;
+      const result = document.getElementById(`result${num}`);
+      if (selected === correctAnswer) {
+        result.textContent = "✅ Benar!";
+        result.className = "text-green-600 ml-3 font-medium";
+      } else {
+        result.textContent = "❌ Salah!";
+        result.className = "text-red-600 ml-3 font-medium";
+      }
+    }
+  </script>
+ 
+
+  <script>
+    const fungsiQuestions = [
+      { number: 1, functionText: "Menyaring udara dari debu dan kotoran serta melembapkan udara yang masuk.", correct: "Rongga hidung" },
+      { number: 2, functionText: "Menyalurkan udara dari rongga hidung ke laring.", correct: "Faring" },
+      { number: 3, functionText: "Menghasilkan suara dan melindungi saluran napas bagian bawah.", correct: "Laring" },
+      { number: 4, functionText: "Mengalirkan udara dari laring ke bronkus dan menyaring partikel asing.", correct: "Trakea" },
+      { number: 5, functionText: "Menyalurkan udara dari trakea ke paru-paru kiri dan kanan.", correct: "Bronkus" },
+      { number: 6, functionText: "Percabangan halus dari bronkus yang menyalurkan udara ke alveolus.", correct: "Bronkiolus" },
+      { number: 7, functionText: "Tempat pertukaran gas oksigen dan karbon dioksida.", correct: "Alveolus" },
+      { number: 8, functionText: "Berperan dalam proses pernapasan dengan kontraksi dan relaksasi untuk mengatur volume paru-paru.", correct: "Diafragma" }
+    ];
+
+    const organOptions = [
+      "Rongga hidung", "Faring", "Laring", "Trakea",
+      "Bronkus", "Bronkiolus", "Alveolus", "Diafragma"
+    ];
+
+    const fungsiContainer = document.getElementById("fungsi-quiz-container");
+
+    fungsiQuestions.forEach((q) => {
+      const div = document.createElement("div");
+      div.className = "bg-green-50 p-4 rounded-lg shadow flex flex-col gap-2";
+
+      div.innerHTML = `
+        <p class="text-gray-800 font-semibold">Nomor ${q.number}. ${q.functionText}</p>
+        <div class="flex items-center gap-3">
+          <select id="fungsi_answer${q.number}" class="border p-2 rounded-md text-gray-700">
+            <option value="">-- Pilih Nama Organ --</option>
+            ${organOptions.map(opt => `<option value="${opt}">${opt}</option>`).join('')}
+          </select>
+          <button onclick="checkFungsiAnswer(${q.number}, '${q.correct}')" class="bg-green-600 text-white px-3 py-1 rounded hover:bg-green-700">Cek</button>
+          <span id="fungsi_result${q.number}" class="ml-2 font-medium"></span>
+        </div>
+      `;
+      fungsiContainer.appendChild(div);
+    });
+
+    function checkFungsiAnswer(num, correctAnswer) {
+      const selected = document.getElementById(`fungsi_answer${num}`).value;
+      const result = document.getElementById(`fungsi_result${num}`);
+      if (selected === correctAnswer) {
+        result.textContent = "✅ Benar!";
+        result.className = "text-green-600 ml-3 font-medium";
+      } else {
+        result.textContent = "❌ Salah!";
+        result.className = "text-red-600 ml-3 font-medium";
+      }
+    }
+  </script>
+
+<script>
+  const respirationQuestions = [
+    {
+      question: "Apa fungsi utama alveolus dalam sistem pernapasan manusia?",
+      choices: [
+        "Menyalurkan udara ke bronkus",
+        "Menyaring udara dari debu",
+        "Tempat pertukaran gas antara oksigen dan karbon dioksida",
+        "Mengatur kelembapan udara"
+      ],
+      correctAnswer: 2,
+      explanation: "Alveolus merupakan tempat terjadinya pertukaran gas oksigen dan karbon dioksida melalui proses difusi di paru-paru."
+    },
+    {
+      question: "Organ mana yang berfungsi sebagai jalur udara dari rongga hidung ke laring?",
+      choices: [
+        "Faring",
+        "Trakea",
+        "Laring",
+        "Bronkus"
+      ],
+      correctAnswer: 0,
+      explanation: "Faring adalah saluran yang menghubungkan rongga hidung dengan laring dan juga kerongkongan."
+    },
+    {
+      question: "Apa peran diafragma dalam proses pernapasan?",
+      choices: [
+        "Mengatur jumlah oksigen dalam darah",
+        "Menyalurkan udara dari laring ke trakea",
+        "Membantu paru-paru mengembang dan mengempis",
+        "Menjaga suhu udara dalam paru-paru"
+      ],
+      correctAnswer: 2,
+      explanation: "Diafragma berkontraksi dan relaksasi untuk mengatur volume paru-paru, memungkinkan masuk dan keluarnya udara saat bernapas."
+    },
+ // 🔹 1. Proses Dasar Pernapasan
+  {
+    question: "Mengapa proses difusi sangat penting dalam sistem pernapasan manusia?",
+    choices: [
+      "Karena difusi memungkinkan oksigen masuk ke saluran pernapasan",
+      "Karena difusi menjaga suhu paru-paru tetap stabil",
+      "Karena difusi memungkinkan pertukaran gas di alveolus",
+      "Karena difusi mencegah infeksi saluran pernapasan"
+    ],
+    correctAnswer: 2,
+    explanation: "Proses difusi memungkinkan oksigen dari udara masuk ke darah dan karbon dioksida keluar dari darah ke alveolus untuk dihembuskan."
+  },
+  {
+    question: "Apa yang terjadi jika tekanan udara di dalam paru-paru lebih rendah daripada tekanan udara luar?",
+    choices: [
+      "Udara keluar dari paru-paru",
+      "Otot diafragma mengendur",
+      "Udara masuk ke paru-paru",
+      "Alveolus menyempit"
+    ],
+    correctAnswer: 2,
+    explanation: "Jika tekanan di paru-paru lebih rendah dari udara luar, maka udara akan masuk ke paru-paru (inspirasi)."
+  },
+
+  // 🔹 2. Organ-organ Pernapasan Manusia
+  {
+    question: "Apa akibatnya jika bronkiolus tersumbat oleh lendir berlebih?",
+    choices: [
+      "Pertukaran gas tetap berjalan normal",
+      "Udara tidak bisa mencapai alveolus",
+      "Diafragma berhenti bekerja",
+      "Trakea mengembang"
+    ],
+    correctAnswer: 1,
+    explanation: "Jika bronkiolus tersumbat, udara tidak bisa mencapai alveolus, sehingga pertukaran gas terganggu."
+  },
+  {
+    question: "Mengapa rongga hidung dilengkapi rambut dan lendir?",
+    choices: [
+      "Untuk mempercepat pertukaran gas",
+      "Untuk menyaring, melembapkan, dan menghangatkan udara",
+      "Untuk memperbesar volume udara yang masuk",
+      "Untuk mempercepat aliran darah"
+    ],
+    correctAnswer: 1,
+    explanation: "Rambut dan lendir di rongga hidung berfungsi menyaring debu dan kotoran serta melembapkan dan menghangatkan udara."
+  },
+
+  // 🔹 3. Proses Pernapasan
+  {
+    question: "Mengapa otot antar tulang rusuk berkontraksi saat inspirasi?",
+    choices: [
+      "Untuk mengecilkan rongga dada",
+      "Untuk menekan paru-paru ke bawah",
+      "Untuk memperbesar rongga dada sehingga udara masuk",
+      "Untuk mencegah paru-paru mengempis"
+    ],
+    correctAnswer: 2,
+    explanation: "Kontraksi otot antar tulang rusuk memperbesar rongga dada sehingga tekanan di dalamnya menurun dan udara masuk ke paru-paru."
+  },
+  {
+    question: "Bagaimana posisi diafragma saat proses ekspirasi berlangsung?",
+    choices: [
+      "Relaks dan melengkung ke atas",
+      "Kontraksi dan mendatar",
+      "Mengembang ke samping",
+      "Menurun drastis"
+    ],
+    correctAnswer: 0,
+    explanation: "Saat ekspirasi, diafragma relaks dan kembali melengkung ke atas untuk mendorong udara keluar dari paru-paru."
+  },
+
+  // 🔹 4. Frekuensi dan Volume Pernapasan
+  {
+    question: "Mengapa frekuensi pernapasan meningkat saat berolahraga?",
+    choices: [
+      "Karena tubuh membutuhkan lebih banyak oksigen untuk metabolisme",
+      "Karena udara di sekitar menjadi lebih dingin",
+      "Karena sistem pencernaan juga bekerja cepat",
+      "Karena detak jantung menurun drastis"
+    ],
+    correctAnswer: 0,
+    explanation: "Aktivitas olahraga meningkatkan kebutuhan oksigen untuk membakar energi, sehingga frekuensi pernapasan meningkat."
+  },
+  {
+    question: "Jika volume tidal seseorang adalah 500 mL dan ia bernapas 15 kali per menit, berapa total volume udara masuk dalam satu menit?",
+    choices: [
+      "5.000 mL",
+      "7.500 mL",
+      "15.000 mL",
+      "750 mL"
+    ],
+    correctAnswer: 1,
+    explanation: "Volume tidal × frekuensi napas = 500 mL × 15 = 7.500 mL udara per menit."
+  },
+
+  // 🔹 5. Gangguan pada Sistem Pernapasan
+  {
+    question: "Mengapa penderita asma sering mengalami kesulitan bernapas?",
+    choices: [
+      "Karena paru-parunya basah oleh cairan",
+      "Karena bronkiolus menyempit akibat kontraksi otot polos",
+      "Karena alveolus membesar",
+      "Karena diafragma rusak"
+    ],
+    correctAnswer: 1,
+    explanation: "Asma menyebabkan penyempitan bronkiolus akibat reaksi alergi, sehingga aliran udara terganggu."
+  },
+  {
+    question: "Apa dampak dari merokok terhadap alveolus dalam jangka panjang?",
+    choices: [
+      "Alveolus menjadi lebih fleksibel",
+      "Jumlah alveolus meningkat",
+      "Dinding alveolus rusak dan mengurangi area pertukaran gas",
+      "Alveolus memproduksi lebih banyak lendir"
+    ],
+    correctAnswer: 2,
+    explanation: "Merokok merusak dinding alveolus, menyebabkan area permukaan pertukaran gas berkurang sehingga mengganggu pernapasan."
+  }
+  ];
+
+  let currentRespirationIndex = 0;
+  let selectedRespirationChoice = null;
+
+  function renderRespirationQuestion() {
+    const container = document.getElementById("quizRespirationContainer");
+    const q = respirationQuestions[currentRespirationIndex];
+    selectedRespirationChoice = null;
+
+    container.innerHTML = `
+      <h3 class="text-xl font-semibold text-gray-800">${currentRespirationIndex + 1}. ${q.question}</h3>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4" id="cardChoices">
+        ${q.choices.map((choice, i) => `
+          <div onclick="selectCard(${i})" id="respCard${i}" class="cursor-pointer border-2 border-gray-300 rounded-xl p-4 text-gray-700 hover:border-blue-500 transition-all">
+            ${choice}
+          </div>
+        `).join('')}
+      </div>
+    `;
+
+    // Reset pembahasan dan navigasi
+    document.getElementById("respirationExplanation").classList.add("hidden");
+    document.getElementById("respirationExplanation").textContent = "";
+    document.getElementById("checkRespirationBtn").disabled = false;
+    document.getElementById("prevRespirationBtn").disabled = currentRespirationIndex === 0;
+    document.getElementById("nextRespirationBtn").disabled = currentRespirationIndex === respirationQuestions.length - 1;
+  }
+
+  function selectCard(index) {
+    selectedRespirationChoice = index;
+    const cards = document.querySelectorAll("#cardChoices > div");
+    cards.forEach((card, i) => {
+      card.classList.remove("border-blue-600", "bg-blue-50");
+      if (i === index) {
+        card.classList.add("border-blue-600", "bg-blue-50");
+      }
+    });
+  }
+
+  function checkRespirationAnswer() {
+    if (selectedRespirationChoice === null) {
+      alert("Silakan pilih jawaban terlebih dahulu.");
+      return;
+    }
+
+    const correct = respirationQuestions[currentRespirationIndex].correctAnswer;
+    const explanation = respirationQuestions[currentRespirationIndex].explanation;
+    const resultDiv = document.getElementById("respirationExplanation");
+
+    if (selectedRespirationChoice === correct) {
+      resultDiv.innerHTML = `<strong class="text-green-700">✅ Jawaban benar!</strong><br>${explanation}`;
+    } else {
+      resultDiv.innerHTML = `<strong class="text-red-700">❌ Jawaban salah.</strong><br>${explanation}`;
+    }
+
+    resultDiv.classList.remove("hidden");
+    document.getElementById("checkRespirationBtn").disabled = true;
+  }
+
+  function nextRespirationQuestion() {
+    if (currentRespirationIndex < respirationQuestions.length - 1) {
+      currentRespirationIndex++;
+      renderRespirationQuestion();
+    }
+  }
+
+  function prevRespirationQuestion() {
+    if (currentRespirationIndex > 0) {
+      currentRespirationIndex--;
+      renderRespirationQuestion();
+    }
+  }
+
+  // Render pertama
+  renderRespirationQuestion();
+</script>
+<div class="w-full max-w-3xl mx-auto bg-white px-6 py-8 rounded-2xl shadow-lg">
+  <!-- Section 3 -->
+  <div id="3.-Sistem-Peredaran-Darah" class="text-gray-800 space-y-6">
+    <h2 class="text-2xl font-bold text-[#4dd4a3]">3. Sistem Peredaran Darah</h2>
+
+    <!-- Video Edukasi -->
+    <div class="mt-8 aspect-w-16 aspect-h-9">
+      <iframe class="w-full h-64 rounded-lg border border-gray-300 shadow-lg"
+        src="https://www.youtube.com/embed/_vMIvibgEcg"
+        title="Video Sistem Peredaran Darah"
+        frameborder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowfullscreen>
+      </iframe>
+    </div>
+    <p class="text-sm text-center text-gray-500 mt-2">Video: Penjelasan sistem peredaran darah manusia (YouTube)</p>
+
+    <!-- A. Pengertian -->
+    <div>
+      <h3 class="text-xl font-semibold mb-2 text-[#4dd4a3]">A. Pengertian Sistem Peredaran Darah</h3>
+      <p class="mb-4">
+        Sistem peredaran darah adalah sistem organ yang berfungsi untuk mengedarkan darah ke seluruh tubuh. Sistem ini mengangkut oksigen, zat gizi, hormon, dan juga membantu membuang sisa metabolisme.
+      </p>
+      <img src="https://www.researchgate.net/profile/Hamim-Mahfudhillah/publication/336601791/figure/fig2/AS:814806005198849@1571276298391/Gambar-63-Peredaran-Darah-Manusia-m-Pembuluh-darah-dapat-dibedakan-menjadi-tiga-yaitu.png" 
+           alt="Ilustrasi Sistem Peredaran Darah" 
+           class="w-full max-w-md mx-auto rounded-lg shadow-lg border border-gray-300">
+      <p class="text-sm text-center text-gray-500 mt-2">Gambar: Sistem peredaran darah manusia</p>
+<img src="https://www.honestdocs.id/system/redactor2_assets/images/17/content_Fungsi_Pembuluh_Darah.jpg" 
+           alt="Ilustrasi Sistem Peredaran Darah" 
+           class="w-full max-w-md mx-auto rounded-lg shadow-lg border border-gray-300">
+      <p class="text-sm text-center text-gray-500 mt-2">Gambar: Sistem peredaran darah manusia</p>
+
+<!-- Gambar: Organ Jantung -->
+<div class="w-full max-w-md mx-auto my-6">
+  <img src="https://www.quipper.com/id/blog/wp-content/uploads/2022/08/Organ-Peredaran-Darah-jantung.webp" 
+       alt="Ilustrasi Organ Jantung" 
+       class="w-full rounded-lg shadow-lg border border-gray-300">
+  <p class="text-sm text-center text-gray-500 mt-2">Gambar: Organ jantung dalam sistem peredaran darah</p>
+</div>
+
+
+    </div>
+
+    <!-- B. Organ-organ Sistem Peredaran Darah -->
+    <div>
+      <h3 class="text-xl font-semibold mb-2 text-[#4dd4a3]">B. Organ-organ Sistem Peredaran Darah</h3>
+      <div class="overflow-x-auto">
+        <table class="table-auto w-full border border-gray-400 text-left text-sm sm:text-base">
+          <thead class="bg-[#4dd4a3] text-white">
+            <tr>
+              <th class="border px-4 py-2">Organ</th>
+              <th class="border px-4 py-2">Fungsi</th>
+            </tr>
+          </thead>
+          <tbody class="text-gray-800">
+            <tr><td class="border px-4 py-2">Jantung</td><td class="border px-4 py-2">Memompa darah ke seluruh tubuh.</td></tr>
+            <tr><td class="border px-4 py-2">Arteri</td><td class="border px-4 py-2">Mengalirkan darah keluar dari jantung ke seluruh tubuh.</td></tr>
+            <tr><td class="border px-4 py-2">Vena</td><td class="border px-4 py-2">Mengalirkan darah kembali ke jantung.</td></tr>
+            <tr><td class="border px-4 py-2">Kapiler</td><td class="border px-4 py-2">Tempat pertukaran zat antara darah dan sel-sel tubuh.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+   <!-- C. Jenis Peredaran Darah -->
+<div class="mt-8">
+  <h3 class="text-xl font-semibold mb-2 text-[#4dd4a3]">C. Jenis Peredaran Darah</h3>
+  <ul class="list-disc list-inside ml-4 space-y-4 text-gray-800">
+    <li>
+      <strong>Peredaran darah besar (sistemik):</strong> 
+      Mengalirkan darah kaya oksigen dari jantung ke seluruh tubuh, lalu kembali ke jantung.
+      <br>
+      <span class="block ml-4 mt-1 text-sm text-gray-700">
+        <strong>Urutan aliran:</strong> Bilik kiri jantung → Aorta → Arteri → Kapiler (seluruh tubuh) → Vena → Serambi kanan jantung
+      </span>
+    </li>
+    <li>
+      <strong>Peredaran darah kecil (pulmonal):</strong> 
+      Mengalirkan darah miskin oksigen dari jantung ke paru-paru untuk mengambil oksigen, lalu kembali ke jantung.
+      <br>
+      <span class="block ml-4 mt-1 text-sm text-gray-700">
+        <strong>Urutan aliran:</strong> Bilik kanan jantung → Arteri pulmonalis → Paru-paru → Vena pulmonalis → Serambi kiri jantung
+      </span>
+    </li>
+  </ul>
+</div>
+
+<!-- 2. Macam-Macam Komponen Darah -->
+<div class="mt-8">
+  <h4 class="text-xl font-semibold  mb-4">Macam-Macam Komponen Darah</h4>
+
+  <div class="overflow-x-auto">
+    <table class="w-full table-auto border border-gray-300 text-sm text-gray-800">
+      <thead class="bg-[#4dd4a3] text-white">
+        <tr>
+          <th class="border px-4 py-2">Komponen</th>
+          <th class="border px-4 py-2">Pengertian</th>
+          <th class="border px-4 py-2">Fungsi</th>
+          <th class="border px-4 py-2">Bentuk</th>
+        </tr>
+      </thead>
+      <tbody class="bg-white">
+        <tr>
+          <td class="border px-4 py-2 font-semibold">Plasma Darah</td>
+          <td class="border px-4 py-2">Cairan berwarna kekuningan yang menjadi medium peredaran sel darah, nutrisi, hormon, dan zat lainnya</td>
+          <td class="border px-4 py-2">Mengangkut zat gizi, hormon, sisa metabolisme, dan zat lain ke seluruh tubuh</td>
+          <td class="border px-4 py-2">Cairan kental kekuningan</td>
+        </tr>
+        <tr class="bg-gray-50">
+          <td class="border px-4 py-2 font-semibold">Sel Darah Merah (Eritrosit)</td>
+          <td class="border px-4 py-2">Sel darah berbentuk cakram bikonkaf yang mengandung hemoglobin</td>
+          <td class="border px-4 py-2">Mengangkut oksigen dari paru-paru ke seluruh tubuh dan membawa karbon dioksida kembali ke paru-paru</td>
+          <td class="border px-4 py-2">Cakram pipih, tanpa inti</td>
+        </tr>
+        <tr>
+          <td class="border px-4 py-2 font-semibold">Sel Darah Putih (Leukosit)</td>
+          <td class="border px-4 py-2">Sel darah yang memiliki inti dan berperan dalam sistem kekebalan tubuh</td>
+          <td class="border px-4 py-2">Melawan bakteri, virus, dan benda asing yang masuk ke tubuh</td>
+          <td class="border px-4 py-2">Bentuk tidak tetap, memiliki inti</td>
+        </tr>
+        <tr class="bg-gray-50">
+          <td class="border px-4 py-2 font-semibold">Keping Darah (Trombosit)</td>
+          <td class="border px-4 py-2">Fragmen sel kecil tanpa inti yang berperan dalam proses pembekuan darah</td>
+          <td class="border px-4 py-2">Membantu menghentikan pendarahan dengan membentuk gumpalan darah</td>
+          <td class="border px-4 py-2">Kecil, tidak berinti, berbentuk tidak beraturan</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Gambar Komponen Darah -->
+  <div class="mt-6 space-y-4">
+    <div>
+      <img src="https://cdn-web.ruangguru.com/landing-pages/assets/hs/bentuk%20komponen%20penyusun%20darah.jpg" 
+           alt="Plasma Darah" 
+           class="w-full max-w-sm mx-auto rounded-lg shadow-lg border border-gray-300">
+      
+    </div>
+    </div>
+
+    <!-- D. Gangguan pada Sistem Peredaran Darah -->
+    <div>
+      <h3 class="text-xl font-semibold mb-2 text-[#4dd4a3]">D. Gangguan pada Sistem Peredaran Darah</h3>
+      <div class="overflow-x-auto">
+        <table class="table-auto w-full border border-gray-300 text-sm text-left">
+          <thead class="bg-[#4dd4a3] text-white">
+            <tr>
+              <th class="px-4 py-2 border">No</th>
+              <th class="px-4 py-2 border">Nama Gangguan</th>
+              <th class="px-4 py-2 border">Gejala</th>
+              <th class="px-4 py-2 border">Penyebab</th>
+            </tr>
+          </thead>
+          <tbody class="bg-white text-gray-700">
+            <tr><td class="px-4 py-2 border">1</td><td class="px-4 py-2 border">Hipertensi</td><td class="px-4 py-2 border">Tekanan darah tinggi</td><td class="px-4 py-2 border">Pola makan buruk, stres, genetika</td></tr>
+            <tr><td class="px-4 py-2 border">2</td><td class="px-4 py-2 border">Aterosklerosis</td><td class="px-4 py-2 border">Penyumbatan pembuluh darah</td><td class="px-4 py-2 border">Kolesterol tinggi</td></tr>
+            <tr><td class="px-4 py-2 border">3</td><td class="px-4 py-2 border">Anemia</td><td class="px-4 py-2 border">Lemas, pucat</td><td class="px-4 py-2 border">Kekurangan zat besi</td></tr>
+            <tr><td class="px-4 py-2 border">4</td><td class="px-4 py-2 border">Serangan Jantung</td><td class="px-4 py-2 border">Nyeri dada, sesak napas</td><td class="px-4 py-2 border">Penyumbatan arteri koroner</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- E. Cara Menjaga Kesehatan Sistem Peredaran Darah -->
+    <div>
+      <h3 class="text-xl font-semibold mb-2 text-[#4dd4a3]">E. Cara Menjaga Kesehatan Sistem Peredaran Darah</h3>
+      <ul class="list-disc list-inside ml-4 space-y-1">
+        <li>Mengonsumsi makanan rendah lemak dan kolesterol.</li>
+        <li>Berolahraga secara teratur.</li>
+        <li>Menghindari rokok dan alkohol.</li>
+        <li>Menjaga berat badan ideal.</li>
+        <li>Rutin memeriksa tekanan darah dan kadar kolesterol.</li>
+      </ul>
+    </div>
+<!-- D. Darah dalam Sistem Peredaran Darah -->
+<div class="mt-8">
+  <h3 class="text-xl font-semibold mb-4 text-[#4dd4a3]">F. Darah dalam Sistem Peredaran Darah</h3>
+
+  <!-- Pengertian Darah -->
+  <div class="mb-4">
+    <h4 class="font-semibold text-lg text-gray-700">1. Pengertian Darah</h4>
+    <p class="text-gray-600">Darah adalah cairan tubuh yang berfungsi mengangkut oksigen, nutrisi, hormon, dan zat sisa ke seluruh tubuh. Darah beredar melalui pembuluh darah dengan bantuan kerja jantung sebagai pompa utama.</p>
+  </div>
+
+  <!-- Fungsi Darah -->
+  <div class="mb-4">
+    <h4 class="font-semibold text-lg text-gray-700">2. Fungsi Darah</h4>
+    <ul class="list-disc list-inside text-gray-600 ml-4 space-y-1">
+      <li>Mengangkut oksigen dari paru-paru ke seluruh tubuh.</li>
+      <li>Mengangkut karbon dioksida dari sel tubuh ke paru-paru.</li>
+      <li>Mengangkut zat makanan dari usus ke seluruh sel tubuh.</li>
+      <li>Menyalurkan hormon dari kelenjar ke organ target.</li>
+      <li>Menjaga suhu tubuh dan keseimbangan cairan.</li>
+      <li>Melawan infeksi melalui sel darah putih dan antibodi.</li>
+    </ul>
+  </div>
+
+  <!-- 3. Macam-Macam Komponen Darah -->
+<div class="mt-8">
+  <h4 class="text-xl font-semibold  mb-4">3. Macam-Macam Komponen Darah</h4>
+  <div class="overflow-x-auto">
+    <table class="w-full table-auto border border-gray-300 text-sm text-gray-800">
+      <thead class="bg-[#4dd4a3] text-white">
+        <tr>
+          <th class="border px-4 py-2">No</th>
+          <th class="border px-4 py-2">Komponen</th>
+          <th class="border px-4 py-2">Fungsi</th>
+          <th class="border px-4 py-2">Keterangan</th>
+        </tr>
+      </thead>
+      <tbody class="bg-white">
+        <tr>
+          <td class="border px-4 py-2 text-center">1</td>
+          <td class="border px-4 py-2">Plasma Darah</td>
+          <td class="border px-4 py-2">Mengangkut zat-zat penting seperti nutrisi, hormon, dan limbah</td>
+          <td class="border px-4 py-2">Cairan berwarna kekuningan, sekitar 55% dari volume darah</td>
+        </tr>
+        <tr class="bg-gray-50">
+          <td class="border px-4 py-2 text-center">2</td>
+          <td class="border px-4 py-2">Sel Darah Merah (Eritrosit)</td>
+          <td class="border px-4 py-2">Mengangkut oksigen dari paru-paru ke seluruh tubuh</td>
+          <td class="border px-4 py-2">Mengandung hemoglobin, memberi warna merah pada darah</td>
+        </tr>
+        <tr>
+          <td class="border px-4 py-2 text-center">3</td>
+          <td class="border px-4 py-2">Sel Darah Putih (Leukosit)</td>
+          <td class="border px-4 py-2">Melawan infeksi dan penyakit</td>
+          <td class="border px-4 py-2">Jumlah lebih sedikit dari eritrosit, tapi lebih besar ukurannya</td>
+        </tr>
+        <tr class="bg-gray-50">
+          <td class="border px-4 py-2 text-center">4</td>
+          <td class="border px-4 py-2">Keping Darah (Trombosit)</td>
+          <td class="border px-4 py-2">Membantu proses pembekuan darah saat luka</td>
+          <td class="border px-4 py-2">Berbentuk kecil dan tidak berinti</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+
+  
+  <!-- Golongan Darah -->
+<div class="mb-4">
+  <h4 class="font-semibold text-lg text-gray-700">4. Golongan Darah</h4>
+  <p class="text-gray-600">Golongan darah ditentukan oleh keberadaan antigen pada permukaan sel darah merah dan antibodi dalam plasma darah. Sistem yang paling umum digunakan adalah sistem ABO.</p>
+  
+  <ul class="list-disc list-inside text-gray-600 ml-4 space-y-1 mt-2">
+    <li><strong>A</strong>: Memiliki antigen A dan antibodi B.</li>
+    <li><strong>B</strong>: Memiliki antigen B dan antibodi A.</li>
+    <li><strong>AB</strong>: Memiliki antigen A dan B, tidak memiliki antibodi (penerima universal).</li>
+    <li><strong>O</strong>: Tidak memiliki antigen, tetapi memiliki antibodi A dan B (donor universal).</li>
+  </ul>
+
+  <!-- Faktor Rhesus -->
+  <div class="mt-4">
+    <h5 class="font-semibold text-gray-700">a. Faktor Rhesus (Rh)</h5>
+    <p class="text-gray-600">
+      Selain sistem ABO, terdapat juga faktor rhesus (Rh), yaitu protein yang terdapat di permukaan sel darah merah:
+    </p>
+    <ul class="list-disc list-inside text-gray-600 ml-4 space-y-1 mt-1">
+      <li><strong>Rh positif (Rh+)</strong>: Memiliki antigen rhesus.</li>
+      <li><strong>Rh negatif (Rh−)</strong>: Tidak memiliki antigen rhesus.</li>
+    </ul>
+    <p class="text-gray-600 mt-1">Orang dengan Rh− hanya dapat menerima darah dari donor Rh−, sedangkan Rh+ dapat menerima dari Rh+ dan Rh−.</p>
+  </div>
+
+  <!-- b. Cara Mengetahui Golongan Darah (Tabel Reaksi Serum) -->
+<div class="mt-6">
+  <h5 class="font-semibold text-gray-700 mb-2">b. Cara Mengetahui Golongan Darah (Reaksi Serum)</h5>
+  <p class="text-gray-600 mb-4">Golongan darah dapat diketahui dengan meneteskan serum anti-A, anti-B, dan anti-Rh ke sampel darah. Reaksi yang terjadi menunjukkan golongan darah seseorang. Jika terjadi aglutinasi (penggumpalan), berarti antigen tersebut ada pada sel darah merah.</p>
+
+  <div class="overflow-x-auto">
+    <table class="table-auto w-full text-sm text-center border border-gray-300">
+      <thead class="bg-[#4dd4a3] text-white">
+        <tr>
+          <th class="border px-4 py-2">Golongan Darah</th>
+          <th class="border px-4 py-2">Anti-A</th>
+          <th class="border px-4 py-2">Anti-B</th>
+          <th class="border px-4 py-2">Anti-Rh</th>
+          <th class="border px-4 py-2">Keterangan</th>
+        </tr>
+      </thead>
+      <tbody class="bg-white text-gray-700">
+        <tr>
+          <td class="border px-4 py-2 font-medium">A+</td>
+          <td class="border px-4 py-2 text-green-600">Aglutinasi</td>
+          <td class="border px-4 py-2">Tidak</td>
+          <td class="border px-4 py-2 text-green-600">Aglutinasi</td>
+          <td class="border px-4 py-2">Mengandung antigen A dan Rh</td>
+        </tr>
+        <tr class="bg-gray-50">
+          <td class="border px-4 py-2 font-medium">A−</td>
+          <td class="border px-4 py-2 text-green-600">Aglutinasi</td>
+          <td class="border px-4 py-2">Tidak</td>
+          <td class="border px-4 py-2">Tidak</td>
+          <td class="border px-4 py-2">Mengandung antigen A saja</td>
+        </tr>
+        <tr>
+          <td class="border px-4 py-2 font-medium">B+</td>
+          <td class="border px-4 py-2">Tidak</td>
+          <td class="border px-4 py-2 text-green-600">Aglutinasi</td>
+          <td class="border px-4 py-2 text-green-600">Aglutinasi</td>
+          <td class="border px-4 py-2">Mengandung antigen B dan Rh</td>
+        </tr>
+        <tr class="bg-gray-50">
+          <td class="border px-4 py-2 font-medium">B−</td>
+          <td class="border px-4 py-2">Tidak</td>
+          <td class="border px-4 py-2 text-green-600">Aglutinasi</td>
+          <td class="border px-4 py-2">Tidak</td>
+          <td class="border px-4 py-2">Mengandung antigen B saja</td>
+        </tr>
+        <tr>
+          <td class="border px-4 py-2 font-medium">AB+</td>
+          <td class="border px-4 py-2 text-green-600">Aglutinasi</td>
+          <td class="border px-4 py-2 text-green-600">Aglutinasi</td>
+          <td class="border px-4 py-2 text-green-600">Aglutinasi</td>
+          <td class="border px-4 py-2">Mengandung antigen A, B, dan Rh</td>
+        </tr>
+        <tr class="bg-gray-50">
+          <td class="border px-4 py-2 font-medium">AB−</td>
+          <td class="border px-4 py-2 text-green-600">Aglutinasi</td>
+          <td class="border px-4 py-2 text-green-600">Aglutinasi</td>
+          <td class="border px-4 py-2">Tidak</td>
+          <td class="border px-4 py-2">Mengandung antigen A dan B saja</td>
+        </tr>
+        <tr>
+          <td class="border px-4 py-2 font-medium">O+</td>
+          <td class="border px-4 py-2">Tidak</td>
+          <td class="border px-4 py-2">Tidak</td>
+          <td class="border px-4 py-2 text-green-600">Aglutinasi</td>
+          <td class="border px-4 py-2">Mengandung antigen Rh saja</td>
+        </tr>
+        <tr class="bg-gray-50">
+          <td class="border px-4 py-2 font-medium">O−</td>
+          <td class="border px-4 py-2">Tidak</td>
+          <td class="border px-4 py-2">Tidak</td>
+          <td class="border px-4 py-2">Tidak</td>
+          <td class="border px-4 py-2">Tidak mengandung antigen A, B, atau Rh</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+<!-- Keterangan Aglutinasi -->
+  <p class="mt-3 text-sm text-gray-500 italic">💡 <strong>Aglutinasi</strong> artinya <u>darah menggumpal</u> sebagai reaksi antara antibodi (dari serum) dengan antigen pada permukaan sel darah merah.</p>
+</div>
+
+<!-- Tabel Golongan Darah dan Kecocokan Donor -->
+<div class="mt-8">
+  <h4 class="text-lg font-semibold text-gray-700 mb-2">c. Tabel Kecocokan Golongan Darah</h4>
+  <p class="text-gray-600 mb-4">Tabel berikut menunjukkan kecocokan golongan darah antara pendonor dan penerima berdasarkan sistem ABO dan rhesus:</p>
+
+  <div class="overflow-x-auto">
+    <table class="table-auto w-full border border-gray-300 text-sm text-center">
+      <thead class="bg-[#4dd4a3] text-white">
+        <tr>
+          <th class="px-4 py-2 border">Golongan Darah</th>
+          <th class="px-4 py-2 border">Dapat Menerima dari</th>
+          <th class="px-4 py-2 border">Dapat Memberi ke</th>
+        </tr>
+      </thead>
+      <tbody class="bg-white text-gray-700">
+        <tr>
+          <td class="border px-4 py-2 font-medium">O−</td>
+          <td class="border px-4 py-2">O−</td>
+          <td class="border px-4 py-2">Semua golongan (donor universal)</td>
+        </tr>
+        <tr class="bg-gray-50">
+          <td class="border px-4 py-2 font-medium">O+</td>
+          <td class="border px-4 py-2">O−, O+</td>
+          <td class="border px-4 py-2">O+, A+, B+, AB+</td>
+        </tr>
+        <tr>
+          <td class="border px-4 py-2 font-medium">A−</td>
+          <td class="border px-4 py-2">O−, A−</td>
+          <td class="border px-4 py-2">A−, A+, AB−, AB+</td>
+        </tr>
+        <tr class="bg-gray-50">
+          <td class="border px-4 py-2 font-medium">A+</td>
+          <td class="border px-4 py-2">O−, O+, A−, A+</td>
+          <td class="border px-4 py-2">A+, AB+</td>
+        </tr>
+        <tr>
+          <td class="border px-4 py-2 font-medium">B−</td>
+          <td class="border px-4 py-2">O−, B−</td>
+          <td class="border px-4 py-2">B−, B+, AB−, AB+</td>
+        </tr>
+        <tr class="bg-gray-50">
+          <td class="border px-4 py-2 font-medium">B+</td>
+          <td class="border px-4 py-2">O−, O+, B−, B+</td>
+          <td class="border px-4 py-2">B+, AB+</td>
+        </tr>
+        <tr>
+          <td class="border px-4 py-2 font-medium">AB−</td>
+          <td class="border px-4 py-2">O−, A−, B−, AB−</td>
+          <td class="border px-4 py-2">AB−, AB+</td>
+        </tr>
+        <tr class="bg-gray-50">
+          <td class="border px-4 py-2 font-medium">AB+</td>
+          <td class="border px-4 py-2">Semua golongan (penerima universal)</td>
+          <td class="border px-4 py-2">AB+</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+</div>
+
+
+  <!-- 5. Gangguan dan Penyakit pada Darah -->
+<div class="mt-8">
+  <h4 class="text-xl font-semibold text-[#4dd4a3] mb-4">5. Gangguan dan Penyakit pada Darah</h4>
+  <div class="overflow-x-auto">
+    <table class="w-full table-auto border border-gray-300 text-sm text-gray-800">
+      <thead class="bg-[#4dd4a3] text-white">
+        <tr>
+          <th class="border px-4 py-2">No</th>
+          <th class="border px-4 py-2">Nama Penyakit</th>
+          <th class="border px-4 py-2">Penyebab</th>
+          <th class="border px-4 py-2">Dampak / Gejala</th>
+        </tr>
+      </thead>
+      <tbody class="bg-white">
+        <tr>
+          <td class="border px-4 py-2 text-center">1</td>
+          <td class="border px-4 py-2">Anemia</td>
+          <td class="border px-4 py-2">Kekurangan hemoglobin atau zat besi</td>
+          <td class="border px-4 py-2">Lemas, pucat, mudah lelah</td>
+        </tr>
+        <tr class="bg-gray-50">
+          <td class="border px-4 py-2 text-center">2</td>
+          <td class="border px-4 py-2">Leukimia</td>
+          <td class="border px-4 py-2">Pertumbuhan sel darah putih abnormal di sumsum tulang</td>
+          <td class="border px-4 py-2">Penurunan daya tahan tubuh, pendarahan, kelelahan</td>
+        </tr>
+        <tr>
+          <td class="border px-4 py-2 text-center">3</td>
+          <td class="border px-4 py-2">Hemofilia</td>
+          <td class="border px-4 py-2">Kelainan genetik yang menyebabkan darah sulit membeku</td>
+          <td class="border px-4 py-2">Pendarahan sulit berhenti, mudah memar</td>
+        </tr>
+        <tr class="bg-gray-50">
+          <td class="border px-4 py-2 text-center">4</td>
+          <td class="border px-4 py-2">Talasemia</td>
+          <td class="border px-4 py-2">Kelainan genetik yang mengganggu produksi hemoglobin</td>
+          <td class="border px-4 py-2">Anemia berat, wajah pucat, pembesaran hati dan limpa</td>
+        </tr>
+        <tr>
+          <td class="border px-4 py-2 text-center">5</td>
+          <td class="border px-4 py-2">Polisitemia</td>
+          <td class="border px-4 py-2">Produksi sel darah merah berlebihan</td>
+          <td class="border px-4 py-2">Darah kental, sakit kepala, pusing, risiko pembekuan darah</td>
+        </tr>
+        <tr class="bg-gray-50">
+          <td class="border px-4 py-2 text-center">6</td>
+          <td class="border px-4 py-2">Sepsis</td>
+          <td class="border px-4 py-2">Infeksi bakteri yang menyebar ke aliran darah</td>
+          <td class="border px-4 py-2">Demam tinggi, tekanan darah turun, bisa mengancam nyawa</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+  </div>
+</div><br>
+<div class="max-w-4xl mx-auto bg-white p-6 rounded-xl shadow-md mt-10">
+  <h1 class="text-2xl font-bold mb-4 text-center text-green-700">Kenali Organ Sistem Peredaran Darah Manusia</h1>
+  <p class="mb-4 text-center text-gray-700">Perhatikan gambar di bawah ini. Tiap nomor menunjukkan salah satu bagian dari sistem peredaran darah. Pilih nama bagian yang tepat untuk setiap nomor!</p>
+
+  <div class="flex justify-center mb-6">
+    <img src="https://img-core.ruangguru.com/question/eWhBFVFufl0/8e46c313a39369ab94fee8e784b53a275e80fbe7bf3b599f2843fd6fcc102229.png" 
+         alt="Ilustrasi Sistem Peredaran Darah" 
+         class="rounded-lg border shadow-lg max-h-[450px]">
+  </div>
+
+  <div id="circulatory-quiz-container" class="space-y-4">
+    <!-- Soal organ peredaran darah akan ditambahkan di sini -->
+  </div>
+</div>
+
+<script>
+  const circulatoryQuestions = [
+    { number: 1, correct: "Kapiler paru-paru" },
+    { number: 2, correct: "Aorta" },
+    { number: 3, correct: "Arteri sistemik" },
+    { number: 5, correct: "Atrium kiri (serambi kiri)" },
+    { number: 6, correct: "Ventrikel kiri (bilik kiri)" },
+    { number: 7, correct: "Kapiler jaringan tubuh" },
+    { number: 8, correct: "Vena sistemik" },
+    { number: 9, correct: "Ventrikel kanan (bilik kanan)" },
+    { number: 10, correct: "Vena kava" },
+    { number: 11, correct: "Atrium kanan (serambi kanan)" },
+    { number: 12, correct: "Arteri pulmonari" }
+  ];
+
+  const circulatoryOptions = [
+    "Kapiler paru-paru", "Aorta", "Arteri sistemik", "Atrium kiri (serambi kiri)", "Ventrikel kiri (bilik kiri)",
+    "Kapiler jaringan tubuh", "Vena sistemik", "Ventrikel kanan (bilik kanan)", "Vena kava",
+    "Atrium kanan (serambi kanan)", "Arteri pulmonari"
+  ];
+
+  const circulatoryContainer = document.getElementById("circulatory-quiz-container");
+
+  circulatoryQuestions.forEach((q) => {
+    const div = document.createElement("div");
+    div.className = "bg-green-50 p-4 rounded-lg shadow flex flex-col sm:flex-row sm:items-center justify-between";
+
+    div.innerHTML = `
+      <label class="text-lg font-semibold text-green-800 mb-2 sm:mb-0">Nomor ${q.number} adalah:</label>
+      <div class="flex items-center gap-2">
+        <select id="circulatory-answer${q.number}" class="border p-2 rounded-md text-gray-700">
+          <option value="">-- Pilih Jawaban --</option>
+          ${circulatoryOptions.map(opt => `<option value="${opt}">${opt}</option>`).join('')}
+        </select>
+        <button onclick="checkCirculatoryAnswer(${q.number}, '${q.correct}')" class="bg-green-600 text-white px-3 py-1 rounded hover:bg-green-700">Cek</button>
+        <span id="circulatory-result${q.number}" class="ml-3 font-medium"></span>
+      </div>
+    `;
+    circulatoryContainer.appendChild(div);
+  });
+
+  function checkCirculatoryAnswer(num, correctAnswer) {
+    const selected = document.getElementById(`circulatory-answer${num}`).value;
+    const result = document.getElementById(`circulatory-result${num}`);
+    if (selected === correctAnswer) {
+      result.textContent = "✅ Benar!";
+      result.className = "text-green-600 ml-3 font-medium";
+    } else {
+      result.textContent = "❌ Salah!";
+      result.className = "text-red-600 ml-3 font-medium";
+    }
+  }
+</script><br>
+<div class="max-w-4xl mx-auto bg-white p-6 rounded-xl shadow-md mt-10">
+  <h1 class="text-2xl font-bold mb-4 text-center text-red-700">Fungsi Organ Sistem Peredaran Darah</h1>
+  <p class="mb-4 text-center text-gray-700">Bacalah fungsi organ berikut, lalu pilih nama organ yang sesuai dari dropdown.</p>
+
+  <div id="peredaran-quiz-container" class="space-y-4">
+    <!-- Soal akan di-generate lewat JavaScript -->
+  </div>
+</div>
+
+<script>
+  const peredaranQuestions = [
+    { number: 1, functionText: "Memompa darah beroksigen ke seluruh tubuh.", correct: "Ventrikel kiri" },
+    { number: 2, functionText: "Memompa darah kaya CO₂ ke paru-paru.", correct: "Ventrikel kanan" },
+    { number: 3, functionText: "Menerima darah dari paru-paru.", correct: "Atrium kiri" },
+    { number: 4, functionText: "Menerima darah dari tubuh melalui vena kava.", correct: "Atrium kanan" },
+    { number: 5, functionText: "Mengalirkan darah dari jantung ke paru-paru.", correct: "Arteri pulmonalis" },
+    { number: 6, functionText: "Mengalirkan darah dari paru-paru ke jantung.", correct: "Vena pulmonalis" },
+    { number: 7, functionText: "Mengalirkan darah dari jantung ke seluruh tubuh.", correct: "Aorta" },
+    { number: 8, functionText: "Tempat pertukaran zat antara darah dan sel tubuh.", correct: "Kapiler" }
+  ];
+
+  const organPeredaranOptions = [
+    "Atrium kanan", "Atrium kiri", "Ventrikel kanan", "Ventrikel kiri",
+    "Arteri pulmonalis", "Vena pulmonalis", "Aorta", "Kapiler"
+  ];
+
+  const peredaranContainer = document.getElementById("peredaran-quiz-container");
+
+  peredaranQuestions.forEach((q) => {
+    const div = document.createElement("div");
+    div.className = "bg-red-50 p-4 rounded-lg shadow flex flex-col gap-2";
+
+    div.innerHTML = `
+      <p class="text-gray-800 font-semibold">Nomor ${q.number}. ${q.functionText}</p>
+      <div class="flex items-center gap-3">
+        <select id="peredaran_answer${q.number}" class="border p-2 rounded-md text-gray-700">
+          <option value="">-- Pilih Nama Organ --</option>
+          ${organPeredaranOptions.map(opt => `<option value="${opt}">${opt}</option>`).join('')}
+        </select>
+        <button onclick="checkPeredaranAnswer(${q.number}, '${q.correct}')" class="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700">Cek</button>
+        <span id="peredaran_result${q.number}" class="ml-2 font-medium"></span>
+      </div>
+    `;
+    peredaranContainer.appendChild(div);
+  });
+
+  function checkPeredaranAnswer(num, correctAnswer) {
+    const selected = document.getElementById(`peredaran_answer${num}`).value;
+    const result = document.getElementById(`peredaran_result${num}`);
+    if (selected === correctAnswer) {
+      result.textContent = "✅ Benar!";
+      result.className = "text-green-600 ml-3 font-medium";
+    } else {
+      result.textContent = "❌ Salah!";
+      result.className = "text-red-600 ml-3 font-medium";
+    }
+  }
+</script>
+<br>
+<div class="w-full max-w-3xl mx-auto bg-white px-6 py-8 rounded-2xl shadow-lg" id="quizCirculation">
+  <h2 class="text-3xl font-extrabold text-center text-red-600 mb-8 tracking-tight">🫀 Latihan Soal Interaktif: Sistem Peredaran Darah Manusia</h2>
+
+  <!-- Soal dan Pilihan -->
+  <div id="quizCirculationContainer" class="space-y-6">
+    <!-- Soal akan di-render di sini -->
+  </div>
+
+  <!-- Tombol Navigasi -->
+  <div class="flex justify-between items-center mt-8">
+    <button id="prevCirculationBtn" onclick="prevCirculationQuestion()" class="px-5 py-2 font-semibold rounded-lg bg-red-500 text-white hover:bg-red-600 disabled:bg-gray-300 disabled:text-gray-500 transition-all" disabled>Sebelumnya</button>
+    <div class="space-x-2">
+      <button id="checkCirculationBtn" onclick="checkCirculationAnswer()" class="px-5 py-2 font-semibold rounded-lg bg-red-500 text-white hover:bg-red-600 transition-all">Cek</button>
+      <button id="nextCirculationBtn" onclick="nextCirculationQuestion()" class="px-5 py-2 font-semibold rounded-lg bg-red-500 text-white hover:bg-red-600 disabled:bg-gray-300 disabled:text-gray-500 transition-all">Selanjutnya</button>
+    </div>
+  </div>
+
+  <!-- Pembahasan -->
+  <div id="circulationExplanation" class="mt-6 hidden bg-yellow-100 text-yellow-900 border border-yellow-300 p-4 rounded-lg shadow-inner"></div>
+</div>
+
+<script>
+  const circulationQuestions = [
+    {
+      question: "Apa fungsi utama jantung dalam sistem peredaran darah manusia?",
+      choices: [
+        "Menyaring darah dari racun",
+        "Mengangkut oksigen ke paru-paru",
+        "Memompa darah ke seluruh tubuh",
+        "Menghasilkan sel darah merah"
+      ],
+      correctAnswer: 2,
+      explanation: "Jantung bertugas memompa darah ke seluruh tubuh, menjaga sirkulasi darah tetap berjalan."
+    },
+    {
+      question: "Apa yang dimaksud dengan sistem peredaran darah ganda?",
+      choices: [
+        "Darah beredar dua kali ke jantung dalam satu siklus",
+        "Darah hanya beredar sekali dari jantung",
+        "Peredaran darah hanya ke paru-paru",
+        "Darah mengalir ke otak saja"
+      ],
+      correctAnswer: 0,
+      explanation: "Peredaran darah ganda berarti darah melewati jantung dua kali dalam satu siklus: ke paru-paru dan ke seluruh tubuh."
+    },
+// 1. Pengertian Sistem Peredaran Darah (HOTS)
+  {
+    question: "Mengapa manusia membutuhkan sistem peredaran darah tertutup dan ganda?",
+    choices: [
+      "Agar darah bisa mengalir bebas ke seluruh tubuh",
+      "Supaya tubuh dapat bertahan dalam kondisi lingkungan apapun",
+      "Untuk efisiensi distribusi oksigen dan pembuangan karbon dioksida",
+      "Agar darah bercampur dengan cairan tubuh lain"
+    ],
+    correctAnswer: 2,
+    explanation: "Sistem peredaran darah tertutup dan ganda memungkinkan pengangkutan oksigen dan nutrisi lebih efisien serta memisahkan darah beroksigen dan tidak beroksigen."
+  },
+  {
+    question: "Apa dampaknya jika sistem peredaran darah tidak berfungsi optimal?",
+    choices: [
+      "Proses pencernaan terganggu",
+      "Sel tubuh kekurangan oksigen dan nutrisi",
+      "Penyakit kulit meningkat",
+      "Tekanan udara dalam tubuh naik"
+    ],
+    correctAnswer: 1,
+    explanation: "Sistem peredaran darah yang terganggu menyebabkan jaringan tubuh kekurangan oksigen dan nutrisi, serta penumpukan limbah metabolik."
+  },
+
+  // 2. Organ-organ Sistem Peredaran Darah
+  {
+    question: "Apa yang terjadi jika katup jantung tidak dapat menutup dengan sempurna?",
+    choices: [
+      "Darah hanya mengalir ke paru-paru",
+      "Darah dapat mengalir mundur dan menyebabkan gangguan peredaran",
+      "Tekanan darah menjadi terlalu tinggi",
+      "Jantung berhenti berdetak"
+    ],
+    correctAnswer: 1,
+    explanation: "Katup yang bocor menyebabkan darah mengalir balik (regurgitasi), mengurangi efisiensi sirkulasi darah."
+  },
+  {
+    question: "Mengapa dinding ventrikel kiri lebih tebal dari ventrikel kanan?",
+    choices: [
+      "Karena memompa darah ke paru-paru",
+      "Karena ventrikel kiri menyimpan lebih banyak darah",
+      "Karena harus memompa darah ke seluruh tubuh dengan tekanan lebih besar",
+      "Karena lebih dekat dengan atrium kiri"
+    ],
+    correctAnswer: 2,
+    explanation: "Ventrikel kiri harus memompa darah ke seluruh tubuh, sehingga membutuhkan tekanan lebih besar dan dinding lebih tebal."
+  },
+
+  // 3. Jenis Peredaran Darah
+  {
+    question: "Apa akibatnya jika hanya terdapat peredaran darah kecil tanpa adanya peredaran darah besar?",
+    choices: [
+      "Darah tidak bisa kembali ke jantung",
+      "Oksigen hanya beredar di paru-paru, tidak sampai ke seluruh tubuh",
+      "Darah hanya mengandung karbon dioksida",
+      "Sel darah putih tidak berfungsi"
+    ],
+    correctAnswer: 1,
+    explanation: "Tanpa peredaran darah besar, oksigen yang diangkut dari paru-paru tidak akan sampai ke jaringan tubuh lainnya."
+  },
+  {
+    question: "Mengapa darah perlu melewati jantung dua kali dalam satu siklus (peredaran ganda)?",
+    choices: [
+      "Untuk menyeimbangkan suhu tubuh",
+      "Agar darah bisa lebih encer",
+      "Untuk memisahkan darah beroksigen dan tidak beroksigen",
+      "Supaya jantung bisa beristirahat"
+    ],
+    correctAnswer: 2,
+    explanation: "Peredaran ganda menjaga efisiensi suplai oksigen dengan memisahkan darah kaya dan miskin oksigen."
+  },
+
+  // 4. Komponen Darah
+  {
+    question: "Apa dampak kekurangan trombosit terhadap tubuh?",
+    choices: [
+      "Tubuh akan kekurangan oksigen",
+      "Tubuh akan mudah mengalami infeksi",
+      "Darah akan sulit membeku saat luka",
+      "Darah menjadi terlalu kental"
+    ],
+    correctAnswer: 2,
+    explanation: "Trombosit berperan dalam proses pembekuan. Kekurangannya membuat darah sulit membeku, berisiko perdarahan."
+  },
+  {
+    question: "Bagaimana fungsi sel darah putih saat terjadi infeksi di tubuh?",
+    choices: [
+      "Menetralisir racun di lambung",
+      "Mengangkut karbon dioksida ke paru-paru",
+      "Menghancurkan patogen penyebab penyakit",
+      "Menstabilkan tekanan darah"
+    ],
+    correctAnswer: 2,
+    explanation: "Sel darah putih bertindak sebagai pertahanan tubuh dengan menyerang bakteri, virus, dan mikroorganisme asing."
+  },
+
+  // 5. Gangguan Sistem Peredaran
+  {
+    question: "Bagaimana kebiasaan merokok dapat mempengaruhi sistem peredaran darah?",
+    choices: [
+      "Meningkatkan oksigen dalam darah",
+      "Menyempitkan pembuluh darah dan meningkatkan risiko penyakit jantung",
+      "Meningkatkan fleksibilitas jantung",
+      "Mempercepat penggumpalan darah secara alami"
+    ],
+    correctAnswer: 1,
+    explanation: "Merokok menyebabkan penyempitan pembuluh darah, meningkatkan tekanan darah dan risiko penyakit jantung koroner."
+  },
+  {
+    question: "Apa yang terjadi jika arteri koroner tersumbat total?",
+    choices: [
+      "Hanya lengan yang tidak mendapat darah",
+      "Otak kehilangan oksigen",
+      "Jantung kekurangan oksigen dan dapat mengalami serangan jantung",
+      "Peredaran darah berhenti seluruhnya"
+    ],
+    correctAnswer: 2,
+    explanation: "Penyumbatan total pada arteri koroner menyebabkan jantung tidak mendapat oksigen, memicu serangan jantung."
+  },
+
+  // 6. Menjaga Kesehatan Sistem Peredaran Darah
+  {
+    question: "Mengapa istirahat yang cukup penting untuk peredaran darah?",
+    choices: [
+      "Karena saat tidur tubuh tidak butuh darah",
+      "Agar tekanan darah tetap tinggi",
+      "Karena tidur memperbaiki fungsi jantung dan pembuluh darah",
+      "Supaya jantung bisa berhenti sementara"
+    ],
+    correctAnswer: 2,
+    explanation: "Istirahat memperbaiki kerja sistem sirkulasi, menurunkan tekanan darah, dan menjaga detak jantung tetap stabil."
+  },
+  {
+    question: "Mengapa konsumsi garam berlebih berbahaya bagi sistem peredaran darah?",
+    choices: [
+      "Membuat darah menjadi asam",
+      "Meningkatkan tekanan darah dan merusak pembuluh darah",
+      "Menghilangkan oksigen dalam darah",
+      "Mengganggu kerja sel darah putih"
+    ],
+    correctAnswer: 1,
+    explanation: "Garam berlebih menahan cairan dalam tubuh, meningkatkan tekanan darah, dan membebani jantung."
+  },
+
+  // 7. Fungsi Darah
+  {
+    question: "Mengapa darah disebut sebagai alat transportasi dalam tubuh?",
+    choices: [
+      "Karena membawa makanan ke perut",
+      "Karena membawa hormon, oksigen, dan limbah metabolik",
+      "Karena membuat tubuh bergerak",
+      "Karena membentuk otot"
+    ],
+    correctAnswer: 1,
+    explanation: "Darah mengangkut zat penting ke seluruh tubuh, seperti oksigen dan hormon, serta membuang limbah metabolik."
+  },
+  {
+    question: "Jika darah berhenti mengalir ke otak selama beberapa menit, apa dampaknya?",
+    choices: [
+      "Keseimbangan terganggu sementara",
+      "Otak menjadi lebih aktif",
+      "Kerusakan permanen pada jaringan otak",
+      "Penglihatan menjadi lebih tajam"
+    ],
+    correctAnswer: 2,
+    explanation: "Tanpa aliran darah, otak kekurangan oksigen dan bisa mengalami kerusakan permanen dalam hitungan menit."
+  },
+
+  // 8. Golongan Darah
+  {
+    question: "Mengapa golongan darah penting diketahui saat akan menerima transfusi darah?",
+    choices: [
+      "Agar warna darah sesuai",
+      "Untuk menentukan tingkat energi",
+      "Agar tidak terjadi reaksi penolakan imun",
+      "Karena golongan darah menentukan tinggi badan"
+    ],
+    correctAnswer: 2,
+    explanation: "Transfusi darah yang tidak cocok dapat memicu reaksi imun berbahaya karena tubuh mengenali darah sebagai zat asing."
+  },
+  {
+    question: "Mengapa orang dengan golongan darah O disebut donor universal?",
+    choices: [
+      "Karena memiliki antibodi lengkap",
+      "Karena tidak memiliki antigen A dan B",
+      "Karena memiliki darah lebih encer",
+      "Karena bisa menyumbangkan ke semua orang"
+    ],
+    correctAnswer: 1,
+    explanation: "Golongan O tidak memiliki antigen A dan B, sehingga tidak dikenali sebagai benda asing oleh golongan darah lain."
+  },
+
+  // 9. Cara Mengetahui Golongan Darah
+  {
+    question: "Apa yang akan terjadi jika seseorang salah menduga golongan darahnya lalu menerima transfusi?",
+    choices: [
+      "Tidak terjadi apa-apa",
+      "Tubuh akan menyerap darah lebih cepat",
+      "Darah akan menggumpal dan bisa membahayakan nyawa",
+      "Darah akan berubah menjadi golongan yang tepat"
+    ],
+    correctAnswer: 2,
+    explanation: "Transfusi darah tidak cocok menyebabkan aglutinasi (penggumpalan darah) yang dapat berakibat fatal."
+  },
+  {
+    question: "Bagaimana prinsip pengujian golongan darah di laboratorium?",
+    choices: [
+      "Dengan mencampur darah dengan air",
+      "Mengamati warna darah",
+      "Dengan meneteskan darah pada serum anti-A dan anti-B untuk melihat reaksi aglutinasi",
+      "Dengan membekukan darah dan mengukurnya"
+    ],
+    correctAnswer: 2,
+    explanation: "Tes golongan darah dilakukan dengan mencampur darah dengan antibodi spesifik lalu melihat apakah terjadi penggumpalan."
+  },
+
+  // 10. Kecocokan Golongan Darah
+  {
+    question: "Apa risiko transfusi darah dari golongan B ke orang bergolongan A?",
+    choices: [
+      "Penerima akan lebih sehat",
+      "Darah akan menyesuaikan sendiri",
+      "Terjadi reaksi antibodi yang menyerang sel darah asing",
+      "Tidak ada risiko apa pun"
+    ],
+    correctAnswer: 2,
+    explanation: "Golongan A memiliki antibodi terhadap antigen B sehingga transfusi dari B ke A akan menyebabkan penolakan."
+  },
+  {
+    question: "Mengapa kecocokan rhesus (Rh) penting dalam transfusi darah?",
+    choices: [
+      "Karena rhesus menentukan suhu tubuh",
+      "Agar darah bisa lebih kental",
+      "Karena ketidaksesuaian Rh dapat menimbulkan reaksi imun",
+      "Rh hanya penting untuk bayi"
+    ],
+    correctAnswer: 2,
+    explanation: "Rh merupakan antigen yang dapat menyebabkan reaksi imun jika tidak cocok, terutama saat transfusi atau kehamilan."
+  },
+
+  // 11. Gangguan dan Penyakit Darah
+  {
+    question: "Bagaimana anemia defisiensi besi dapat memengaruhi aktivitas sehari-hari?",
+    choices: [
+      "Meningkatkan energi",
+      "Menyebabkan mudah lelah karena kurang oksigen ke jaringan",
+      "Meningkatkan tekanan darah",
+      "Menurunkan kadar gula"
+    ],
+    correctAnswer: 1,
+    explanation: "Anemia menyebabkan kurangnya oksigen ke jaringan, sehingga penderita mudah lelah dan lemah."
+  },
+  {
+    question: "Mengapa penderita leukemia membutuhkan transplantasi sumsum tulang?",
+    choices: [
+      "Agar sel darah putih bertambah banyak",
+      "Karena sumsum tulang tidak memproduksi sel darah normal",
+      "Agar antibodi terbentuk lebih cepat",
+      "Untuk mempercepat proses pembekuan darah"
+    ],
+    correctAnswer: 1,
+    explanation: "Leukemia mengganggu produksi sel darah sehat. Transplantasi sumsum menggantikan sumber produksi darah."
+  }
+  ];
+
+  let currentCirculationQuestion = 0;
+  let selectedAnswer = null;
+
+  function renderCirculationQuestion() {
+    const container = document.getElementById("quizCirculationContainer");
+    const q = circulationQuestions[currentCirculationQuestion];
+
+    container.innerHTML = `
+      <div class="p-4 bg-gray-100 rounded-xl shadow-sm">
+        <h3 class="text-lg font-semibold text-gray-800 mb-4">Soal ${currentCirculationQuestion + 1}: ${q.question}</h3>
+        <div class="grid gap-4">
+          ${q.choices.map((choice, index) => `
+            <div onclick="selectCard(${index})" id="choiceCard${index}" class="border rounded-xl p-4 cursor-pointer hover:bg-red-50 transition-all shadow-sm">
+              <input type="radio" name="circulationChoice" value="${index}" class="hidden">
+              <span class="block text-gray-800 font-medium">${choice}</span>
+            </div>
+          `).join("")}
+        </div>
+      </div>
+    `;
+
+    selectedAnswer = null;
+    document.getElementById("circulationExplanation").classList.add("hidden");
+    document.getElementById("prevCirculationBtn").disabled = currentCirculationQuestion === 0;
+    document.getElementById("nextCirculationBtn").disabled = currentCirculationQuestion === circulationQuestions.length - 1;
+  }
+
+  function selectCard(index) {
+    selectedAnswer = index;
+
+    const cards = document.querySelectorAll('[id^="choiceCard"]');
+    cards.forEach((card, i) => {
+      if (i === index) {
+        card.classList.add("border-2", "border-red-500", "bg-red-50");
+      } else {
+        card.classList.remove("border-2", "border-red-500", "bg-red-50");
+      }
+    });
+  }
+
+  function checkCirculationAnswer() {
+    const explanationBox = document.getElementById("circulationExplanation");
+    if (selectedAnswer === null) {
+      alert("Silakan pilih jawaban terlebih dahulu.");
+      return;
+    }
+
+    const question = circulationQuestions[currentCirculationQuestion];
+    const isCorrect = selectedAnswer === question.correctAnswer;
+
+    explanationBox.innerHTML = isCorrect
+      ? `<strong class="text-green-700">Benar!</strong> ${question.explanation}`
+      : `<strong class="text-red-700">Salah!</strong> ${question.explanation}`;
+
+    explanationBox.classList.remove("hidden");
+  }
+
+  function nextCirculationQuestion() {
+    if (currentCirculationQuestion < circulationQuestions.length - 1) {
+      currentCirculationQuestion++;
+      renderCirculationQuestion();
+    }
+  }
+
+  function prevCirculationQuestion() {
+    if (currentCirculationQuestion > 0) {
+      currentCirculationQuestion--;
+      renderCirculationQuestion();
+    }
+  }
+
+  // Render pertama
+  renderCirculationQuestion();
+</script>
+<br>
+<div class="w-full max-w-3xl mx-auto bg-white px-6 py-8 rounded-2xl shadow-lg">
+  <!-- Section 4 -->
+  <div id="4.-Sistem-Eksresi" class="text-gray-800 space-y-6">
+    <h2 class="text-2xl font-bold text-[#4dd4a3]">4. Sistem Ekskresi pada Manusia</h2>
+
+    <!-- Video Edukasi -->
+    <div class="mt-8 aspect-w-16 aspect-h-9">
+      <iframe class="w-full h-64 rounded-lg border border-gray-300 shadow-lg"
+        src="https://www.youtube.com/embed/JW46cvbZcm4?si=EYjm-sJ20wrVW24P"
+        title="Video Sistem Ekskresi"
+        frameborder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowfullscreen>
+      </iframe>
+    </div>
+    <p class="text-sm text-center text-gray-500 mt-2">Video: Penjelasan sistem ekskresi pada manusia (YouTube)</p>
+
+    <!-- A. Pengertian Sistem Ekskresi -->
+    <div>
+      <h3 class="text-xl font-semibold mb-2 text-[#4dd4a3]">A. Pengertian Sistem Ekskresi</h3>
+      <p>
+        Sistem ekskresi adalah sistem organ dalam tubuh manusia yang berfungsi untuk membuang zat-zat sisa metabolisme yang tidak diperlukan lagi oleh tubuh, seperti urea, karbon dioksida, dan air. Zat-zat sisa ini jika tidak dikeluarkan dapat bersifat racun bagi tubuh.
+      </p>
+    </div>
+
+    <!-- B. Organ-organ Sistem Ekskresi -->
+    <div>
+      <h3 class="text-xl font-semibold mb-2 text-[#4dd4a3]">B. Organ-organ Sistem Ekskresi</h3>
+	<!-- Gambar Ilustrasi -->
+      <div class="mt-4">
+        <img src="https://fahum.umsu.ac.id/berita/wp-content/uploads/2023/06/cara-menjaga-kesehatan-sistem-eksresi.jpg" 
+             alt="Cara Menjaga Kesehatan Sistem Ekskresi" 
+             class="w-full max-w-md mx-auto rounded-lg shadow-lg border border-gray-300">
+        <p class="text-sm text-center text-gray-500 mt-2">Gambar: Tips menjaga kesehatan sistem ekskresi</p>
+      </div>
+      <div class="overflow-x-auto">
+        <table class="table-auto w-full border border-gray-400 text-left text-sm sm:text-base">
+          <thead class="bg-[#4dd4a3] text-white">
+            <tr>
+              <th class="border px-4 py-2">Organ</th>
+              <th class="border px-4 py-2">Zat Sisa yang Dikeluarkan</th>
+              <th class="border px-4 py-2">Fungsi</th>
+            </tr>
+          </thead>
+          <tbody class="text-gray-800">
+            <tr><td class="border px-4 py-2">Ginjal</td><td class="border px-4 py-2">Urea, air, garam</td><td class="border px-4 py-2">Menyaring darah dan membentuk urin</td></tr>
+            <tr><td class="border px-4 py-2">Paru-paru</td><td class="border px-4 py-2">Karbon dioksida, uap air</td><td class="border px-4 py-2">Mengeluarkan CO₂ hasil respirasi</td></tr>
+            <tr><td class="border px-4 py-2">Hati</td><td class="border px-4 py-2">Urea</td><td class="border px-4 py-2">Mengubah amonia menjadi urea</td></tr>
+            <tr><td class="border px-4 py-2">Kulit</td><td class="border px-4 py-2">Air, garam, urea</td><td class="border px-4 py-2">Membantu ekskresi lewat keringat</td></tr>
+          </tbody>
+        </table>
+      </div><br>
+<h3 class="text-xl font-semibold mb-2 ">1.Ginjal</h3>
+<p class="mb-4">Ginjal memiliki struktur kompleks yang memungkinkan penyaringan darah dan pembentukan urin. Berikut adalah bagian-bagian utama ginjal beserta fungsinya:</p>
+<!-- Gambar Bagian-Bagian Ginjal -->
+<div class="mt-4">
+  <img src="https://www.quipper.com/id/blog/wp-content/uploads/2022/08/struktur-ginjal.webp" 
+       alt="Bagian-Bagian Ginjal" 
+       class="w-full max-w-md mx-auto rounded-lg shadow-lg border border-gray-300">
+  <p class="text-sm text-center text-gray-500 mt-2">Gambar: Struktur dan bagian-bagian ginjal</p>
+</div>
+
+  <div class="overflow-x-auto">
+    <table class="min-w-full bg-white border border-gray-300 rounded-lg">
+      <thead class="bg-green-100">
+        <tr>
+          <th class="text-left px-4 py-2 border-b border-gray-300">Bagian Ginjal</th>
+          <th class="text-left px-4 py-2 border-b border-gray-300">Fungsi</th>
+        </tr>
+      </thead>
+      <tbody class="text-gray-800">
+        <tr class="hover:bg-gray-50">
+          <td class="px-4 py-2 border-b border-gray-200">Korteks</td>
+          <td class="px-4 py-2 border-b border-gray-200">Tempat awal penyaringan darah; mengandung glomerulus dan kapsula Bowman.</td>
+        </tr>
+        <tr class="hover:bg-gray-50">
+          <td class="px-4 py-2 border-b border-gray-200">Medula</td>
+          <td class="px-4 py-2 border-b border-gray-200">Berisi tubulus-tubulus ginjal dan lengkung Henle; berperan dalam reabsorpsi dan sekresi zat.</td>
+        </tr>
+        <tr class="hover:bg-gray-50">
+          <td class="px-4 py-2 border-b border-gray-200">Pelvis Renalis</td>
+          <td class="px-4 py-2 border-b border-gray-200">Tempat penampungan sementara urin sebelum dialirkan ke ureter.</td>
+        </tr>
+        <tr class="hover:bg-gray-50">
+          <td class="px-4 py-2 border-b border-gray-200">Nefron</td>
+          <td class="px-4 py-2 border-b border-gray-200">Unit fungsional ginjal yang menyaring darah dan membentuk urin.</td>
+        </tr>
+        <tr class="hover:bg-gray-50">
+          <td class="px-4 py-2 border-b border-gray-200">Glomerulus</td>
+          <td class="px-4 py-2 border-b border-gray-200">Penyaring utama darah untuk memisahkan zat sisa dan air dari sel dan protein besar.</td>
+        </tr>
+        <tr class="hover:bg-gray-50">
+          <td class="px-4 py-2 border-b border-gray-200">Kapsula Bowman</td>
+          <td class="px-4 py-2 border-b border-gray-200">Menampung hasil penyaringan dari glomerulus (filtrat glomerulus).</td>
+        </tr>
+        <tr class="hover:bg-gray-50">
+          <td class="px-4 py-2 border-b border-gray-200">Tubulus Proksimal</td>
+          <td class="px-4 py-2 border-b border-gray-200">Tempat reabsorpsi sebagian besar air, garam, dan nutrien ke dalam darah.</td>
+        </tr>
+        <tr class="hover:bg-gray-50">
+          <td class="px-4 py-2 border-b border-gray-200">Lengkung Henle</td>
+          <td class="px-4 py-2 border-b border-gray-200">Mengatur konsentrasi urin dengan menyerap air dan ion.</td>
+        </tr>
+        <tr class="hover:bg-gray-50">
+          <td class="px-4 py-2 border-b border-gray-200">Tubulus Distal</td>
+          <td class="px-4 py-2 border-b border-gray-200">Membantu sekresi ion dan zat buangan ke dalam filtrat.</td>
+        </tr>
+        <tr class="hover:bg-gray-50">
+          <td class="px-4 py-2 border-b border-gray-200">Duktus Kolektivus (Tubulus Kolektivus)</td>
+          <td class="px-4 py-2 border-b border-gray-200">Menampung urin akhir dan mengalirkannya ke pelvis renalis.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+    </div>
+<!-- 2. Kulit -->
+<div class="mt-10">
+  <h3 class="text-xl font-semibold mb-2">2. Kulit</h3>
+  <p class="mb-4">
+    Kulit merupakan organ ekskresi terbesar pada tubuh manusia yang berfungsi untuk melindungi tubuh, mengatur suhu, dan mengeluarkan zat sisa seperti air dan garam melalui kelenjar keringat. Kulit terdiri dari beberapa lapisan utama yang memiliki fungsi masing-masing.
+  </p>
+
+  <!-- Gambar Bagian-Bagian Kulit -->
+  <div class="mt-4">
+    <img src="https://www.quipper.com/id/blog/wp-content/uploads/2022/08/struktur-kulit.webp" 
+         alt="Bagian-Bagian Kulit" 
+         class="w-full max-w-md mx-auto rounded-lg shadow-lg border border-gray-300">
+    <p class="text-sm text-center text-gray-500 mt-2">Gambar: Struktur dan bagian-bagian kulit manusia</p>
+  </div>
+
+  <!-- Tabel Bagian Kulit -->
+  <div class="overflow-x-auto mt-6">
+    <table class="min-w-full bg-white border border-gray-300 rounded-lg">
+      <thead class="bg-green-100">
+        <tr>
+          <th class="text-left px-4 py-2 border-b border-gray-300">Bagian Kulit</th>
+          <th class="text-left px-4 py-2 border-b border-gray-300">Fungsi</th>
+        </tr>
+      </thead>
+      <tbody class="text-gray-800">
+        <tr class="hover:bg-gray-50">
+          <td class="px-4 py-2 border-b border-gray-200">Epidermis</td>
+          <td class="px-4 py-2 border-b border-gray-200">Lapisan terluar kulit yang melindungi tubuh dari kuman dan zat kimia. Tidak memiliki pembuluh darah.</td>
+        </tr>
+        <tr class="hover:bg-gray-50">
+          <td class="px-4 py-2 border-b border-gray-200">Dermis</td>
+          <td class="px-4 py-2 border-b border-gray-200">Lapisan tengah yang mengandung pembuluh darah, ujung saraf, kelenjar keringat, dan akar rambut.</td>
+        </tr>
+        <tr class="hover:bg-gray-50">
+          <td class="px-4 py-2 border-b border-gray-200">Hipodermis (Jaringan Subkutan)</td>
+          <td class="px-4 py-2 border-b border-gray-200">Lapisan terdalam yang menyimpan lemak sebagai cadangan energi dan peredam suhu tubuh.</td>
+        </tr>
+        <tr class="hover:bg-gray-50">
+          <td class="px-4 py-2 border-b border-gray-200">Kelenjar Keringat (Sudorifera)</td>
+          <td class="px-4 py-2 border-b border-gray-200">Mengeluarkan keringat yang mengandung air, garam, dan urea sebagai hasil ekskresi.</td>
+        </tr>
+        <tr class="hover:bg-gray-50">
+          <td class="px-4 py-2 border-b border-gray-200">Kelenjar Sebasea</td>
+          <td class="px-4 py-2 border-b border-gray-200">Menghasilkan sebum (minyak) untuk menjaga kelembapan dan kehalusan kulit.</td>
+        </tr>
+        <tr class="hover:bg-gray-50">
+          <td class="px-4 py-2 border-b border-gray-200">Akar Rambut</td>
+          <td class="px-4 py-2 border-b border-gray-200">Berfungsi menjaga suhu tubuh dan menjadi jalur keluar keringat.</td>
+        </tr>
+        <tr class="hover:bg-gray-50">
+          <td class="px-4 py-2 border-b border-gray-200">Ujung Saraf</td>
+          <td class="px-4 py-2 border-b border-gray-200">Menerima rangsangan seperti suhu, tekanan, dan sentuhan.</td>
+        </tr>
+        <tr class="hover:bg-gray-50">
+          <td class="px-4 py-2 border-b border-gray-200">Pembuluh Darah</td>
+          <td class="px-4 py-2 border-b border-gray-200">Mengatur suhu tubuh dengan mekanisme vasodilatasi dan vasokonstriksi.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+    <!-- C. Proses Pembentukan Urin -->
+<div class="mt-8">
+  <h3 class="text-xl font-semibold mb-2 text-[#4dd4a3]">C. Proses Pembentukan Urin</h3>
+  <p class="mb-4 text-gray-700">
+    Proses pembentukan urin terjadi di dalam nefron (unit penyaring ginjal) dan berlangsung dalam tiga tahapan utama, yaitu filtrasi, reabsorpsi, dan augmentasi. Proses ini menghasilkan urin primer, urin sekunder, dan akhirnya urin sebenarnya (urin final) yang akan dikeluarkan melalui saluran kemih.
+  </p>
+  <ol class="list-decimal list-inside ml-4 space-y-3 text-gray-800">
+    <li>
+      <strong>Filtrasi (Penyaringan):</strong>
+      <p class="ml-4">
+        Terjadi di <strong>glomerulus</strong> (kapiler dalam kapsul Bowman). Tekanan darah tinggi menyaring darah dan menghasilkan <strong>urin primer</strong> (filtrat glomerulus) yang masih mengandung air, glukosa, asam amino, garam, dan urea. Sel darah dan protein tidak ikut keluar karena ukurannya besar.
+      </p>
+    </li>
+    <li>
+      <strong>Reabsorpsi (Penyerapan Kembali):</strong>
+      <p class="ml-4">
+        Terjadi di <strong>tubulus proksimal, lengkung Henle, dan tubulus distal</strong>. Zat-zat penting seperti air, glukosa, asam amino, dan ion tertentu diserap kembali ke darah. Hasil proses ini disebut <strong>urin sekunder</strong>, yang kadarnya sudah lebih pekat karena sebagian besar air telah diserap kembali.
+      </p>
+    </li>
+    <li>
+      <strong>Augmentasi (Sekresi Tubular):</strong>
+      <p class="ml-4">
+        Di tahap ini, zat sisa metabolisme tambahan seperti ion hidrogen (H<sup>+</sup>), kalium (K<sup>+</sup>), dan obat-obatan disekresikan dari kapiler darah ke dalam tubulus. Hasil akhir dari proses ini adalah <strong>urin sebenarnya</strong> atau <strong>urin final</strong> yang hanya terdiri dari air, urea, garam mineral, dan zat sisa lainnya.
+      </p>
+    </li>
+    <li>
+      <strong>Ekskresi:</strong>
+      <p class="ml-4">
+        Urin final dialirkan ke <strong>rongga ginjal (pelvis renalis)</strong>, lalu melalui <strong>ureter</strong> menuju ke <strong>kantong kemih</strong> untuk disimpan sementara. Ketika kandung kemih penuh, urin akan dikeluarkan melalui <strong>uretra</strong> saat buang air kecil.
+      </p>
+    </li>
+  </ol>
+</div>
+<!-- 4. Paru-paru -->
+<div class="mt-8">
+  <h3 class="text-xl font-semibold mb-2">4. Paru-paru</h3>
+  <p class="mb-4 text-gray-700">
+    Paru-paru tidak hanya berfungsi sebagai organ pernapasan, tetapi juga berperan penting dalam sistem ekskresi. Paru-paru membantu mengeluarkan karbon dioksida (CO<sub>2</sub>) dan uap air (H<sub>2</sub>O) yang merupakan hasil samping dari metabolisme sel.
+  </p>
+
+  <!-- Gambar Paru-Paru -->
+  <div class="mt-4">
+    <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgGbNV8rlcXoSQ0xS3SwA6zz370YYb1qsS4l7HJgKPtdZz3FOJaQMUvtNMjIuE-lniqxXoIa949kB4zR-BnOzFYnDUyccR_m12XNIYFt2jp_-EcPIUZPWbq4t7Hg-Ar5NjYvArGrLbZvus/s320/6+Bagian+Paru-Paru+Lengkap+Fungsi%252C+Gambar+dan+Penjelasan.jpg" 
+         alt="Struktur Paru-paru" 
+         class="w-full max-w-md mx-auto rounded-lg shadow-lg border border-gray-300">
+    <p class="text-sm text-center text-gray-500 mt-2">Gambar: Struktur dan fungsi ekskresi paru-paru</p>
+  </div>
+
+  <!-- Tabel Bagian Paru-paru -->
+  <div class="overflow-x-auto mt-6">
+    <table class="min-w-full bg-white border border-gray-300 rounded-lg">
+      <thead class="bg-green-100">
+        <tr>
+          <th class="text-left px-4 py-2 border-b border-gray-300">Bagian Paru-paru</th>
+          <th class="text-left px-4 py-2 border-b border-gray-300">Fungsi</th>
+        </tr>
+      </thead>
+      <tbody class="text-gray-800">
+        <tr class="hover:bg-gray-50">
+          <td class="px-4 py-2 border-b border-gray-200">Bronkus</td>
+          <td class="px-4 py-2 border-b border-gray-200">Saluran udara utama yang membawa udara dari trakea ke paru-paru.</td>
+        </tr>
+        <tr class="hover:bg-gray-50">
+          <td class="px-4 py-2 border-b border-gray-200">Bronkiolus</td>
+          <td class="px-4 py-2 border-b border-gray-200">Cabang-cabang kecil dari bronkus yang mengarah ke alveolus.</td>
+        </tr>
+        <tr class="hover:bg-gray-50">
+          <td class="px-4 py-2 border-b border-gray-200">Alveolus</td>
+          <td class="px-4 py-2 border-b border-gray-200">Tempat pertukaran gas, di mana oksigen diserap dan CO<sub>2</sub> serta uap air dikeluarkan dari darah.</td>
+        </tr>
+        <tr class="hover:bg-gray-50">
+          <td class="px-4 py-2 border-b border-gray-200">Kapiler Paru</td>
+          <td class="px-4 py-2 border-b border-gray-200">Pembuluh darah kecil di sekitar alveolus tempat terjadinya pertukaran gas.</td>
+        </tr>
+        <tr class="hover:bg-gray-50">
+          <td class="px-4 py-2 border-b border-gray-200">Pleura</td>
+          <td class="px-4 py-2 border-b border-gray-200">Membran pelindung paru-paru yang mengurangi gesekan saat bernapas.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+
+    <!-- D. Gangguan pada Sistem Ekskresi -->
+<div>
+  <h3 class="text-xl font-semibold mb-2 text-[#4dd4a3]">D. Gangguan pada Sistem Ekskresi</h3>
+  <div class="overflow-x-auto">
+    <table class="table-auto w-full border border-gray-300 text-sm text-left">
+      <thead class="bg-[#4dd4a3] text-white">
+        <tr>
+          <th class="px-4 py-2 border">Gangguan</th>
+          <th class="px-4 py-2 border">Organ Terkait</th>
+          <th class="px-4 py-2 border">Gejala</th>
+          <th class="px-4 py-2 border">Penyebab</th>
+        </tr>
+      </thead>
+      <tbody class="bg-white text-gray-700">
+        <tr><td class="px-4 py-2 border">Gagal Ginjal</td><td class="px-4 py-2 border">Ginjal</td><td class="px-4 py-2 border">Bengkak, urin sedikit</td><td class="px-4 py-2 border">Diabetes, hipertensi, kerusakan nefron</td></tr>
+        <tr><td class="px-4 py-2 border">Batu Ginjal</td><td class="px-4 py-2 border">Ginjal</td><td class="px-4 py-2 border">Nyeri hebat, darah dalam urin</td><td class="px-4 py-2 border">Penumpukan kalsium/oksalat</td></tr>
+        <tr><td class="px-4 py-2 border">Infeksi Saluran Kemih (ISK)</td><td class="px-4 py-2 border">Kandung Kemih / Uretra</td><td class="px-4 py-2 border">Nyeri saat BAK, demam</td><td class="px-4 py-2 border">Bakteri E. coli</td></tr>
+        <tr><td class="px-4 py-2 border">Hepatitis</td><td class="px-4 py-2 border">Hati</td><td class="px-4 py-2 border">Kulit menguning, mual</td><td class="px-4 py-2 border">Virus hepatitis A, B, C</td></tr>
+        <tr><td class="px-4 py-2 border">Sirosis</td><td class="px-4 py-2 border">Hati</td><td class="px-4 py-2 border">Perut bengkak, mudah memar</td><td class="px-4 py-2 border">Alkohol, hepatitis kronis</td></tr>
+        <tr><td class="px-4 py-2 border">Pneumonia</td><td class="px-4 py-2 border">Paru-paru</td><td class="px-4 py-2 border">Sesak napas, demam</td><td class="px-4 py-2 border">Infeksi virus/bakteri</td></tr>
+        <tr><td class="px-4 py-2 border">Tuberkulosis (TBC)</td><td class="px-4 py-2 border">Paru-paru</td><td class="px-4 py-2 border">Batuk darah, keringat malam</td><td class="px-4 py-2 border">Bakteri *Mycobacterium tuberculosis*</td></tr>
+        <tr><td class="px-4 py-2 border">Hiperhidrosis</td><td class="px-4 py-2 border">Kulit</td><td class="px-4 py-2 border">Keringat berlebihan</td><td class="px-4 py-2 border">Stres, faktor genetik</td></tr>
+        <tr><td class="px-4 py-2 border">Anhidrosis</td><td class="px-4 py-2 border">Kulit</td><td class="px-4 py-2 border">Tidak berkeringat</td><td class="px-4 py-2 border">Kerusakan kelenjar keringat</td></tr>
+        <tr><td class="px-4 py-2 border">Sembelit (Konstipasi)</td><td class="px-4 py-2 border">Usus Besar (saluran ekskresi padat)</td><td class="px-4 py-2 border">BAB sulit, perut kembung</td><td class="px-4 py-2 border">Kurang serat, dehidrasi</td></tr>
+        <tr><td class="px-4 py-2 border">Tipus (Tifoid)</td><td class="px-4 py-2 border">Usus dan hati</td><td class="px-4 py-2 border">Demam tinggi, diare/konstipasi</td><td class="px-4 py-2 border">Bakteri *Salmonella typhi*</td></tr>
+        <tr><td class="px-4 py-2 border">Nefritis</td><td class="px-4 py-2 border">Ginjal</td><td class="px-4 py-2 border">Pembengkakan, urin berdarah</td><td class="px-4 py-2 border">Infeksi bakteri atau autoimun</td></tr>
+        <tr><td class="px-4 py-2 border">Edema paru</td><td class="px-4 py-2 border">Paru-paru</td><td class="px-4 py-2 border">Sesak napas berat</td><td class="px-4 py-2 border">Penumpukan cairan akibat gagal jantung</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+
+    <!-- E. Cara Menjaga Kesehatan Sistem Ekskresi -->
+    <div>
+      <h3 class="text-xl font-semibold mb-2 text-[#4dd4a3]">E. Cara Menjaga Kesehatan Sistem Ekskresi</h3>
+      <ul class="list-disc list-inside ml-4 space-y-1">
+        <li>Minum air putih yang cukup setiap hari.</li>
+        <li>Menghindari konsumsi makanan tinggi garam dan lemak jenuh.</li>
+        <li>Berolahraga secara teratur untuk memperlancar metabolisme.</li>
+        <li>Menjaga kebersihan tubuh untuk mencegah infeksi kulit dan saluran kemih.</li>
+        <li>Rutin memeriksakan fungsi organ tubuh seperti ginjal dan hati.</li>
+      </ul>
+    </div>
+  </div>
+</div><br>
+<div class="max-w-4xl mx-auto bg-white p-6 rounded-xl shadow-md mt-10">
+  <h1 class="text-2xl font-bold mb-4 text-center text-blue-700">Kenali Organ Sistem Ekskresi Manusia</h1>
+  <p class="mb-4 text-center text-gray-700">Perhatikan gambar berikut yang menampilkan bagian-bagian dari sistem ekskresi. Jawablah soal-soalnya berdasarkan organ yang ditunjuk dan fungsinya!</p>
+
+  <!-- Gambar Ginjal dan Soal-Soal Terkait -->
+  <div class="mb-8">
+    <img src="https://cdn-brilio-net.akamaized.net/news/2021/08/26/211267/1608485-ilustrasi-ginjal.jpg" alt="Ginjal" class="rounded-lg border shadow-lg max-h-[300px] mx-auto mb-4">
+
+    <!-- Soal 1 -->
+    <div class="bg-blue-50 p-4 rounded-lg shadow mb-4">
+      <label class="text-lg font-semibold text-blue-800 mb-2 block">Organ di atas berperan dalam proses filtrasi darah. Apa nama organ tersebut?</label>
+      <div class="flex items-center gap-2">
+        <select id="excretory-answer1" class="border p-2 rounded-md text-gray-700">
+          <option value="">-- Pilih Jawaban --</option>
+          <option value="Ginjal">Ginjal</option>
+          <option value="Hati">Hati</option>
+          <option value="Paru-paru">Paru-paru</option>
+          <option value="Kulit">Kulit</option>
+        </select>
+        <button onclick="checkExcretoryAnswer(1, 'Ginjal')" class="bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700">Cek</button>
+        <span id="excretory-result1" class="ml-3 font-medium"></span>
+      </div>
+    </div>
+
+    <!-- Soal 2 -->
+    <div class="bg-blue-50 p-4 rounded-lg shadow mb-4">
+      <label class="text-lg font-semibold text-blue-800 mb-2 block">Bagian ginjal yang berfungsi menyaring darah disebut...</label>
+      <div class="flex items-center gap-2">
+        <select id="excretory-answer2" class="border p-2 rounded-md text-gray-700">
+          <option value="">-- Pilih Jawaban --</option>
+          <option value="Glomerulus">Glomerulus</option>
+          <option value="Tubulus Proksimal">Tubulus Proksimal</option>
+          <option value="Ureter">Ureter</option>
+          <option value="Kandung Kemih">Kandung Kemih</option>
+        </select>
+        <button onclick="checkExcretoryAnswer(2, 'Glomerulus')" class="bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700">Cek</button>
+        <span id="excretory-result2" class="ml-3 font-medium"></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Gambar Paru-paru dan Soal -->
+  <div class="mb-8">
+    <img src="https://cdn.idntimes.com/content-images/community/2022/06/20220617-171758-0000-10dc41fd3f270a71dbca7f76a13459a2_600x400.jpg" alt="Paru-paru" class="rounded-lg border shadow-lg max-h-[300px] mx-auto mb-4">
+    <div class="bg-blue-50 p-4 rounded-lg shadow">
+      <label class="text-lg font-semibold text-blue-800 mb-2 block">Organ ini membuang gas sisa metabolisme berupa karbon dioksida. Apa nama organ tersebut?</label>
+      <div class="flex items-center gap-2">
+        <select id="excretory-answer3" class="border p-2 rounded-md text-gray-700">
+          <option value="">-- Pilih Jawaban --</option>
+          <option value="Ginjal">Ginjal</option>
+          <option value="Hati">Hati</option>
+          <option value="Paru-paru">Paru-paru</option>
+          <option value="Kulit">Kulit</option>
+        </select>
+        <button onclick="checkExcretoryAnswer(3, 'Paru-paru')" class="bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700">Cek</button>
+        <span id="excretory-result3" class="ml-3 font-medium"></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Gambar Kulit dan Soal -->
+  <div class="mb-8">
+    <img src="https://s3.amazonaws.com/ibc-portal/uploads/ckeditor/pictures/15035/content_lapisan_kulit.jpg" alt="Kulit" class="rounded-lg border shadow-lg max-h-[300px] mx-auto mb-4">
+    <div class="bg-blue-50 p-4 rounded-lg shadow">
+      <label class="text-lg font-semibold text-blue-800 mb-2 block">Organ ini mengeluarkan keringat melalui pori-pori. Apa nama organ tersebut?</label>
+      <div class="flex items-center gap-2">
+        <select id="excretory-answer4" class="border p-2 rounded-md text-gray-700">
+          <option value="">-- Pilih Jawaban --</option>
+          <option value="Ginjal">Ginjal</option>
+          <option value="Hati">Hati</option>
+          <option value="Paru-paru">Paru-paru</option>
+          <option value="Kulit">Kulit</option>
+        </select>
+        <button onclick="checkExcretoryAnswer(4, 'Kulit')" class="bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700">Cek</button>
+        <span id="excretory-result4" class="ml-3 font-medium"></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Gambar Hati dan Soal -->
+  <div class="mb-8">
+    <img src="https://www.static-src.com/wcsstore/Indraprastha/images/catalog/full//104/MTA-41367830/no-brand_no-brand_full03.jpg" alt="Hati" class="rounded-lg border shadow-lg max-h-[300px] mx-auto mb-4">
+    <div class="bg-blue-50 p-4 rounded-lg shadow">
+      <label class="text-lg font-semibold text-blue-800 mb-2 block">Organ ini mengubah amonia menjadi urea sebelum dibuang melalui urin. Apa nama organ tersebut?</label>
+      <div class="flex items-center gap-2">
+        <select id="excretory-answer5" class="border p-2 rounded-md text-gray-700">
+          <option value="">-- Pilih Jawaban --</option>
+          <option value="Ginjal">Ginjal</option>
+          <option value="Hati">Hati</option>
+          <option value="Paru-paru">Paru-paru</option>
+          <option value="Kulit">Kulit</option>
+        </select>
+        <button onclick="checkExcretoryAnswer(5, 'Hati')" class="bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700">Cek</button>
+        <span id="excretory-result5" class="ml-3 font-medium"></span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  function checkExcretoryAnswer(num, correctAnswer) {
+    const selected = document.getElementById(`excretory-answer${num}`).value;
+    const result = document.getElementById(`excretory-result${num}`);
+    if (selected === correctAnswer) {
+      result.textContent = "✅ Benar!";
+      result.className = "text-green-600 ml-3 font-medium";
+    } else {
+      result.textContent = "❌ Salah!";
+      result.className = "text-red-600 ml-3 font-medium";
+    }
+  }
+</script>
+<br>
+<div class="max-w-4xl mx-auto bg-white p-6 rounded-xl shadow-md mt-10">
+  <h1 class="text-2xl font-bold mb-4 text-center text-blue-700">Fungsi Organ Sistem Ekskresi Manusia</h1>
+  <p class="mb-4 text-center text-gray-700">Bacalah fungsi organ berikut, lalu pilih nama organ yang sesuai dari dropdown.</p>
+
+  <div id="eksresi-quiz-container" class="space-y-4">
+    <!-- Soal akan di-generate lewat JavaScript -->
+  </div>
+</div>
+
+<script>
+  const eksresiQuestions = [
+    { number: 1, functionText: "Menyaring darah dan membentuk urin.", correct: "Ginjal" },
+    { number: 2, functionText: "Menghubungkan ginjal dengan kandung kemih untuk mengalirkan urin.", correct: "Ureter" },
+    { number: 3, functionText: "Menyimpan urin sementara sebelum dikeluarkan.", correct: "Kandung kemih" },
+    { number: 4, functionText: "Menyalurkan urin ke luar tubuh.", correct: "Uretra" },
+    { number: 5, functionText: "Tempat filtrasi pertama darah di ginjal.", correct: "Glomerulus" },
+    { number: 6, functionText: "Bagian ginjal tempat terjadinya reabsorpsi selektif.", correct: "Tubulus proksimal" },
+    { number: 7, functionText: "Meningkatkan konsentrasi urin dengan menyerap air.", correct: "Lengkung Henle" },
+    { number: 8, functionText: "Tempat reabsorpsi akhir sebelum urin dikumpulkan.", correct: "Tubulus distal" },
+    { number: 9, functionText: "Mengumpulkan urin dari beberapa nefron sebelum menuju pelvis ginjal.", correct: "Duktus kolektivus" },
+    { number: 10, functionText: "Mengubah amonia menjadi urea dan mendetoksifikasi racun.", correct: "Hati" },
+    { number: 11, functionText: "Mengeluarkan keringat yang mengandung air, garam, dan urea.", correct: "Kulit" },
+    { number: 12, functionText: "Organ yang berperan dalam pengeluaran gas karbon dioksida dan uap air.", correct: "Paru-paru" },
+    { number: 13, functionText: "Struktur pembuluh kapiler dalam kapsula Bowman.", correct: "Glomerulus" },
+    { number: 14, functionText: "Struktur berbentuk corong di ginjal tempat berkumpulnya urin.", correct: "Pelvis renalis" },
+    { number: 15, functionText: "Unit fungsional terkecil di ginjal.", correct: "Nefron" },
+    { number: 16, functionText: "Lapisan luar ginjal tempat glomerulus dan tubulus proksimal berada.", correct: "Korteks ginjal" }
+  ];
+
+  const organEksresiOptions = [
+    "Ginjal", "Ureter", "Kandung kemih", "Uretra",
+    "Glomerulus", "Tubulus proksimal", "Lengkung Henle", "Tubulus distal",
+    "Duktus kolektivus", "Hati", "Kulit", "Paru-paru",
+    "Pelvis renalis", "Nefron", "Korteks ginjal"
+  ];
+
+  const eksresiContainer = document.getElementById("eksresi-quiz-container");
+
+  eksresiQuestions.forEach((q) => {
+    const div = document.createElement("div");
+    div.className = "bg-blue-50 p-4 rounded-lg shadow flex flex-col gap-2";
+
+    div.innerHTML = `
+      <p class="text-gray-800 font-semibold">Nomor ${q.number}. ${q.functionText}</p>
+      <div class="flex items-center gap-3">
+        <select id="eksresi_answer${q.number}" class="border p-2 rounded-md text-gray-700">
+          <option value="">-- Pilih Nama Organ --</option>
+          ${organEksresiOptions.map(opt => `<option value="${opt}">${opt}</option>`).join('')}
+        </select>
+        <button onclick="checkEksresiAnswer(${q.number}, '${q.correct}')" class="bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700">Cek</button>
+        <span id="eksresi_result${q.number}" class="ml-2 font-medium"></span>
+      </div>
+    `;
+    eksresiContainer.appendChild(div);
+  });
+
+  function checkEksresiAnswer(num, correctAnswer) {
+    const selected = document.getElementById(`eksresi_answer${num}`).value;
+    const result = document.getElementById(`eksresi_result${num}`);
+    if (selected === correctAnswer) {
+      result.textContent = "✅ Benar!";
+      result.className = "text-green-600 ml-3 font-medium";
+    } else {
+      result.textContent = "❌ Salah!";
+      result.className = "text-red-600 ml-3 font-medium";
+    }
+  }
+</script>
+<br>
+<div class="w-full max-w-3xl mx-auto bg-white px-6 py-8 rounded-2xl shadow-lg" id="quizExcretion">
+  <h2 class="text-3xl font-extrabold text-center text-blue-600 mb-8 tracking-tight">💧 Latihan Soal Interaktif: Sistem Ekskresi Manusia</h2>
+
+  <!-- Soal dan Pilihan -->
+  <div id="quizExcretionContainer" class="space-y-6">
+    <!-- Soal akan di-render di sini -->
+  </div>
+
+  <!-- Tombol Navigasi -->
+  <div class="flex justify-between items-center mt-8">
+    <button id="prevExcretionBtn" onclick="prevExcretionQuestion()" class="px-5 py-2 font-semibold rounded-lg bg-blue-500 text-white hover:bg-blue-600 disabled:bg-gray-300 disabled:text-gray-500 transition-all" disabled>Sebelumnya</button>
+    <div class="space-x-2">
+      <button id="checkExcretionBtn" onclick="checkExcretionAnswer()" class="px-5 py-2 font-semibold rounded-lg bg-blue-500 text-white hover:bg-blue-600 transition-all">Cek</button>
+      <button id="nextExcretionBtn" onclick="nextExcretionQuestion()" class="px-5 py-2 font-semibold rounded-lg bg-blue-500 text-white hover:bg-blue-600 disabled:bg-gray-300 disabled:text-gray-500 transition-all">Selanjutnya</button>
+    </div>
+  </div>
+
+  <!-- Pembahasan -->
+  <div id="excretionExplanation" class="mt-6 hidden bg-yellow-100 text-yellow-900 border border-yellow-300 p-4 rounded-lg shadow-inner"></div>
+</div>
+
+<script>
+  const excretionQuestions = [
+    {
+      question: "Apa fungsi utama ginjal dalam sistem ekskresi?",
+      choices: [
+        "Menghasilkan hormon insulin",
+        "Mengeluarkan karbon dioksida",
+        "Menyaring darah dan membentuk urin",
+        "Mencerna makanan"
+      ],
+      correctAnswer: 2,
+      explanation: "Ginjal menyaring darah untuk membuang zat-zat sisa dan membentuk urin."
+    },
+    {
+      question: "Organ yang berfungsi mengeluarkan karbon dioksida dan uap air adalah...",
+      choices: [
+        "Kulit",
+        "Paru-paru",
+        "Ginjal",
+        "Lambung"
+      ],
+      correctAnswer: 1,
+      explanation: "Paru-paru membuang gas CO₂ dan uap air melalui proses pernapasan."
+    },
+    {
+      question: "Apa fungsi hati dalam sistem ekskresi?",
+      choices: [
+        "Menghasilkan empedu dan menyimpan lemak",
+        "Mengubah amonia menjadi urea",
+        "Mencerna karbohidrat",
+        "Menyerap air dan garam"
+      ],
+      correctAnswer: 1,
+      explanation: "Hati berperan mengubah amonia (racun) menjadi urea yang lebih aman bagi tubuh."
+    },
+    {
+      question: "Bagian dari ginjal yang berfungsi sebagai tempat filtrasi darah adalah...",
+      choices: [
+        "Tubulus proksimal",
+        "Lengkung Henle",
+        "Glomerulus",
+        "Tubulus distal"
+      ],
+      correctAnswer: 2,
+      explanation: "Glomerulus menyaring darah sebagai tahap awal pembentukan urin."
+    },
+    {
+      question: "Apa fungsi utama kulit dalam sistem ekskresi?",
+      choices: [
+        "Mengeluarkan empedu",
+        "Mengeluarkan urin",
+        "Mengeluarkan keringat",
+        "Mengeluarkan karbon dioksida"
+      ],
+      correctAnswer: 2,
+      explanation: "Kulit mengeluarkan keringat yang mengandung air, garam, dan urea."
+    },
+// A. Pengertian Sistem Ekskresi
+  {
+    question: "Mengapa sistem ekskresi sangat penting untuk menjaga keseimbangan internal tubuh?",
+    choices: [
+      "Karena membantu dalam proses pencernaan",
+      "Karena mengatur suhu tubuh secara langsung",
+      "Karena membuang zat sisa metabolisme yang beracun",
+      "Karena menghasilkan hormon untuk pertumbuhan"
+    ],
+    correctAnswer: 2,
+    explanation: "Sistem ekskresi membuang zat-zat sisa metabolisme seperti urea, CO₂, dan garam agar tidak menumpuk dan mengganggu keseimbangan tubuh."
+  },
+  {
+    question: "Apa akibat yang mungkin terjadi jika sistem ekskresi tidak berfungsi dengan baik dalam jangka panjang?",
+    choices: [
+      "Tubuh mengalami gangguan pernapasan",
+      "Toksin akan menumpuk dan merusak organ tubuh",
+      "Proses pencernaan berjalan lebih cepat",
+      "Otak menjadi tidak aktif"
+    ],
+    correctAnswer: 1,
+    explanation: "Jika sistem ekskresi terganggu, zat beracun akan menumpuk dalam darah dan merusak organ-organ vital seperti ginjal, jantung, dan otak."
+  },
+
+  // B. Organ-organ Sistem Ekskresi - Ginjal
+  {
+    question: "Mengapa ginjal memiliki banyak nefron sebagai unit fungsionalnya?",
+    choices: [
+      "Untuk mempercepat proses pencernaan makanan",
+      "Agar tubuh dapat menyerap lebih banyak vitamin",
+      "Untuk meningkatkan efisiensi penyaringan darah",
+      "Agar dapat menghasilkan lebih banyak hormon"
+    ],
+    correctAnswer: 2,
+    explanation: "Nefron memperluas permukaan penyaringan darah dan meningkatkan efisiensi dalam pembentukan urin."
+  },
+  {
+    question: "Apa yang terjadi jika sebagian besar nefron dalam ginjal rusak?",
+    choices: [
+      "Tubuh kehilangan kemampuan untuk menyerap makanan",
+      "Darah tidak dapat lagi membawa oksigen",
+      "Proses penyaringan darah menjadi tidak optimal",
+      "Hati mengambil alih fungsi ekskresi"
+    ],
+    correctAnswer: 2,
+    explanation: "Kerusakan nefron menyebabkan gangguan dalam proses penyaringan darah sehingga zat beracun menumpuk dalam tubuh."
+  },
+
+  // B. Organ-organ Sistem Ekskresi - Kulit
+  {
+    question: "Mengapa produksi keringat meningkat saat suhu tubuh naik?",
+    choices: [
+      "Untuk menyeimbangkan kadar garam dalam darah",
+      "Untuk menurunkan tekanan darah",
+      "Untuk mempercepat pengeluaran urea",
+      "Untuk membantu mendinginkan tubuh melalui evaporasi"
+    ],
+    correctAnswer: 3,
+    explanation: "Keringat menguap dari kulit dan membantu menurunkan suhu tubuh secara alami."
+  },
+  {
+    question: "Apa peran kulit dalam menjaga homeostasis tubuh?",
+    choices: [
+      "Mendetoksifikasi darah",
+      "Menyimpan cadangan glukosa",
+      "Mengatur suhu dan mengeluarkan zat sisa",
+      "Menghasilkan sel darah merah"
+    ],
+    correctAnswer: 2,
+    explanation: "Kulit membantu mengatur suhu tubuh dan membuang zat sisa seperti urea melalui keringat."
+  },
+
+  // B. Organ-organ Sistem Ekskresi - Paru-paru
+  {
+    question: "Mengapa paru-paru termasuk dalam sistem ekskresi?",
+    choices: [
+      "Karena mengeluarkan karbon dioksida sebagai hasil metabolisme",
+      "Karena menghasilkan oksigen untuk tubuh",
+      "Karena menyaring darah dari racun",
+      "Karena berfungsi seperti ginjal"
+    ],
+    correctAnswer: 0,
+    explanation: "Paru-paru mengeluarkan CO₂ dan uap air sebagai sisa metabolisme respirasi sel."
+  },
+  {
+    question: "Apa yang terjadi jika paru-paru tidak mampu mengeluarkan karbon dioksida dengan baik?",
+    choices: [
+      "Suhu tubuh menurun drastis",
+      "Tingkat racun dalam darah meningkat",
+      "Kandungan oksigen dalam tubuh meningkat",
+      "Produksi keringat meningkat"
+    ],
+    correctAnswer: 1,
+    explanation: "Kegagalan pengeluaran CO₂ menyebabkan darah menjadi asam (asidosis) dan mengganggu keseimbangan tubuh."
+  },
+
+  // B. Organ-organ Sistem Ekskresi - Hati
+  {
+    question: "Mengapa hati mengubah amonia menjadi urea sebelum dibuang oleh ginjal?",
+    choices: [
+      "Karena amonia diperlukan untuk pembentukan energi",
+      "Karena urea lebih beracun daripada amonia",
+      "Karena amonia terlalu berbahaya untuk dibiarkan dalam darah",
+      "Karena ginjal tidak bisa mengenali amonia"
+    ],
+    correctAnswer: 2,
+    explanation: "Amonia sangat toksik; hati mengubahnya menjadi urea yang lebih aman dan larut dalam air untuk dikeluarkan oleh ginjal."
+  },
+  {
+    question: "Apa akibatnya jika fungsi hati dalam detoksifikasi terganggu?",
+    choices: [
+      "Pencernaan terganggu",
+      "Zat beracun menumpuk dan merusak jaringan tubuh",
+      "Keringat mengandung lebih banyak air",
+      "Paru-paru berhenti bekerja"
+    ],
+    correctAnswer: 1,
+    explanation: "Hati berfungsi menetralisir racun. Jika terganggu, racun akan menumpuk dan merusak tubuh."
+  },
+
+  // C. Proses Pembentukan Urin
+  {
+    question: "Mengapa proses reabsorpsi penting dalam pembentukan urin?",
+    choices: [
+      "Agar urin menjadi lebih asam",
+      "Untuk menyerap kembali zat yang masih berguna seperti glukosa dan air",
+      "Agar zat beracun bisa diserap kembali",
+      "Untuk meningkatkan tekanan darah"
+    ],
+    correctAnswer: 1,
+    explanation: "Reabsorpsi memungkinkan tubuh menyelamatkan zat penting seperti air, garam, dan nutrisi dari urin primer."
+  },
+  {
+    question: "Apa yang terjadi jika proses reabsorpsi dalam ginjal gagal?",
+    choices: [
+      "Tubuh menjadi lebih aktif",
+      "Zat beracun menumpuk dalam urin",
+      "Tubuh kehilangan terlalu banyak zat berguna seperti air dan glukosa",
+      "Tekanan darah menurun drastis"
+    ],
+    correctAnswer: 2,
+    explanation: "Kegagalan reabsorpsi menyebabkan hilangnya zat penting dalam urin sehingga dapat menyebabkan dehidrasi dan ketidakseimbangan nutrisi."
+  },
+
+  // D. Gangguan pada Sistem Ekskresi
+  {
+    question: "Bagaimana dampak batu ginjal terhadap sistem ekskresi?",
+    choices: [
+      "Meningkatkan produksi hormon",
+      "Menghambat aliran urin dan menyebabkan nyeri",
+      "Menyebabkan kulit menjadi kering",
+      "Mempercepat proses filtrasi darah"
+    ],
+    correctAnswer: 1,
+    explanation: "Batu ginjal menyumbat saluran urin dan menyebabkan rasa nyeri serta gangguan pada pengeluaran urin."
+  },
+  {
+    question: "Mengapa gagal ginjal kronis berbahaya bagi kehidupan seseorang?",
+    choices: [
+      "Karena menurunkan suhu tubuh secara drastis",
+      "Karena ginjal tidak mampu membentuk hormon insulin",
+      "Karena tubuh tidak mampu membuang zat-zat sisa secara efektif",
+      "Karena dapat menyebabkan anemia ringan"
+    ],
+    correctAnswer: 2,
+    explanation: "Gagal ginjal membuat tubuh tidak bisa membuang limbah dan racun, menyebabkan keracunan sistemik dan risiko kematian."
+  },
+
+  // E. Cara Menjaga Kesehatan Sistem Ekskresi
+  {
+    question: "Mengapa penting untuk menjaga asupan air yang cukup setiap hari?",
+    choices: [
+      "Agar hati dapat bekerja lebih cepat",
+      "Untuk membantu proses filtrasi ginjal dan mencegah batu ginjal",
+      "Agar paru-paru tidak mengering",
+      "Untuk mempercepat pencernaan"
+    ],
+    correctAnswer: 1,
+    explanation: "Air membantu pelarutan dan pengeluaran zat sisa dalam urin serta mencegah pembentukan batu ginjal."
+  },
+  {
+    question: "Bagaimana pola hidup sehat bisa mencegah gangguan sistem ekskresi?",
+    choices: [
+      "Dengan berolahraga berat setiap hari",
+      "Dengan banyak tidur tanpa minum",
+      "Dengan mengonsumsi air, makanan sehat, dan menghindari zat berbahaya",
+      "Dengan mengurangi jumlah darah yang disaring"
+    ],
+    correctAnswer: 2,
+    explanation: "Pola makan sehat, cukup cairan, dan menghindari zat toksik membantu organ ekskresi tetap berfungsi optimal."
+  }
+  ];
+
+  let currentExcretionIndex = 0;
+
+  function renderExcretionQuestion() {
+    const container = document.getElementById("quizExcretionContainer");
+    const q = excretionQuestions[currentExcretionIndex];
+    container.innerHTML = `
+      <div>
+        <h3 class="text-xl font-semibold text-gray-800">Soal ${currentExcretionIndex + 1}:</h3>
+        <p class="text-gray-700 mt-2">${q.question}</p>
+        <div class="mt-4 space-y-2">
+          ${q.choices.map((choice, i) => `
+            <label class="flex items-center gap-2">
+              <input type="radio" name="excretionChoice" value="${i}" class="form-radio text-blue-600">
+              <span>${choice}</span>
+            </label>
+          `).join("")}
+        </div>
+      </div>
+    `;
+
+    // Reset pembahasan
+    document.getElementById("excretionExplanation").classList.add("hidden");
+    document.getElementById("excretionExplanation").innerText = "";
+
+    // Disable tombol jika di ujung
+    document.getElementById("prevExcretionBtn").disabled = currentExcretionIndex === 0;
+    document.getElementById("nextExcretionBtn").disabled = currentExcretionIndex === excretionQuestions.length - 1;
+  }
+
+  function checkExcretionAnswer() {
+    const selected = document.querySelector('input[name="excretionChoice"]:checked');
+    const explanationBox = document.getElementById("excretionExplanation");
+    if (!selected) {
+      alert("Pilih salah satu jawaban dulu!");
+      return;
+    }
+
+    const selectedIndex = parseInt(selected.value);
+    const q = excretionQuestions[currentExcretionIndex];
+    if (selectedIndex === q.correctAnswer) {
+      explanationBox.innerText = "✅ Benar! " + q.explanation;
+      explanationBox.classList.remove("hidden");
+      explanationBox.classList.remove("text-red-900");
+      explanationBox.classList.add("text-green-900");
+    } else {
+      explanationBox.innerText = "❌ Salah. " + q.explanation;
+      explanationBox.classList.remove("hidden");
+      explanationBox.classList.remove("text-green-900");
+      explanationBox.classList.add("text-red-900");
+    }
+  }
+
+  function prevExcretionQuestion() {
+    if (currentExcretionIndex > 0) {
+      currentExcretionIndex--;
+      renderExcretionQuestion();
+    }
+  }
+
+  function nextExcretionQuestion() {
+    if (currentExcretionIndex < excretionQuestions.length - 1) {
+      currentExcretionIndex++;
+      renderExcretionQuestion();
+    }
+  }
+
+  // Inisialisasi tampilan pertama
+  renderExcretionQuestion();
+</script>
+<div id="Ulangan-Harian">
+    <p class="text-xl font-semibold mb-4 text-[#4dd4a3]">Ulangan Harian</p>
+<button onclick="window.open('Ulangan Sistem Organ.html', '_blank');"
+  style="padding: 12px 24px; font-size: 16px; font-weight: bold; color: white; background: linear-gradient(135deg, #f7971e, #ffd200); border: none; border-radius: 12px; cursor: pointer; transition: transform 0.3s ease, box-shadow 0.3s ease;"
+  onmouseover="this.style.transform='scale(1.05)'; this.style.boxShadow='0 8px 16px rgba(0,0,0,0.3)'"
+  onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='none'">
+  Ulangan Hakikat Sains
+</button>
+
+</div>
+
+
+
+    <script>
+        function toggleSidebar() {
+            let sidebar = document.getElementById("sidebar");
+            if (sidebar.style.left === "-250px") {
+                sidebar.style.left = "0";
+            } else {
+                sidebar.style.left = "-250px";
+            }
+        }
+    </script>
+<script>
+  function checkLogin() {
+    const user = document.getElementById("username").value;
+    const pass = document.getElementById("password").value;
+
+    // Akun yang sudah disediakan
+    const validAccounts = [
+      { username: "admin", password: "12345" },
+      { username: "user1", password: "abcde" },
+      { username: "Diza MTSN 1 Brebes 7", password: "semangatbelajar45" },
+    ];
+
+    const found = validAccounts.find(acc => acc.username === user && acc.password === pass);
+
+    if (found) {
+      document.getElementById("loginForm").style.display = "none";
+      document.getElementById("content22").classList.remove("hidden");
+    } else {
+      document.getElementById("errorMsg").innerText = "Username atau password salah!";
+    }
+  }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Ulangan Zat dan Perubahannya</title>
+	 <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async
+    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+  </script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f4f9ff;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      background-color: #1e88e5;
+      color: white;
+      padding: 15px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .menu-button, .timer {
+      background: white;
+      color: #1e88e5;
+      border: none;
+      padding: 8px 14px;
+      border-radius: 6px;
+      font-weight: bold;
+      cursor: default;
+    }
+
+    .container {
+      display: flex;
+      height: calc(100vh - 60px);
+    }
+
+    .left-panel {
+      width: 25%;
+      background-color: #e3f2fd;
+      padding: 20px;
+      border-right: 1px solid #cfd8dc;
+      overflow-y: auto;
+    }
+
+    .right-panel {
+      width: 75%;
+      padding: 30px;
+      overflow-y: auto;
+    }
+
+    .question-buttons {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 8px;
+    }
+
+    .question-buttons button {
+      padding: 6px;
+      font-size: 13px;
+      background-color: white;
+      border: 1.5px solid #1e88e5;
+      border-radius: 6px;
+      color: #1e88e5;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .question-buttons button:hover {
+      background-color: #bbdefb;
+    }
+
+    .question-buttons button.active {
+      background-color: #1565c0;
+      color: white;
+    }
+
+    .navigation {
+      margin-top: 30px;
+    }
+
+    .navigation button {
+      padding: 10px 18px;
+      margin: 5px;
+      background-color: #1e88e5;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .navigation button:disabled {
+      background-color: #ccc;
+      cursor: not-allowed;
+    }
+
+    .option {
+      display: block;
+      padding: 10px 15px;
+      margin: 10px 0;
+      border: 1.5px solid #90caf9;
+      border-radius: 6px;
+      background-color: white;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .option:hover {
+      background-color: #e3f2fd;
+    }
+
+    .option input {
+      margin-right: 10px;
+    }
+
+    #scoreDisplay {
+      margin-top: 20px;
+      font-weight: bold;
+      color: #1e88e5;
+      display: none;
+    }
+
+    #submitBtn {
+      padding: 10px 18px;
+      margin-top: 20px;
+      background-color: #43a047;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-weight: bold;
+      cursor: pointer;
+      display: none;
+    }
+
+    #submitBtn:hover {
+      background-color: #388e3c;
+    }
+  </style>
+
+</head>
+<body>
+
+<header>
+<!-- Form Login Peserta -->
+<div id="loginModal" style="position:fixed; top:0; left:0; width:100%; height:100%; background-color:rgba(0,0,0,0.6); display:flex; justify-content:center; align-items:center; z-index:1000;">
+  <div style="background:white; padding:30px; border-radius:12px; width:300px; box-shadow:0 4px 12px rgba(0,0,0,0.3);">
+    <h3 style="text-align:center; color:#1e88e5;">Login Peserta</h3>
+    <label>Nama:</label>
+    <input type="text" id="loginNama" placeholder="Masukkan Nama" style="width:100%; padding:8px; margin-bottom:10px;"><br>
+    <label>Kelas:</label>
+    <input type="text" id="loginKelas" placeholder="Misal: 8A" style="width:100%; padding:8px; margin-bottom:10px;"><br>
+    <label>Password:</label>
+    <input type="password" id="loginPassword" placeholder="Masukkan Password" style="width:100%; padding:8px; margin-bottom:10px;"><br>
+    <button onclick="checkLogin()" style="width:100%; padding:10px; background:#1e88e5; color:white; border:none; border-radius:8px; font-weight:bold;">Masuk</button>
+  </div>
+</div>
+
+  <h2>Ulangan Sistem Organ</h2>
+  
+<div>
+    <span class="timer" id="timer">40:00</span>
+  </div>
+<label for="namaPeserta">Nama Peserta:</label>
+<input type="text" id="namaPeserta" placeholder="Masukkan nama Anda" required>
+
+</header>
+
+<div class="container">
+  <div class="left-panel">
+    <h3>Soal</h3>
+    <div class="question-buttons" id="questionButtons"></div>
+    <div id="scoreDisplay"></div>
+<div id="rankingDisplay" style="margin-top: 30px;">
+  <h3>Ranking Peserta:</h3>
+  <table id="rankingTable" style="width:100%; border-collapse: collapse; margin-top: 10px; background-color: white;">
+    <thead>
+  <tr style="background-color: #1e88e5; color: white;">
+    <th style="padding: 10px; border: 1px solid #ccc;">Peringkat</th>
+    <th style="padding: 10px; border: 1px solid #ccc;">Kelas</th>
+    <th style="padding: 10px; border: 1px solid #ccc;">Nama Peserta</th>
+    <th style="padding: 10px; border: 1px solid #ccc;">Skor</th>
+  </tr>
+</thead>
+    <tbody id="rankingBody"></tbody>
+  </table>
+<button onclick="exportToExcel()" style="margin-top: 15px; padding: 10px 18px; background-color: #1e88e5; color: white; border: none; border-radius: 6px; font-weight: bold;">Unduh Excel</button>
+
+</div>
+
+  </div>
+
+  <div class="right-panel">
+    <div id="questionDisplay"></div>
+    <div class="navigation">
+      <button id="prevBtn">Sebelumnya</button>
+      <button id="nextBtn">Selanjutnya</button>
+      <button id="submitBtn">Submit</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  const questions = [
+ {
+  "type": "mc",
+  "text": "<strong>Fungsi Vitamin:</strong><br>Vitamin dapat berfungsi sebagai koenzim atau bagian dari enzim tertentu. Salah satu contohnya adalah flavoprotein, yaitu enzim yang memerlukan vitamin sebagai bagian prostetiknya. Vitamin apakah yang berperan sebagai bagian dari enzim flavoprotein?",
+  "options": [
+    "Vitamin A",
+    "Vitamin C",
+    "Vitamin B2 (riboflavin)",
+    "Vitamin D"
+  ],
+  "correct": 2
+},
+{
+  "type": "mc",
+  "text": "Seorang siswa mengamati proses pencernaan kimiawi yang terjadi di usus halus dan menemukan bahwa makanan seperti protein, lemak, dan karbohidrat dicerna secara bersamaan. Jika proses tersebut melibatkan enzim dari pankreas dan usus halus, kombinasi enzim manakah yang PALING MUNGKIN terlibat dalam proses tersebut?",
+  "options": [
+    "Tripsin, amilase, lipase, dan maltase",
+    "Pepsin, renin, dan amilase",
+    "Lipase, pepsin, dan laktase",
+    "Amilase, renin, dan maltase"
+  ],
+  "correct": 0
+},
+{
+  "type": "mc",
+  "text": "Seorang siswa mengalami gejala seperti mual, muntah, nyeri perut bagian atas, dan rasa panas di dada setelah mengonsumsi makanan pedas dan asam secara berlebihan. Berdasarkan gejala tersebut, gangguan pencernaan apakah yang paling mungkin dialami siswa tersebut?",
+  "options": [
+    "Diare",
+    "Gastritis",
+    "Disentri",
+    "Konstipasi"
+  ],
+  "correct": 1
+},
+{
+  "type": "mc",
+  "text": "<strong>Perhatikan gambar aliran darah berikut:</strong><br><img src='https://www.quipper.com/id/blog/wp-content/uploads/2022/08/Organ-Peredaran-Darah-jantung.webp' alt='Aliran Darah' width='300'><br>Setelah darah dipompa dari bilik kiri jantung, manakah urutan jalur aliran darah yang benar dalam sistem peredaran darah besar?",
+  "options": [
+    "Bilik kiri → arteri paru-paru → paru-paru → serambi kiri",
+    "Bilik kiri → aorta → seluruh tubuh → vena cava → serambi kanan",
+    "Serambi kiri → paru-paru → bilik kanan → seluruh tubuh",
+    "Paru-paru → bilik kiri → aorta → bilik kanan"
+  ],
+  "correct": 1
+},
+{
+  "type": "mc",
+  "text": "<strong>Perhatikan data berikut tentang golongan darah:</strong><br><table border='1' cellpadding='5' cellspacing='0'>\n<thead>\n<tr><th>Aglutinogen (Antigen)</th><th>Aglutinin (Antibodi)</th></tr>\n</thead>\n<tbody>\n<tr><td>A dan B</td><td>Tidak ada</td></tr>\n</tbody>\n</table><br>Berdasarkan data tersebut, golongan darah manakah yang sesuai?",
+  "options": [
+    "Golongan darah A",
+    "Golongan darah B",
+    "Golongan darah AB",
+    "Golongan darah O"
+  ],
+  "correct": 2
+},
+{
+  "type": "mc",
+  "text": "Dalam sebuah studi tentang sistem kekebalan tubuh, seorang peneliti menemukan bahwa jenis sel darah putih tertentu aktif memproduksi antibodi untuk melawan infeksi virus, dan jenis lain menghancurkan sel yang terinfeksi secara langsung. Berdasarkan informasi tersebut, peran apakah yang dimainkan oleh limfosit dalam tubuh manusia?",
+  "options": [
+    "Mengangkut oksigen ke seluruh tubuh",
+    "Mencerna mikroorganisme dengan fagositosis",
+    "Menghasilkan antibodi dan menghancurkan sel asing secara spesifik",
+    "Menghentikan pendarahan dengan membentuk bekuan"
+  ],
+  "correct": 2
+},
+{
+  "type": "mc",
+  "text": "Seorang remaja sering merasa pusing dan lemas saat beraktivitas ringan. Setelah diperiksa, ternyata kadar hemoglobinnya rendah. Jika kamu berada dalam kondisi serupa, tindakan pencegahan atau upaya apa yang PALING TEPAT dilakukan untuk mengurangi risiko gangguan sistem transportasi tersebut?",
+  "options": [
+    "Mengurangi konsumsi makanan berlemak dan asin",
+    "Banyak beristirahat tanpa memperhatikan pola makan",
+    "Mengonsumsi makanan kaya zat besi seperti hati, bayam, dan daging merah secara teratur",
+    "Berolahraga intens setiap hari tanpa memperhatikan asupan nutrisi"
+  ],
+  "correct": 2
+},
+{
+  "type": "mc",
+  "text": "Seorang pria usia 50 tahun mengalami kelumpuhan mendadak pada satu sisi tubuh dan kesulitan berbicara. Riwayat medis menunjukkan tekanan darah tinggi yang tidak terkontrol selama bertahun-tahun. Berdasarkan data tersebut, penyakit apakah yang PALING MUNGKIN menjadi penyebab utama terjadinya stroke pada pasien tersebut?",
+  "options": [
+    "Anemia",
+    "Hipertensi",
+    "Diabetes tipe 2",
+    "Asma"
+  ],
+  "correct": 1
+},
+{
+  "type": "mc",
+  "text": "<strong>Perhatikan gambar sistem pernapasan manusia berikut:</strong><br><img src='https://cdn.hellosehat.com/wp-content/uploads/2019/03/respiratory-system-01-495x467.png' alt='Sistem Pernapasan' width='300'><br>Bagian yang berbentuk tabung dan bercabang dua ke arah paru-paru kanan dan kiri berfungsi menyalurkan udara dari trakea ke paru-paru. Apa nama bagian tersebut dan apa fungsinya?",
+  "options": [
+    "Bronkiolus – menyaring debu dari udara",
+    "Alveolus – tempat pertukaran oksigen dan karbon dioksida",
+    "Bronkus – menyalurkan udara dari trakea ke paru-paru",
+    "Trakea – tempat terjadinya pertukaran gas"
+  ],
+  "correct": 2
+},
+{
+  "type": "mc",
+  "text": "Saat seseorang menarik napas dalam-dalam, otot diafragma berkontraksi dan mendatar, serta otot antar tulang rusuk terangkat. Akibatnya, volume rongga dada membesar dan tekanan udara di dalamnya menurun. Berdasarkan mekanisme tersebut, proses apakah yang sedang terjadi dan mengapa udara dapat masuk ke paru-paru?",
+  "options": [
+    "Ekspirasi – karena tekanan paru-paru meningkat",
+    "Inspirasi – karena tekanan udara di paru-paru lebih rendah daripada tekanan udara luar",
+    "Ekspirasi – karena otot perut mendorong udara keluar",
+    "Inspirasi – karena udara dipompa aktif oleh paru-paru ke dalam"
+  ],
+  "correct": 1
+},
+{
+  "type": "mc",
+  "text": "Seorang atlet diuji fungsi paru-parunya. Ia diminta bernapas normal, kemudian menarik napas sedalam-dalamnya, dan menghembuskan napas sekuat-kuatnya hingga tidak ada udara lagi yang bisa dikeluarkan. Volume udara yang tersisa di paru-parunya tidak bisa dikeluarkan meskipun ia berusaha keras. Berdasarkan informasi tersebut, volume udara apakah yang dimaksud?",
+  "options": [
+    "Volume tidal",
+    "Volume cadangan inspirasi",
+    "Volume cadangan ekspirasi",
+    "Volume residu"
+  ],
+  "correct": 3
+},
+
+{
+  "type": "mc",
+  "text": "Seorang siswa sering mengalami sesak napas, terutama setelah berolahraga atau terpapar debu. Ia juga terkadang mengeluarkan suara mengi saat bernapas. Dokter menyatakan bahwa saluran pernapasannya mengalami penyempitan karena reaksi alergi. Berdasarkan gejala tersebut, penyakit apakah yang kemungkinan besar diderita siswa tersebut?",
+  "options": [
+    "Tuberkulosis",
+    "Asma",
+    "Bronkitis",
+    "Emfisema"
+  ],
+  "correct": 1
+},
+{
+  "type": "mc",
+  "text": "Perhatikan narasi berikut:<br><em>Seorang pria berusia 35 tahun telah merokok sejak usia remaja. Ia mulai sering mengalami batuk kronis, sesak napas, dan cepat lelah saat melakukan aktivitas ringan. Pemeriksaan medis menunjukkan bahwa sebagian besar alveolus di paru-parunya telah rusak dan elastisitas paru-parunya menurun drastis.</em><br>Berdasarkan narasi tersebut, bahaya merokok yang paling mungkin terjadi adalah...",
+  "options": [
+    "Asma akibat alergi terhadap nikotin",
+    "Emfisema yang merusak alveolus dan mengurangi kapasitas paru",
+    "Tuberkulosis yang menyerang sistem pernapasan secara menular",
+    "Kanker tenggorokan yang memengaruhi pita suara"
+  ],
+  "correct": 1
+},
+{
+  "type": "mc",
+  "text": "<strong>Perhatikan gambar berikut:</strong><br><img src='https://ners.unair.ac.id/site/images/Lihat/Sistem_Pencernaan.png' alt='Sistem Pencernaan' width='300'><br>Pada gambar di atas, organ yang ditunjukkan dengan bentuk seperti kantung di bawah hati disebut lambung. Apa fungsi utama organ tersebut dalam sistem pencernaan?",
+  "options": [
+    "Menyerap nutrisi dan air dari makanan",
+    "Mengemulsi lemak dengan bantuan empedu",
+    "Menghasilkan enzim amilase untuk mencerna karbohidrat",
+    "Menghancurkan makanan secara kimiawi menggunakan asam dan enzim"
+  ],
+  "correct": 3
+},
+{
+  "type": "mc",
+  "text": "Seorang siswa mengalami gejala seperti sakit perut yang hebat setelah mengonsumsi makanan berlemak, disertai mual, muntah, dan perut terasa kembung di bagian kanan atas. Dokter menyatakan terjadi gangguan pada organ yang menghasilkan cairan empedu. Berdasarkan gejala tersebut, gangguan pencernaan apakah yang paling mungkin terjadi?",
+  "options": [
+    "Gastritis",
+    "Diare",
+    "Batu empedu",
+    "Konstipasi"
+  ],
+  "correct": 2
+},
+{
+  "type": "mc",
+  "text": "Perhatikan data bagian-bagian jantung berikut ini:<br><ul><li>Serambi kanan</li><li>Bilik kanan</li><li>Paru-paru</li><li>Serambi kiri</li></ul>Jika darah mengalir melalui bagian-bagian tersebut, proses peredaran darah manakah yang sedang terjadi dan bagaimana urutan aliran darahnya?",
+  "options": [
+    "Peredaran darah besar: serambi kanan → bilik kanan → seluruh tubuh → serambi kiri",
+    "Peredaran darah kecil: serambi kanan → paru-paru → bilik kanan → serambi kiri",
+    "Peredaran darah kecil: serambi kanan → bilik kanan → paru-paru → serambi kiri",
+    "Peredaran darah besar: bilik kiri → aorta → seluruh tubuh → bilik kanan"
+  ],
+  "correct": 2
+},
+{
+  "type": "mc",
+  "text": "<strong>Perhatikan tabel berikut tentang golongan darah manusia:</strong><br><table border='1' cellpadding='5' cellspacing='0'>\n<thead>\n<tr><th>Aglutinogen (Antigen)</th><th>Aglutinin (Antibodi)</th></tr>\n</thead>\n<tbody>\n<tr><td>–</td><td>Anti-A dan Anti-B</td></tr>\n</tbody>\n</table><br>Berdasarkan data tersebut, golongan darah apakah yang paling sesuai?",
+  "options": [
+    "Golongan darah A",
+    "Golongan darah B",
+    "Golongan darah AB",
+    "Golongan darah O"
+  ],
+  "correct": 3
+},
+{
+  "type": "mc",
+  "text": "Seorang siswa memiliki riwayat keluarga dengan penyakit jantung koroner dan tekanan darah tinggi. Ia ingin menjaga kesehatannya agar terhindar dari gangguan sistem transportasi. Dari pilihan berikut, manakah langkah pencegahan yang PALING TEPAT untuk mengurangi risiko gangguan sistem transportasi tersebut?",
+  "options": [
+    "Konsumsi makanan tinggi lemak jenuh dan garam untuk menambah energi",
+    "Berolahraga secara teratur, menghindari rokok, dan menjaga pola makan seimbang",
+    "Menghindari aktivitas fisik agar jantung tidak kelelahan",
+    "Mengonsumsi suplemen secara berlebihan tanpa pengawasan medis"
+  ],
+  "correct": 1
+},
+{
+  "type": "mc",
+  "text": "<strong>Perhatikan gambar ginjal manusia berikut ini:</strong><br><img src='https://cdn.grid.id/crop/0x0:0x0/700x465/photo/2020/04/16/2240221692.jpg' alt='Struktur Ginjal' width='300'><br>Pada gambar tersebut, bagian yang ditunjukkan dengan area berlekuk di bagian tengah ginjal disebut pelvis renalis. Apa fungsi utama dari bagian ini?",
+  "options": [
+    "Menyaring darah dan membentuk urin",
+    "Mengalirkan urin dari ginjal menuju ureter",
+    "Menyerap kembali zat-zat yang masih dibutuhkan tubuh",
+    "Mengalirkan darah bersih kembali ke jantung"
+  ],
+  "correct": 1
+},
+{
+  "type": "mc",
+  "text": "<strong>Perhatikan gambar struktur kulit manusia berikut:</strong><br><img src='https://www.quipper.com/id/blog/wp-content/uploads/2022/08/struktur-kulit.webp' alt='Struktur Kulit' width='300'><br>Pada gambar tersebut, bagian yang ditunjukkan di lapisan terdalam, tempat terdapat pembuluh darah dan akar rambut, disebut apa?",
+  "options": [
+    "Epidermis",
+    "Dermis",
+    "Stratum korneum",
+    "Lapisan lemak bawah kulit (hipodermis)"
+  ],
+  "correct": 1
+}
+
+
+
+
+
+
+];
+
+
+  
+
+  let answers = questions.map(q => (q.type === 'mc_multiple' ? [] : null));
+  let currentQuestion = 0;
+  let timerRunning = true;
+
+  const questionDisplay = document.getElementById('questionDisplay');
+  const questionButtonsContainer = document.getElementById('questionButtons');
+  const prevBtn = document.getElementById('prevBtn');
+  const nextBtn = document.getElementById('nextBtn');
+  const submitBtn = document.getElementById('submitBtn');
+  const scoreDisplay = document.getElementById('scoreDisplay');
+  const timerDisplay = document.getElementById('timer');
+function renderQuestionButtons() {
+    questionButtonsContainer.innerHTML = '';
+    questions.forEach((_, i) => {
+      const btn = document.createElement('button');
+      btn.textContent = i + 1;
+      if (i === currentQuestion) btn.classList.add('active');
+      // Tandai soal sudah dijawab
+      if (answers[i] !== null && (Array.isArray(answers[i]) ? answers[i].length > 0 : true)) {
+        btn.style.backgroundColor = '#43a047'; // hijau tanda sudah jawab
+        btn.style.color = 'white';
+      }
+      btn.addEventListener('click', () => {
+        currentQuestion = i;
+        renderQuestion(currentQuestion);
+        updateNavigationButtons();
+      });
+      questionButtonsContainer.appendChild(btn);
+    });
+  }
+
+  function renderQuestion(index) {
+  const q = questions[index];
+  let html = `<h3>Soal ${index + 1}</h3><p>${q.text}</p>`;
+
+  if (q.type === 'mc') {
+    q.options.forEach((opt, i) => {
+      const checked = answers[index] === i ? 'checked' : '';
+      html += `
+        <label class="option">
+          <input type="radio" name="option" value="${i}" ${checked}>
+          ${opt}
+        </label>
+      `;
+    });
+  } else if (q.type === 'mc_multiple') {
+    q.options.forEach((opt, i) => {
+      const checked = (answers[index] && answers[index].includes(i)) ? 'checked' : '';
+      html += `
+        <label class="option">
+          <input type="checkbox" name="option" value="${i}" ${checked}>
+          ${opt}
+        </label>
+      `;
+    });
+  } else if (q.type === 'dropdown') {
+    html += `<select id="dropdownAnswer">`;
+    html += `<option value="">--Pilih jawaban--</option>`;
+    q.options.forEach((opt, i) => {
+      const selected = answers[index] === i ? 'selected' : '';
+      html += `<option value="${i}" ${selected}>${opt}</option>`;
+    });
+    html += `</select>`;
+  } else if (q.type === 'input') {
+    const val = answers[index] || '';
+    html += `<input type="text" id="textAnswer" value="${val}" placeholder="Jawaban Anda">`;
+  }
+
+  questionDisplay.innerHTML = html;
+
+  if (window.MathJax) {
+    MathJax.typesetPromise([questionDisplay]).catch(err => console.error('MathJax error:', err));
+  }
+
+  // Event Listener
+  const options = document.querySelectorAll('input[name="option"]');
+  options.forEach(option => {
+    option.addEventListener('change', (e) => {
+      if (q.type === 'mc') {
+        answers[index] = parseInt(e.target.value);
+      } else if (q.type === 'mc_multiple') {
+        if (!answers[index]) answers[index] = [];
+        const val = parseInt(e.target.value);
+        if (e.target.checked) {
+          if (!answers[index].includes(val)) answers[index].push(val);
+        } else {
+          answers[index] = answers[index].filter(v => v !== val);
+        }
+      }
+      renderQuestionButtons();
+    });
+  });
+
+  if (q.type === 'dropdown') {
+    document.getElementById('dropdownAnswer').addEventListener('change', (e) => {
+      answers[index] = parseInt(e.target.value);
+      renderQuestionButtons();
+    });
+  }
+
+  if (q.type === 'input') {
+    document.getElementById('textAnswer').addEventListener('input', (e) => {
+      answers[index] = e.target.value.trim();
+      renderQuestionButtons();
+    });
+  }
+
+  updateButtons();
+  updateNavButtons();
+}
+
+
+  function updateButtons() {
+    const buttons = document.querySelectorAll('.question-buttons button');
+    buttons.forEach((btn, idx) => {
+      btn.classList.toggle('active', idx === currentQuestion);
+    });
+  }
+
+  function updateNavButtons() {
+    prevBtn.disabled = currentQuestion === 0;
+    nextBtn.disabled = currentQuestion === questions.length - 1;
+    submitBtn.style.display = currentQuestion === questions.length - 1 ? 'inline-block' : 'none';
+  }
+
+  function initButtons() {
+    for (let i = 1; i <= questions.length; i++) {
+      const btn = document.createElement('button');
+      btn.textContent = i;
+      btn.addEventListener('click', () => {
+        currentQuestion = i - 1;
+        renderQuestion(currentQuestion);
+      });
+      questionButtonsContainer.appendChild(btn);
+    }
+  }
+
+  function arraysEqual(a, b) {
+  if (!Array.isArray(a) || !Array.isArray(b)) return false;
+  if (a.length !== b.length) return false;
+  const sortedA = [...a].sort();
+  const sortedB = [...b].sort();
+  return sortedA.every((val, idx) => val === sortedB[idx]);
+}
+function calculateScore() {
+  let score = 0;
+  questions.forEach((q, i) => {
+    if (q.type === 'mc') {
+      if (answers[i] === q.correct) score++;
+    } else if (q.type === 'mc_multiple') {
+      if (arraysEqual(answers[i], q.correct)) score++;
+    } else if (q.type === 'dropdown') {
+      if (answers[i] === q.correct) score++;
+    } else if (q.type === 'input') {
+      if (typeof answers[i] === 'string' && answers[i].toLowerCase() === q.correct.toLowerCase()) {
+        score++;
+      }
+    }
+  });
+
+  const finalScore = score * 5; // ⬅️ Skor dikali 5
+  scoreDisplay.textContent = `Skor Anda: ${finalScore} dari maksimum ${questions.length * 5}`;
+  scoreDisplay.style.display = 'block';
+}
+
+
+  function disableAll() {
+    document.querySelectorAll('button').forEach(btn => btn.disabled = true);
+    document.querySelectorAll('input[type="radio"]').forEach(r => r.disabled = true);
+  }
+function simpanSkorKeLocalStorage(nama, skor) {
+  let hasil = JSON.parse(localStorage.getItem('rankingPeserta')) || [];
+  hasil.push({ nama: namaPesertaGlobal, kelas: kelasPesertaGlobal, skor });
+  localStorage.setItem('rankingPeserta', JSON.stringify(hasil));
+}
+
+function tampilkanRanking() {
+  const rankingBody = document.getElementById('rankingBody');
+  let hasil = JSON.parse(localStorage.getItem('rankingPeserta')) || [];
+
+  hasil.sort((a, b) => b.skor - a.skor);
+
+  rankingBody.innerHTML = '';
+  hasil.forEach((peserta, index) => {
+    const row = document.createElement('tr');
+    row.innerHTML = `
+      <td style="padding: 10px; border: 1px solid #ccc; text-align: center;">${index + 1}</td>
+      <td style="padding: 10px; border: 1px solid #ccc; text-align: center;">${peserta.kelas}</td>
+      <td style="padding: 10px; border: 1px solid #ccc;">${peserta.nama}</td>
+      <td style="padding: 10px; border: 1px solid #ccc; text-align: center;">${peserta.skor}</td>
+    `;
+    rankingBody.appendChild(row);
+  });
+}
+
+  function endTryout() {
+  if (timerRunning) {
+    calculateScore();
+    disableAll();
+    timerRunning = false;
+
+    const namaPeserta = document.getElementById('namaPeserta').value.trim();
+    if (!namaPeserta) {
+      alert("Nama peserta harus diisi untuk menyimpan skor.");
+      return;
+    }
+
+    const skorBenar = questions.reduce((acc, q, i) => {
+  if (q.type === 'mc' && answers[i] === q.correct) return acc + 1;
+  if (q.type === 'mc_multiple' && arraysEqual(answers[i], q.correct)) return acc + 1;
+  if (q.type === 'dropdown' && answers[i] === q.correct) return acc + 1;
+  if (q.type === 'input' && typeof answers[i] === 'string' && answers[i].toLowerCase() === q.correct.toLowerCase()) return acc + 1;
+  return acc;
+}, 0);
+
+const skor = skorBenar * 5; // ⬅️ Skor dikali 5
+
+simpanSkorKeLocalStorage(namaPeserta, skor);
+tampilkanRanking();
+
+  }
+}
+
+
+  submitBtn.addEventListener('click', () => {
+    endTryout();
+    submitBtn.disabled = true;
+  });
+
+  prevBtn.addEventListener('click', () => {
+    if (currentQuestion > 0) {
+      currentQuestion--;
+      renderQuestion(currentQuestion);
+    }
+  });
+
+  nextBtn.addEventListener('click', () => {
+    if (currentQuestion < questions.length - 1) {
+      currentQuestion++;
+      renderQuestion(currentQuestion);
+    }
+  });
+
+  function startTimer(duration) {
+    let timer = duration;
+    const interval = setInterval(() => {
+      if (!timerRunning) {
+        clearInterval(interval);
+        return;
+      }
+
+      const minutes = Math.floor(timer / 60);
+      const seconds = timer % 60;
+      timerDisplay.textContent =
+        `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+
+      if (--timer < 0) {
+        clearInterval(interval);
+        endTryout();
+        alert("Waktu habis! Jawaban Anda telah disubmit.");
+      }
+    }, 1000);
+  }
+
+  initButtons();
+  renderQuestion(currentQuestion);
+  startTimer(40 * 60); // 40 menit
+// Data Peserta
+let namaPesertaGlobal = '';
+let kelasPesertaGlobal = '';
+const PASSWORD = "sasmts2025"; // Ganti dengan password yang kamu inginkan
+
+function checkLogin() {
+  const nama = document.getElementById('loginNama').value.trim();
+  const kelas = document.getElementById('loginKelas').value.trim();
+  const password = document.getElementById('loginPassword').value.trim();
+
+  if (!nama || !kelas || !password) {
+    alert("Semua kolom harus diisi.");
+    return;
+  }
+
+  if (password !== PASSWORD) {
+    alert("Password salah!");
+    return;
+  }
+
+  const namaLengkap = `${nama} (${kelas})`;
+
+  // Cek apakah nama sudah pernah mengerjakan
+  const hasil = JSON.parse(localStorage.getItem('rankingPeserta')) || [];
+  const sudahAda = hasil.some(p => p.nama === namaLengkap);
+
+  if (sudahAda) {
+    alert("Anda sudah pernah mengerjakan. Tidak dapat mengerjakan ulang.");
+    return;
+  }
+
+  // Sukses login
+  namaPesertaGlobal = nama;
+  kelasPesertaGlobal = kelas;
+  document.getElementById('loginModal').style.display = 'none';
+  document.getElementById('namaPeserta').value = namaLengkap;
+}
+function exportToExcel() {
+  const data = JSON.parse(localStorage.getItem('rankingPeserta')) || [];
+
+  const exportData = [
+    ["Peringkat", "Kelas", "Nama Peserta", "Skor"],
+    ...data
+      .sort((a, b) => b.skor - a.skor)
+      .map((item, index) => [index + 1, item.kelas, item.nama, item.skor])
+  ];
+
+  const worksheet = XLSX.utils.aoa_to_sheet(exportData);
+  const workbook = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(workbook, worksheet, "Ranking");
+
+  XLSX.writeFile(workbook, "Ranking_Peserta_Ulangan_Sains.xlsx");
+}
+
+
+</script>
+
+</body>
+</html>
