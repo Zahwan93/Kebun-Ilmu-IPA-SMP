@@ -174,10 +174,13 @@ body::after {
             margin-left: 10px;
         }
         .content {
-            width: 100%;
-            padding: 20px;
-            text-align: center;
-        }
+  width: 100%;
+  max-width: 1200px;
+  margin: auto;
+  padding: 20px;
+  text-align: center;
+}
+
         .card-container {
             display: flex;
             justify-content: center;
@@ -285,7 +288,7 @@ body::after {
     </div>
     
     <!-- Konten Utama -->
-<div class="w-full max-w-7xl mx-auto bg-white px-4 sm:px-8 py-8 rounded-lg shadow-2xl">
+<div class="w-full overlay max-w-7xl mx-auto bg-white px-4 sm:px-8 py-8 rounded-lg shadow-2xl">
   <h1 class="text-3xl font-bold text-center text-[#4dd4a3] mb-6">IPA SMP/MTs</h1>
 
   <!-- IPA SMP/MTs -->
@@ -3383,7 +3386,7 @@ body::after {
     const validAccounts = [
       { username: "admin", password: "12345" },
       { username: "user1", password: "abcde" },
-      { username: "kelas8", password: "kelas8" },
+      { username: "Diza MTSN 1 Brebes 7", password: "semangatbelajar45" },
     ];
 
     const found = validAccounts.find(acc => acc.username === user && acc.password === pass);
