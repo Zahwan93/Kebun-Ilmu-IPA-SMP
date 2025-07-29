@@ -681,6 +681,7 @@ function tampilkanRanking() {
 const skor = skorBenar * 5; // ⬅️ Skor dikali 5
 
 simpanSkorKeLocalStorage(namaPeserta, skor);
+simpanSkorKeFirebase(namaPesertaGlobal, kelasPesertaGlobal, skor); // ini wajib dipanggil
 tampilkanRanking();
 
   }
@@ -786,6 +787,65 @@ function exportToExcel() {
 }
 
 </script>
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
+  import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-analytics.js";
+  import { getDatabase, ref, push, onValue } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-database.js";
 
+  const firebaseConfig = {
+    apiKey: "AIzaSyAREhPCc4WaFVecQN2_Lu4eoK0oXohZ7Fg",
+    authDomain: "ulangansains2025.firebaseapp.com",
+    databaseURL: "https://ulangansains2025-default-rtdb.asia-southeast1.firebasedatabase.app",
+    projectId: "ulangansains2025",
+    storageBucket: "ulangansains2025.firebasestorage.app",
+    messagingSenderId: "514614164498",
+    appId: "1:514614164498:web:d8edf542f357cb1c31accb",
+    measurementId: "G-LRT7HKXE9M"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(app);
+  const database = getDatabase(app);
+
+  // Fungsi kirim skor ke Firebase
+  window.simpanSkorKeFirebase = function(nama, kelas, skor) {
+    const dataRef = ref(database, 'ranking_sains/');
+    push(dataRef, {
+      nama: nama,
+      kelas: kelas,
+      skor: skor,
+      waktu: new Date().toISOString()
+    }).then(() => {
+      console.log("Skor berhasil disimpan ke Firebase ✅");
+    }).catch((error) => {
+      console.error("Gagal menyimpan skor: ", error);
+      alert("Gagal menyimpan skor.");
+    });
+  };
+
+  // Auto-tampilkan ranking saat ada perubahan data
+  const dataRef = ref(database, 'ranking_sains/');
+  onValue(dataRef, (snapshot) => {
+    const data = [];
+    snapshot.forEach((childSnapshot) => {
+      data.push(childSnapshot.val());
+    });
+
+    // Urutkan dari skor tertinggi
+    data.sort((a, b) => b.skor - a.skor);
+
+    const rankingBody = document.getElementById("rankingBody");
+    if (rankingBody) {
+      rankingBody.innerHTML = data.map((item, i) => `
+        <tr>
+          <td style="padding: 10px; border: 1px solid #ccc; text-align: center;">${i + 1}</td>
+          <td style="padding: 10px; border: 1px solid #ccc; text-align: center;">${item.kelas}</td>
+          <td style="padding: 10px; border: 1px solid #ccc;">${item.nama}</td>
+          <td style="padding: 10px; border: 1px solid #ccc; text-align: center;">${item.skor}</td>
+        </tr>
+      `).join("");
+    }
+  });
+</script>
 </body>
 </html>
