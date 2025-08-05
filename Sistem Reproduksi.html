@@ -1,0 +1,1990 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Media Pembelajaran Interaktif</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script> 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+        body {
+    display: flex;
+    flex-direction: column;
+    background: linear-gradient(135deg, #e3f2fd, #fce4ec);
+    position: relative;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+    overflow-x: hidden;
+}
+       body::before,
+body::after {
+    /* Ganti ukurannya jadi persentase agar aman di mobile */
+    width: 100vw;
+    height: 100vw;
+    background: white;
+    border-radius: 50%;
+    z-index: -1;
+    opacity: 0.2;
+}
+        body::before {
+            top: -30%;
+            right: -30%;
+        }
+        body::after {
+            bottom: -50%;
+            left: -30%;
+        }
+	html, body {
+    overflow-x: hidden;
+    max-width: 100vw;
+    box-sizing: border-box;
+}
+
+
+
+.login-box {
+    background: linear-gradient(135deg, #ce9ffc, #f9c7d9); /* Ganti background */
+    padding: 30px;
+    border-radius: 12px;
+    max-width: 300px;
+    margin: 10px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.2);
+    text-align: center;
+}
+
+.login-box h2 {
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.login-box input {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: none;
+    border-radius: 6px;
+    outline: none;
+}
+
+.login-box button {
+    width: 100%;
+    padding: 10px;
+    background: linear-gradient(135deg, #6a11cb, #2575fc); /* Ganti background tombol */
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.login-box button:hover {
+    background: linear-gradient(135deg, #5e0dca, #1d60e7); /* Hover efek */
+}
+    .hidden {
+      display: none;
+    }
+        .sidebar {
+            width: 250px;
+            height: 100vh;
+            background: #4dd4a3;
+            position: fixed;
+            left: -250px;
+            transition: left 0.3s ease-in-out;
+            padding-top: 20px;
+            z-index: 1300;
+        }
+        .sidebar h2 {
+            color: white;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+        }
+        .sidebar ul li {
+            padding: 5px;
+            text-align: left;
+        }
+        .sidebar ul li a {
+            text-decoration: none;
+            color: white;
+            font-size: 16px;
+            display: block;
+        }
+        .sidebar ul li:hover {
+            background: #f8d444;
+        }
+        .toggle-btn {
+            position: fixed;
+            left: 20px;
+            top: 20px;
+            font-size: 24px;
+            cursor: pointer;
+            background: #f8d444;
+            padding: 5px 10px;
+            border-radius: 5px;
+            color: white;
+            z-index: 1400;
+        }
+        .close-btn {
+            position: absolute;
+            right: 20px;
+            top: 20px;
+            font-size: 24px;
+            cursor: pointer;
+            color: white;
+            background: #f8d444;
+            padding: 5px 10px;
+            border-radius: 5px;
+        }
+        .header {
+            background: white;
+            padding: 20px;
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+            border-radius: 10px;
+            position: sticky;
+            top: 0;
+            z-index: 1200;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .header span {
+            flex: 80%;
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+	    color: #4dd4a3;
+        }
+        .header img {
+            flex: 20%;
+            max-width: 60px;
+            height: auto;
+            margin-left: 10px;
+        }
+        .content {
+    width: 100%;
+    max-width: 100%;
+    padding: 16px;
+    box-sizing: border-box;
+    overflow-x: hidden;
+}
+        .card-container {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 20px;
+    padding: 20px;
+    width: 100%;
+    overflow-x: hidden;
+    box-sizing: border-box;
+}
+
+        .card {
+            padding: 20px;
+            width: 250px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            transition: transform 0.3s, box-shadow 0.3s;
+            color: white;
+        }
+        .card:nth-child(1) { background: #4dd4a3; }
+        .card:nth-child(2) { background: #4dd4a3; }
+        .card:nth-child(3) { background: #4dd4a3; }
+        .card:nth-child(4) { background: #4dd4a3; }
+	.card:nth-child(5) { background: #4dd4a3; }
+        .card:nth-child(6) { background: #4dd4a3; }
+        .card:nth-child(7) { background: #4dd4a3; }
+        .card:nth-child(8) { background: #4dd4a3; }
+        .card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+        .card a {
+            text-decoration: none;
+            font-size: 18px;
+            color: white;
+            font-weight: bold;
+        }
+/* Tambahan untuk responsif mobile */
+@media screen and (max-width: 768px) {
+  .card-container {
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    overflow-x: hidden;
+  }
+}
+
+  .card {
+    width: 90%;
+  }
+
+  .sidebar {
+    width: 80%;
+    left: -80%;
+  }
+
+  .toggle-btn {
+    font-size: 20px;
+    padding: 8px 12px;
+  }
+
+  .header span {
+    font-size: 20px;
+  }
+
+  .login-box {
+    width: 90%;
+    max-width: 90%;
+    margin: 20px auto;
+  }
+
+  body::before,
+  body::after {
+    display: none;
+  }
+}
+    </style>
+</head>
+<body>
+<div class="login-box" id="loginForm">
+  <h2>Login</h2>
+  <input type="text" id="username" placeholder="Username" /><br><br>
+  <input type="password" id="password" placeholder="Password" /><br><br>
+  <button onclick="checkLogin()">Masuk</button>
+  <p id="errorMsg" style="color:red;"></p>
+</div>
+
+<div id="content22" class="hidden">
+
+    <div class="sidebar" id="sidebar">
+        <span class="close-btn" onclick="toggleSidebar()">&times;</span>
+        <h2 class=" text-2xl text-semibold ">Menu</h2>
+        <ul class="text-black p-6 bg-[#4dd4a3] rounded-lg shadow-md">
+  <li class="mb-3"><a href="#1.-What-delicious-bakso" class="hover:text-white">1. What delicious bakso!</a></li>
+  <li class="mb-3"><a href="#2.-I-want-an-ice-cream-cone" class="hover:text-white">2. I want an ice cream cone</a></li>
+  <li class="mb-3"><a href="#3.-How-much-is-it" class="hover:text-white">3. How much is it?</a></li>
+  <li class="mb-3"><a href="#4.-I-have-a-stomachache" class="hover:text-white">4. I have a stomachache</a></li>
+  <li class="mb-3"><a href="#5.-What-a-nice-skirt" class="hover:text-white">5. What a nice skirt!</a></li>
+</ul>
+
+
+    </div>
+    
+    <div class="toggle-btn" onclick="toggleSidebar()">
+        <i class="fas fa-bars"></i>
+    </div>
+    
+    <div class="header">
+        <span>Media Pembelajaran Interaktif</span>
+        <img src="https://zahwan93.github.io/Kebun-Ilmu-Matematika-SMP/logo.png" alt="Logo">
+    </div>
+    
+    <!-- Konten Utama -->
+<div class="w-full max-w-7xl mx-auto bg-white px-4 sm:px-8 py-8 rounded-lg shadow-2xl">
+  <h1 class="text-3xl font-bold text-center text-[#4dd4a3] mb-6">IPA SMP/MTs</h1>
+
+  <!-- IPA SMP/MTs -->
+  <div id="IPA SMP/MTs" class="mb-8">
+    <h2 class="text-2xl font-bold mb-4 text-[#4dd4a3]">Sistem Reproduksi</h2>
+
+    <ul class="text-black p-6 bg-[#4dd4a3] rounded-lg shadow-md">
+      
+          <li><a href="#A.-Pertumbuhan-dan-Perkembangan-pada-Makhluk-Hidup" class="hover:underline">A. Pertumbuhan dan Perkembangan pada Makhluk Hidup</a></li>
+          <li><a href="#B.-Reproduksi-pada-Manusia" class="hover:underline">B. Reproduksi pada Manusia</a></li>
+          <li><a href="#C.-Reproduksi-pada-Tumbuhan-dan-Hewan" class="hover:underline">C. Reproduksi pada Tumbuhan dan Hewan</a></li>
+        </ul>
+      
+  </div>
+
+
+<!-- Section: Sistem Reproduksi -->
+<div id="1.-Sistem-Reproduksi" class="text-gray-800 space-y-6 mt-10">
+  <h2 class="text-2xl font-bold text-[#4dd4a3]">1. Sistem Reproduksi</h2>
+
+  <!-- Box Pertumbuhan -->
+<div class="p-6 bg-green-100 rounded-lg shadow-md mb-6">
+  <h2 class="text-2xl font-bold text-[#4dd4a3] mb-4">🪴 Pertumbuhan pada Makhluk Hidup</h2>
+  <p class="mb-4">
+    <strong>Pertumbuhan</strong> adalah proses bertambahnya ukuran (tinggi, berat, dan volume) pada makhluk hidup secara <em>irreversible</em> (tidak dapat kembali ke bentuk semula). Contohnya: tinggi badan anak meningkat seiring waktu.
+  </p>
+  <p class="mb-2 font-semibold">Karakteristik pertumbuhan:</p>
+  <ul class="list-disc list-inside space-y-1">
+    <li><strong>Bersifat kuantitatif</strong>: dapat diukur secara nyata, seperti tinggi, berat, atau volume.</li>
+    <li><strong>Bersifat irreversible</strong>: tidak dapat kembali ke bentuk atau ukuran sebelumnya.</li>
+  </ul>
+</div>
+<!-- Video Pertumbuhan dan Perkembangan Tumbuhan -->
+<div class="mt-8 aspect-w-16 aspect-h-9">
+  <iframe class="w-full h-64 rounded-lg border border-gray-300 shadow-lg"
+    src="https://www.youtube.com/embed/qflTCWocfbQ"
+    title="Video Pertumbuhan dan Perkembangan pada Tumbuhan"
+    frameborder="0"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+    allowfullscreen>
+  </iframe>
+</div>
+<p class="text-sm text-center text-gray-500 mt-2">
+  Video: Penjelasan pertumbuhan dan perkembangan pada tumbuhan (YouTube - dalam Bahasa Indonesia)
+</p>
+
+<!-- Box Perkembangan -->
+<div class="p-6 bg-yellow-100 rounded-lg shadow-md mb-6">
+  <h2 class="text-2xl font-bold text-[#f4b400] mb-4">🌱 Perkembangan pada Makhluk Hidup</h2>
+  <p class="mb-4">
+    <strong>Perkembangan</strong> adalah proses menuju kedewasaan yang mencakup perubahan fungsi, struktur, dan kemampuan makhluk hidup. Perkembangan tidak selalu tampak secara fisik, tetapi menunjukkan peningkatan kompleksitas dan kematangan fungsi tubuh. Contohnya: bayi mulai bisa berjalan, berbicara, atau berpikir logis.
+  </p>
+  <p class="mb-2 font-semibold">Karakteristik perkembangan:</p>
+  <ul class="list-disc list-inside space-y-1">
+    <li><strong>Bersifat kualitatif</strong>: tidak dapat diukur dengan angka, tetapi dapat diamati melalui perubahan kemampuan atau fungsi.</li>
+    <li><strong>Ditandai dengan berfungsinya alat-alat reproduksi pada manusia</strong>: menunjukkan bahwa individu telah mencapai kematangan secara biologis.</li>
+  </ul>
+</div>
+<!-- Video Pertumbuhan dan Perkembangan pada Manusia dan Hewan -->
+<div class="mt-8 aspect-w-16 aspect-h-9">
+  <iframe class="w-full h-64 rounded-lg border border-gray-300 shadow-lg"
+    src="https://www.youtube.com/embed/888HyVkGw4U"
+    title="Video Pertumbuhan dan Perkembangan pada Manusia dan Hewan"
+    frameborder="0"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+    allowfullscreen>
+  </iframe>
+</div>
+<p class="text-sm text-center text-gray-500 mt-2">
+  Video: Proses pertumbuhan dan perkembangan pada manusia dan hewan (YouTube - dalam Bahasa Indonesia)
+</p>
+
+<!-- Box Faktor yang Mempengaruhi -->
+<div class="p-6 bg-blue-100 rounded-lg shadow-md mb-6">
+  <h2 class="text-2xl font-bold text-blue-500 mb-4">⚙️ Faktor yang Mempengaruhi Pertumbuhan dan Perkembangan</h2>
+  <p class="mb-2 font-semibold">1. Faktor internal:</p>
+  <ul class="list-disc list-inside space-y-1 mb-4">
+    <li><strong>Genetik</strong>: sifat bawaan dari orang tua yang memengaruhi tinggi badan, warna kulit, dan kecepatan tumbuh.</li>
+    <li>
+      <strong>Hormon</strong>: zat pengatur yang mengontrol pertumbuhan dan perkembangan tubuh, seperti hormon pertumbuhan dan hormon reproduksi.<br>
+      ➤ <em>Pada hewan dan manusia</em>: hormon pertumbuhan (growth hormone), estrogen, testosteron, dan insulin berperan dalam proses tumbuh dan pubertas.<br>
+      ➤ <em>Pada tumbuhan</em>: hormon seperti auksin (memanjangkan sel), giberelin (merangsang pertumbuhan batang dan bunga), sitokinin (pembelahan sel), dan etilen (pematangan buah) sangat penting untuk pertumbuhan dan perkembangan.
+    </li>
+  </ul>
+
+  <p class="mb-2 font-semibold">2. Faktor eksternal:</p>
+  <ul class="list-disc list-inside space-y-1">
+    <li><strong>Nutrisi</strong>: asupan makanan bergizi sangat berperan dalam proses pertumbuhan dan perkembangan.</li>
+    <li><strong>Cahaya</strong>: pada tumbuhan, cahaya matahari penting untuk proses fotosintesis.</li>
+    <li><strong>Suhu</strong>: suhu lingkungan dapat memengaruhi aktivitas metabolisme.</li>
+    <li><strong>Air</strong>: diperlukan untuk proses kimia di dalam sel.</li>
+    <li><strong>Lingkungan sosial dan psikologis</strong>: terutama bagi manusia, lingkungan keluarga dan pendidikan dapat mempercepat atau menghambat perkembangan mental dan emosional.</li>
+  </ul>
+</div>
+<!-- Tabel Hormon Pertumbuhan dan Perkembangan -->
+<div class="mt-10 p-6 bg-white rounded-lg shadow-md border border-gray-200">
+  <h3 class="text-2xl font-bold text-[#4dd4a3] mb-4 text-center">💡 Tabel Hormon Pertumbuhan dan Perkembangan</h3>
+  <div class="overflow-x-auto">
+    <table class="table-auto w-full border border-gray-300 text-left">
+      <thead class="bg-[#4dd4a3] text-white">
+        <tr>
+          <th class="px-4 py-2 border">Hormon</th>
+          <th class="px-4 py-2 border">Makhluk Hidup</th>
+          <th class="px-4 py-2 border">Fungsi</th>
+        </tr>
+      </thead>
+      <tbody class="bg-white text-gray-800">
+        <!-- Hormon pada Manusia -->
+        <tr class="bg-blue-50">
+          <td class="px-4 py-2 border">Hormon Pertumbuhan (Growth Hormone / GH)</td>
+          <td class="px-4 py-2 border">Manusia</td>
+          <td class="px-4 py-2 border">Merangsang pertumbuhan tulang dan otot, serta meningkatkan metabolisme.</td>
+        </tr>
+        <tr class="bg-blue-50">
+          <td class="px-4 py-2 border">Testosteron</td>
+          <td class="px-4 py-2 border">Manusia (Laki-laki)</td>
+          <td class="px-4 py-2 border">Mengatur perkembangan ciri kelamin sekunder laki-laki dan produksi sperma.</td>
+        </tr>
+        <tr class="bg-blue-50">
+          <td class="px-4 py-2 border">Estrogen</td>
+          <td class="px-4 py-2 border">Manusia (Perempuan)</td>
+          <td class="px-4 py-2 border">Mengatur pertumbuhan ciri kelamin sekunder perempuan dan siklus menstruasi.</td>
+        </tr>
+
+        <!-- Hormon pada Hewan -->
+        <tr class="bg-yellow-50">
+          <td class="px-4 py-2 border">Ecdysone</td>
+          <td class="px-4 py-2 border">Hewan (Serangga)</td>
+          <td class="px-4 py-2 border">Mengatur proses pergantian kulit (molting) dan metamorfosis.</td>
+        </tr>
+        <tr class="bg-yellow-50">
+          <td class="px-4 py-2 border">Insulin</td>
+          <td class="px-4 py-2 border">Hewan (mamalia)</td>
+          <td class="px-4 py-2 border">Mengontrol kadar gula dalam darah dan metabolisme energi.</td>
+        </tr>
+
+        <!-- Hormon pada Tumbuhan -->
+        <tr class="bg-green-50">
+          <td class="px-4 py-2 border">Auksin</td>
+          <td class="px-4 py-2 border">Tumbuhan</td>
+          <td class="px-4 py-2 border">Merangsang pemanjangan sel dan pertumbuhan akar serta batang.</td>
+        </tr>
+        <tr class="bg-green-50">
+          <td class="px-4 py-2 border">Giberelin</td>
+          <td class="px-4 py-2 border">Tumbuhan</td>
+          <td class="px-4 py-2 border">Merangsang perkecambahan dan pertumbuhan tinggi tanaman.</td>
+        </tr>
+        <tr class="bg-green-50">
+          <td class="px-4 py-2 border">Sitokinin</td>
+          <td class="px-4 py-2 border">Tumbuhan</td>
+          <td class="px-4 py-2 border">Merangsang pembelahan sel dan pertumbuhan tunas.</td>
+        </tr>
+        <tr class="bg-green-50">
+          <td class="px-4 py-2 border">Etilen</td>
+          <td class="px-4 py-2 border">Tumbuhan</td>
+          <td class="px-4 py-2 border">Mempercepat pematangan buah dan pelayuan daun.</td>
+        </tr>
+        <tr class="bg-green-50">
+          <td class="px-4 py-2 border">Asam Absisat</td>
+          <td class="px-4 py-2 border">Tumbuhan</td>
+          <td class="px-4 py-2 border">Menghambat pertumbuhan dan mengatur dormansi biji.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<div class="max-w-4xl mx-auto bg-white p-6 rounded-xl shadow-md">
+  <h1 class="text-2xl font-bold mb-4 text-center text-orange-700">Pertumbuhan dan Perkembangan pada Makhluk Hidup</h1>
+  <p class="mb-4 text-center text-gray-700">Bacalah pernyataan berikut, lalu pilih jawaban yang paling sesuai dari dropdown.</p>
+
+  <div id="pertumbuhan-quiz-container" class="space-y-4">
+    <!-- Soal akan di-generate lewat JavaScript -->
+  </div>
+</div><br>
+
+<script>
+  const pertumbuhanQuestions = [
+    { number: 1, functionText: "Proses pertambahan ukuran, volume, dan massa makhluk hidup disebut...", correct: "Pertumbuhan" },
+    { number: 2, functionText: "Proses menuju kedewasaan dan kematangan fungsi organ disebut...", correct: "Perkembangan" },
+    { number: 3, functionText: "Hormon pada tumbuhan yang merangsang pemanjangan sel adalah...", correct: "Auksin" },
+    { number: 4, functionText: "Hormon tumbuhan yang memicu pertumbuhan tunas dan biji adalah...", correct: "Giberelin" },
+    { number: 5, functionText: "Hormon yang menghambat pertumbuhan dan menyebabkan dormansi adalah...", correct: "Asam absisat" },
+    { number: 6, functionText: "Hormon tumbuhan yang merangsang pematangan buah adalah...", correct: "Etilen" },
+    { number: 7, functionText: "Hormon pada manusia yang berperan dalam pertumbuhan tinggi badan adalah...", correct: "Hormon pertumbuhan (Growth Hormone)" },
+    { number: 8, functionText: "Hormon yang berperan dalam pematangan sel kelamin wanita adalah...", correct: "Estrogen" },
+    { number: 9, functionText: "Faktor eksternal yang memengaruhi pertumbuhan dan perkembangan makhluk hidup adalah...", correct: "Cahaya, suhu, air, nutrisi" },
+    { number: 10, functionText: "Contoh pertumbuhan yang dapat diamati pada hewan adalah...", correct: "Bertambahnya tinggi dan berat badan" }
+  ];
+
+  const jawabanOptions = [
+    "Pertumbuhan", "Perkembangan", "Auksin", "Giberelin", "Sitokinin",
+    "Asam absisat", "Etilen", "Hormon pertumbuhan (Growth Hormone)",
+    "Estrogen", "Testosteron", "Cahaya, suhu, air, nutrisi",
+    "Bertambahnya tinggi dan berat badan"
+  ];
+
+  const pertumbuhanContainer = document.getElementById("pertumbuhan-quiz-container");
+
+  pertumbuhanQuestions.forEach((q) => {
+    const div = document.createElement("div");
+    div.className = "bg-orange-50 p-4 rounded-lg shadow flex flex-col gap-2";
+
+    div.innerHTML = `
+      <p class="text-gray-800 font-semibold">Nomor ${q.number}. ${q.functionText}</p>
+      <div class="flex items-center gap-3">
+        <select id="pertumbuhan_answer${q.number}" class="border p-2 rounded-md text-gray-700">
+          <option value="">-- Pilih Jawaban --</option>
+          ${jawabanOptions.map(opt => `<option value="${opt}">${opt}</option>`).join('')}
+        </select>
+        <button onclick="checkPertumbuhanAnswer(${q.number}, \`${q.correct}\`)" class="bg-orange-600 text-white px-3 py-1 rounded hover:bg-orange-700">Cek</button>
+        <span id="pertumbuhan_result${q.number}" class="ml-2 font-medium"></span>
+      </div>
+    `;
+    pertumbuhanContainer.appendChild(div);
+  });
+
+  function checkPertumbuhanAnswer(num, correctAnswer) {
+    const selected = document.getElementById(`pertumbuhan_answer${num}`).value;
+    const result = document.getElementById(`pertumbuhan_result${num}`);
+    if (selected === correctAnswer) {
+      result.textContent = "✅ Benar!";
+      result.className = "text-green-600 ml-3 font-medium";
+    } else {
+      result.textContent = "❌ Salah!";
+      result.className = "text-red-600 ml-3 font-medium";
+    }
+  }
+</script>
+<div class="w-full max-w-3xl mx-auto bg-white px-6 py-8 rounded-2xl shadow-lg" id="quizGrowth">
+  <h2 class="text-3xl font-extrabold text-center text-green-600 mb-8 tracking-tight">🌱 Latihan Soal Interaktif: Pertumbuhan dan Perkembangan Makhluk Hidup</h2>
+
+  <!-- Soal dan Pilihan -->
+  <div id="quizGrowthContainer" class="space-y-6">
+    <!-- Soal akan di-render di sini -->
+  </div>
+
+  <!-- Tombol Navigasi -->
+  <div class="flex justify-between items-center mt-8">
+    <button id="prevGrowthBtn" onclick="prevGrowthQuestion()" class="px-5 py-2 font-semibold rounded-lg bg-green-500 text-white hover:bg-green-600 disabled:bg-gray-300 disabled:text-gray-500 transition-all" disabled>Sebelumnya</button>
+    <div class="space-x-2">
+      <button id="checkGrowthBtn" onclick="checkGrowthAnswer()" class="px-5 py-2 font-semibold rounded-lg bg-green-500 text-white hover:bg-green-600 transition-all">Cek</button>
+      <button id="nextGrowthBtn" onclick="nextGrowthQuestion()" class="px-5 py-2 font-semibold rounded-lg bg-green-500 text-white hover:bg-green-600 disabled:bg-gray-300 disabled:text-gray-500 transition-all">Selanjutnya</button>
+    </div>
+  </div>
+
+  <!-- Pembahasan -->
+  <div id="growthExplanation" class="mt-6 hidden bg-yellow-100 text-yellow-900 border border-yellow-300 p-4 rounded-lg shadow-inner"></div>
+</div>
+
+<script>
+  const growthQuestions = [
+    {
+      question: "Apa yang dimaksud dengan pertumbuhan pada makhluk hidup?",
+      choices: [
+        "Proses menuju kedewasaan",
+        "Pertambahan ukuran dan volume",
+        "Proses adaptasi terhadap lingkungan",
+        "Perubahan perilaku makhluk hidup"
+      ],
+      correctAnswer: 1,
+      explanation: "Pertumbuhan adalah proses pertambahan ukuran, volume, dan massa tubuh yang bersifat irreversible (tidak dapat kembali)."
+    },
+    {
+      question: "Hormon tumbuhan yang berperan dalam pemanjangan sel disebut...",
+      choices: [
+        "Sitokinin",
+        "Etilen",
+        "Auksin",
+        "Giberelin"
+      ],
+      correctAnswer: 2,
+      explanation: "Auksin merangsang pemanjangan sel dan dominansi apikal pada tumbuhan."
+    },
+    {
+      question: "Hormon yang menyebabkan buah menjadi matang adalah...",
+      choices: [
+        "Giberelin",
+        "Auksin",
+        "Sitokinin",
+        "Etilen"
+      ],
+      correctAnswer: 3,
+      explanation: "Etilen adalah hormon gas yang mempercepat pematangan buah."
+    },
+    {
+      question: "Apa peran hormon giberelin pada tumbuhan?",
+      choices: [
+        "Mempercepat pematangan buah",
+        "Merangsang pembelahan sel",
+        "Merangsang pertumbuhan tunas dan biji",
+        "Menghambat pertumbuhan"
+      ],
+      correctAnswer: 2,
+      explanation: "Giberelin merangsang pertumbuhan batang, perkecambahan biji, dan perkembangan bunga serta buah."
+    },
+    {
+      question: "Contoh perkembangan pada manusia adalah...",
+      choices: [
+        "Bertambahnya tinggi badan",
+        "Naiknya berat badan",
+        "Berfungsinya organ reproduksi",
+        "Pertambahan jumlah sel"
+      ],
+      correctAnswer: 2,
+      explanation: "Perkembangan ditandai dengan perubahan fungsi organ, seperti matangnya sistem reproduksi."
+    },
+{
+    question: "Apa yang dimaksud dengan pertumbuhan pada makhluk hidup?",
+    choices: [
+      "Proses menuju kedewasaan",
+      "Pertambahan ukuran dan volume",
+      "Proses adaptasi terhadap lingkungan",
+      "Perubahan perilaku makhluk hidup"
+    ],
+    correctAnswer: 1,
+    explanation: "Pertumbuhan adalah proses pertambahan ukuran, volume, dan massa tubuh yang bersifat irreversible (tidak dapat kembali)."
+  },
+  {
+    question: "Hormon tumbuhan yang berperan dalam pemanjangan sel disebut...",
+    choices: [
+      "Sitokinin",
+      "Etilen",
+      "Auksin",
+      "Giberelin"
+    ],
+    correctAnswer: 2,
+    explanation: "Auksin merangsang pemanjangan sel dan dominansi apikal pada tumbuhan."
+  },
+  {
+    question: "Hormon yang menyebabkan buah menjadi matang adalah...",
+    choices: [
+      "Giberelin",
+      "Auksin",
+      "Sitokinin",
+      "Etilen"
+    ],
+    correctAnswer: 3,
+    explanation: "Etilen adalah hormon gas yang mempercepat pematangan buah."
+  },
+  {
+    question: "Apa peran hormon giberelin pada tumbuhan?",
+    choices: [
+      "Mempercepat pematangan buah",
+      "Merangsang pembelahan sel",
+      "Merangsang pertumbuhan tunas dan biji",
+      "Menghambat pertumbuhan"
+    ],
+    correctAnswer: 2,
+    explanation: "Giberelin merangsang pertumbuhan batang, perkecambahan biji, dan perkembangan bunga serta buah."
+  },
+  {
+    question: "Contoh perkembangan pada manusia adalah...",
+    choices: [
+      "Bertambahnya tinggi badan",
+      "Naiknya berat badan",
+      "Berfungsinya organ reproduksi",
+      "Pertambahan jumlah sel"
+    ],
+    correctAnswer: 2,
+    explanation: "Perkembangan ditandai dengan perubahan fungsi organ, seperti matangnya sistem reproduksi."
+  },
+
+  // 🔥 Soal HOTS dimulai dari sini
+  {
+    question: "Seorang petani ingin mempercepat pertumbuhan batang tanaman tomatnya. Hormon apa yang sebaiknya disemprotkan?",
+    choices: [
+      "Sitokinin",
+      "Auksin",
+      "Giberelin",
+      "Etilen"
+    ],
+    correctAnswer: 2,
+    explanation: "Giberelin mampu merangsang pemanjangan batang, cocok untuk mempercepat pertumbuhan tinggi tanaman."
+  },
+  {
+    question: "Mengapa tumbuhan yang ditempatkan di ruang gelap tetap tumbuh ke arah cahaya?",
+    choices: [
+      "Karena gravitasi menarik daun ke atas",
+      "Karena auksin terkonsentrasi di sisi gelap batang",
+      "Karena etilen menghambat pertumbuhan akar",
+      "Karena sitokinin meningkatkan fotosintesis"
+    ],
+    correctAnswer: 1,
+    explanation: "Auksin bergerak ke sisi yang tidak terkena cahaya dan merangsang pemanjangan sel, sehingga tumbuhan membengkok ke arah cahaya (fototropisme)."
+  },
+  {
+    question: "Jika hormon auksin disuntikkan ke satu sisi batang tanaman, apa yang akan terjadi?",
+    choices: [
+      "Batang tumbuh lurus",
+      "Batang mati karena overdosis hormon",
+      "Batang membengkok menjauhi sisi yang disuntik",
+      "Batang membengkok ke arah sisi yang disuntik"
+    ],
+    correctAnswer: 2,
+    explanation: "Pemanjangan sel lebih aktif di sisi yang disuntik, sehingga batang membengkok ke arah sebaliknya."
+  },
+  {
+    question: "Seorang anak mengalami gangguan pertumbuhan dan lebih pendek dari teman-temannya. Kemungkinan ia kekurangan hormon...",
+    choices: [
+      "Estrogen",
+      "Adrenalin",
+      "Hormon pertumbuhan (GH)",
+      "Insulin"
+    ],
+    correctAnswer: 2,
+    explanation: "Hormon pertumbuhan (Growth Hormone) penting untuk pertumbuhan tinggi dan perkembangan tubuh secara normal."
+  },
+  {
+    question: "Mengapa buah yang disimpan bersama buah matang lebih cepat matang?",
+    choices: [
+      "Karena adanya enzim pencerna",
+      "Karena suhu meningkat",
+      "Karena etilen dari buah matang merangsang pematangan",
+      "Karena kandungan gula saling menular"
+    ],
+    correctAnswer: 2,
+    explanation: "Buah matang menghasilkan etilen, hormon gas yang mempercepat pematangan buah lain di sekitarnya."
+  },
+  {
+    question: "Dalam kondisi lingkungan kering, tumbuhan lebih lambat tumbuh. Mengapa hal ini terjadi?",
+    choices: [
+      "Auksin lebih aktif dalam lingkungan kering",
+      "Penurunan aktivitas fotosintesis dan metabolisme",
+      "Tumbuhan menghasilkan lebih banyak giberelin",
+      "Karena suhu udara terlalu dingin"
+    ],
+    correctAnswer: 1,
+    explanation: "Kurangnya air menyebabkan aktivitas metabolisme dan fotosintesis menurun, sehingga pertumbuhan terhambat."
+  },
+  {
+    question: "Hormon yang menghambat perkecambahan biji dan menyebabkan dormansi adalah...",
+    choices: [
+      "Auksin",
+      "Sitokinin",
+      "Asam absisat",
+      "Etilen"
+    ],
+    correctAnswer: 2,
+    explanation: "Asam absisat menghambat pertumbuhan dan menyebabkan dormansi pada biji serta bagian tumbuhan lainnya."
+  },
+  {
+    question: "Apa hubungan antara hormon estrogen dan perkembangan pada manusia?",
+    choices: [
+      "Merangsang pertumbuhan akar",
+      "Membantu pertumbuhan daun",
+      "Mengatur perkembangan ciri kelamin sekunder wanita",
+      "Mengatur produksi hormon insulin"
+    ],
+    correctAnswer: 2,
+    explanation: "Estrogen mengatur perkembangan karakteristik seksual sekunder pada perempuan, seperti pertumbuhan payudara dan siklus menstruasi."
+  },
+  {
+    question: "Sebuah tanaman diberi hormon etilen dalam jumlah tinggi. Apa yang terjadi?",
+    choices: [
+      "Buahnya matang lebih cepat",
+      "Daunnya tumbuh lebih banyak",
+      "Batangnya memanjang dengan cepat",
+      "Tanaman menghasilkan lebih banyak bunga"
+    ],
+    correctAnswer: 0,
+    explanation: "Etilen mempercepat pematangan buah dan juga dapat menyebabkan penuaan daun (senescence)."
+  },
+  {
+    question: "Mengapa sitokinin digunakan dalam kultur jaringan tumbuhan?",
+    choices: [
+      "Merangsang pematangan buah",
+      "Menghambat pertumbuhan akar",
+      "Merangsang pembelahan dan pembentukan tunas",
+      "Mempercepat pengguguran daun"
+    ],
+    correctAnswer: 2,
+    explanation: "Sitokinin berperan penting dalam pembelahan sel dan merangsang pembentukan tunas, sangat berguna dalam teknik kultur jaringan."
+  }
+  ];
+
+  let currentGrowthIndex = 0;
+
+  const growthContainer = document.getElementById("quizGrowthContainer");
+  const prevBtn = document.getElementById("prevGrowthBtn");
+  const nextBtn = document.getElementById("nextGrowthBtn");
+  const checkBtn = document.getElementById("checkGrowthBtn");
+  const explanationBox = document.getElementById("growthExplanation");
+
+  function renderGrowthQuestion() {
+    const q = growthQuestions[currentGrowthIndex];
+    growthContainer.innerHTML = `
+      <div class="p-4 bg-green-50 rounded-lg shadow">
+        <p class="text-lg font-semibold text-gray-800 mb-3">Soal ${currentGrowthIndex + 1} dari ${growthQuestions.length}</p>
+        <p class="mb-4 text-gray-700 font-medium">${q.question}</p>
+        ${q.choices.map((choice, i) => `
+          <label class="block mb-2">
+            <input type="radio" name="growthAnswer" value="${i}" class="mr-2">
+            ${choice}
+          </label>
+        `).join('')}
+      </div>
+    `;
+
+    explanationBox.classList.add("hidden");
+    explanationBox.innerHTML = "";
+
+    prevBtn.disabled = currentGrowthIndex === 0;
+    nextBtn.disabled = currentGrowthIndex === growthQuestions.length - 1;
+  }
+
+  function checkGrowthAnswer() {
+    const selected = document.querySelector('input[name="growthAnswer"]:checked');
+    if (!selected) {
+      alert("Silakan pilih jawaban terlebih dahulu.");
+      return;
+    }
+
+    const answerIndex = parseInt(selected.value);
+    const correct = growthQuestions[currentGrowthIndex].correctAnswer;
+
+    explanationBox.classList.remove("hidden");
+    if (answerIndex === correct) {
+      explanationBox.innerHTML = `✅ <strong>Benar!</strong> ${growthQuestions[currentGrowthIndex].explanation}`;
+      explanationBox.className = "mt-6 bg-green-100 text-green-900 border border-green-300 p-4 rounded-lg shadow-inner";
+    } else {
+      explanationBox.innerHTML = `❌ <strong>Salah!</strong> ${growthQuestions[currentGrowthIndex].explanation}`;
+      explanationBox.className = "mt-6 bg-red-100 text-red-900 border border-red-300 p-4 rounded-lg shadow-inner";
+    }
+  }
+
+  function prevGrowthQuestion() {
+    if (currentGrowthIndex > 0) {
+      currentGrowthIndex--;
+      renderGrowthQuestion();
+    }
+  }
+
+  function nextGrowthQuestion() {
+    if (currentGrowthIndex < growthQuestions.length - 1) {
+      currentGrowthIndex++;
+      renderGrowthQuestion();
+    }
+  }
+
+  // Load question for the first time
+  renderGrowthQuestion();
+</script>
+
+
+  <!-- B. Reproduksi pada Manusia -->
+  <div>
+    <h3 class="text-xl font-semibold mb-2 text-[#4dd4a3]">B. Reproduksi pada Manusia</h3>
+    <p class="mb-4">
+      Reproduksi adalah kemampuan makhluk hidup untuk menghasilkan keturunan. Manusia berkembang biak secara seksual (generatif) dengan melibatkan sel kelamin pria (sperma) dan wanita (sel telur).
+    </p>
+    <!-- Video Pembelahan Sel (Terkait Sistem Reproduksi) -->
+<div class="mt-8 aspect-w-16 aspect-h-9">
+  <iframe class="w-full h-64 rounded-lg border border-gray-300 shadow-lg"
+    src="https://www.youtube.com/embed/-ChtP5m_VJA"
+    title="Video Pembelahan Sel - Mitosis dan Meiosis"
+    frameborder="0"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+    allowfullscreen>
+  </iframe>
+</div>
+<p class="text-sm text-center text-gray-500 mt-2">
+  Video: Proses pembelahan sel (mitosis & meiosis) dalam sistem reproduksi (YouTube - dalam Bahasa Indonesia)
+</p>
+
+    <p class="font-semibold text-gray-700">1. Organ Reproduksi Pria:</p>
+    <ul class="list-disc pl-6 mb-4 space-y-1">
+      <li><strong>Penis:</strong> Alat kelamin luar pria untuk mengeluarkan sperma dan urine.</li>
+      <li><strong>Testis:</strong> Menghasilkan sperma dan hormon testosteron.</li>
+      <li><strong>Skrotum:</strong> Kantung pelindung testis.</li>
+      <li><strong>Vas deferens & uretra:</strong> Saluran pengeluaran sperma.</li>
+    </ul>
+<!-- Ilustrasi Organ Reproduksi Laki-Laki -->
+<div class="mt-8 p-4 bg-blue-50 rounded-lg shadow-md border border-blue-200">
+  <h3 class="text-xl font-bold text-[#4dd4a3] mb-4 text-center">🧍‍♂️ Ilustrasi Organ Reproduksi Laki-Laki</h3>
+  <div class="flex justify-center">
+    <img src="https://cdn.hellosehat.com/wp-content/uploads/2021/02/a50af6aa-testis.png" 
+         alt="Ilustrasi Organ Reproduksi Laki-Laki"
+         class="w-full max-w-md rounded-lg shadow-md border border-gray-300">
+  </div>
+  <p class="text-sm text-center text-gray-600 mt-2">
+    Gambar: Struktur organ reproduksi pria (Sumber: Wikimedia Commons)
+  </p>
+</div>
+
+<!-- Video Organ Reproduksi Laki-Laki -->
+<div class="mt-8 aspect-w-16 aspect-h-9">
+  <iframe class="w-full h-64 rounded-lg border border-gray-300 shadow-lg"
+    src="https://www.youtube.com/embed/wr_dTIvDDFU"
+    title="Video Organ Reproduksi Laki-Laki"
+    frameborder="0"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+    allowfullscreen>
+  </iframe>
+</div>
+
+<p class="text-sm text-center text-gray-500 mt-2">
+  Video: Penjelasan struktur dan fungsi organ reproduksi laki-laki (YouTube - dalam Bahasa Indonesia)
+</p>
+
+    <p class="font-semibold text-gray-700">2. Organ Reproduksi Wanita:</p>
+    <ul class="list-disc pl-6 mb-4 space-y-1">
+      <li><strong>Vagina:</strong> Saluran lahir dan jalur keluarnya darah menstruasi.</li>
+      <li><strong>Rahim:</strong> Tempat tumbuh dan berkembangnya janin.</li>
+      <li><strong>Ovarium:</strong> Menghasilkan sel telur dan hormon estrogen/progesteron.</li>
+      <li><strong>Tuba falopi:</strong> Tempat terjadinya pembuahan antara sperma dan sel telur.</li>
+    </ul>
+
+    <p class="mb-4">
+      Setelah terjadi pembuahan, zigot akan berkembang menjadi embrio dan menempel di rahim untuk tumbuh menjadi janin hingga dilahirkan.
+    </p>
+  </div>
+<!-- Ilustrasi Organ Reproduksi Perempuan -->
+<div class="mt-8 p-4 bg-pink-50 rounded-lg shadow-md border border-pink-200">
+  <h3 class="text-xl font-bold text-[#4dd4a3] mb-4 text-center">🧍‍♀️ Ilustrasi Organ Reproduksi Perempuan</h3>
+  <div class="flex justify-center">
+    <img src="https://www.medicelle.co.id/wp-content/uploads/2021/09/reproduksi.jpeg" 
+         alt="Ilustrasi Organ Reproduksi Perempuan"
+         class="w-full max-w-md rounded-lg shadow-md border border-gray-300">
+  </div>
+  <p class="text-sm text-center text-gray-600 mt-2">
+    Gambar: Struktur organ reproduksi perempuan (Sumber: Wikimedia Commons)
+  </p>
+</div>
+
+<!-- Video Organ Reproduksi Perempuan -->
+<div class="mt-8 aspect-w-16 aspect-h-9">
+  <iframe class="w-full h-64 rounded-lg border border-gray-300 shadow-lg"
+    src="https://www.youtube.com/embed/gwbiLIAry2A"
+    title="Video Organ Reproduksi Perempuan"
+    frameborder="0"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+    allowfullscreen>
+  </iframe>
+</div>
+<p class="text-sm text-center text-gray-500 mt-2">
+  Video: Penjelasan struktur dan fungsi organ reproduksi perempuan (YouTube - dalam Bahasa Indonesia)
+</p>
+<!-- Tabel Perbandingan Organ Reproduksi Laki-Laki dan Perempuan -->
+<div class="mt-10 p-6 bg-white rounded-lg shadow-md border border-gray-200">
+  <h3 class="text-2xl font-bold text-[#4dd4a3] mb-4 text-center">📋 Tabel Organ Reproduksi Laki-Laki dan Perempuan</h3>
+  <div class="overflow-x-auto">
+    <table class="table-auto w-full border border-gray-300 text-left">
+      <thead class="bg-[#4dd4a3] text-white">
+        <tr>
+          <th class="px-4 py-2 border border-gray-300">Organ</th>
+          <th class="px-4 py-2 border border-gray-300">Jenis Kelamin</th>
+          <th class="px-4 py-2 border border-gray-300">Fungsi</th>
+        </tr>
+      </thead>
+      <tbody class="bg-white text-gray-800">
+        <tr>
+          <td class="px-4 py-2 border">Penis</td>
+          <td class="px-4 py-2 border">Laki-laki</td>
+          <td class="px-4 py-2 border">Alat untuk mengeluarkan sperma dan urine dari tubuh.</td>
+        </tr>
+        <tr>
+          <td class="px-4 py-2 border">Testis</td>
+          <td class="px-4 py-2 border">Laki-laki</td>
+          <td class="px-4 py-2 border">Menghasilkan sperma dan hormon testosteron.</td>
+        </tr>
+        <tr>
+          <td class="px-4 py-2 border">Skrotum</td>
+          <td class="px-4 py-2 border">Laki-laki</td>
+          <td class="px-4 py-2 border">Kantung pelindung testis dan mengatur suhu testis.</td>
+        </tr>
+        <tr>
+          <td class="px-4 py-2 border">Vas deferens</td>
+          <td class="px-4 py-2 border">Laki-laki</td>
+          <td class="px-4 py-2 border">Saluran penghubung antara testis dan uretra untuk mengalirkan sperma.</td>
+        </tr>
+        <tr>
+          <td class="px-4 py-2 border">Prostat</td>
+          <td class="px-4 py-2 border">Laki-laki</td>
+          <td class="px-4 py-2 border">Menghasilkan cairan semen untuk melindungi dan memberi nutrisi sperma.</td>
+        </tr>
+        <tr>
+          <td class="px-4 py-2 border">Ovarium</td>
+          <td class="px-4 py-2 border">Perempuan</td>
+          <td class="px-4 py-2 border">Menghasilkan sel telur (ovum) dan hormon estrogen serta progesteron.</td>
+        </tr>
+        <tr>
+          <td class="px-4 py-2 border">Tuba Falopi</td>
+          <td class="px-4 py-2 border">Perempuan</td>
+          <td class="px-4 py-2 border">Tempat terjadinya pembuahan dan saluran menuju rahim.</td>
+        </tr>
+        <tr>
+          <td class="px-4 py-2 border">Uterus (Rahim)</td>
+          <td class="px-4 py-2 border">Perempuan</td>
+          <td class="px-4 py-2 border">Tempat berkembangnya janin selama kehamilan.</td>
+        </tr>
+        <tr>
+          <td class="px-4 py-2 border">Vagina</td>
+          <td class="px-4 py-2 border">Perempuan</td>
+          <td class="px-4 py-2 border">Saluran untuk keluarnya bayi saat melahirkan dan tempat masuknya penis saat hubungan seksual.</td>
+        </tr>
+        <tr>
+          <td class="px-4 py-2 border">Serviks</td>
+          <td class="px-4 py-2 border">Perempuan</td>
+          <td class="px-4 py-2 border">Bagian bawah rahim yang menghubungkan uterus dengan vagina, berfungsi sebagai jalan lahir.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<div class="max-w-4xl mx-auto bg-white p-6 rounded-xl shadow-md mt-10">
+  <h1 class="text-2xl font-bold mb-4 text-center text-blue-700">Kenali Organ Reproduksi Laki-laki</h1>
+  <p class="mb-4 text-center text-gray-700">Perhatikan gambar di bawah ini. Tiap nomor menunjukkan salah satu organ reproduksi pria. Pilih nama organ yang tepat untuk setiap nomor!</p>
+
+  <div class="flex justify-center mb-6">
+    <img src="https://imgix2.ruangguru.com/assets/miscellaneous/png_3wlhbp_4163.png" alt="Organ Reproduksi Laki-laki" class="rounded-lg border shadow-lg max-h-[500px]">
+  </div>
+
+  <div id="male-repro-quiz-container" class="space-y-4">
+    <!-- Soal organ reproduksi pria akan ditambahkan di sini -->
+  </div>
+</div>
+
+<script>
+  const maleReproQuestions = [
+    { number: 2, correct: "Kelenjar prostat" },
+    { number: 5, correct: "Skrotum" },
+    { number: 6, correct: "Testis" },
+    { number: 8, correct: "Uretra" },
+    { number: 9, correct: "Vas deferens" }
+  ];
+
+  const maleReproOptions = [
+    "Penis", "Skrotum", "Testis", "Epididimis",
+    "Vas deferens", "Kelenjar prostat", "Uretra", "Skrotum"
+  ];
+
+  const maleReproContainer = document.getElementById("male-repro-quiz-container");
+
+  maleReproQuestions.forEach((q) => {
+    const div = document.createElement("div");
+    div.className = "bg-blue-50 p-4 rounded-lg shadow flex flex-col sm:flex-row sm:items-center justify-between";
+
+    div.innerHTML = `
+      <label class="text-lg font-semibold text-blue-800 mb-2 sm:mb-0">Nomor ${q.number} adalah:</label>
+      <div class="flex items-center gap-2">
+        <select id="male-repro-answer${q.number}" class="border p-2 rounded-md text-gray-700">
+          <option value="">-- Pilih Jawaban --</option>
+          ${maleReproOptions.map(opt => `<option value="${opt}">${opt}</option>`).join('')}
+        </select>
+        <button onclick="checkMaleReproAnswer(${q.number}, '${q.correct}')" class="bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700">Cek</button>
+        <span id="male-repro-result${q.number}" class="ml-3 font-medium"></span>
+      </div>
+    `;
+    maleReproContainer.appendChild(div);
+  });
+
+  function checkMaleReproAnswer(num, correctAnswer) {
+    const selected = document.getElementById(`male-repro-answer${num}`).value;
+    const result = document.getElementById(`male-repro-result${num}`);
+    if (selected === correctAnswer) {
+      result.textContent = "✅ Benar!";
+      result.className = "text-green-600 ml-3 font-medium";
+    } else {
+      result.textContent = "❌ Salah!";
+      result.className = "text-red-600 ml-3 font-medium";
+    }
+  }
+</script>
+<div class="max-w-4xl mx-auto bg-white p-6 rounded-xl shadow-md mt-10">
+  <h1 class="text-2xl font-bold mb-4 text-center text-pink-700">Kenali Organ Reproduksi Perempuan</h1>
+  <p class="mb-4 text-center text-gray-700">Perhatikan gambar di bawah ini. Tiap nomor menunjukkan salah satu organ reproduksi wanita. Pilih nama organ yang tepat untuk setiap nomor!</p>
+
+  <div class="flex justify-center mb-6">
+    <img src="https://imgix2.ruangguru.com/assets/miscellaneous/png_3f89lc_5720.PNG" alt="Organ Reproduksi Perempuan" class="rounded-lg border shadow-lg max-h-[500px]">
+  </div>
+
+  <div id="female-repro-quiz-container" class="space-y-4">
+    <!-- Soal organ reproduksi perempuan akan ditambahkan di sini -->
+  </div>
+</div>
+
+<script>
+  const femaleReproQuestions = [
+    { number: 1, correct: "Ligamen Ovarium" },
+    { number: 2, correct: "Tuba falopi (Oviduk)" },
+    { number: 3, correct: "Ovarium" },
+    { number: 4, correct: "Endometrium" },
+    { number: 5, correct: "Vagina" }
+    ];
+
+  const femaleReproOptions = [
+    "Ovarium", "Tuba falopi (Oviduk)", "Uterus (rahim)", "Endometrium",
+    "Serviks", "Vagina", "Lubang vagina", "Ligamen Ovarium"
+  ];
+
+  const femaleReproContainer = document.getElementById("female-repro-quiz-container");
+
+  femaleReproQuestions.forEach((q) => {
+    const div = document.createElement("div");
+    div.className = "bg-pink-50 p-4 rounded-lg shadow flex flex-col sm:flex-row sm:items-center justify-between";
+
+    div.innerHTML = `
+      <label class="text-lg font-semibold text-pink-800 mb-2 sm:mb-0">Nomor ${q.number} adalah:</label>
+      <div class="flex items-center gap-2">
+        <select id="female-repro-answer${q.number}" class="border p-2 rounded-md text-gray-700">
+          <option value="">-- Pilih Jawaban --</option>
+          ${femaleReproOptions.map(opt => `<option value="${opt}">${opt}</option>`).join('')}
+        </select>
+        <button onclick="checkFemaleReproAnswer(${q.number}, '${q.correct}')" class="bg-pink-600 text-white px-3 py-1 rounded hover:bg-pink-700">Cek</button>
+        <span id="female-repro-result${q.number}" class="ml-3 font-medium"></span>
+      </div>
+    `;
+    femaleReproContainer.appendChild(div);
+  });
+
+  function checkFemaleReproAnswer(num, correctAnswer) {
+    const selected = document.getElementById(`female-repro-answer${num}`).value;
+    const result = document.getElementById(`female-repro-result${num}`);
+    if (selected === correctAnswer) {
+      result.textContent = "✅ Benar!";
+      result.className = "text-green-600 ml-3 font-medium";
+    } else {
+      result.textContent = "❌ Salah!";
+      result.className = "text-red-600 ml-3 font-medium";
+    }
+  }
+</script>
+<div class="max-w-4xl mx-auto bg-white p-6 rounded-xl shadow-md">
+  <h1 class="text-2xl font-bold mb-4 text-center text-blue-700">Fungsi Organ Reproduksi Laki-laki</h1>
+  <p class="mb-4 text-center text-gray-700">Bacalah fungsi organ berikut, lalu pilih nama organ yang sesuai dari dropdown.</p>
+
+  <div id="reproduksi-laki-quiz-container" class="space-y-4">
+    <!-- Soal akan di-generate lewat JavaScript -->
+  </div>
+</div><br>
+
+<script>
+  const reproduksiLakiQuestions = [
+    { number: 1, functionText: "Menghasilkan sperma dan hormon testosteron.", correct: "Testis" },
+    { number: 2, functionText: "Tempat penyimpanan sementara sperma agar matang.", correct: "Epididimis" },
+    { number: 3, functionText: "Menyalurkan sperma dari epididimis ke uretra.", correct: "Vas deferens" },
+    { number: 4, functionText: "Menghasilkan cairan basa yang memberi nutrisi sperma.", correct: "Kelenjar prostat" },
+    { number: 5, functionText: "Menghasilkan cairan yang menjadi bagian dari air mani.", correct: "Vesikula seminalis" },
+    { number: 6, functionText: "Menghasilkan cairan pelumas sebelum ejakulasi.", correct: "Kelenjar Cowper" },
+    { number: 7, functionText: "Menyalurkan sperma dan urin ke luar tubuh.", correct: "Uretra" },
+    { number: 8, functionText: "Organ eksternal yang berfungsi untuk memasukkan sperma ke dalam vagina.", correct: "Penis" },
+    { number: 9, functionText: "Kantung pelindung testis agar suhu tetap optimal.", correct: "Skrotum" }
+  ];
+
+  const organReproduksiLakiOptions = [
+    "Testis", "Epididimis", "Vas deferens", "Kelenjar prostat",
+    "Vesikula seminalis", "Kelenjar Cowper", "Uretra",
+    "Penis", "Skrotum"
+  ];
+
+  const reproduksiLakiContainer = document.getElementById("reproduksi-laki-quiz-container");
+
+  reproduksiLakiQuestions.forEach((q) => {
+    const div = document.createElement("div");
+    div.className = "bg-blue-50 p-4 rounded-lg shadow flex flex-col gap-2";
+
+    div.innerHTML = `
+      <p class="text-gray-800 font-semibold">Nomor ${q.number}. ${q.functionText}</p>
+      <div class="flex items-center gap-3">
+        <select id="reproduksi_laki_answer${q.number}" class="border p-2 rounded-md text-gray-700">
+          <option value="">-- Pilih Nama Organ --</option>
+          ${organReproduksiLakiOptions.map(opt => `<option value="${opt}">${opt}</option>`).join('')}
+        </select>
+        <button onclick="checkReproduksiLakiAnswer(${q.number}, '${q.correct}')" class="bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700">Cek</button>
+        <span id="reproduksi_laki_result${q.number}" class="ml-2 font-medium"></span>
+      </div>
+    `;
+    reproduksiLakiContainer.appendChild(div);
+  });
+
+  function checkReproduksiLakiAnswer(num, correctAnswer) {
+    const selected = document.getElementById(`reproduksi_laki_answer${num}`).value;
+    const result = document.getElementById(`reproduksi_laki_result${num}`);
+    if (selected === correctAnswer) {
+      result.textContent = "✅ Benar!";
+      result.className = "text-green-600 ml-3 font-medium";
+    } else {
+      result.textContent = "❌ Salah!";
+      result.className = "text-red-600 ml-3 font-medium";
+    }
+  }
+</script>
+<div class="max-w-4xl mx-auto bg-white p-6 rounded-xl shadow-md">
+  <h1 class="text-2xl font-bold mb-4 text-center text-pink-700">Fungsi Organ Reproduksi Perempuan</h1>
+  <p class="mb-4 text-center text-gray-700">Bacalah fungsi organ berikut, lalu pilih nama organ yang sesuai dari dropdown.</p>
+
+  <div id="reproduksi-perempuan-quiz-container" class="space-y-4">
+    <!-- Soal akan di-generate lewat JavaScript -->
+  </div>
+</div><br>
+
+<script>
+  const reproduksiPerempuanQuestions = [
+    { number: 1, functionText: "Menghasilkan sel telur (ovum) dan hormon estrogen serta progesteron.", correct: "Ovarium" },
+    { number: 2, functionText: "Tempat terjadinya pembuahan antara sel telur dan sperma.", correct: "Tuba falopi" },
+    { number: 3, functionText: "Tempat berkembangnya janin selama kehamilan.", correct: "Rahim" },
+    { number: 4, functionText: "Lapisan dalam rahim yang menebal untuk menerima embrio.", correct: "Endometrium" },
+    { number: 5, functionText: "Menghubungkan rahim dengan vagina, dan tempat lewatnya bayi saat lahir.", correct: "Serviks" },
+    { number: 6, functionText: "Saluran untuk keluarnya darah menstruasi dan tempat masuknya penis saat hubungan seksual.", correct: "Vagina" },
+    { number: 7, functionText: "Bagian luar organ reproduksi wanita yang melindungi bagian dalam.", correct: "Vulva" }
+  ];
+
+  const organReproduksiPerempuanOptions = [
+    "Ovarium", "Tuba falopi", "Rahim", "Endometrium",
+    "Serviks", "Vagina", "Vulva"
+  ];
+
+  const reproduksiPerempuanContainer = document.getElementById("reproduksi-perempuan-quiz-container");
+
+  reproduksiPerempuanQuestions.forEach((q) => {
+    const div = document.createElement("div");
+    div.className = "bg-pink-50 p-4 rounded-lg shadow flex flex-col gap-2";
+
+    div.innerHTML = `
+      <p class="text-gray-800 font-semibold">Nomor ${q.number}. ${q.functionText}</p>
+      <div class="flex items-center gap-3">
+        <select id="reproduksi_perempuan_answer${q.number}" class="border p-2 rounded-md text-gray-700">
+          <option value="">-- Pilih Nama Organ --</option>
+          ${organReproduksiPerempuanOptions.map(opt => `<option value="${opt}">${opt}</option>`).join('')}
+        </select>
+        <button onclick="checkReproduksiPerempuanAnswer(${q.number}, '${q.correct}')" class="bg-pink-600 text-white px-3 py-1 rounded hover:bg-pink-700">Cek</button>
+        <span id="reproduksi_perempuan_result${q.number}" class="ml-2 font-medium"></span>
+      </div>
+    `;
+    reproduksiPerempuanContainer.appendChild(div);
+  });
+
+  function checkReproduksiPerempuanAnswer(num, correctAnswer) {
+    const selected = document.getElementById(`reproduksi_perempuan_answer${num}`).value;
+    const result = document.getElementById(`reproduksi_perempuan_result${num}`);
+    if (selected === correctAnswer) {
+      result.textContent = "✅ Benar!";
+      result.className = "text-green-600 ml-3 font-medium";
+    } else {
+      result.textContent = "❌ Salah!";
+      result.className = "text-red-600 ml-3 font-medium";
+    }
+  }
+</script>
+
+<div class="w-full max-w-3xl mx-auto bg-white px-6 py-8 rounded-2xl shadow-lg" id="quizReproduction">
+  <h2 class="text-3xl font-extrabold text-center text-pink-600 mb-8 tracking-tight">🧬 Latihan Soal Interaktif: Organ Reproduksi Manusia</h2>
+
+  <!-- Soal dan Pilihan -->
+  <div id="quizReproductionContainer" class="space-y-6">
+    <!-- Soal akan di-render di sini -->
+  </div>
+
+  <!-- Tombol Navigasi -->
+  <div class="flex justify-between items-center mt-8">
+    <button id="prevReproBtn" onclick="prevReproductionQuestion()" class="px-5 py-2 font-semibold rounded-lg bg-pink-500 text-white hover:bg-pink-600 disabled:bg-gray-300 disabled:text-gray-500 transition-all" disabled>Sebelumnya</button>
+    <div class="space-x-2">
+      <button id="checkReproBtn" onclick="checkReproductionAnswer()" class="px-5 py-2 font-semibold rounded-lg bg-pink-500 text-white hover:bg-pink-600 transition-all">Cek</button>
+      <button id="nextReproBtn" onclick="nextReproductionQuestion()" class="px-5 py-2 font-semibold rounded-lg bg-pink-500 text-white hover:bg-pink-600 disabled:bg-gray-300 disabled:text-gray-500 transition-all">Selanjutnya</button>
+    </div>
+  </div>
+
+  <!-- Pembahasan -->
+  <div id="reproductionExplanation" class="mt-6 hidden bg-yellow-100 text-yellow-900 border border-yellow-300 p-4 rounded-lg shadow-inner"></div>
+</div>
+
+<script>
+  const reproductionQuestions = [
+    {
+      question: "Organ apa yang menghasilkan sperma dan hormon testosteron?",
+      choices: ["Testis", "Penis", "Vas deferens", "Prostat"],
+      correctAnswer: 0,
+      explanation: "Testis adalah organ utama pada laki-laki yang menghasilkan sperma dan hormon testosteron."
+    },
+    {
+      question: "Organ apa yang menyimpan sperma sementara hingga matang?",
+      choices: ["Uretra", "Epididimis", "Skrotum", "Penis"],
+      correctAnswer: 1,
+      explanation: "Epididimis berfungsi sebagai tempat penyimpanan dan pematangan sperma."
+    },
+    {
+      question: "Apa fungsi utama vesikula seminalis?",
+      choices: ["Menghasilkan sperma", "Tempat pembuahan", "Menghasilkan cairan nutrisi sperma", "Mengangkut urin"],
+      correctAnswer: 2,
+      explanation: "Vesikula seminalis menghasilkan cairan yang kaya fruktosa untuk memberi energi pada sperma."
+    },
+    {
+      question: "Organ apa yang menghasilkan ovum dan hormon estrogen?",
+      choices: ["Vagina", "Tuba falopi", "Ovarium", "Rahim"],
+      correctAnswer: 2,
+      explanation: "Ovarium adalah organ reproduksi wanita yang menghasilkan ovum dan hormon."
+    },
+    {
+      question: "Tempat terjadinya pembuahan pada wanita adalah...",
+      choices: ["Vagina", "Ovarium", "Rahim", "Tuba falopi"],
+      correctAnswer: 3,
+      explanation: "Tuba falopi adalah tempat bertemunya ovum dan sperma untuk terjadinya pembuahan."
+    },
+    {
+      question: "Organ yang menjadi tempat tumbuh dan berkembangnya janin adalah...",
+      choices: ["Rahim", "Serviks", "Vagina", "Tuba falopi"],
+      correctAnswer: 0,
+      explanation: "Rahim (uterus) adalah tempat embrio berkembang menjadi janin selama kehamilan."
+    },
+{
+    question: "Mengapa suhu skrotum harus lebih rendah dari suhu tubuh?",
+    choices: [
+      "Agar testis tidak rusak oleh udara luar",
+      "Untuk mempercepat pergerakan sperma",
+      "Agar produksi sperma optimal",
+      "Untuk mematangkan hormon testosteron"
+    ],
+    correctAnswer: 2,
+    explanation: "Suhu skrotum yang lebih rendah dari suhu tubuh penting agar spermatogenesis (pembentukan sperma) dapat berlangsung optimal."
+  },
+  {
+    question: "Jika tuba falopi tersumbat, apa dampak paling mungkin yang terjadi?",
+    choices: [
+      "Sperma tidak dapat diproduksi",
+      "Sel telur tidak dapat dibuahi",
+      "Rahim tidak bisa berkembang",
+      "Menstruasi menjadi tidak teratur"
+    ],
+    correctAnswer: 1,
+    explanation: "Tuba falopi adalah tempat bertemunya sperma dan ovum. Jika tersumbat, pembuahan tidak dapat terjadi."
+  },
+  {
+    question: "Apa yang akan terjadi jika kelenjar prostat tidak menghasilkan cairan?",
+    choices: [
+      "Sperma tidak terbentuk",
+      "Air mani tidak mengandung nutrisi",
+      "Sel telur tidak bisa dibuahi",
+      "Hormon tidak diproduksi"
+    ],
+    correctAnswer: 1,
+    explanation: "Cairan dari kelenjar prostat berfungsi memberi nutrisi dan melindungi sperma. Tanpanya, sperma akan lemah."
+  },
+  {
+    question: "Mengapa endometrium menebal setiap siklus menstruasi?",
+    choices: [
+      "Agar sel telur bisa tumbuh",
+      "Sebagai tempat menempelnya embrio jika terjadi pembuahan",
+      "Agar hormon estrogen meningkat",
+      "Untuk memperlancar ovulasi"
+    ],
+    correctAnswer: 1,
+    explanation: "Endometrium menebal untuk mempersiapkan tempat menempelnya embrio jika pembuahan terjadi."
+  },
+  {
+    question: "Seorang wanita mengalami gangguan pada ovarium. Apa dampak langsungnya?",
+    choices: [
+      "Tidak mengalami ovulasi dan menstruasi",
+      "Tuba falopi akan rusak",
+      "Rahim mengecil",
+      "Serviks menebal"
+    ],
+    correctAnswer: 0,
+    explanation: "Ovarium berperan dalam ovulasi dan pengaturan hormon. Gangguan di ovarium dapat menyebabkan siklus menstruasi terganggu."
+  },
+  {
+    question: "Mengapa penis dilengkapi dengan jaringan erektil?",
+    choices: [
+      "Untuk membantu produksi sperma",
+      "Agar urin dapat mengalir keluar dengan lancar",
+      "Untuk memfasilitasi hubungan seksual dan mengantarkan sperma",
+      "Untuk menjaga suhu organ reproduksi"
+    ],
+    correctAnswer: 2,
+    explanation: "Jaringan erektil memungkinkan penis mengalami ereksi sehingga dapat mengantarkan sperma saat hubungan seksual."
+  },
+  {
+    question: "Bagaimana proses pembuahan bisa terjadi jika satu ovarium tidak berfungsi?",
+    choices: [
+      "Tidak bisa terjadi karena sel telur tidak diproduksi",
+      "Tetap bisa terjadi karena ovarium lainnya masih bisa melepaskan ovum",
+      "Tidak bisa terjadi karena sperma tidak bisa masuk",
+      "Bisa terjadi tapi hanya jika kedua tuba falopi aktif"
+    ],
+    correctAnswer: 1,
+    explanation: "Jika satu ovarium masih berfungsi, proses ovulasi dan pembuahan tetap dapat terjadi dari ovarium tersebut."
+  },
+  {
+    question: "Apa hubungan antara hormon LH (Luteinizing Hormone) dengan ovulasi?",
+    choices: [
+      "LH merangsang pertumbuhan rahim",
+      "LH menyebabkan ovarium melepaskan sel telur",
+      "LH menebalkan endometrium",
+      "LH menurunkan kadar estrogen"
+    ],
+    correctAnswer: 1,
+    explanation: "LH memicu ovulasi, yaitu proses pelepasan sel telur dari ovarium."
+  },
+  {
+    question: "Mengapa epididimis penting dalam sistem reproduksi laki-laki?",
+    choices: [
+      "Tempat pematangan dan penyimpanan sementara sperma",
+      "Tempat produksi testosteron",
+      "Menyalurkan hormon ke uretra",
+      "Menghasilkan enzim reproduksi"
+    ],
+    correctAnswer: 0,
+    explanation: "Epididimis menyimpan dan mematangkan sperma sebelum masuk ke vas deferens."
+  },
+  {
+    question: "Apa dampaknya jika serviks tidak membuka selama proses persalinan?",
+    choices: [
+      "Ibu tidak akan merasakan kontraksi",
+      "Bayi tidak bisa keluar secara normal",
+      "Air ketuban tidak pecah",
+      "Endometrium akan luruh"
+    ],
+    correctAnswer: 1,
+    explanation: "Serviks harus membuka agar bayi bisa keluar melalui jalan lahir. Jika tidak membuka, diperlukan tindakan medis."
+  }
+  ];
+
+  let currentReproIndex = 0;
+  let selectedReproChoice = null;
+
+  function renderReproductionQuestion() {
+    const container = document.getElementById("quizReproductionContainer");
+    const q = reproductionQuestions[currentReproIndex];
+    selectedReproChoice = null;
+
+    container.innerHTML = `
+      <h3 class="text-xl font-semibold text-gray-800">${currentReproIndex + 1}. ${q.question}</h3>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4" id="reproCardChoices">
+        ${q.choices.map((choice, i) => `
+          <div onclick="selectReproductionCard(${i})" id="reproCard${i}" class="cursor-pointer border-2 border-gray-300 rounded-xl p-4 text-gray-700 hover:border-pink-500 transition-all">
+            ${choice}
+          </div>
+        `).join('')}
+      </div>
+    `;
+
+    document.getElementById("reproductionExplanation").classList.add("hidden");
+    document.getElementById("reproductionExplanation").textContent = "";
+    document.getElementById("checkReproBtn").disabled = false;
+    document.getElementById("prevReproBtn").disabled = currentReproIndex === 0;
+    document.getElementById("nextReproBtn").disabled = currentReproIndex === reproductionQuestions.length - 1;
+  }
+
+  function selectReproductionCard(index) {
+    selectedReproChoice = index;
+    const cards = document.querySelectorAll("#reproCardChoices > div");
+    cards.forEach((card, i) => {
+      card.classList.remove("border-pink-600", "bg-pink-50");
+      if (i === index) {
+        card.classList.add("border-pink-600", "bg-pink-50");
+      }
+    });
+  }
+
+  function checkReproductionAnswer() {
+    if (selectedReproChoice === null) {
+      alert("Silakan pilih jawaban terlebih dahulu.");
+      return;
+    }
+
+    const correct = reproductionQuestions[currentReproIndex].correctAnswer;
+    const explanation = reproductionQuestions[currentReproIndex].explanation;
+    const resultDiv = document.getElementById("reproductionExplanation");
+
+    if (selectedReproChoice === correct) {
+      resultDiv.innerHTML = `<strong class="text-green-700">✅ Jawaban benar!</strong><br>${explanation}`;
+    } else {
+      resultDiv.innerHTML = `<strong class="text-red-700">❌ Jawaban salah.</strong><br>${explanation}`;
+    }
+
+    resultDiv.classList.remove("hidden");
+    document.getElementById("checkReproBtn").disabled = true;
+  }
+
+  function nextReproductionQuestion() {
+    if (currentReproIndex < reproductionQuestions.length - 1) {
+      currentReproIndex++;
+      renderReproductionQuestion();
+    }
+  }
+
+  function prevReproductionQuestion() {
+    if (currentReproIndex > 0) {
+      currentReproIndex--;
+      renderReproductionQuestion();
+    }
+  }
+
+  renderReproductionQuestion();
+</script>
+
+  <!-- C. Reproduksi pada Tumbuhan dan Hewan -->
+  <div>
+    <h3 class="text-xl font-semibold mb-2 text-[#4dd4a3]">C. Reproduksi pada Tumbuhan dan Hewan</h3>
+
+    <!-- Reproduksi pada Tumbuhan Lengkap -->
+<div class="bg-green-100 p-6 rounded-xl shadow-md border border-green-300 mb-6">
+  <h2 class="text-xl font-bold text-green-800 mb-4">🌿 1. Reproduksi pada Tumbuhan</h2>
+  <p class="mb-4 text-gray-700">
+    Tumbuhan dapat berkembang biak dengan dua cara utama, yaitu <strong>generatif (seksual)</strong> dan <strong>vegetatif (aseksual)</strong>. Berikut penjelasannya:
+  </p>
+
+  <!-- Generatif -->
+  <div class="mb-6">
+    <p class="text-lg font-semibold text-green-700">🔹 A. Reproduksi Generatif (Seksual)</p>
+    <p class="mb-2 text-gray-700">
+      Reproduksi ini terjadi melalui proses penyerbukan dan pembuahan, yaitu pertemuan sel kelamin jantan (serbuk sari) dengan sel kelamin betina (putik). Umumnya terjadi pada tumbuhan berbunga.
+    </p>
+    <p class="font-medium text-gray-800 mb-1">Macam-macam penyerbukan:</p>
+    <ul class="list-disc pl-6 text-gray-800 space-y-1">
+      <li><strong>Penyerbukan sendiri</strong>: serbuk sari jatuh ke putik bunga itu sendiri. (Contoh: kacang panjang)</li>
+      <li><strong>Penyerbukan tetangga</strong>: serbuk sari jatuh ke putik bunga lain pada tumbuhan yang sama. (Contoh: jambu)</li>
+      <li><strong>Penyerbukan silang</strong>: serbuk sari jatuh ke putik bunga dari tumbuhan sejenis yang berbeda. (Contoh: mangga)</li>
+      <li><strong>Penyerbukan bastar</strong>: penyerbukan antara dua tumbuhan berbeda varietas atau jenis. (Contoh: hasil persilangan anggrek)</li>
+    </ul>
+    <p class="mt-2"><strong>Contoh tumbuhan generatif:</strong> padi, jagung, bunga matahari, mangga.</p>
+  </div>
+
+  <!-- Vegetatif Alami -->
+  <div class="mb-6">
+    <p class="text-lg font-semibold text-green-700">🔹 B. Reproduksi Vegetatif Alami</p>
+    <p class="mb-2 text-gray-700">
+      Reproduksi ini terjadi tanpa melalui proses perkawinan dan tanpa bantuan manusia. Tumbuhan memperbanyak diri menggunakan bagian tubuhnya sendiri.
+    </p>
+    <ul class="list-disc pl-6 text-gray-800 space-y-1">
+      <li><strong>Umbi lapis</strong>: daun berdaging menyimpan cadangan makanan. (Contoh: bawang merah)</li>
+      <li><strong>Umbi batang</strong>: batang menyimpan cadangan makanan. (Contoh: kentang)</li>
+      <li><strong>Umbi akar</strong>: akar membentuk umbi. (Contoh: wortel, ketela pohon)</li>
+      <li><strong>Geragih</strong>: batang menjalar di atas tanah. (Contoh: stroberi)</li>
+      <li><strong>Tunas</strong>: tumbuh di sekitar batang utama. (Contoh: pisang, bambu)</li>
+      <li><strong>Akar tinggal (rizoma)</strong>: batang menjalar di bawah tanah. (Contoh: kunyit, jahe)</li>
+    </ul>
+  </div>
+
+  <!-- Vegetatif Buatan -->
+  <div>
+    <p class="text-lg font-semibold text-green-700">🔹 C. Reproduksi Vegetatif Buatan</p>
+    <p class="mb-2 text-gray-700">
+      Reproduksi ini dilakukan dengan campur tangan manusia untuk mempercepat dan memperbanyak tumbuhan dengan sifat unggul.
+    </p>
+    <ul class="list-disc pl-6 text-gray-800 space-y-1">
+      <li><strong>Stek</strong>: menanam potongan batang atau daun. (Contoh: singkong, sirih)</li>
+      <li><strong>Cangkok</strong>: mengupas batang dan membungkusnya dengan tanah agar tumbuh akar. (Contoh: jambu, mangga)</li>
+      <li><strong>Okulasi</strong>: menempelkan mata tunas tanaman unggul ke batang tanaman lain. (Contoh: jeruk, mawar)</li>
+      <li><strong>Merunduk</strong>: membengkokkan cabang tanaman ke tanah hingga tumbuh akar. (Contoh: apel, melati)</li>
+    </ul>
+  </div>
+</div>
+<!-- Video Penjelasan Reproduksi Tumbuhan -->
+<div class="bg-white p-4 rounded-xl shadow-md border border-gray-300 mb-6">
+  <h3 class="text-lg font-semibold text-green-700 mb-2">🎥 Video Penjelasan Reproduksi Generatif pada Tumbuhan</h3>
+  <div class="aspect-w-16 aspect-h-9">
+    <iframe class="w-full h-64 rounded-lg"
+      src="https://www.youtube.com/embed/-AJ-PGl10yY"
+      title="Reproduksi Tumbuhan (Generatif)"
+      frameborder="0"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+      allowfullscreen>
+    </iframe>
+  </div>
+</div>
+
+<!-- Video Penjelasan Reproduksi Tumbuhan -->
+<div class="bg-white p-4 rounded-xl shadow-md border border-gray-300 mb-6">
+  <h3 class="text-lg font-semibold text-green-700 mb-2">🎥 Video Penjelasan Reproduksi Vegetatif pada Tumbuhan </h3>
+  <div class="aspect-w-16 aspect-h-9">
+    <iframe class="w-full h-64 rounded-lg"
+      src="https://www.youtube.com/embed/32GmGS3RaXk"
+      title="Reproduksi Tumbuhan (Vegetatif)"
+      frameborder="0"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+      allowfullscreen>
+    </iframe>
+  </div>
+</div>
+
+
+    <!-- Reproduksi pada Hewan -->
+<div class="bg-blue-100 p-6 rounded-xl shadow-md border border-blue-300 mb-6">
+  <h2 class="text-xl font-bold text-blue-800 mb-4">🦋 2. Reproduksi pada Hewan</h2>
+  <p class="mb-4 text-gray-700">
+    Hewan berkembang biak untuk melestarikan jenisnya. Terdapat dua jenis reproduksi pada hewan, yaitu <strong>generatif (seksual)</strong> dan <strong>vegetatif (aseksual)</strong>.
+  </p>
+
+  <!-- Reproduksi Generatif -->
+  <div class="mb-6">
+    <p class="text-lg font-semibold text-blue-700">🔹 A. Reproduksi Generatif (Seksual)</p>
+    <p class="mb-2 text-gray-700">
+      Terjadi melalui pertemuan sel kelamin jantan (sperma) dan sel kelamin betina (ovum), menghasilkan zigot yang berkembang menjadi individu baru.
+    </p>
+    <p class="font-medium text-gray-800 mb-1">Berdasarkan cara perkembangan embrio, reproduksi generatif dibagi menjadi:</p>
+    <ul class="list-disc pl-6 text-gray-800 space-y-1">
+      <li><strong>Ovipar (bertelur)</strong>: embrio berkembang dalam telur di luar tubuh induk. <br>
+        <em>Contoh:</em> ayam, bebek, burung, katak.</li>
+      <li><strong>Vivipar (beranak)</strong>: embrio berkembang di dalam tubuh induk dan dilahirkan. <br>
+        <em>Contoh:</em> kucing, sapi, manusia.</li>
+      <li><strong>Ovovivipar</strong>: telur tetap berada di dalam tubuh induk sampai menetas. <br>
+        <em>Contoh:</em> ikan hiu, kadal, beberapa jenis ular.</li>
+    </ul>
+  </div>
+
+  <!-- Reproduksi Vegetatif -->
+  <div>
+    <p class="text-lg font-semibold text-blue-700">🔹 B. Reproduksi Vegetatif (Aseksual)</p>
+    <p class="mb-2 text-gray-700">
+      Terjadi tanpa pertemuan sel kelamin. Umumnya terjadi pada hewan tingkat rendah atau hewan bersel satu. Tidak melibatkan pembuahan.
+    </p>
+    <p class="font-medium text-gray-800 mb-1">Macam-macam reproduksi vegetatif pada hewan:</p>
+    <ul class="list-disc pl-6 text-gray-800 space-y-1">
+      <li><strong>Tunas</strong>: individu baru tumbuh dari tubuh induk, lalu melepaskan diri. <br>
+        <em>Contoh:</em> Hydra, spons.</li>
+      <li><strong>Fragmentasi</strong>: tubuh induk terbelah, lalu setiap bagian tumbuh menjadi individu baru. <br>
+        <em>Contoh:</em> planaria (cacing pipih).</li>
+      <li><strong>Pembelahan biner</strong>: satu sel membelah menjadi dua individu. <br>
+        <em>Contoh:</em> amoeba, paramecium.</li>
+      <li><strong>Partenogenesis</strong>: individu baru berkembang dari sel telur tanpa dibuahi. <br>
+        <em>Contoh:</em> lebah, semut, kutu daun.</li>
+    </ul>
+  </div>
+</div>
+<!-- Video Reproduksi pada Hewan -->
+<div class="bg-white p-4 rounded-xl shadow-md border border-gray-300 mb-6">
+  <h3 class="text-lg font-semibold text-blue-700 mb-2">🎥 Video Penjelasan Reproduksi pada Hewan</h3>
+  <div class="aspect-w-16 aspect-h-9">
+    <iframe class="w-full h-64 rounded-lg"
+      src="https://www.youtube.com/embed/fy63pdEfCQw"
+      title="Reproduksi pada Hewan (Ovipar, Vivipar, Ovovivipar, dan Aseksual)"
+      frameborder="0"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+      allowfullscreen>
+    </iframe>
+  </div>
+</div>
+<div class="max-w-4xl mx-auto bg-white p-6 rounded-xl shadow-md">
+  <h1 class="text-2xl font-bold mb-4 text-center text-orange-700">Reproduksi pada Tumbuhan dan Hewan</h1>
+  <p class="mb-4 text-center text-gray-700">Bacalah penjelasan berikut, lalu pilih jenis reproduksi atau makhluk hidup yang sesuai dari dropdown.</p>
+
+  <div id="reproduksi-quiz-container" class="space-y-4">
+    <!-- Soal akan di-generate lewat JavaScript -->
+  </div>
+</div><br>
+
+<script>
+  const reproduksiQuestions = [
+    { number: 1, functionText: "Proses perkembangbiakan tumbuhan yang terjadi melalui penyerbukan dan pembuahan.", correct: "Reproduksi Generatif" },
+    { number: 2, functionText: "Perkembangbiakan tumbuhan secara alami tanpa melalui proses penyerbukan, misalnya dengan umbi atau tunas.", correct: "Reproduksi Vegetatif Alami" },
+    { number: 3, functionText: "Perkembangbiakan tumbuhan dengan bantuan manusia, contohnya cangkok dan stek.", correct: "Reproduksi Vegetatif Buatan" },
+    { number: 4, functionText: "Contoh tumbuhan yang berkembang biak dengan tunas.", correct: "Tumbuhan" },
+    { number: 5, functionText: "Contoh hewan yang berkembang biak dengan cara bertelur.", correct: "Hewan Ovipar" },
+    { number: 6, functionText: "Contoh hewan yang berkembang biak dengan cara melahirkan.", correct: "Hewan Vivipar" },
+    { number: 7, functionText: "Contoh hewan yang berkembang biak dengan bertelur dan melahirkan sekaligus.", correct: "Hewan Ovovivipar" },
+    { number: 8, functionText: "Proses berkembang biak pada hewan yang tidak mengalami pembuahan.", correct: "Reproduksi Aseksual" },
+    { number: 9, functionText: "Contoh hewan yang berkembang biak secara aseksual dengan membelah diri.", correct: "Amoeba" },
+    { number: 10, functionText: "Contoh tumbuhan yang diperbanyak dengan cara mencangkok.", correct: "Mangga" }
+  ];
+
+  const reproduksiOptions = [
+    "Reproduksi Generatif", "Reproduksi Vegetatif Alami", "Reproduksi Vegetatif Buatan",
+    "Tumbuhan", "Hewan Ovipar", "Hewan Vivipar", "Hewan Ovovivipar",
+    "Reproduksi Aseksual", "Amoeba", "Mangga"
+  ];
+
+  const reproduksiContainer = document.getElementById("reproduksi-quiz-container");
+
+  reproduksiQuestions.forEach((q) => {
+    const div = document.createElement("div");
+    div.className = "bg-orange-50 p-4 rounded-lg shadow flex flex-col gap-2";
+
+    div.innerHTML = `
+      <p class="text-gray-800 font-semibold">Nomor ${q.number}. ${q.functionText}</p>
+      <div class="flex items-center gap-3">
+        <select id="reproduksi_answer${q.number}" class="border p-2 rounded-md text-gray-700">
+          <option value="">-- Pilih Jawaban --</option>
+          ${reproduksiOptions.map(opt => `<option value="${opt}">${opt}</option>`).join('')}
+        </select>
+        <button onclick="checkReproduksiAnswer(${q.number}, '${q.correct}')" class="bg-orange-600 text-white px-3 py-1 rounded hover:bg-orange-700">Cek</button>
+        <span id="reproduksi_result${q.number}" class="ml-2 font-medium"></span>
+      </div>
+    `;
+    reproduksiContainer.appendChild(div);
+  });
+
+  function checkReproduksiAnswer(num, correctAnswer) {
+    const selected = document.getElementById(`reproduksi_answer${num}`).value;
+    const result = document.getElementById(`reproduksi_result${num}`);
+    if (selected === correctAnswer) {
+      result.textContent = "✅ Benar!";
+      result.className = "text-green-600 ml-3 font-medium";
+    } else {
+      result.textContent = "❌ Salah!";
+      result.className = "text-red-600 ml-3 font-medium";
+    }
+  }
+</script>
+
+ <div class="w-full max-w-3xl mx-auto bg-white px-6 py-8 rounded-2xl shadow-lg" id="quizReproductionTH">
+  <h2 class="text-3xl font-extrabold text-center text-green-600 mb-8 tracking-tight">🌱 Latihan Soal Interaktif: Reproduksi Tumbuhan & Hewan</h2>
+
+  <!-- Soal dan Pilihan -->
+  <div id="quizReproductionTHContainer" class="space-y-6">
+    <!-- Soal akan di-render di sini -->
+  </div>
+
+  <!-- Tombol Navigasi -->
+  <div class="flex justify-between items-center mt-8">
+    <button id="prevReproductionTHBtn" onclick="prevReproductionTHQuestion()" class="px-5 py-2 font-semibold rounded-lg bg-green-500 text-white hover:bg-green-600 disabled:bg-gray-300 disabled:text-gray-500 transition-all" disabled>Sebelumnya</button>
+    <div class="space-x-2">
+      <button id="checkReproductionTHBtn" onclick="checkReproductionTHAnswer()" class="px-5 py-2 font-semibold rounded-lg bg-green-500 text-white hover:bg-green-600 transition-all">Cek</button>
+      <button id="nextReproductionTHBtn" onclick="nextReproductionTHQuestion()" class="px-5 py-2 font-semibold rounded-lg bg-green-500 text-white hover:bg-green-600 disabled:bg-gray-300 disabled:text-gray-500 transition-all">Selanjutnya</button>
+    </div>
+  </div>
+
+  <!-- Pembahasan -->
+  <div id="reproductionTHExplanation" class="mt-6 hidden bg-yellow-100 text-yellow-900 border border-yellow-300 p-4 rounded-lg shadow-inner"></div>
+</div>
+
+<script>
+  const reproductionTHQuestions = [
+    {
+      question: "Apa yang dimaksud dengan reproduksi generatif pada tumbuhan?",
+      choices: ["Perkembangbiakan tanpa pembuahan", "Perkembangbiakan melalui jaringan induk", "Perkembangbiakan melalui penyerbukan dan pembuahan", "Perkembangbiakan dengan bantuan manusia"],
+      correctAnswer: 2,
+      explanation: "Reproduksi generatif melibatkan penyerbukan dan pembuahan yang menghasilkan biji."
+    },
+    {
+      question: "Contoh tumbuhan yang berkembang biak secara vegetatif alami adalah...",
+      choices: ["Mangga dan jambu", "Pisang dan jahe", "Kaktus dan apel", "Wortel dan jeruk"],
+      correctAnswer: 1,
+      explanation: "Pisang dan jahe berkembang biak dengan tunas dan rimpang, termasuk vegetatif alami."
+    },
+    {
+      question: "Apa tujuan manusia melakukan reproduksi vegetatif buatan pada tumbuhan?",
+      choices: ["Memperbanyak hewan peliharaan", "Mempercepat pertumbuhan dan hasil panen", "Melestarikan tumbuhan langka", "Menghentikan pertumbuhan tumbuhan liar"],
+      correctAnswer: 1,
+      explanation: "Vegetatif buatan seperti cangkok dan stek dilakukan untuk mempercepat dan mengefisienkan hasil pertanian."
+    },
+    {
+      question: "Contoh hewan yang berkembang biak dengan bertelur adalah...",
+      choices: ["Sapi", "Kucing", "Ayam", "Kambing"],
+      correctAnswer: 2,
+      explanation: "Ayam merupakan hewan ovipar yang berkembang biak dengan cara bertelur."
+    },
+    {
+      question: "Apa perbedaan utama antara vivipar dan ovipar?",
+      choices: ["Vivipar bertelur, ovipar melahirkan", "Vivipar berkembang biak dengan tunas, ovipar dengan biji", "Vivipar melahirkan, ovipar bertelur", "Vivipar terjadi pada tumbuhan, ovipar pada hewan"],
+      correctAnswer: 2,
+      explanation: "Vivipar adalah melahirkan (seperti pada mamalia), sedangkan ovipar adalah bertelur (seperti pada ayam)."
+    },
+    {
+      question: "Apa contoh hewan yang berkembang biak secara aseksual dengan membelah diri?",
+      choices: ["Cacing tanah", "Kelinci", "Amoeba", "Katak"],
+      correctAnswer: 2,
+      explanation: "Amoeba melakukan pembelahan biner, yaitu reproduksi aseksual dengan membelah diri."
+    },
+    {
+      question: "Hewan ovovivipar berkembang biak dengan cara...",
+      choices: ["Melahirkan tanpa telur", "Telur menetas di luar tubuh induk", "Telur menetas di dalam tubuh induk", "Tidak memiliki alat reproduksi"],
+      correctAnswer: 2,
+      explanation: "Ovovivipar adalah hewan yang telurnya menetas di dalam tubuh induk, contohnya adalah ular."
+    },
+    {
+      question: "Seorang petani ingin memperbanyak tanaman stroberi dengan cara cepat dan hasil sama dengan induknya. Metode reproduksi apa yang paling tepat?",
+      choices: ["Menanam biji stroberi", "Mencangkok batang stroberi", "Membiarkan penyerbukan alami terjadi", "Melakukan stek akar atau batang"],
+      correctAnswer: 3,
+      explanation: "Stek memungkinkan tanaman baru tumbuh dengan cepat dan sifat yang identik dengan induknya."
+    },
+    {
+      question: "Mengapa hewan ovovivipar dianggap lebih adaptif di lingkungan berbahaya?",
+      choices: ["Telurnya bertahan di luar tubuh", "Tidak perlu tempat bertelur", "Tidak melalui fase embrio", "Menyusui anak setelah menetas"],
+      correctAnswer: 1,
+      explanation: "Ovovivipar menetas di dalam tubuh induk sehingga aman dari predator."
+    },
+    {
+      question: "Jika biji gagal tumbuh, kemungkinan besar masalah terjadi pada proses...",
+      choices: ["Pematangan buah", "Penyerapan air", "Pembuahan", "Fotosintesis"],
+      correctAnswer: 2,
+      explanation: "Tanpa pembuahan yang berhasil, biji tidak akan tumbuh."
+    },
+{
+  question: "Mengapa reproduksi vegetatif buatan dianggap lebih efisien dalam pertanian modern?",
+  choices: [
+    "Menghasilkan tanaman liar",
+    "Meningkatkan variasi genetik",
+    "Mempercepat produksi dan mempertahankan sifat unggul",
+    "Membutuhkan waktu tumbuh lebih lama"
+  ],
+  correctAnswer: 2,
+  explanation: "Vegetatif buatan seperti cangkok atau stek mempercepat proses perbanyakan dan hasilnya identik dengan induknya yang unggul."
+},
+{
+  question: "Bagaimana pengaruh lingkungan terhadap keberhasilan reproduksi generatif pada tumbuhan?",
+  choices: [
+    "Tidak ada pengaruh karena tumbuhan selalu berbunga",
+    "Hanya suhu yang mempengaruhi",
+    "Lingkungan memengaruhi proses penyerbukan dan pembuahan",
+    "Cahaya tidak penting dalam reproduksi tumbuhan"
+  ],
+  correctAnswer: 2,
+  explanation: "Kelembaban, angin, cahaya, dan keberadaan hewan penyerbuk memengaruhi proses reproduksi generatif."
+},
+{
+  question: "Apa dampak negatif dari ketergantungan pada reproduksi aseksual dalam jangka panjang?",
+  choices: [
+    "Tingkat keberhasilan tinggi",
+    "Variasi genetik rendah menyebabkan rentan terhadap penyakit",
+    "Semua keturunan jadi lebih kuat",
+    "Menyebabkan kelebihan populasi"
+  ],
+  correctAnswer: 1,
+  explanation: "Reproduksi aseksual menghasilkan keturunan identik sehingga kurang mampu beradaptasi terhadap perubahan lingkungan."
+},
+{
+  question: "Mengapa katak termasuk hewan dengan dua fase kehidupan dalam proses reproduksinya?",
+  choices: [
+    "Katak tidak membutuhkan air untuk bertelur",
+    "Katak langsung melahirkan anak",
+    "Katak mengalami metamorfosis dari telur ke berudu lalu menjadi katak dewasa",
+    "Katak hanya berkembang biak di darat"
+  ],
+  correctAnswer: 2,
+  explanation: "Katak mengalami metamorfosis lengkap dari telur menjadi berudu dan kemudian menjadi katak dewasa."
+},
+{
+  question: "Apa tujuan utama peternak menggunakan inseminasi buatan pada hewan ternak?",
+  choices: [
+    "Mengurangi jumlah keturunan",
+    "Meningkatkan variasi genetik liar",
+    "Mengontrol keturunan dan menjaga kualitas genetik",
+    "Mempercepat proses kelahiran alami"
+  ],
+  correctAnswer: 2,
+  explanation: "Inseminasi buatan memungkinkan pemilihan genetik terbaik dan pengaturan waktu reproduksi."
+},
+{
+  question: "Bagaimana cara kerja penyerbukan silang dapat meningkatkan kualitas tanaman?",
+  choices: [
+    "Menghasilkan tanaman kembar identik",
+    "Memicu stres pada tumbuhan",
+    "Menggabungkan sifat unggul dari dua induk berbeda",
+    "Mengurangi produktivitas tanaman"
+  ],
+  correctAnswer: 2,
+  explanation: "Penyerbukan silang dapat menciptakan kombinasi genetik baru dengan sifat-sifat unggul."
+},
+{
+  question: "Apa kelebihan reproduksi generatif dibandingkan vegetatif dari segi adaptasi evolusi?",
+  choices: [
+    "Meningkatkan kecepatan tumbuh",
+    "Menghasilkan individu identik",
+    "Memberikan variasi genetik untuk adaptasi lingkungan",
+    "Mengurangi kemungkinan mutasi"
+  ],
+  correctAnswer: 2,
+  explanation: "Generatif memungkinkan variasi genetik, yang penting untuk adaptasi dan evolusi."
+},
+{
+  question: "Mengapa tumbuhan tidak berbunga tidak dapat melakukan reproduksi generatif?",
+  choices: [
+    "Tidak bisa menyerap cahaya",
+    "Tidak menghasilkan biji karena tidak ada penyerbukan",
+    "Hanya dapat berkembang biak dengan biji",
+    "Selalu membutuhkan air untuk hidup"
+  ],
+  correctAnswer: 1,
+  explanation: "Tanpa bunga, tumbuhan tidak bisa melakukan penyerbukan dan pembuahan untuk menghasilkan biji."
+},
+{
+  question: "Bagaimana manusia dapat memanfaatkan reproduksi vegetatif untuk pelestarian tanaman langka?",
+  choices: [
+    "Mencabut semua tumbuhan liar",
+    "Melakukan pembibitan liar di hutan",
+    "Memperbanyak tanaman langka secara stek atau kultur jaringan",
+    "Membiarkan tanaman tumbuh alami tanpa intervensi"
+  ],
+  correctAnswer: 2,
+  explanation: "Vegetatif buatan seperti stek dan kultur jaringan dapat memperbanyak tanaman langka secara cepat dan aman."
+},
+{
+  question: "Mengapa dalam beberapa kasus hewan harus dikembangbiakkan secara generatif meskipun aseksual lebih cepat?",
+  choices: [
+    "Karena aseksual menyebabkan stres",
+    "Untuk meningkatkan populasi lebih cepat",
+    "Agar terjadi variasi genetik yang memperkuat keturunan",
+    "Aseksual hanya terjadi di air"
+  ],
+  correctAnswer: 2,
+  explanation: "Variasi genetik hasil reproduksi generatif membuat keturunan lebih adaptif dan kuat secara populasi."
+}
+
+  ];
+
+  let currentReproductionTHIndex = 0;
+
+  function renderReproductionTHQuestion() {
+    const container = document.getElementById("quizReproductionTHContainer");
+    const q = reproductionTHQuestions[currentReproductionTHIndex];
+    container.innerHTML = `
+      <div>
+        <h3 class="text-xl font-semibold text-gray-800">Soal ${currentReproductionTHIndex + 1}:</h3>
+        <p class="text-gray-700 mt-2">${q.question}</p>
+        <div class="mt-4 space-y-2">
+          ${q.choices.map((choice, i) => `
+            <label class="flex items-center gap-2">
+              <input type="radio" name="reproductionTHChoice" value="${i}" class="form-radio text-green-600">
+              <span>${choice}</span>
+            </label>
+          `).join("")}
+        </div>
+      </div>
+    `;
+
+    document.getElementById("reproductionTHExplanation").classList.add("hidden");
+    document.getElementById("reproductionTHExplanation").innerText = "";
+
+    document.getElementById("prevReproductionTHBtn").disabled = currentReproductionTHIndex === 0;
+    document.getElementById("nextReproductionTHBtn").disabled = currentReproductionTHIndex === reproductionTHQuestions.length - 1;
+  }
+
+  function checkReproductionTHAnswer() {
+    const selected = document.querySelector('input[name="reproductionTHChoice"]:checked');
+    const explanationBox = document.getElementById("reproductionTHExplanation");
+    if (!selected) {
+      alert("Pilih salah satu jawaban dulu!");
+      return;
+    }
+
+    const selectedIndex = parseInt(selected.value);
+    const q = reproductionTHQuestions[currentReproductionTHIndex];
+    if (selectedIndex === q.correctAnswer) {
+      explanationBox.innerText = "✅ Benar! " + q.explanation;
+      explanationBox.classList.remove("hidden", "text-red-900");
+      explanationBox.classList.add("text-green-900");
+    } else {
+      explanationBox.innerText = "❌ Salah. " + q.explanation;
+      explanationBox.classList.remove("hidden", "text-green-900");
+      explanationBox.classList.add("text-red-900");
+    }
+  }
+
+  function prevReproductionTHQuestion() {
+    if (currentReproductionTHIndex > 0) {
+      currentReproductionTHIndex--;
+      renderReproductionTHQuestion();
+    }
+  }
+
+  function nextReproductionTHQuestion() {
+    if (currentReproductionTHIndex < reproductionTHQuestions.length - 1) {
+      currentReproductionTHIndex++;
+      renderReproductionTHQuestion();
+    }
+  }
+
+  renderReproductionTHQuestion();
+</script>
+
+
+</div>
+
+
+
+    <script>
+        function toggleSidebar() {
+            let sidebar = document.getElementById("sidebar");
+            if (sidebar.style.left === "-250px") {
+                sidebar.style.left = "0";
+            } else {
+                sidebar.style.left = "-250px";
+            }
+        }
+    </script>
+<script>
+  function checkLogin() {
+    const user = document.getElementById("username").value;
+    const pass = document.getElementById("password").value;
+
+    // Akun yang sudah disediakan
+    const validAccounts = [
+      { username: "admin", password: "12345" },
+      { username: "user1", password: "abcde" },
+      { username: "Diza MTSN 1 Brebes 7", password: "semangatbelajar45" },
+    ];
+
+    const found = validAccounts.find(acc => acc.username === user && acc.password === pass);
+
+    if (found) {
+      document.getElementById("loginForm").style.display = "none";
+      document.getElementById("content22").classList.remove("hidden");
+    } else {
+      document.getElementById("errorMsg").innerText = "Username atau password salah!";
+    }
+  }
+</script>
+
+</body>
+</html>
