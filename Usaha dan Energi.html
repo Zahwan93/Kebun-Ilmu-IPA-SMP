@@ -1,0 +1,2400 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Media Pembelajaran Interaktif</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script> 
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    html, body {
+      overflow-x: hidden;
+      max-width: 100vw;
+      box-sizing: border-box;
+      background: linear-gradient(135deg, #e3f2fd, #fce4ec);
+      min-height: 100vh;
+      padding: 5px;
+    }
+
+    .login-box {
+      background: linear-gradient(135deg, #ce9ffc, #f9c7d9);
+      padding: 30px;
+      border-radius: 12px;
+      max-width: 300px;
+      margin: 10px auto;
+      box-shadow: 0 0 15px rgba(0,0,0,0.2);
+      text-align: center;
+    }
+
+    .login-box input, .login-box button {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border-radius: 6px;
+      border: none;
+    }
+
+    .login-box button {
+      background: linear-gradient(135deg, #6a11cb, #2575fc);
+      color: white;
+      cursor: pointer;
+    }
+
+    .login-box button:hover {
+      background: linear-gradient(135deg, #5e0dca, #1d60e7);
+    }
+
+    .sidebar {
+      width: 250px;
+      height: 100vh;
+      background: #4dd4a3;
+      position: fixed;
+      left: -250px;
+      transition: left 0.3s ease-in-out;
+      padding-top: 20px;
+      z-index: 1300;
+    }
+
+    .toggle-btn {
+      position: fixed;
+      left: 20px;
+      top: 20px;
+      font-size: 24px;
+      background: #f8d444;
+      padding: 5px 10px;
+      border-radius: 5px;
+      color: white;
+      z-index: 1400;
+    }
+
+    .header {
+      background: white;
+      padding: 20px;
+      text-align: center;
+      font-size: 24px;
+      font-weight: bold;
+      color: #333;
+      border-radius: 10px;
+      position: sticky;
+      top: 0;
+      z-index: 1200;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .header img {
+      max-width: 60px;
+      height: auto;
+      margin-left: 10px;
+    }
+
+    @media (max-width: 768px) {
+      .card-container {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .card {
+        width: 90%;
+      }
+
+      .sidebar {
+        width: 80%;
+        left: -80%;
+      }
+
+      .toggle-btn {
+        font-size: 20px;
+        padding: 8px 12px;
+      }
+
+      .login-box {
+        width: 90%;
+        max-width: 90%;
+        margin: 20px auto;
+      }
+
+      .header span {
+        font-size: 20px;
+      }
+
+      .header img {
+        max-width: 40px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="login-box" id="loginForm">
+    <h2>Login</h2>
+    <input type="text" id="username" placeholder="Username" />
+    <input type="password" id="password" placeholder="Password" />
+    <button onclick="checkLogin()">Masuk</button>
+    <p id="errorMsg" style="color:red;"></p>
+  </div>
+
+  <div id="content22" class="hidden">
+    <!-- Tombol Buka -->
+<div class="toggle-btn" onclick="toggleSidebar()">
+  <i class="fas fa-bars"></i>
+</div>
+
+<!-- Sidebar -->
+<div class="sidebar" id="sidebar">
+  <span class="close-btn" onclick="toggleSidebar()">&times;</span>
+  <h2 class="text-2xl text-white text-center mb-4">Menu</h2>
+  <ul class="text-black p-6 bg-[#4dd4a3] rounded-lg shadow-md">
+    <li class="mb-3"><a href="#1" class="hover:text-white">Materi 1</a></li>
+    <li class="mb-3"><a href="#2" class="hover:text-white">Materi 2</a></li>
+    <!-- dst -->
+  </ul>
+</div>
+
+<div class="header flex items-center justify-between p-4 bg-white shadow-md rounded-lg mb-6">
+  <span class="text-[#4dd4a3] font-bold">Media Pembelajaran Interaktif</span>
+  <img src="https://zahwan93.github.io/Kebun-Ilmu-Matematika-SMP/logo.png" alt="Logo" class="h-10" />
+</div>
+
+<!-- Konten Utama -->
+<div class="w-full max-w-7xl mx-auto bg-white px-4 sm:px-8 py-8 rounded-lg shadow-2xl">
+  <h1 class="text-3xl font-bold text-center text-[#4dd4a3] mb-6">IPA Kelas 8 — Usaha, Energi, dan Pesawat Sederhana</h1>
+
+  <!-- Daftar Isi -->
+<nav class="mb-8 p-6 rounded-lg shadow-lg bg-gradient-to-r from-[#4dd4a3] to-green-500 text-white">
+  <h2 class="text-2xl font-bold mb-4 flex items-center gap-2">
+    📚 Daftar Isi
+  </h2>
+  <div class="grid sm:grid-cols-2 gap-4">
+    
+    <!-- Item 1 -->
+    <a href="#1-Pengertian-Usaha" class="block p-4 bg-white bg-opacity-20 rounded-lg hover:bg-opacity-30 transition duration-300 shadow-md">
+      <span class="text-lg font-semibold">1. Pengertian Usaha</span>
+      <p class="text-sm opacity-80">Definisi usaha dalam fisika dan syarat terjadinya usaha.</p>
+    </a>
+
+    <!-- Item 2 -->
+    <a href="#2-Rumus-Usaha" class="block p-4 bg-white bg-opacity-20 rounded-lg hover:bg-opacity-30 transition duration-300 shadow-md">
+      <span class="text-lg font-semibold">2. Rumus Usaha</span>
+      <p class="text-sm opacity-80">Rumus dasar dan komponen perhitungan usaha.</p>
+    </a>
+
+    <!-- Item 3 -->
+    <a href="#3-Pengertian-Energi" class="block p-4 bg-white bg-opacity-20 rounded-lg hover:bg-opacity-30 transition duration-300 shadow-md">
+      <span class="text-lg font-semibold">3. Pengertian Energi</span>
+      <p class="text-sm opacity-80">Penjelasan konsep energi dalam kehidupan sehari-hari.</p>
+    </a>
+
+    <!-- Item 4 -->
+    <a href="#4-Jenis-Energi" class="block p-4 bg-white bg-opacity-20 rounded-lg hover:bg-opacity-30 transition duration-300 shadow-md">
+      <span class="text-lg font-semibold">4. Jenis-Jenis Energi</span>
+      <p class="text-sm opacity-80">Macam-macam bentuk energi dan contohnya.</p>
+    </a>
+
+    <!-- Item 5 -->
+    <a href="#5-Usaha-Daya" class="block p-4 bg-white bg-opacity-20 rounded-lg hover:bg-opacity-30 transition duration-300 shadow-md">
+      <span class="text-lg font-semibold">5. Usaha dan Daya</span>
+<p class="text-sm opacity-80">Pengertian, rumus, dan hubungan antara usaha dan daya dalam fisika.</p>
+</a>
+
+    <!-- Item 6 -->
+<div class="space-y-2">
+  <!-- Judul Utama -->
+  <a href="#6-Pesawat-Sederhana" class="block p-4 bg-white bg-opacity-20 rounded-lg hover:bg-opacity-30 transition duration-300 shadow-md">
+    <span class="text-lg font-semibold">6. Pesawat Sederhana</span>
+    <p class="text-sm opacity-80">Tuas, katrol, dan bidang miring untuk mempermudah kerja.</p>
+  </a>
+
+  <!-- Sub Item 6.a -->
+  <a href="#6a-Tuas" class="block ml-4 p-4 bg-white bg-opacity-10 rounded-lg hover:bg-opacity-20 transition duration-300 shadow-md">
+    <span class="text-md font-semibold">6.a Tuas (Pengungkit)</span>
+    <p class="text-sm opacity-80">Batang berputar pada titik tumpu untuk memudahkan kerja.</p>
+  </a>
+
+  <!-- Sub Item 6.b -->
+  <a href="#6b-Katrol" class="block ml-4 p-4 bg-white bg-opacity-10 rounded-lg hover:bg-opacity-20 transition duration-300 shadow-md">
+    <span class="text-md font-semibold">6.b Katrol</span>
+    <p class="text-sm opacity-80">Roda beralur untuk mengubah arah gaya atau memperkecil gaya.</p>
+  </a>
+
+  <!-- Sub Item 6.c -->
+  <a href="#6c-Bidang-Miring" class="block ml-4 p-4 bg-white bg-opacity-10 rounded-lg hover:bg-opacity-20 transition duration-300 shadow-md">
+    <span class="text-md font-semibold">6.c Bidang Miring</span>
+    <p class="text-sm opacity-80">Permukaan miring untuk memindahkan beban dengan gaya lebih kecil.</p>
+  </a>
+</div>
+
+
+  </div>
+</nav>
+
+
+ <!-- 1. Pengertian Usaha -->
+<div id="1-Pengertian-Usaha" class="mb-10 p-6 bg-white rounded-lg shadow-lg border border-gray-200">
+  <h3 class="text-2xl font-bold text-[#4dd4a3] mb-4 flex items-center gap-2">
+    ⚙️ 1. Pengertian Usaha
+  </h3>
+
+  <!-- Deskripsi -->
+  <p class="text-gray-700 mb-4 leading-relaxed">
+    Dalam fisika, <strong>usaha</strong> terjadi ketika sebuah gaya bekerja pada suatu benda dan menyebabkan perpindahan benda tersebut.
+    Jika tidak ada perpindahan, maka usaha yang dilakukan bernilai nol, meskipun ada gaya yang diberikan.
+  </p>
+
+  <!-- Syarat Usaha -->
+  <div class="bg-[#4dd4a3] text-white p-4 rounded-lg shadow mb-6">
+    <h4 class="text-lg font-semibold mb-2">📌 Syarat Terjadinya Usaha:</h4>
+    <ul class="list-disc ml-6 space-y-1">
+      <li>Ada gaya yang diberikan</li>
+      <li>Benda berpindah</li>
+      <li>Ada komponen gaya yang searah dengan perpindahan</li>
+    </ul>
+  </div>
+
+  <!-- Video Penjelasan -->
+  <div class="mb-6">
+    <h4 class="text-lg font-semibold text-[#4dd4a3] mb-3">🎥 Video Penjelasan</h4>
+    <div class="aspect-w-16 aspect-h-9 rounded-lg overflow-hidden shadow-lg">
+      <iframe src="https://www.youtube.com/embed/Fnr-w_yN3nQ" 
+              title="Pengertian Usaha Fisika" 
+              frameborder="0" 
+              allowfullscreen
+              class="w-full h-full"></iframe>
+    </div>
+  </div>
+
+  <div class="w-full max-w-3xl mx-auto bg-white px-4 sm:px-6 py-6 sm:py-8 rounded-2xl shadow-lg" id="quizUsaha">
+  <h2 class="text-2xl sm:text-3xl font-extrabold text-center text-blue-600 mb-6 sm:mb-8 tracking-tight">
+    💪 Latihan Soal Interaktif: Usaha dalam Kehidupan Sehari-hari
+  </h2>
+
+  <!-- Soal dan Pilihan -->
+  <div id="quizUsahaContainer" class="space-y-6"></div>
+
+  <!-- Tombol Navigasi -->
+  <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3 mt-8">
+    <button id="prevUsahaBtn" onclick="prevUsahaQuestion()" class="w-full sm:w-auto px-5 py-2 font-semibold rounded-lg bg-blue-500 text-white hover:bg-blue-600 disabled:bg-gray-300 disabled:text-gray-500 transition-all" disabled>Sebelumnya</button>
+    <div class="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
+      <button id="checkUsahaBtn" onclick="checkUsahaAnswer()" class="w-full sm:w-auto px-5 py-2 font-semibold rounded-lg bg-blue-500 text-white hover:bg-blue-600 transition-all">Cek</button>
+      <button id="nextUsahaBtn" onclick="nextUsahaQuestion()" class="w-full sm:w-auto px-5 py-2 font-semibold rounded-lg bg-blue-500 text-white hover:bg-blue-600 disabled:bg-gray-300 disabled:text-gray-500 transition-all">Selanjutnya</button>
+    </div>
+  </div>
+
+  <!-- Pembahasan -->
+  <div id="usahaExplanation" class="mt-6 hidden bg-yellow-100 text-yellow-900 border border-yellow-300 p-4 rounded-lg shadow-inner"></div>
+</div>
+
+<script>
+  const usahaQuestions = [
+    {
+      question: "Manakah yang termasuk usaha dalam kehidupan sehari-hari?",
+      choices: [
+        "Mendorong meja hingga bergeser",
+        "Menatap buku selama 5 menit",
+        "Berbaring di tempat tidur",
+        "Mengobrol sambil duduk"
+      ],
+      correctAnswer: 0,
+      explanation: "Usaha terjadi saat ada gaya yang menyebabkan perpindahan, seperti mendorong meja."
+    },
+    {
+      question: "Kegiatan mana yang termasuk melakukan usaha?",
+      choices: [
+        "Menahan pintu agar tidak bergerak",
+        "Menggendong galon ke dapur",
+        "Tidur siang",
+        "Berdiri diam di halte"
+      ],
+      correctAnswer: 1,
+      explanation: "Menggendong galon sambil berjalan menyebabkan perpindahan dengan gaya, sehingga termasuk usaha."
+    },
+    {
+      question: "Mengapa memindahkan kursi ke sudut ruangan termasuk usaha?",
+      choices: [
+        "Karena melibatkan perpindahan dengan gaya",
+        "Karena kursi berat",
+        "Karena dilakukan manusia",
+        "Karena mengubah bentuk kursi"
+      ],
+      correctAnswer: 0,
+      explanation: "Usaha terjadi jika ada gaya yang menyebabkan perpindahan benda."
+    },
+{
+    question: "Manakah contoh kegiatan yang termasuk melakukan usaha dalam fisika?",
+    choices: [
+      "Mendorong tembok hingga lelah tetapi tembok tidak bergerak",
+      "Mengangkat buku dari lantai ke meja",
+      "Menahan koper agar tidak jatuh",
+      "Duduk membaca buku"
+    ],
+    correctAnswer: 1,
+    explanation: "Dalam fisika, usaha terjadi jika ada gaya yang menyebabkan perpindahan. Mengangkat buku memindahkannya dari lantai ke meja, sehingga termasuk usaha."
+  },
+  {
+    question: "Seseorang mendorong mobil yang mogok, dan mobil tersebut bergerak. Mengapa itu termasuk usaha?",
+    choices: [
+      "Karena orang tersebut mengeluarkan energi",
+      "Karena ada gaya dan perpindahan searah",
+      "Karena mobil berat",
+      "Karena dilakukan di luar ruangan"
+    ],
+    correctAnswer: 1,
+    explanation: "Usaha terjadi jika ada gaya dan perpindahan dalam arah yang sama. Mobil bergerak searah dorongan, sehingga termasuk usaha."
+  },
+  {
+    question: "Faktor berikut yang memengaruhi besar kecilnya usaha adalah…",
+    choices: [
+      "Waktu yang digunakan",
+      "Jarak pandang",
+      "Besar gaya dan perpindahan",
+      "Jumlah orang"
+    ],
+    correctAnswer: 2,
+    explanation: "Usaha dipengaruhi oleh besar gaya dan jarak perpindahan."
+  },
+  {
+    question: "Jika arah gaya tegak lurus dengan perpindahan, maka usaha yang dilakukan adalah…",
+    choices: [
+      "Maksimum",
+      "Minimum",
+      "Nol",
+      "Tidak tentu"
+    ],
+    correctAnswer: 2,
+    explanation: "Jika gaya tegak lurus perpindahan (misalnya gaya sentripetal), usaha yang dilakukan adalah nol."
+  },
+  {
+    question: "Mengangkat ember berisi air ke lantai dua adalah contoh usaha karena…",
+    choices: [
+      "Membutuhkan waktu lama",
+      "Mengubah bentuk ember",
+      "Ada gaya gravitasi dan perpindahan",
+      "Air di dalam ember bergerak"
+    ],
+    correctAnswer: 2,
+    explanation: "Usaha terjadi karena ada gaya (melawan gravitasi) dan perpindahan ke arah yang sama."
+  },
+  {
+    question: "Saat kita menahan pintu agar tidak terbuka, secara fisika kita…",
+    choices: [
+      "Melakukan usaha",
+      "Tidak melakukan usaha",
+      "Melakukan usaha maksimum",
+      "Melakukan usaha negatif"
+    ],
+    correctAnswer: 1,
+    explanation: "Tidak ada perpindahan pintu, sehingga secara fisika tidak ada usaha."
+  },
+  {
+    question: "Usaha negatif terjadi jika…",
+    choices: [
+      "Arah gaya sama dengan perpindahan",
+      "Arah gaya berlawanan dengan perpindahan",
+      "Gaya sangat kecil",
+      "Gaya sangat besar"
+    ],
+    correctAnswer: 1,
+    explanation: "Usaha negatif terjadi jika arah gaya berlawanan dengan arah perpindahan."
+  },
+  {
+    question: "Contoh usaha negatif adalah…",
+    choices: [
+      "Mobil direm hingga berhenti",
+      "Mengangkat beban ke atas",
+      "Mendorong kursi hingga bergerak",
+      "Menarik koper di bandara"
+    ],
+    correctAnswer: 0,
+    explanation: "Rem memberikan gaya yang berlawanan dengan arah gerak mobil, sehingga usaha yang dilakukan adalah negatif."
+  },
+  {
+    question: "Dalam fisika, 'usaha' memiliki satuan…",
+    choices: [
+      "Newton",
+      "Joule",
+      "Watt",
+      "Meter per detik"
+    ],
+    correctAnswer: 1,
+    explanation: "Satuan usaha adalah Joule (J)."
+  },
+  {
+    question: "Ketika seseorang membawa tas berjalan horizontal dengan kecepatan konstan, usaha yang dilakukan terhadap tas adalah…",
+    choices: [
+      "Ada, karena orang lelah",
+      "Tidak ada, karena gaya vertikal dan perpindahan horizontal",
+      "Maksimum, karena berat tas besar",
+      "Negatif, karena arah berlawanan"
+    ],
+    correctAnswer: 1,
+    explanation: "Gaya yang dilakukan untuk menopang tas arahnya vertikal, sedangkan perpindahan horizontal. Gaya dan perpindahan tegak lurus → usaha nol."
+  }
+  ];
+
+  let currentUsahaIndex = 0;
+  let selectedUsahaChoice = null;
+
+  function renderUsahaQuestion() {
+    const container = document.getElementById("quizUsahaContainer");
+    const q = usahaQuestions[currentUsahaIndex];
+    selectedUsahaChoice = null;
+
+    container.innerHTML = `
+      <h3 class="text-lg sm:text-xl font-semibold text-gray-800">${currentUsahaIndex + 1}. ${q.question}</h3>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4" id="usahaCardChoices">
+        ${q.choices.map((choice, i) => `
+          <div onclick="selectUsahaCard(${i})" id="usahaCard${i}" class="cursor-pointer border-2 border-gray-300 rounded-xl p-4 text-gray-700 hover:border-blue-500 transition-all">
+            ${choice}
+          </div>
+        `).join('')}
+      </div>
+    `;
+
+    document.getElementById("usahaExplanation").classList.add("hidden");
+    document.getElementById("usahaExplanation").textContent = "";
+    document.getElementById("checkUsahaBtn").disabled = false;
+    document.getElementById("prevUsahaBtn").disabled = currentUsahaIndex === 0;
+    document.getElementById("nextUsahaBtn").disabled = currentUsahaIndex === usahaQuestions.length - 1;
+  }
+
+  function selectUsahaCard(index) {
+    selectedUsahaChoice = index;
+    const cards = document.querySelectorAll("#usahaCardChoices > div");
+    cards.forEach((card, i) => {
+      card.classList.remove("border-blue-600", "bg-blue-50");
+      if (i === index) {
+        card.classList.add("border-blue-600", "bg-blue-50");
+      }
+    });
+  }
+
+  function checkUsahaAnswer() {
+    if (selectedUsahaChoice === null) {
+      alert("Silakan pilih jawaban terlebih dahulu.");
+      return;
+    }
+
+    const correct = usahaQuestions[currentUsahaIndex].correctAnswer;
+    const explanation = usahaQuestions[currentUsahaIndex].explanation;
+    const resultDiv = document.getElementById("usahaExplanation");
+
+    if (selectedUsahaChoice === correct) {
+      resultDiv.innerHTML = `<strong class="text-green-700">✅ Jawaban benar!</strong><br>${explanation}`;
+    } else {
+      resultDiv.innerHTML = `<strong class="text-red-700">❌ Jawaban salah.</strong><br>${explanation}`;
+    }
+
+    resultDiv.classList.remove("hidden");
+    document.getElementById("checkUsahaBtn").disabled = true;
+  }
+
+  function nextUsahaQuestion() {
+    if (currentUsahaIndex < usahaQuestions.length - 1) {
+      currentUsahaIndex++;
+      renderUsahaQuestion();
+    }
+  }
+
+  function prevUsahaQuestion() {
+    if (currentUsahaIndex > 0) {
+      currentUsahaIndex--;
+      renderUsahaQuestion();
+    }
+  }
+
+  renderUsahaQuestion();
+</script>
+</div>
+
+
+<!-- 2. Rumus Usaha -->
+<div id="2-Rumus-Usaha" class="mb-10 p-6 bg-white rounded-lg shadow-lg border border-gray-200">
+  <h3 class="text-2xl font-bold text-[#4dd4a3] mb-4 flex items-center gap-2">
+    📐 2. Rumus Usaha
+  </h3>
+
+  <!-- Deskripsi -->
+  <p class="text-gray-700 mb-4 leading-relaxed">
+    Rumus umum usaha dalam fisika digunakan untuk menghitung besar energi yang dihasilkan
+    ketika gaya bekerja pada suatu benda dan menyebabkan perpindahan.
+  </p>
+
+  <!-- Rumus -->
+  <div class="bg-[#4dd4a3] text-white p-4 rounded-lg shadow mb-6 font-mono text-lg sm:text-xl">
+    W = F × s × cos θ
+  </div>
+
+  <!-- Penjelasan variabel -->
+  <div class="bg-gray-50 p-4 rounded-lg border border-gray-200">
+    <ul class="list-disc ml-6 space-y-1 text-gray-700">
+      <li><strong>W</strong> = Usaha (Joule)</li>
+      <li><strong>F</strong> = Gaya (Newton)</li>
+      <li><strong>s</strong> = Perpindahan (meter)</li>
+      <li><strong>θ</strong> = Sudut antara arah gaya dan perpindahan</li>
+    </ul>
+  </div>
+
+  <!-- Video Penjelasan -->
+  <div class="mt-6">
+    <h4 class="text-lg font-semibold text-[#4dd4a3] mb-3">🎥 Video Penjelasan</h4>
+    <div class="aspect-w-16 aspect-h-9 rounded-lg overflow-hidden shadow-lg">
+      <iframe src="https://www.youtube.com/embed/Fnr-w_yN3nQ"
+              title="Rumus Usaha Fisika"
+              frameborder="0"
+              allowfullscreen
+              class="w-full h-full"></iframe>
+    </div>
+  </div><br>
+
+<div class="w-full max-w-3xl mx-auto bg-gradient-to-br from-green-50 to-teal-50 px-4 sm:px-6 py-6 sm:py-8 rounded-2xl shadow-xl border border-green-100" id="quizHitungUsaha">
+  <h2 class="text-2xl sm:text-3xl font-extrabold text-center text-teal-700 mb-6 sm:mb-8 tracking-tight drop-shadow">
+    ⚙️ Latihan Menghitung Usaha (W = F × s)
+  </h2>
+
+  <!-- Soal dan Pilihan -->
+  <div id="quizHitungUsahaContainer" class="space-y-6"></div>
+
+  <!-- Tombol Navigasi -->
+  <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3 mt-8">
+    <button id="prevHitungUsahaBtn" onclick="prevHitungUsahaQuestion()" class="w-full sm:w-auto px-5 py-2 font-semibold rounded-lg bg-gradient-to-r from-green-500 to-teal-500 text-white shadow-md hover:opacity-90 disabled:from-gray-300 disabled:to-gray-300 disabled:text-gray-500 transition-all" disabled>Sebelumnya</button>
+    <div class="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
+      <button id="checkHitungUsahaBtn" onclick="checkHitungUsahaAnswer()" class="w-full sm:w-auto px-5 py-2 font-semibold rounded-lg bg-gradient-to-r from-green-500 to-teal-500 text-white shadow-md hover:opacity-90 transition-all">Cek</button>
+      <button id="nextHitungUsahaBtn" onclick="nextHitungUsahaQuestion()" class="w-full sm:w-auto px-5 py-2 font-semibold rounded-lg bg-gradient-to-r from-green-500 to-teal-500 text-white shadow-md hover:opacity-90 disabled:from-gray-300 disabled:to-gray-300 disabled:text-gray-500 transition-all">Selanjutnya</button>
+    </div>
+  </div>
+
+  <!-- Pembahasan -->
+  <div id="hitungUsahaExplanation" class="mt-6 hidden p-4 rounded-lg shadow-inner text-sm sm:text-base"></div>
+</div>
+
+<script>
+  const hitungUsahaQuestions = [
+    {
+      question: "Seorang siswa mendorong meja dengan gaya 50 N sejauh 4 m. Berapakah usaha yang dilakukan?",
+      choices: [
+        "100 Joule",
+        "150 Joule",
+        "200 Joule",
+        "250 Joule"
+      ],
+      correctAnswer: 2,
+      explanation: "W = F × s = 50 N × 4 m = 200 Joule."
+    },
+    {
+      question: "Sebuah kotak ditarik dengan gaya 80 N sejauh 2,5 m. Hitung usaha yang dilakukan.",
+      choices: [
+        "100 Joule",
+        "150 Joule",
+        "180 Joule",
+        "200 Joule"
+      ],
+      correctAnswer: 3,
+      explanation: "W = F × s = 80 N × 2,5 m = 200 Joule."
+    },
+    {
+      question: "Jika gaya yang bekerja adalah 120 N dan perpindahan 1,5 m, berapakah usaha yang dilakukan?",
+      choices: [
+        "150 Joule",
+        "160 Joule",
+        "170 Joule",
+        "180 Joule"
+      ],
+      correctAnswer: 3,
+      explanation: "W = F × s = 120 N × 1,5 m = 180 Joule."
+    },
+ // Menghitung Gaya
+    {
+      question: "Usaha sebesar 300 Joule dilakukan untuk memindahkan benda sejauh 5 meter. Berapa besar gaya yang digunakan?",
+      choices: ["50 N", "60 N", "70 N", "80 N"],
+      correctAnswer: 1,
+      explanation: "F = W ÷ s = 300 J ÷ 5 m = 60 N."
+    },
+    {
+      question: "Jika usaha yang dilakukan adalah 500 Joule dan perpindahan 10 meter, berapakah gaya yang diberikan?",
+      choices: ["40 N", "45 N", "50 N", "55 N"],
+      correctAnswer: 2,
+      explanation: "F = W ÷ s = 500 J ÷ 10 m = 50 N."
+    },
+    {
+      question: "Sebuah benda dipindahkan sejauh 4 m dengan usaha 200 Joule. Tentukan gaya yang diberikan.",
+      choices: ["40 N", "45 N", "50 N", "55 N"],
+      correctAnswer: 0,
+      explanation: "F = W ÷ s = 200 J ÷ 4 m = 40 N."
+    },
+
+    // Menghitung Perpindahan
+    {
+      question: "Usaha yang dilakukan adalah 600 Joule dengan gaya 150 N. Tentukan perpindahan benda.",
+      choices: ["3 m", "4 m", "5 m", "6 m"],
+      correctAnswer: 2,
+      explanation: "s = W ÷ F = 600 J ÷ 150 N = 4 m."
+    },
+    {
+      question: "Jika usaha sebesar 360 Joule dilakukan oleh gaya 90 N, berapa meter benda berpindah?",
+      choices: ["2 m", "3 m", "4 m", "5 m"],
+      correctAnswer: 1,
+      explanation: "s = W ÷ F = 360 J ÷ 90 N = 4 m."
+    },
+    {
+      question: "Sebuah gaya 50 N melakukan usaha 250 Joule. Hitung perpindahan yang terjadi.",
+      choices: ["4 m", "5 m", "6 m", "7 m"],
+      correctAnswer: 1,
+      explanation: "s = W ÷ F = 250 J ÷ 50 N = 5 m."
+    },
+{
+      question: "Seorang anak dengan massa 40 kg menaiki tangga setinggi 3 meter. Hitung usaha yang dilakukan anak tersebut! (g = 10 m/s²)",
+      choices: [
+        "400 Joule",
+        "800 Joule",
+        "1200 Joule",
+        "1600 Joule"
+      ],
+      correctAnswer: 2,
+      explanation: "W = m × g × h = 40 × 10 × 3 = 1200 Joule."
+    },
+    {
+      question: "Sebuah lift mengangkat penumpang dan barang dengan massa total 500 kg naik setinggi 8 meter. Berapakah usaha yang dilakukan motor lift? (g = 10 m/s²)",
+      choices: [
+        "40.000 Joule",
+        "50.000 Joule",
+        "4.000 Joule",
+        "80.000 Joule"
+      ],
+      correctAnswer: 0,
+      explanation: "W = m × g × h = 500 × 10 × 8 = 40.000 Joule."
+    },
+    {
+      question: "Seseorang mendorong meja dengan gaya 80 N sejauh 5 meter di lantai licin. Berapakah usaha yang dilakukan?",
+      choices: [
+        "40 Joule",
+        "400 Joule",
+        "800 Joule",
+        "1600 Joule"
+      ],
+      correctAnswer: 1,
+      explanation: "W = F × s = 80 × 5 = 400 Joule."
+    },
+ {
+    question: "Seorang atlet dengan massa 60 kg berlari menaiki tangga setinggi 4 meter. Hitung usaha yang dilakukan atlet tersebut! (g = 10 m/s²)",
+    choices: [
+      "240 Joule",
+      "2400 Joule",
+      "600 Joule",
+      "6000 Joule"
+    ],
+    correctAnswer: 1,
+    explanation: "W = m × g × h = 60 × 10 × 4 = 2400 Joule."
+  },
+  {
+    question: "Sebuah lift mengangkat barang bermassa 300 kg setinggi 5 meter. Berapakah usaha yang dilakukan motor lift? (g = 10 m/s²)",
+    choices: [
+      "1500 Joule",
+      "15000 Joule",
+      "3000 Joule",
+      "30000 Joule"
+    ],
+    correctAnswer: 1,
+    explanation: "W = m × g × h = 300 × 10 × 5 = 15000 Joule."
+  },
+  {
+    question: "Seorang siswa mendorong kursi dengan gaya 40 N sejauh 6 meter. Berapakah usaha yang dilakukan siswa tersebut?",
+    choices: [
+      "240 Joule",
+      "400 Joule",
+      "640 Joule",
+      "2400 Joule"
+    ],
+    correctAnswer: 0,
+    explanation: "W = F × s = 40 × 6 = 240 Joule."
+  },
+  {
+    question: "Petani menarik gerobak dengan gaya 150 N sejauh 10 meter di jalan datar. Berapa usaha yang dilakukan petani?",
+    choices: [
+      "150 Joule",
+      "1500 Joule",
+      "300 Joule",
+      "15000 Joule"
+    ],
+    correctAnswer: 3,
+    explanation: "W = F × s = 150 × 10 = 15000 Joule."
+  },
+  {
+    question: "Pekerja memompa air ke atas menara setinggi 15 meter. Massa total air yang dipompa adalah 20 kg. Hitung usaha yang dilakukan! (g = 10 m/s²)",
+    choices: [
+      "300 Joule",
+      "3000 Joule",
+      "1500 Joule",
+      "15000 Joule"
+    ],
+    correctAnswer: 1,
+    explanation: "W = m × g × h = 20 × 10 × 15 = 3000 Joule."
+  },
+{
+    question: "Seorang pekerja mengangkat galon air bermassa 19 kg ke rak setinggi 1,2 meter. Hitung usaha yang dilakukan! (g = 10 m/s²)",
+    choices: [
+      "190 Joule",
+      "228 Joule",
+      "2280 Joule",
+      "1900 Joule"
+    ],
+    correctAnswer: 2,
+    explanation: "W = m × g × h = 19 × 10 × 1,2 = 228 Joule."
+  },
+  {
+    question: "Sebuah eskalator mengangkat penumpang bermassa 70 kg ke ketinggian 6 meter. Berapakah usaha yang dilakukan eskalator tersebut? (g = 10 m/s²)",
+    choices: [
+      "420 Joule",
+      "4200 Joule",
+      "7000 Joule",
+      "42000 Joule"
+    ],
+    correctAnswer: 1,
+    explanation: "W = m × g × h = 70 × 10 × 6 = 4200 Joule."
+  },
+  {
+    question: "Seorang siswa mendorong papan tulis dengan gaya 50 N sejauh 3 meter. Berapakah usaha yang dilakukan siswa tersebut?",
+    choices: [
+      "150 Joule",
+      "300 Joule",
+      "450 Joule",
+      "600 Joule"
+    ],
+    correctAnswer: 0,
+    explanation: "W = F × s = 50 × 3 = 150 Joule."
+  }
+  ];
+
+  let currentHitungUsahaIndex = 0;
+  let selectedHitungUsahaChoice = null;
+
+  function renderHitungUsahaQuestion() {
+    const container = document.getElementById("quizHitungUsahaContainer");
+    const q = hitungUsahaQuestions[currentHitungUsahaIndex];
+    selectedHitungUsahaChoice = null;
+
+    container.innerHTML = `
+      <h3 class="text-lg sm:text-xl font-semibold text-gray-800">${currentHitungUsahaIndex + 1}. ${q.question}</h3>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4" id="hitungUsahaCardChoices">
+        ${q.choices.map((choice, i) => `
+          <div onclick="selectHitungUsahaCard(${i})" id="hitungUsahaCard${i}" class="cursor-pointer border-2 border-transparent rounded-xl p-4 text-gray-700 bg-white shadow-sm hover:shadow-lg hover:border-green-400 transition-all duration-200">
+            ${choice}
+          </div>
+        `).join('')}
+      </div>
+    `;
+
+    document.getElementById("hitungUsahaExplanation").classList.add("hidden");
+    document.getElementById("hitungUsahaExplanation").textContent = "";
+    document.getElementById("checkHitungUsahaBtn").disabled = false;
+    document.getElementById("prevHitungUsahaBtn").disabled = currentHitungUsahaIndex === 0;
+    document.getElementById("nextHitungUsahaBtn").disabled = currentHitungUsahaIndex === hitungUsahaQuestions.length - 1;
+  }
+
+  function selectHitungUsahaCard(index) {
+    selectedHitungUsahaChoice = index;
+    const cards = document.querySelectorAll("#hitungUsahaCardChoices > div");
+    cards.forEach((card, i) => {
+      card.classList.remove("border-green-600", "bg-green-50");
+      if (i === index) {
+        card.classList.add("border-green-600", "bg-green-50");
+      }
+    });
+  }
+
+  function checkHitungUsahaAnswer() {
+    if (selectedHitungUsahaChoice === null) {
+      alert("Silakan pilih jawaban terlebih dahulu.");
+      return;
+    }
+
+    const correct = hitungUsahaQuestions[currentHitungUsahaIndex].correctAnswer;
+    const explanation = hitungUsahaQuestions[currentHitungUsahaIndex].explanation;
+    const resultDiv = document.getElementById("hitungUsahaExplanation");
+
+    if (selectedHitungUsahaChoice === correct) {
+      resultDiv.innerHTML = `<strong class="text-green-800 text-lg">✅ Jawaban benar!</strong><br>${explanation}`;
+      resultDiv.className = "mt-6 bg-green-100 text-green-900 border border-green-300 p-4 rounded-lg shadow-inner";
+    } else {
+      resultDiv.innerHTML = `<strong class="text-red-800 text-lg">❌ Jawaban salah.</strong><br>${explanation}`;
+      resultDiv.className = "mt-6 bg-pink-100 text-pink-900 border border-pink-300 p-4 rounded-lg shadow-inner";
+    }
+
+    resultDiv.classList.remove("hidden");
+    document.getElementById("checkHitungUsahaBtn").disabled = true;
+  }
+
+  function nextHitungUsahaQuestion() {
+    if (currentHitungUsahaIndex < hitungUsahaQuestions.length - 1) {
+      currentHitungUsahaIndex++;
+      renderHitungUsahaQuestion();
+    }
+  }
+
+  function prevHitungUsahaQuestion() {
+    if (currentHitungUsahaIndex > 0) {
+      currentHitungUsahaIndex--;
+      renderHitungUsahaQuestion();
+    }
+  }
+
+  renderHitungUsahaQuestion();
+</script>
+
+</div>
+
+  <!-- 3. Pengertian Energi -->
+<div id="3-Pengertian-Energi" class="mb-10 p-6 bg-white rounded-lg shadow-lg border border-gray-200">
+  <h3 class="text-2xl font-bold text-[#4dd4a3] mb-4 flex items-center gap-2">
+    🔋 3. Pengertian Energi
+  </h3>
+
+  <!-- Deskripsi -->
+  <p class="text-gray-700 mb-4 leading-relaxed">
+    <strong>Energi</strong> adalah kemampuan untuk melakukan usaha. Energi tidak dapat diciptakan maupun dimusnahkan, 
+    namun dapat diubah dari satu bentuk ke bentuk lainnya. Prinsip ini dikenal dengan <em>Hukum Kekekalan Energi</em>.
+  </p>
+
+  <!-- Bentuk-bentuk Energi -->
+  <div class="bg-[#4dd4a3] text-white p-4 rounded-lg shadow mb-6">
+    <h4 class="text-lg font-semibold mb-2">📌 Bentuk-bentuk Energi:</h4>
+    <ul class="list-disc ml-6 space-y-1">
+      <li>Energi Kinetik (energi gerak)</li>
+      <li>Energi Potensial (energi yang tersimpan)</li>
+      <li>Energi Panas (Kalor)</li>
+      <li>Energi Listrik</li>
+      <li>Energi Kimia</li>
+    </ul>
+  </div>
+
+  <!-- Video Penjelasan -->
+  <div class="mb-6">
+    <h4 class="text-lg font-semibold text-[#4dd4a3] mb-3">🎥 Video Penjelasan</h4>
+    <div class="aspect-w-16 aspect-h-9 rounded-lg overflow-hidden shadow-lg">
+      <iframe src="https://www.youtube.com/embed/21Rtl_ui9-I" 
+              title="Pengertian Energi Fisika" 
+              frameborder="0" 
+              allowfullscreen
+              class="w-full h-full"></iframe>
+    </div>
+  </div>
+
+  </div>
+
+ <!-- 4. Jenis Energi -->
+<div id="4-Jenis-Energi" class="mb-10 p-6 bg-white rounded-lg shadow-lg border border-gray-200">
+  <h3 class="text-2xl font-bold text-[#4dd4a3] mb-4 flex items-center gap-2">
+    ⚡ 4. Jenis-Jenis Energi
+  </h3>
+
+  <!-- Deskripsi -->
+  <p class="text-gray-700 mb-4 leading-relaxed">
+    Energi adalah kemampuan untuk melakukan usaha atau menghasilkan perubahan. Dalam kehidupan sehari-hari,
+    energi hadir dalam berbagai bentuk dan dapat berubah dari satu bentuk ke bentuk lainnya.
+  </p>
+
+  <!-- Jenis Energi (Versi Card dengan Gambar) -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
+
+  <!-- Energi Kinetik -->
+  <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:scale-105 transition-transform border border-gray-200">
+    <img src="https://cdn.hellosehat.com/wp-content/uploads/2017/09/Pahami-Cara-Lari-Jarak-Pendek-yang-Benar-untuk-Performa-Terbaik.jpg?w=1080&q=100" alt="Energi Kinetik" class="w-full h-40 object-cover">
+    <div class="p-5">
+      <div class="text-3xl mb-2">🏃‍♂️</div>
+      <h4 class="text-xl font-bold text-[#4dd4a3] mb-2">Energi Kinetik</h4>
+      <p class="text-gray-700 text-sm leading-relaxed">
+        Energi yang dimiliki benda karena gerakannya. Semakin cepat benda bergerak, semakin besar energi kinetiknya.
+        <br><strong>Contoh:</strong> mobil yang melaju, bola yang menggelinding.
+      </p>
+    </div>
+  </div>
+
+  <!-- Energi Potensial -->
+  <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:scale-105 transition-transform border border-gray-200">
+    <img src="https://i.pinimg.com/736x/5f/f1/70/5ff170a17c058608a1cca25eb9d7dce7.jpg" alt="Energi Potensial" class="w-full h-40 object-cover">
+    <div class="p-5">
+      <div class="text-3xl mb-2">⛰️</div>
+      <h4 class="text-xl font-bold text-[#4dd4a3] mb-2">Energi Potensial</h4>
+      <p class="text-gray-700 text-sm leading-relaxed">
+        Energi yang tersimpan karena posisi atau keadaan suatu benda.
+        <br><strong>Contoh:</strong> air di bendungan, batu di tepi tebing.
+      </p>
+    </div>
+  </div>
+
+  <!-- Energi Panas -->
+  <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:scale-105 transition-transform border border-gray-200">
+    <img src="https://thumbs.dreamstime.com/b/fire-isolated-over-black-background-14157083.jpg?w=768" alt="Energi Panas" class="w-full h-40 object-cover">
+    <div class="p-5">
+      <div class="text-3xl mb-2">🔥</div>
+      <h4 class="text-xl font-bold text-[#4dd4a3] mb-2">Energi Panas (Kalor)</h4>
+      <p class="text-gray-700 text-sm leading-relaxed">
+        Energi yang dihasilkan oleh pergerakan partikel-partikel dalam suatu zat.
+        <br><strong>Contoh:</strong> panas dari matahari, api kompor.
+      </p>
+    </div>
+  </div>
+
+  <!-- Energi Listrik -->
+  <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:scale-105 transition-transform border border-gray-200">
+    <img src="https://unair.ac.id/wp-content/uploads/2021/12/Ilustrasi-oleh-sapnu-tulkotajs.lv_.jpg" alt="Energi Listrik" class="w-full h-40 object-cover">
+    <div class="p-5">
+      <div class="text-3xl mb-2">⚡</div>
+      <h4 class="text-xl font-bold text-[#4dd4a3] mb-2">Energi Listrik</h4>
+      <p class="text-gray-700 text-sm leading-relaxed">
+        Energi yang dihasilkan dari aliran elektron melalui penghantar.
+        <br><strong>Contoh:</strong> listrik dari baterai, pembangkit listrik.
+      </p>
+    </div>
+  </div>
+
+  <!-- Energi Kimia -->
+  <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:scale-105 transition-transform border border-gray-200">
+    <img src="https://cdn.grid.id/crop/0x0:0x0/700x465/photo/2022/12/12/perubahan-energi-kimiajpg-20221212084019.jpg" alt="Energi Kimia" class="w-full h-40 object-cover">
+    <div class="p-5">
+      <div class="text-3xl mb-2">🧪</div>
+      <h4 class="text-xl font-bold text-[#4dd4a3] mb-2">Energi Kimia</h4>
+      <p class="text-gray-700 text-sm leading-relaxed">
+        Energi yang tersimpan dalam ikatan molekul dan dilepaskan melalui reaksi kimia.
+        <br><strong>Contoh:</strong> energi dalam makanan, bensin, atau baterai.
+      </p>
+    </div>
+  </div>
+
+</div>
+<!-- Hukum Kekekalan Energi -->
+<div class="bg-gradient-to-r from-[#4dd4a3] to-green-400 rounded-xl shadow-lg p-6 mb-6 text-white">
+  <h4 class="text-2xl font-extrabold mb-4 text-center">♻️ Hukum Kekekalan Energi</h4>
+  
+  <div class="bg-white text-[#2e7d32] font-bold text-lg p-4 rounded-lg shadow-md text-center leading-relaxed">
+    Energi tidak dapat diciptakan atau dimusnahkan,<br>
+    hanya dapat diubah dari satu bentuk ke bentuk lainnya.
+  </div>
+  
+  <p class="mt-4 text-sm leading-relaxed">
+    Jumlah total energi dalam sistem tertutup <strong>selalu tetap</strong>.
+  </p>
+  
+  <p class="mt-2 text-sm">
+    <strong>Contoh:</strong> Energi potensial air terjun berubah menjadi energi kinetik, lalu menjadi energi listrik di pembangkit.
+  </p>
+</div>
+
+
+  <!-- Video Penjelasan -->
+  <div class="mb-6">
+    <h4 class="text-lg font-semibold text-[#4dd4a3] mb-3">🎥 Video Penjelasan</h4>
+    <div class="aspect-w-16 aspect-h-9 rounded-lg overflow-hidden shadow-lg">
+      <iframe src="https://www.youtube.com/embed/21Rtl_ui9-I" 
+              title="Jenis-Jenis Energi" 
+              frameborder="0" 
+              allowfullscreen
+              class="w-full h-full"></iframe>
+    </div>
+  </div>
+
+<!-- Quiz Energi Berwarna Menarik -->
+<div class="w-full max-w-3xl mx-auto bg-gradient-to-br from-blue-50 via-green-50 to-yellow-50 px-4 sm:px-6 py-6 sm:py-8 rounded-2xl shadow-lg border border-green-200" id="quizEnergi">
+  <h2 class="text-2xl sm:text-3xl font-extrabold text-center text-green-600 mb-6 sm:mb-8 tracking-tight">
+    🔋 Latihan Soal Interaktif: Energi dalam Kehidupan Sehari-hari
+  </h2>
+
+  <!-- Soal dan Pilihan -->
+  <div id="quizEnergiContainer" class="space-y-6"></div>
+
+  <!-- Tombol Navigasi -->
+  <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3 mt-8">
+    <button id="prevEnergiBtn" onclick="prevEnergiQuestion()" class="w-full sm:w-auto px-5 py-2 font-semibold rounded-lg bg-gradient-to-r from-green-400 to-green-500 text-white hover:from-green-500 hover:to-green-600 disabled:from-gray-300 disabled:to-gray-300 disabled:text-gray-500 transition-all" disabled>⬅ Sebelumnya</button>
+    <div class="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
+      <button id="checkEnergiBtn" onclick="checkEnergiAnswer()" class="w-full sm:w-auto px-5 py-2 font-semibold rounded-lg bg-gradient-to-r from-blue-400 to-blue-500 text-white hover:from-blue-500 hover:to-blue-600 transition-all">✅ Cek</button>
+      <button id="nextEnergiBtn" onclick="nextEnergiQuestion()" class="w-full sm:w-auto px-5 py-2 font-semibold rounded-lg bg-gradient-to-r from-green-400 to-green-500 text-white hover:from-green-500 hover:to-green-600 disabled:from-gray-300 disabled:to-gray-300 disabled:text-gray-500 transition-all">➡ Selanjutnya</button>
+    </div>
+  </div>
+
+  <!-- Pembahasan -->
+  <div id="energiExplanation" class="mt-6 hidden bg-yellow-100 text-yellow-900 border border-yellow-300 p-4 rounded-lg shadow-inner"></div>
+</div>
+
+<script>
+  const energiQuestions = [
+    {
+      question: "Kamu makan roti berenergi 500 kkal. Energi tersebut diubah menjadi energi apa ketika kamu berlari?",
+      choices: [
+        "Energi listrik",
+        "Energi panas dan energi gerak",
+        "Energi potensial",
+        "Energi bunyi"
+      ],
+      correctAnswer: 1,
+      explanation: "Energi kimia dari makanan diubah menjadi energi gerak untuk berlari dan panas untuk menjaga suhu tubuh."
+    },
+    {
+      question: "Saat memanaskan air dengan kompor gas, bentuk energi awalnya adalah...",
+      choices: [
+        "Energi kimia → energi panas",
+        "Energi listrik → energi panas",
+        "Energi panas → energi gerak",
+        "Energi cahaya → energi panas"
+      ],
+      correctAnswer: 0,
+      explanation: "Gas memiliki energi kimia yang dibakar menjadi panas untuk memanaskan air."
+    },
+    {
+      question: "Kincir angin menghasilkan listrik dari...",
+      choices: [
+        "Energi gerak angin menjadi energi listrik",
+        "Energi panas menjadi energi gerak",
+        "Energi cahaya menjadi energi panas",
+        "Energi potensial menjadi energi bunyi"
+      ],
+      correctAnswer: 0,
+      explanation: "Kincir angin memanfaatkan energi gerak angin untuk memutar turbin yang menghasilkan energi listrik."
+    },
+    {
+      question: "Kamu mengangkat tas ke atas lemari. Energi yang dimiliki tas adalah...",
+      choices: [
+        "Energi kinetik",
+        "Energi potensial gravitasi",
+        "Energi panas",
+        "Energi kimia"
+      ],
+      correctAnswer: 1,
+      explanation: "Tas memiliki energi potensial gravitasi karena posisinya lebih tinggi dari permukaan tanah."
+    },
+    {
+      question: "Panel surya mengubah energi matahari menjadi...",
+      choices: [
+        "Energi panas",
+        "Energi gerak",
+        "Energi listrik",
+        "Energi bunyi"
+      ],
+      correctAnswer: 2,
+      explanation: "Panel surya mengubah energi cahaya matahari menjadi energi listrik."
+    },
+{
+    question: "Energi kinetik adalah…",
+    choices: [
+      "Energi yang dimiliki benda karena posisinya",
+      "Energi yang dimiliki benda karena gerakannya",
+      "Energi yang tersimpan dalam makanan",
+      "Energi yang dihasilkan dari panas"
+    ],
+    correctAnswer: 1,
+    explanation: "Energi kinetik adalah energi yang dimiliki benda karena gerakannya."
+  },
+  {
+    question: "Energi potensial gravitasi dimiliki oleh benda karena…",
+    choices: [
+      "Massanya besar",
+      "Benda berada pada ketinggian tertentu",
+      "Benda bergerak cepat",
+      "Benda memiliki suhu tinggi"
+    ],
+    correctAnswer: 1,
+    explanation: "Energi potensial gravitasi disebabkan oleh posisi benda pada ketinggian tertentu terhadap permukaan bumi."
+  },
+  {
+    question: "Manakah yang merupakan contoh energi kimia?",
+    choices: [
+      "Bola yang menggelinding",
+      "Bensin di dalam tangki",
+      "Kipas angin yang berputar",
+      "Air yang mengalir di sungai"
+    ],
+    correctAnswer: 1,
+    explanation: "Energi kimia tersimpan dalam ikatan molekul, seperti bensin, makanan, atau baterai."
+  },
+  {
+    question: "Ketika seseorang memanah, energi yang tersimpan pada busur yang ditarik adalah…",
+    choices: [
+      "Energi kinetik",
+      "Energi potensial elastis",
+      "Energi panas",
+      "Energi listrik"
+    ],
+    correctAnswer: 1,
+    explanation: "Busur yang ditarik menyimpan energi potensial elastis."
+  },
+  {
+    question: "Perubahan energi yang terjadi pada setrika listrik adalah…",
+    choices: [
+      "Listrik → Panas",
+      "Panas → Listrik",
+      "Listrik → Gerak",
+      "Panas → Gerak"
+    ],
+    correctAnswer: 0,
+    explanation: "Setrika mengubah energi listrik menjadi energi panas."
+  },
+  {
+    question: "Kincir angin menghasilkan energi listrik dengan memanfaatkan…",
+    choices: [
+      "Energi panas",
+      "Energi kimia",
+      "Energi gerak angin",
+      "Energi cahaya"
+    ],
+    correctAnswer: 2,
+    explanation: "Kincir angin memanfaatkan energi kinetik angin dan mengubahnya menjadi energi listrik."
+  },
+  {
+    question: "Sumber energi terbesar di bumi adalah…",
+    choices: [
+      "Matahari",
+      "Batu bara",
+      "Baterai",
+      "Air terjun"
+    ],
+    correctAnswer: 0,
+    explanation: "Matahari merupakan sumber energi terbesar yang menopang kehidupan di bumi."
+  },
+  {
+    question: "Lampu menyala karena terjadi perubahan energi…",
+    choices: [
+      "Listrik → Cahaya",
+      "Panas → Cahaya",
+      "Kimia → Panas",
+      "Gerak → Listrik"
+    ],
+    correctAnswer: 0,
+    explanation: "Lampu mengubah energi listrik menjadi cahaya (dan sedikit panas)."
+  },
+  {
+    question: "Energi panas dapat berpindah melalui…",
+    choices: [
+      "Konduksi, konveksi, dan radiasi",
+      "Konduksi dan reaksi kimia",
+      "Radiasi dan fotosintesis",
+      "Konveksi dan gaya gravitasi"
+    ],
+    correctAnswer: 0,
+    explanation: "Energi panas berpindah melalui konduksi, konveksi, dan radiasi."
+  },
+  {
+    question: "Contoh energi terbarukan adalah…",
+    choices: [
+      "Batu bara",
+      "Minyak bumi",
+      "Gas alam",
+      "Energi surya"
+    ],
+    correctAnswer: 3,
+    explanation: "Energi surya dapat diperbarui dan tidak habis digunakan."
+  }
+  ];
+
+  let currentEnergiIndex = 0;
+  let selectedEnergiChoice = null;
+
+  function renderEnergiQuestion() {
+    const container = document.getElementById("quizEnergiContainer");
+    const q = energiQuestions[currentEnergiIndex];
+    selectedEnergiChoice = null;
+
+    container.innerHTML = `
+      <h3 class="text-lg sm:text-xl font-semibold text-gray-800">${currentEnergiIndex + 1}. ${q.question}</h3>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4" id="energiCardChoices">
+        ${q.choices.map((choice, i) => `
+          <div onclick="selectEnergiCard(${i})" id="energiCard${i}" 
+            class="cursor-pointer border-2 border-gray-300 rounded-xl p-4 text-gray-700 hover:border-blue-400 hover:bg-blue-50 transition-all">
+            ${choice}
+          </div>
+        `).join('')}
+      </div>
+    `;
+
+    document.getElementById("energiExplanation").classList.add("hidden");
+    document.getElementById("energiExplanation").textContent = "";
+    document.getElementById("checkEnergiBtn").disabled = false;
+    document.getElementById("prevEnergiBtn").disabled = currentEnergiIndex === 0;
+    document.getElementById("nextEnergiBtn").disabled = currentEnergiIndex === energiQuestions.length - 1;
+  }
+
+  function selectEnergiCard(index) {
+    selectedEnergiChoice = index;
+    const cards = document.querySelectorAll("#energiCardChoices > div");
+    cards.forEach((card, i) => {
+      card.classList.remove("border-blue-600", "bg-blue-100", "border-red-600", "bg-red-100");
+      if (i === index) {
+        card.classList.add("border-blue-600", "bg-blue-100");
+      }
+    });
+  }
+
+  function checkEnergiAnswer() {
+    if (selectedEnergiChoice === null) {
+      alert("Silakan pilih jawaban terlebih dahulu.");
+      return;
+    }
+
+    const correct = energiQuestions[currentEnergiIndex].correctAnswer;
+    const explanation = energiQuestions[currentEnergiIndex].explanation;
+    const resultDiv = document.getElementById("energiExplanation");
+
+    const cards = document.querySelectorAll("#energiCardChoices > div");
+    cards.forEach((card, i) => {
+      card.classList.remove("border-blue-600", "bg-blue-100");
+      if (i === correct) {
+        card.classList.add("border-green-600", "bg-green-100");
+      }
+      if (i === selectedEnergiChoice && i !== correct) {
+        card.classList.add("border-red-600", "bg-red-100");
+      }
+    });
+
+    if (selectedEnergiChoice === correct) {
+      resultDiv.innerHTML = `<strong class="text-green-700">✅ Jawaban benar!</strong><br>${explanation}`;
+    } else {
+      resultDiv.innerHTML = `<strong class="text-red-700">❌ Jawaban salah.</strong><br>${explanation}`;
+    }
+
+    resultDiv.classList.remove("hidden");
+    document.getElementById("checkEnergiBtn").disabled = true;
+  }
+
+  function nextEnergiQuestion() {
+    if (currentEnergiIndex < energiQuestions.length - 1) {
+      currentEnergiIndex++;
+      renderEnergiQuestion();
+    }
+  }
+
+  function prevEnergiQuestion() {
+    if (currentEnergiIndex > 0) {
+      currentEnergiIndex--;
+      renderEnergiQuestion();
+    }
+  }
+
+  renderEnergiQuestion();
+</script>
+
+</div>
+<!-- 5. Usaha dan Daya -->
+<div id="5-Usaha-Daya" class="mb-10 p-6 bg-white rounded-lg shadow-lg border border-gray-200">
+  <h3 class="text-2xl font-bold text-[#4dd4a3] mb-4 flex items-center gap-2">
+    💪 5. Usaha dan Daya
+  </h3>
+
+  <!-- Deskripsi -->
+  <p class="text-gray-700 mb-4 leading-relaxed">
+    <strong>Usaha</strong> adalah hasil kali antara gaya yang diberikan pada suatu benda dan perpindahan benda tersebut searah gaya. 
+    Sedangkan <strong>daya</strong> adalah besarnya usaha yang dilakukan setiap satuan waktu.
+  </p>
+
+  <!-- Rumus Usaha & Daya -->
+  <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-6">
+
+    <!-- Rumus Usaha -->
+    <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:scale-105 transition-transform border border-gray-200 p-5">
+      <div class="text-3xl mb-2">⚙️</div>
+      <h4 class="text-xl font-bold text-[#4dd4a3] mb-2">Rumus Usaha</h4>
+      <p class="text-gray-700 text-sm leading-relaxed mb-2">
+        Usaha (<em>W</em>) dihitung dengan:
+      </p>
+      <p class="bg-gray-100 p-3 rounded-lg font-mono text-center mb-2">
+        W = F × s × cos θ
+      </p>
+      <p class="text-gray-700 text-sm">
+        <strong>Keterangan:</strong><br>
+        F = gaya (Newton)<br>
+        s = perpindahan (meter)<br>
+        θ = sudut antara arah gaya dan perpindahan
+      </p>
+    </div>
+
+    <!-- Rumus Daya -->
+    <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:scale-105 transition-transform border border-gray-200 p-5">
+      <div class="text-3xl mb-2">⚡</div>
+      <h4 class="text-xl font-bold text-[#4dd4a3] mb-2">Rumus Daya</h4>
+      <p class="text-gray-700 text-sm leading-relaxed mb-2">
+        Daya (<em>P</em>) dihitung dengan:
+      </p>
+      <p class="bg-gray-100 p-3 rounded-lg font-mono text-center mb-2">
+        P = W / t
+      </p>
+      <p class="text-gray-700 text-sm">
+        <strong>Keterangan:</strong><br>
+        W = usaha (Joule)<br>
+        t = waktu (detik)
+      </p>
+    </div>
+  </div>
+
+  <!-- Hubungan Usaha dan Daya -->
+  <div class="bg-green-50 p-4 rounded-lg border border-green-200 mb-6">
+    <h4 class="text-lg font-bold text-green-600 mb-2">🔗 Hubungan Usaha dan Daya</h4>
+    <p class="text-gray-700 leading-relaxed">
+      Karena <em>P = W / t</em>, maka daya berbanding lurus dengan usaha dan berbanding terbalik dengan waktu. 
+      Artinya, semakin besar usaha yang dilakukan dalam waktu singkat, semakin besar pula daya yang dihasilkan.
+    </p>
+  </div>
+
+  <!-- Contoh Soal -->
+  <div class="bg-blue-50 p-4 rounded-lg border border-blue-200 mb-6">
+    <h4 class="text-lg font-bold text-blue-600 mb-2">📌 Contoh</h4>
+    <p class="text-gray-700 mb-2">
+      Seorang atlet mendorong barbel dengan gaya <strong>200 N</strong> sejauh <strong>2 m</strong> dalam waktu <strong>4 detik</strong>. 
+      Hitung usaha dan daya yang dikeluarkan!
+    </p>
+    <p class="text-gray-700 mb-1"><strong>Penyelesaian:</strong></p>
+    <ul class="list-disc ml-6 text-gray-700">
+      <li>Usaha: W = F × s = 200 × 2 = <strong>400 J</strong></li>
+      <li>Daya: P = W / t = 400 / 4 = <strong>100 W</strong></li>
+    </ul>
+  </div>
+
+  <!-- Video Penjelasan -->
+  <div class="mb-6">
+    <h4 class="text-lg font-semibold text-[#4dd4a3] mb-3">🎥 Video Penjelasan</h4>
+    <div class="aspect-w-16 aspect-h-9 rounded-lg overflow-hidden shadow-lg">
+      <iframe src="https://www.youtube.com/embed/LqLBx5ALQVo" 
+              title="Usaha dan Daya" 
+              frameborder="0" 
+              allowfullscreen
+              class="w-full h-full"></iframe>
+    </div>
+  </div>
+</div>
+<!-- 5. Usaha dan Daya -->
+<div class="w-full max-w-3xl mx-auto bg-gradient-to-br from-green-100 via-teal-50 to-green-200 px-6 py-8 rounded-2xl shadow-2xl border border-green-300" id="quizUsahaDaya">
+  <h2 class="text-3xl font-extrabold text-center text-teal-800 mb-8 tracking-tight drop-shadow-lg">
+    ⚙️ Latihan Menghitung Usaha dan Daya
+  </h2>
+
+  <!-- Soal dan Pilihan -->
+  <div id="quizUsahaDayaContainer" class="space-y-6"></div>
+
+  <!-- Tombol Navigasi -->
+  <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3 mt-8">
+    <button id="prevUsahaDayaBtn" onclick="prevUsahaDayaQuestion()" class="w-full sm:w-auto px-5 py-2 font-semibold rounded-lg bg-gradient-to-r from-green-500 to-teal-500 text-white shadow-md hover:scale-105 hover:shadow-lg transition-all duration-200 disabled:from-gray-300 disabled:to-gray-300 disabled:text-gray-500" disabled>Sebelumnya</button>
+    <div class="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
+      <button id="checkUsahaDayaBtn" onclick="checkUsahaDayaAnswer()" class="w-full sm:w-auto px-5 py-2 font-semibold rounded-lg bg-gradient-to-r from-yellow-400 to-orange-400 text-white shadow-md hover:scale-105 hover:shadow-lg transition-all duration-200">Cek</button>
+      <button id="nextUsahaDayaBtn" onclick="nextUsahaDayaQuestion()" class="w-full sm:w-auto px-5 py-2 font-semibold rounded-lg bg-gradient-to-r from-green-500 to-teal-500 text-white shadow-md hover:scale-105 hover:shadow-lg transition-all duration-200 disabled:from-gray-300 disabled:to-gray-300 disabled:text-gray-500">Selanjutnya</button>
+    </div>
+  </div>
+
+  <!-- Pembahasan -->
+  <div id="usahaDayaExplanation" class="mt-6 hidden p-4 rounded-lg shadow-inner text-sm sm:text-base"></div>
+</div>
+
+<script>
+  const usahaDayaQuestions = [
+    {
+      question: "Seorang anak menarik gerobak dengan gaya 60 N sejauh 5 m. Berapakah usaha yang dilakukan?",
+      choices: ["300 Joule", "350 Joule", "400 Joule", "450 Joule"],
+      correctAnswer: 0,
+      explanation: "W = F × s = 60 N × 5 m = 300 Joule."
+    },
+    {
+      question: "Mesin melakukan usaha sebesar 2000 Joule dalam waktu 50 detik. Berapakah daya mesin tersebut?",
+      choices: ["20 Watt", "40 Watt", "50 Watt", "80 Watt"],
+      correctAnswer: 1,
+      explanation: "P = W / t = 2000 J / 50 s = 40 Watt."
+    },
+    {
+      question: "Seseorang mendorong kotak dengan gaya 100 N sejauh 2 m dalam waktu 5 detik. Berapakah daya yang dikeluarkan?",
+      choices: ["20 Watt", "30 Watt", "40 Watt", "50 Watt"],
+      correctAnswer: 2,
+      explanation: "W = 100 × 2 = 200 J, P = 200 / 5 = 40 Watt."
+    },
+    {
+      question: "Seorang pekerja mengangkat beban 150 N setinggi 2 meter dalam waktu 3 detik. Berapakah daya yang dikeluarkan?",
+      choices: ["80 Watt", "90 Watt", "100 Watt", "120 Watt"],
+      correctAnswer: 2,
+      explanation: "W = 150 × 2 = 300 J, P = 300 / 3 = 100 Watt."
+    },
+    {
+      question: "Sebuah pompa air melakukan usaha 1200 Joule untuk memompa air dalam 20 detik. Berapa daya pompa tersebut?",
+      choices: ["50 Watt", "60 Watt", "65 Watt", "70 Watt"],
+      correctAnswer: 1,
+      explanation: "P = 1200 / 20 = 60 Watt."
+    },
+    {
+      question: "Mesin A menghasilkan daya 500 Watt selama 10 detik. Berapa usaha yang dilakukan mesin tersebut?",
+      choices: ["4000 Joule", "4500 Joule", "5000 Joule", "5500 Joule"],
+      correctAnswer: 2,
+      explanation: "W = P × t = 500 × 10 = 5000 Joule."
+    },
+    {
+      question: "Seorang atlet menarik beban 80 N sejauh 3 meter dalam 2 detik. Berapa daya yang digunakan?",
+      choices: ["100 Watt", "110 Watt", "115 Watt", "120 Watt"],
+      correctAnswer: 3,
+      explanation: "W = 80 × 3 = 240 J, P = 240 / 2 = 120 Watt."
+    },
+    {
+      question: "Sebuah lampu 60 Watt menyala selama 10 detik. Berapa usaha (energi) yang digunakan lampu tersebut?",
+      choices: ["500 Joule", "550 Joule", "600 Joule", "650 Joule"],
+      correctAnswer: 2,
+      explanation: "W = P × t = 60 × 10 = 600 Joule."
+    }
+  ];
+
+  let currentUsahaDayaIndex = 0;
+  let selectedUsahaDayaChoice = null;
+
+  function renderUsahaDayaQuestion() {
+    const container = document.getElementById("quizUsahaDayaContainer");
+    const q = usahaDayaQuestions[currentUsahaDayaIndex];
+    selectedUsahaDayaChoice = null;
+
+    container.innerHTML = `
+      <h3 class="text-lg sm:text-xl font-bold text-gray-800 mb-4">${currentUsahaDayaIndex + 1}. ${q.question}</h3>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4" id="usahaDayaCardChoices">
+        ${q.choices.map((choice, i) => `
+          <div onclick="selectUsahaDayaCard(${i})" id="usahaDayaCard${i}" class="cursor-pointer border-2 border-transparent rounded-xl p-4 text-gray-700 bg-white shadow-md hover:shadow-lg hover:border-green-400 hover:scale-105 transition-all duration-200">
+            ${choice}
+          </div>
+        `).join('')}
+      </div>
+    `;
+
+    document.getElementById("usahaDayaExplanation").classList.add("hidden");
+    document.getElementById("usahaDayaExplanation").textContent = "";
+    document.getElementById("checkUsahaDayaBtn").disabled = false;
+    document.getElementById("prevUsahaDayaBtn").disabled = currentUsahaDayaIndex === 0;
+    document.getElementById("nextUsahaDayaBtn").disabled = currentUsahaDayaIndex === usahaDayaQuestions.length - 1;
+  }
+
+  function selectUsahaDayaCard(index) {
+    selectedUsahaDayaChoice = index;
+    const cards = document.querySelectorAll("#usahaDayaCardChoices > div");
+    cards.forEach((card, i) => {
+      card.classList.remove("border-green-600", "bg-green-50", "shadow-lg");
+      if (i === index) {
+        card.classList.add("border-green-600", "bg-green-50", "shadow-lg");
+      }
+    });
+  }
+
+  function checkUsahaDayaAnswer() {
+    if (selectedUsahaDayaChoice === null) {
+      alert("Silakan pilih jawaban terlebih dahulu.");
+      return;
+    }
+
+    const correct = usahaDayaQuestions[currentUsahaDayaIndex].correctAnswer;
+    const explanation = usahaDayaQuestions[currentUsahaDayaIndex].explanation;
+    const resultDiv = document.getElementById("usahaDayaExplanation");
+
+    if (selectedUsahaDayaChoice === correct) {
+      resultDiv.innerHTML = `<strong class="text-green-800 text-lg">✅ Jawaban benar!</strong><br>${explanation}`;
+      resultDiv.className = "mt-6 bg-green-100 text-green-900 border border-green-400 p-4 rounded-xl shadow-md";
+    } else {
+      resultDiv.innerHTML = `<strong class="text-red-800 text-lg">❌ Jawaban salah.</strong><br>${explanation}`;
+      resultDiv.className = "mt-6 bg-red-100 text-red-900 border border-red-400 p-4 rounded-xl shadow-md";
+    }
+
+    resultDiv.classList.remove("hidden");
+    document.getElementById("checkUsahaDayaBtn").disabled = true;
+  }
+
+  function nextUsahaDayaQuestion() {
+    if (currentUsahaDayaIndex < usahaDayaQuestions.length - 1) {
+      currentUsahaDayaIndex++;
+      renderUsahaDayaQuestion();
+    }
+  }
+
+  function prevUsahaDayaQuestion() {
+    if (currentUsahaDayaIndex > 0) {
+      currentUsahaDayaIndex--;
+      renderUsahaDayaQuestion();
+    }
+  }
+
+  renderUsahaDayaQuestion();
+</script><br>
+
+<!-- 6. Pesawat Sederhana -->
+<div id="6-Pesawat-Sederhana" class="mb-10 p-6 bg-white rounded-lg shadow-lg border border-gray-200">
+  <h3 class="text-2xl font-bold text-[#4dd4a3] mb-4 flex items-center gap-2">
+    🛠️ 6. Pesawat Sederhana
+  </h3>
+
+  <!-- Deskripsi -->
+  <p class="text-gray-700 mb-4 leading-relaxed">
+    <strong>Pesawat sederhana</strong> adalah alat yang digunakan untuk mempermudah pekerjaan dengan cara mengubah besar atau arah gaya. 
+    Pesawat sederhana tidak menghasilkan energi baru, tetapi memudahkan usaha yang dilakukan.
+  </p>
+
+  <!-- Jenis-jenis Pesawat Sederhana -->
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
+
+    <!-- Tuas (Pengungkit) -->
+    <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:scale-105 transition-transform border border-gray-200">
+      <img src="https://edoo.id/wp-content/uploads/2023/04/Tuas-Jenis-Ketiga.jpg" alt="Tuas" class="w-full h-40 object-cover">
+      <div class="p-5">
+        <div class="text-3xl mb-2">⚖️</div>
+        <h4 class="text-xl font-bold text-[#4dd4a3] mb-2">Tuas (Pengungkit)</h4>
+        <p class="text-gray-700 text-sm leading-relaxed">
+          Batang yang dapat berputar pada titik tumpu untuk mengangkat atau memindahkan beban.
+          <br><strong>Contoh:</strong> jungkat-jungkit, gunting, linggis.
+        </p>
+      </div>
+    </div>
+
+    <!-- Katrol -->
+    <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:scale-105 transition-transform border border-gray-200">
+      <img src="https://asset-a.grid.id/crop/0x0:0x0/750x504/photo/2024/05/06/katrol1jpg-20240506010529.jpg" alt="Katrol" class="w-full h-40 object-cover">
+      <div class="p-5">
+        <div class="text-3xl mb-2">🪢</div>
+        <h4 class="text-xl font-bold text-[#4dd4a3] mb-2">Katrol</h4>
+        <p class="text-gray-700 text-sm leading-relaxed">
+          Roda beralur yang digunakan untuk mengubah arah gaya atau memperkecil gaya.
+          <br><strong>Contoh:</strong> katrol sumur, katrol derek.
+        </p>
+      </div>
+    </div>
+
+    <!-- Bidang Miring -->
+    <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:scale-105 transition-transform border border-gray-200">
+      <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhXxnvmmelgs-t0Hc6Uh3wm01_vMaqujrPpAP2JsTv5L2QAPKR_A2QajWf1cg8YRVJYnBlCIIxfXzIuPXRvnwtgirdnyx25zWFccK6v2s6K8yY8PVcXdxYJuvWkM_szHLuGFSK9w-TfzEiY/s1600/bidang+miring+rumus+keuntungan+mekanis+contoh+soal.jpg" alt="Bidang Miring" class="w-full h-40 object-cover">
+      <div class="p-5">
+        <div class="text-3xl mb-2">📐</div>
+        <h4 class="text-xl font-bold text-[#4dd4a3] mb-2">Bidang Miring</h4>
+        <p class="text-gray-700 text-sm leading-relaxed">
+          Permukaan miring yang digunakan untuk memindahkan benda ke tempat yang lebih tinggi dengan gaya lebih kecil.
+          <br><strong>Contoh:</strong> papan miring di truk, tangga.
+        </p>
+      </div>
+    </div>
+
+    <!-- Roda Berporos -->
+    <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:scale-105 transition-transform border border-gray-200">
+      <img src="https://serupa.id/wp-content/uploads/2021/06/contoh-roda-berporos.jpg.webp" alt="Roda Berporos" class="w-full h-40 object-cover">
+      <div class="p-5">
+        <div class="text-3xl mb-2">🚲</div>
+        <h4 class="text-xl font-bold text-[#4dd4a3] mb-2">Roda Berporos</h4>
+        <p class="text-gray-700 text-sm leading-relaxed">
+          Sistem roda yang berputar pada poros untuk mempermudah memindahkan atau memutar beban.
+          <br><strong>Contoh:</strong> setir mobil, roda sepeda.
+        </p>
+      </div>
+    </div>
+
+    <!-- Sekrup -->
+    <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:scale-105 transition-transform border border-gray-200">
+      <img src="https://serupa.id/wp-content/uploads/2021/06/contoh-penerapan-pesawat-sederhana-bidang-miring.jpg.webp" alt="Sekrup" class="w-full h-40 object-cover">
+      <div class="p-5">
+        <div class="text-3xl mb-2">🔩</div>
+        <h4 class="text-xl font-bold text-[#4dd4a3] mb-2">Sekrup</h4>
+        <p class="text-gray-700 text-sm leading-relaxed">
+          Bidang miring yang dililitkan pada silinder untuk memperkuat sambungan atau mengangkat benda.
+          <br><strong>Contoh:</strong> baut, dongkrak ulir.
+        </p>
+      </div>
+    </div>
+
+    <!-- Baji -->
+    <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:scale-105 transition-transform border border-gray-200">
+      <img src="https://img.id.my-best.com/product_images/1c34dc502d3fd6f0247210b60a4abc1c.png?ixlib=rails-4.3.1&q=70&lossless=0&w=800&h=800&fit=clip&s=0aecb132f1bd0947797dfae9b8c89f49" alt="Baji" class="w-full h-40 object-cover">
+      <div class="p-5">
+        <div class="text-3xl mb-2">🪓</div>
+        <h4 class="text-xl font-bold text-[#4dd4a3] mb-2">Baji</h4>
+        <p class="text-gray-700 text-sm leading-relaxed">
+          Alat berbentuk segitiga runcing yang digunakan untuk membelah atau memisahkan benda.
+          <br><strong>Contoh:</strong> kapak, pisau.
+        </p>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Keuntungan Mekanis -->
+  <div class="bg-green-50 p-4 rounded-lg border border-green-200 mb-6">
+    <h4 class="text-lg font-bold text-green-600 mb-2">⚖️ Keuntungan Mekanis</h4>
+    <p class="text-gray-700 leading-relaxed">
+      Keuntungan mekanis adalah perbandingan antara gaya beban (<em>W</em>) dengan gaya kuasa (<em>F</em>).  
+      <br>Rumus: <strong>KM = W / F</strong>  
+      Semakin besar KM, semakin ringan gaya yang diperlukan untuk mengangkat atau memindahkan beban.
+    </p>
+  </div>
+
+  <!-- Contoh Soal -->
+  <div class="bg-blue-50 p-4 rounded-lg border border-blue-200 mb-6">
+    <h4 class="text-lg font-bold text-blue-600 mb-2">📌 Contoh</h4>
+    <p class="text-gray-700 mb-2">
+      Sebuah tuas digunakan untuk mengangkat beban seberat <strong>300 N</strong> dengan gaya kuasa <strong>75 N</strong>. 
+      Hitung keuntungan mekanisnya!
+    </p>
+    <p class="text-gray-700"><strong>Penyelesaian:</strong>  
+      KM = W / F = 300 / 75 = <strong>4</strong>
+    </p>
+  </div>
+
+  <!-- Video Penjelasan -->
+  <div class="mb-6">
+    <h4 class="text-lg font-semibold text-[#4dd4a3] mb-3">🎥 Video Penjelasan</h4>
+    <div class="aspect-w-16 aspect-h-9 rounded-lg overflow-hidden shadow-lg">
+      <iframe src="https://www.youtube.com/embed/oQfXsE5Z4sQ" 
+              title="Pesawat Sederhana" 
+              frameborder="0" 
+              allowfullscreen
+              class="w-full h-full"></iframe>
+    </div>
+  </div>
+</div>
+<!-- 6.a Tuas (Pengungkit) -->
+<div id="6a-Tuas" class="mb-10 p-6 bg-white rounded-lg shadow-lg border border-gray-200">
+  <h3 class="text-2xl font-bold text-[#4dd4a3] mb-4 flex items-center gap-2">
+    ⚖️ 6.a Tuas (Pengungkit)
+  </h3>
+
+  <!-- Deskripsi -->
+  <p class="text-gray-700 mb-4 leading-relaxed">
+    <strong>Tuas</strong> atau <em>pengungkit</em> adalah batang yang dapat berputar pada titik tumpu untuk memudahkan memindahkan atau mengangkat beban. 
+    Tuas bekerja dengan prinsip <strong>keuntungan mekanis</strong> agar gaya yang diperlukan menjadi lebih kecil.
+  </p>
+<img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhRjwwNh5buUAgQ1YG_E30hKt3SSzChhqEKLR6yQrS-RD2YegPI7L5NFExmYszs-bTWyYgzsiNfSAXCpnkBgaS74sZgxv5ChN-g7d_AdqvjDrIK93GczKPvQxTiPM4GTQpAyKzVnuG0REwI/s1600/skema+tuas+pengungkit.jpg" alt="Tuas Jenis II" class="w-full h-50 object-cover">
+      <div class="p-5">
+
+  <!-- Bagian-bagian Tuas -->
+  <div class="bg-green-50 p-4 rounded-lg border border-green-200 mb-6">
+    <h4 class="text-lg font-bold text-green-600 mb-2">🔍 Bagian-bagian Tuas</h4>
+    <ul class="list-disc pl-6 text-gray-700 leading-relaxed">
+      <li><strong>Titik Tumpu (O)</strong> → titik tempat tuas berputar.</li>
+      <li><strong>Beban (W)</strong> → gaya yang harus dipindahkan atau diangkat.</li>
+      <li><strong>Kuasa (F)</strong> → gaya yang diberikan untuk memindahkan beban.</li>
+    </ul>
+  </div>
+
+  <!-- Jenis-jenis Tuas -->
+  <h4 class="text-lg font-bold text-[#4dd4a3] mb-3">📌 Jenis-jenis Tuas</h4>
+  <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-6">
+
+    <!-- Tuas Jenis I -->
+    <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:scale-105 transition-transform border border-gray-200">
+      <img src="https://edoo.id/wp-content/uploads/2023/04/Tuas-Jenis-Pertama.jpg" alt="Tuas Jenis I" class="w-full h-40 object-cover">
+      <div class="p-5">
+        <h4 class="text-xl font-bold text-[#4dd4a3] mb-2">Jenis I</h4>
+        <p class="text-gray-700 text-sm leading-relaxed">
+          Titik tumpu berada di antara kuasa dan beban.
+          <br><strong>Contoh:</strong> jungkat-jungkit, gunting, linggis.
+        </p>
+      </div>
+    </div>
+
+    <!-- Tuas Jenis II -->
+    <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:scale-105 transition-transform border border-gray-200">
+      <img src="https://edoo.id/wp-content/uploads/2023/04/Tuas-Jenis-Kedua.jpg" alt="Tuas Jenis II" class="w-full h-40 object-cover">
+      <div class="p-5">
+        <h4 class="text-xl font-bold text-[#4dd4a3] mb-2">Jenis II</h4>
+        <p class="text-gray-700 text-sm leading-relaxed">
+          Beban berada di antara titik tumpu dan kuasa.
+          <br><strong>Contoh:</strong> gerobak dorong, pemecah kemiri.
+        </p>
+      </div>
+    </div>
+
+    <!-- Tuas Jenis III -->
+    <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:scale-105 transition-transform border border-gray-200">
+      <img src="https://edoo.id/wp-content/uploads/2023/04/Tuas-Jenis-Ketiga.jpg" alt="Tuas Jenis III" class="w-full h-40 object-cover">
+      <div class="p-5">
+        <h4 class="text-xl font-bold text-[#4dd4a3] mb-2">Jenis III</h4>
+        <p class="text-gray-700 text-sm leading-relaxed">
+          Kuasa berada di antara titik tumpu dan beban.
+          <br><strong>Contoh:</strong> pinset, sekop, alat pancing.
+        </p>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Rumus Keuntungan Mekanis -->
+  <div class="bg-yellow-50 p-4 rounded-lg border border-yellow-200 mb-6">
+    <h4 class="text-lg font-bold text-yellow-600 mb-2">📏 Rumus Keuntungan Mekanis Tuas</h4>
+    <p class="text-gray-700 leading-relaxed">
+      <strong>\[KM = \frac{\text{Lengan Kuasa}}{\text{Lengan Beban}}\]</strong>
+      <br>Semakin panjang lengan kuasa dibandingkan lengan beban, semakin besar keuntungan mekanisnya.
+    </p>
+  </div>
+
+  <!-- Contoh Soal -->
+  <div class="bg-blue-50 p-4 rounded-lg border border-blue-200 mb-6">
+    <h4 class="text-lg font-bold text-blue-600 mb-2">📝 Contoh Soal</h4>
+    <p class="text-gray-700 mb-2">
+      Sebuah linggis memiliki lengan kuasa 120 cm dan lengan beban 30 cm.  
+      Hitung keuntungan mekanisnya!
+    </p>
+    <p class="text-gray-700">
+      <strong>Penyelesaian:</strong>  
+      KM = 120 / 30 = <strong>4</strong>  
+      Artinya gaya yang dibutuhkan 4 kali lebih kecil dari beban sebenarnya.
+    </p>
+  </div>
+
+  <!-- Video Penjelasan -->
+  <div class="mb-6">
+    <h4 class="text-lg font-semibold text-[#4dd4a3] mb-3">🎥 Video Penjelasan</h4>
+    <div class="aspect-w-16 aspect-h-9 rounded-lg overflow-hidden shadow-lg">
+      <iframe src="https://www.youtube.com/embed/oQfXsE5Z4sQ" 
+              title="Tuas (Pengungkit)" 
+              frameborder="0" 
+              allowfullscreen
+              class="w-full h-full"></iframe>
+    </div>
+  </div>
+</div>
+<!-- 6. Tuas -->
+<div class="w-full max-w-3xl mx-auto bg-gradient-to-br from-yellow-100 via-orange-50 to-yellow-200 px-6 py-8 rounded-2xl shadow-2xl border border-yellow-300" id="quizTuas">
+  <h2 class="text-3xl font-extrabold text-center text-orange-800 mb-8 tracking-tight drop-shadow-lg">
+    🔧 Latihan Soal Tuas
+  </h2>
+
+  <!-- Soal dan Pilihan -->
+  <div id="quizTuasContainer" class="space-y-6"></div>
+
+  <!-- Tombol Navigasi -->
+  <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3 mt-8">
+    <button id="prevTuasBtn" onclick="prevTuasQuestion()" class="w-full sm:w-auto px-5 py-2 font-semibold rounded-lg bg-gradient-to-r from-yellow-500 to-orange-500 text-white shadow-md hover:scale-105 hover:shadow-lg transition-all duration-200 disabled:from-gray-300 disabled:to-gray-300 disabled:text-gray-500" disabled>Sebelumnya</button>
+    <div class="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
+      <button id="checkTuasBtn" onclick="checkTuasAnswer()" class="w-full sm:w-auto px-5 py-2 font-semibold rounded-lg bg-gradient-to-r from-orange-400 to-red-400 text-white shadow-md hover:scale-105 hover:shadow-lg transition-all duration-200">Cek</button>
+      <button id="nextTuasBtn" onclick="nextTuasQuestion()" class="w-full sm:w-auto px-5 py-2 font-semibold rounded-lg bg-gradient-to-r from-yellow-500 to-orange-500 text-white shadow-md hover:scale-105 hover:shadow-lg transition-all duration-200 disabled:from-gray-300 disabled:to-gray-300 disabled:text-gray-500">Selanjutnya</button>
+    </div>
+  </div>
+
+  <!-- Pembahasan -->
+  <div id="tuasExplanation" class="mt-6 hidden p-4 rounded-lg shadow-inner text-sm sm:text-base"></div>
+</div>
+
+<script>
+  const tuasQuestions = [
+    {
+      question: "Bagian dari tuas yang menjadi titik tumpu disebut...",
+      choices: ["Fulkrum", "Lengan beban", "Lengan kuasa", "Beban"],
+      correctAnswer: 0,
+      explanation: "Titik tumpu pada tuas disebut Fulkrum."
+    },
+    {
+      question: "Sebuah tuas memiliki lengan kuasa 80 cm dan lengan beban 20 cm. Keuntungan mekanisnya adalah...",
+      choices: ["2", "3", "4", "5"],
+      correctAnswer: 2,
+      explanation: "KM = lengan kuasa / lengan beban = 80 / 20 = 4."
+    },
+    {
+      question: "Gunting termasuk tuas jenis...",
+      choices: ["Jenis I", "Jenis II", "Jenis III", "Semua jenis"],
+      correctAnswer: 0,
+      explanation: "Gunting termasuk tuas jenis I, titik tumpu di antara kuasa dan beban."
+    },
+    {
+      question: "Jika keuntungan mekanis sebuah tuas adalah 5, dan lengan beban 15 cm, maka panjang lengan kuasa adalah...",
+      choices: ["60 cm", "65 cm", "70 cm", "75 cm"],
+      correctAnswer: 3,
+      explanation: "KM = LK / LB → 5 = LK / 15 → LK = 75 cm."
+    },
+    {
+      question: "Contoh tuas jenis II di kehidupan sehari-hari adalah...",
+      choices: ["Gerobak dorong", "Pinset", "Gunting", "Pemukul baseball"],
+      correctAnswer: 0,
+      explanation: "Gerobak dorong termasuk tuas jenis II, beban di antara titik tumpu dan kuasa."
+    }
+  ];
+
+  let currentTuasIndex = 0;
+  let selectedTuasChoice = null;
+
+  function renderTuasQuestion() {
+    const container = document.getElementById("quizTuasContainer");
+    const q = tuasQuestions[currentTuasIndex];
+    selectedTuasChoice = null;
+
+    container.innerHTML = `
+      <h3 class="text-lg sm:text-xl font-bold text-gray-800 mb-4">${currentTuasIndex + 1}. ${q.question}</h3>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4" id="tuasCardChoices">
+        ${q.choices.map((choice, i) => `
+          <div onclick="selectTuasCard(${i})" id="tuasCard${i}" class="cursor-pointer border-2 border-transparent rounded-xl p-4 text-gray-700 bg-white shadow-md hover:shadow-lg hover:border-yellow-400 hover:scale-105 transition-all duration-200">
+            ${choice}
+          </div>
+        `).join('')}
+      </div>
+    `;
+
+    document.getElementById("tuasExplanation").classList.add("hidden");
+    document.getElementById("tuasExplanation").textContent = "";
+    document.getElementById("checkTuasBtn").disabled = false;
+    document.getElementById("prevTuasBtn").disabled = currentTuasIndex === 0;
+    document.getElementById("nextTuasBtn").disabled = currentTuasIndex === tuasQuestions.length - 1;
+  }
+
+  function selectTuasCard(index) {
+    selectedTuasChoice = index;
+    const cards = document.querySelectorAll("#tuasCardChoices > div");
+    cards.forEach((card, i) => {
+      card.classList.remove("border-yellow-600", "bg-yellow-50", "shadow-lg");
+      if (i === index) {
+        card.classList.add("border-yellow-600", "bg-yellow-50", "shadow-lg");
+      }
+    });
+  }
+
+  function checkTuasAnswer() {
+    if (selectedTuasChoice === null) {
+      alert("Silakan pilih jawaban terlebih dahulu.");
+      return;
+    }
+
+    const correct = tuasQuestions[currentTuasIndex].correctAnswer;
+    const explanation = tuasQuestions[currentTuasIndex].explanation;
+    const resultDiv = document.getElementById("tuasExplanation");
+
+    if (selectedTuasChoice === correct) {
+      resultDiv.innerHTML = `<strong class="text-green-800 text-lg">✅ Jawaban benar!</strong><br>${explanation}`;
+      resultDiv.className = "mt-6 bg-green-100 text-green-900 border border-green-400 p-4 rounded-xl shadow-md";
+    } else {
+      resultDiv.innerHTML = `<strong class="text-red-800 text-lg">❌ Jawaban salah.</strong><br>${explanation}`;
+      resultDiv.className = "mt-6 bg-red-100 text-red-900 border border-red-400 p-4 rounded-xl shadow-md";
+    }
+
+    resultDiv.classList.remove("hidden");
+    document.getElementById("checkTuasBtn").disabled = true;
+  }
+
+  function nextTuasQuestion() {
+    if (currentTuasIndex < tuasQuestions.length - 1) {
+      currentTuasIndex++;
+      renderTuasQuestion();
+    }
+  }
+
+  function prevTuasQuestion() {
+    if (currentTuasIndex > 0) {
+      currentTuasIndex--;
+      renderTuasQuestion();
+    }
+  }
+
+  renderTuasQuestion();
+</script>
+<br>
+<!-- 6.b Katrol -->
+<div id="6b-Katrol" class="mb-10 p-6 bg-white rounded-lg shadow-lg border border-gray-200">
+  <h3 class="text-2xl font-bold text-[#4dd4a3] mb-4 flex items-center gap-2">
+    🪢 6.b Katrol
+  </h3>
+
+  <!-- Deskripsi -->
+  <p class="text-gray-700 mb-4 leading-relaxed">
+    <strong>Katrol</strong> adalah salah satu jenis <em>pesawat sederhana</em> yang digunakan untuk memudahkan
+    mengangkat atau memindahkan beban. Katrol bekerja dengan prinsip <strong>keuntungan mekanis</strong> dan
+    dapat mengubah arah gaya atau memperkecil besar gaya yang diperlukan.
+  </p>
+  
+  <img src="https://asset-a.grid.id/crop/0x0:0x0/750x504/photo/2024/05/06/katrol1jpg-20240506010529.jpg" 
+       alt="Ilustrasi Katrol" class="w-full h-40 object-cover mb-4">
+
+  <!-- Bagian-bagian Katrol -->
+  <div class="bg-green-50 p-4 rounded-lg border border-green-200 mb-6">
+    <h4 class="text-lg font-bold text-green-600 mb-2">🔍 Bagian-bagian Katrol</h4>
+    <ul class="list-disc pl-6 text-gray-700 leading-relaxed">
+      <li><strong>Roda Beralur</strong> → tempat tali atau rantai melilit.</li>
+      <li><strong>Tali atau Rantai</strong> → media untuk menarik atau mengangkat beban.</li>
+      <li><strong>Kait atau Poros</strong> → penghubung katrol dengan titik tumpu atau beban.</li>
+    </ul>
+  </div>
+
+  <!-- Jenis-jenis Katrol -->
+  <h4 class="text-lg font-bold text-[#4dd4a3] mb-3">📌 Jenis-jenis Katrol</h4>
+  <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-6">
+
+    <!-- Katrol Tetap -->
+    <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:scale-105 transition-transform border border-gray-200">
+      <img src="https://cdn-web.ruangguru.com/landing-pages/assets/hs/Katrol%20tetap.png" alt="Katrol Tetap" class="w-full h-40 object-cover">
+      <div class="p-5">
+        <h4 class="text-xl font-bold text-[#4dd4a3] mb-2">Katrol Tetap</h4>
+        <p class="text-gray-700 text-sm leading-relaxed">
+          Titik tumpu berada di tempat tetap. Hanya mengubah arah gaya, KM = 1.
+          <br><strong>Contoh:</strong> katrol pada sumur timba.
+        </p>
+      </div>
+    </div>
+
+    <!-- Katrol Bergerak -->
+    <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:scale-105 transition-transform border border-gray-200">
+      <img src="https://cdn-web.ruangguru.com/landing-pages/assets/hs/Katrol%20bebas.png" alt="Katrol Bergerak" class="w-full h-40 object-cover">
+      <div class="p-5">
+        <h4 class="text-xl font-bold text-[#4dd4a3] mb-2">Katrol Bebas (Bergerak)</h4>
+        <p class="text-gray-700 text-sm leading-relaxed">
+          Bergerak bersama beban, mengurangi besar gaya yang dibutuhkan. KM = 2.
+          <br><strong>Contoh:</strong> katrol pengangkat barang di gudang.
+        </p>
+      </div>
+    </div>
+
+    <!-- Katrol Majemuk -->
+    <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:scale-105 transition-transform border border-gray-200">
+      <img src="https://cdn-web.ruangguru.com/landing-pages/assets/hs/katrol%20majemuk.png" alt="Katrol Majemuk" class="w-full h-40 object-cover">
+      <div class="p-5">
+        <h4 class="text-xl font-bold text-[#4dd4a3] mb-2">Katrol Majemuk</h4>
+        <p class="text-gray-700 text-sm leading-relaxed">
+          Gabungan katrol tetap dan bergerak, KM sesuai jumlah tali penopang.
+          <br><strong>Contoh:</strong> sistem derek kapal.
+        </p>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Rumus Keuntungan Mekanis -->
+  <div class="bg-yellow-50 p-4 rounded-lg border border-yellow-200 mb-6">
+    <h4 class="text-lg font-bold text-yellow-600 mb-2">📏 Rumus Keuntungan Mekanis Katrol</h4>
+    <p class="text-gray-700 leading-relaxed">
+      <strong>KM Katrol Tetap:</strong> 1 <br>
+      <strong>KM Katrol Bergerak:</strong> 2 <br>
+      <strong>KM Katrol Majemuk:</strong> jumlah tali penopang beban
+    </p>
+  </div>
+
+  <!-- Contoh Soal -->
+  <div class="bg-blue-50 p-4 rounded-lg border border-blue-200 mb-6">
+    <h4 class="text-lg font-bold text-blue-600 mb-2">📝 Contoh Soal</h4>
+    <p class="text-gray-700 mb-2">
+      Sebuah beban 200 N diangkat dengan katrol bergerak. Hitung gaya yang dibutuhkan!
+    </p>
+    <p class="text-gray-700">
+      <strong>Penyelesaian:</strong>  
+      KM = 2  
+      F = W / KM = 200 / 2 = <strong>100 N</strong>  
+      Artinya gaya yang dibutuhkan hanya setengah dari berat beban.
+    </p>
+  </div>
+
+  <!-- Video Penjelasan -->
+  <div class="mb-6">
+    <h4 class="text-lg font-semibold text-[#4dd4a3] mb-3">🎥 Video Penjelasan</h4>
+    <div class="aspect-w-16 aspect-h-9 rounded-lg overflow-hidden shadow-lg">
+      <iframe src="https://www.youtube.com/embed/aLWJJL6DmXc" 
+              title="Penjelasan Katrol" 
+              frameborder="0" 
+              allowfullscreen
+              class="w-full h-full"></iframe>
+    </div>
+  </div>
+</div>
+<!-- 7. Katrol -->
+<div class="w-full max-w-3xl mx-auto bg-gradient-to-br from-blue-100 via-sky-50 to-blue-200 px-6 py-8 rounded-2xl shadow-2xl border border-blue-300" id="quizKatrol">
+  <h2 class="text-3xl font-extrabold text-center text-blue-800 mb-8 tracking-tight drop-shadow-lg">
+    🪝 Latihan Soal Katrol
+  </h2>
+
+  <!-- Soal dan Pilihan -->
+  <div id="quizKatrolContainer" class="space-y-6"></div>
+
+  <!-- Tombol Navigasi -->
+  <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3 mt-8">
+    <button id="prevKatrolBtn" onclick="prevKatrolQuestion()" class="w-full sm:w-auto px-5 py-2 font-semibold rounded-lg bg-gradient-to-r from-blue-500 to-indigo-500 text-white shadow-md hover:scale-105 hover:shadow-lg transition-all duration-200 disabled:from-gray-300 disabled:to-gray-300 disabled:text-gray-500" disabled>Sebelumnya</button>
+    <div class="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
+      <button id="checkKatrolBtn" onclick="checkKatrolAnswer()" class="w-full sm:w-auto px-5 py-2 font-semibold rounded-lg bg-gradient-to-r from-sky-400 to-cyan-500 text-white shadow-md hover:scale-105 hover:shadow-lg transition-all duration-200">Cek</button>
+      <button id="nextKatrolBtn" onclick="nextKatrolQuestion()" class="w-full sm:w-auto px-5 py-2 font-semibold rounded-lg bg-gradient-to-r from-blue-500 to-indigo-500 text-white shadow-md hover:scale-105 hover:shadow-lg transition-all duration-200 disabled:from-gray-300 disabled:to-gray-300 disabled:text-gray-500">Selanjutnya</button>
+    </div>
+  </div>
+
+  <!-- Pembahasan -->
+  <div id="katrolExplanation" class="mt-6 hidden p-4 rounded-lg shadow-inner text-sm sm:text-base"></div>
+</div>
+
+<script>
+  const katrolQuestions = [
+    {
+      question: "Katrol yang porosnya tidak bergerak dan hanya mengubah arah gaya disebut...",
+      choices: ["Katrol Tetap", "Katrol Bergerak", "Katrol Majemuk", "Katrol Bebas"],
+      correctAnswer: 0,
+      explanation: "Katrol tetap digunakan untuk mengubah arah gaya, porosnya tidak berpindah."
+    },
+    {
+      question: "Fungsi utama katrol adalah...",
+      choices: ["Mengubah arah gaya", "Memperbesar berat beban", "Mengurangi massa benda", "Mempercepat gerak benda"],
+      correctAnswer: 0,
+      explanation: "Fungsi utama katrol adalah mengubah arah gaya dan/atau memperkecil gaya yang diperlukan."
+    },
+    {
+      question: "Sebuah katrol bergerak digunakan untuk mengangkat beban 200 N tanpa gesekan. Berapakah gaya yang diperlukan?",
+      choices: ["100 N", "200 N", "150 N", "50 N"],
+      correctAnswer: 0,
+      explanation: "Katrol bergerak memiliki keuntungan mekanis 2, sehingga gaya yang dibutuhkan = 200 N / 2 = 100 N."
+    },
+    {
+      question: "Katrol majemuk terdiri dari 2 katrol tetap dan 2 katrol bergerak. Keuntungan mekanisnya adalah...",
+      choices: ["4", "2", "3", "5"],
+      correctAnswer: 0,
+      explanation: "Katrol majemuk dengan 2 katrol tetap dan 2 bergerak biasanya memiliki KM = 4."
+    },
+    {
+      question: "Jika keuntungan mekanis katrol majemuk adalah 4 dan beban yang diangkat 400 N, berapakah gaya yang diperlukan?",
+      choices: ["100 N", "200 N", "300 N", "50 N"],
+      correctAnswer: 0,
+      explanation: "Gaya = Beban / KM = 400 N / 4 = 100 N."
+    }
+  ];
+
+  let currentKatrolIndex = 0;
+  let selectedKatrolChoice = null;
+
+  function renderKatrolQuestion() {
+    const container = document.getElementById("quizKatrolContainer");
+    const q = katrolQuestions[currentKatrolIndex];
+    selectedKatrolChoice = null;
+
+    container.innerHTML = `
+      <h3 class="text-lg sm:text-xl font-bold text-gray-800 mb-4">${currentKatrolIndex + 1}. ${q.question}</h3>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4" id="katrolCardChoices">
+        ${q.choices.map((choice, i) => `
+          <div onclick="selectKatrolCard(${i})" id="katrolCard${i}" class="cursor-pointer border-2 border-transparent rounded-xl p-4 text-gray-700 bg-white shadow-md hover:shadow-lg hover:border-blue-400 hover:scale-105 transition-all duration-200">
+            ${choice}
+          </div>
+        `).join('')}
+      </div>
+    `;
+
+    document.getElementById("katrolExplanation").classList.add("hidden");
+    document.getElementById("katrolExplanation").textContent = "";
+    document.getElementById("checkKatrolBtn").disabled = false;
+    document.getElementById("prevKatrolBtn").disabled = currentKatrolIndex === 0;
+    document.getElementById("nextKatrolBtn").disabled = currentKatrolIndex === katrolQuestions.length - 1;
+  }
+
+  function selectKatrolCard(index) {
+    selectedKatrolChoice = index;
+    const cards = document.querySelectorAll("#katrolCardChoices > div");
+    cards.forEach((card, i) => {
+      card.classList.remove("border-blue-600", "bg-blue-50", "shadow-lg");
+      if (i === index) {
+        card.classList.add("border-blue-600", "bg-blue-50", "shadow-lg");
+      }
+    });
+  }
+
+  function checkKatrolAnswer() {
+    if (selectedKatrolChoice === null) {
+      alert("Silakan pilih jawaban terlebih dahulu.");
+      return;
+    }
+
+    const correct = katrolQuestions[currentKatrolIndex].correctAnswer;
+    const explanation = katrolQuestions[currentKatrolIndex].explanation;
+    const resultDiv = document.getElementById("katrolExplanation");
+
+    if (selectedKatrolChoice === correct) {
+      resultDiv.innerHTML = `<strong class="text-green-800 text-lg">✅ Jawaban benar!</strong><br>${explanation}`;
+      resultDiv.className = "mt-6 bg-green-100 text-green-900 border border-green-400 p-4 rounded-xl shadow-md";
+    } else {
+      resultDiv.innerHTML = `<strong class="text-red-800 text-lg">❌ Jawaban salah.</strong><br>${explanation}`;
+      resultDiv.className = "mt-6 bg-red-100 text-red-900 border border-red-400 p-4 rounded-xl shadow-md";
+    }
+
+    resultDiv.classList.remove("hidden");
+    document.getElementById("checkKatrolBtn").disabled = true;
+  }
+
+  function nextKatrolQuestion() {
+    if (currentKatrolIndex < katrolQuestions.length - 1) {
+      currentKatrolIndex++;
+      renderKatrolQuestion();
+    }
+  }
+
+  function prevKatrolQuestion() {
+    if (currentKatrolIndex > 0) {
+      currentKatrolIndex--;
+      renderKatrolQuestion();
+    }
+  }
+
+  renderKatrolQuestion();
+</script><br>
+
+<!-- 6.c Bidang Miring -->
+<div id="6c-Bidang-Miring" class="mb-10 p-6 bg-white rounded-lg shadow-lg border border-gray-200">
+  <h3 class="text-2xl font-bold text-[#4dd4a3] mb-4 flex items-center gap-2">
+    ⛰️ 6.c Bidang Miring
+  </h3>
+
+  <!-- Deskripsi -->
+  <p class="text-gray-700 mb-4 leading-relaxed">
+    <strong>Bidang miring</strong> adalah permukaan datar yang diletakkan miring atau membentuk sudut terhadap permukaan horizontal.
+    Pesawat sederhana ini digunakan untuk memindahkan benda ke tempat yang lebih tinggi dengan gaya yang lebih kecil dibandingkan mengangkatnya langsung.
+  </p>
+
+  <img src="https://cdn-web.ruangguru.com/landing-pages/assets/hs/Fisika_11_-_Prinsip_Bidang_Miring_Artboard_3.png" alt="Bidang Miring" class="w-full h-50 object-cover mb-4">
+
+  <!-- Bagian-bagian Bidang Miring -->
+  <div class="bg-green-50 p-4 rounded-lg border border-green-200 mb-6">
+    <h4 class="text-lg font-bold text-green-600 mb-2">🔍 Bagian-bagian Bidang Miring</h4>
+    <ul class="list-disc pl-6 text-gray-700 leading-relaxed">
+      <li><strong>Panjang bidang (L)</strong> → jarak miring dari bawah ke atas bidang.</li>
+      <li><strong>Tinggi bidang (h)</strong> → jarak vertikal dari dasar ke puncak bidang.</li>
+      <li><strong>Beban (W)</strong> → gaya berat benda yang dipindahkan.</li>
+      <li><strong>Kuasa (F)</strong> → gaya yang digunakan untuk memindahkan beban sepanjang bidang.</li>
+    </ul>
+  </div>
+
+  <!-- Jenis-jenis Bidang Miring -->
+  <h4 class="text-lg font-bold text-[#4dd4a3] mb-3">📌 Contoh Penggunaan Bidang Miring</h4>
+  <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-6">
+
+    <!-- Tangga -->
+    <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:scale-105 transition-transform border border-gray-200">
+      <img src="https://idschool.net/wp-content/uploads/2023/06/Kemiringan-tangga-terhadap-dinding-tembok-adalah.webp" alt="Tangga" class="w-full h-40 object-cover">
+      <div class="p-5">
+        <h4 class="text-xl font-bold text-[#4dd4a3] mb-2">Tangga</h4>
+        <p class="text-gray-700 text-sm leading-relaxed">
+          Digunakan untuk memudahkan naik-turun. Panjang tangga berperan sebagai bidang miring.
+        </p>
+      </div>
+    </div>
+
+    <!-- Papan pengungkit -->
+    <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:scale-105 transition-transform border border-gray-200">
+      <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhXxnvmmelgs-t0Hc6Uh3wm01_vMaqujrPpAP2JsTv5L2QAPKR_A2QajWf1cg8YRVJYnBlCIIxfXzIuPXRvnwtgirdnyx25zWFccK6v2s6K8yY8PVcXdxYJuvWkM_szHLuGFSK9w-TfzEiY/s1600/bidang+miring+rumus+keuntungan+mekanis+contoh+soal.jpg" alt="Papan Miring" class="w-full h-40 object-cover">
+      <div class="p-5">
+        <h4 class="text-xl font-bold text-[#4dd4a3] mb-2">Papan Miring</h4>
+        <p class="text-gray-700 text-sm leading-relaxed">
+          Digunakan untuk menaikkan barang ke truk atau gudang dengan gaya lebih kecil.
+        </p>
+      </div>
+    </div>
+
+    <!-- Perosotan -->
+    <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:scale-105 transition-transform border border-gray-200">
+      <img src="https://id-static.z-dn.net/files/d86/b818bdf13d76a64db207f7683c34f7ec.png" alt="Perosotan" class="w-full h-40 object-cover">
+      <div class="p-5">
+        <h4 class="text-xl font-bold text-[#4dd4a3] mb-2">Perosotan</h4>
+        <p class="text-gray-700 text-sm leading-relaxed">
+          Memanfaatkan kemiringan untuk menurunkan tubuh dengan mudah.
+        </p>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Rumus Keuntungan Mekanis -->
+  <div class="bg-yellow-50 p-4 rounded-lg border border-yellow-200 mb-6">
+    <h4 class="text-lg font-bold text-yellow-600 mb-2">📏 Rumus Keuntungan Mekanis Bidang Miring</h4>
+    <p class="text-gray-700 leading-relaxed">
+      <strong>\[KM = \frac{\text{Panjang Bidang (s)}}{\text{Tinggi Bidang (h)}}\]</strong>
+      <br>Semakin landai bidang miring, semakin besar keuntungan mekanisnya.
+    </p>
+  </div>
+
+  <!-- Contoh Soal -->
+  <div class="bg-blue-50 p-4 rounded-lg border border-blue-200 mb-6">
+    <h4 class="text-lg font-bold text-blue-600 mb-2">📝 Contoh Soal</h4>
+    <p class="text-gray-700 mb-2">
+      Sebuah papan miring panjangnya 4 m dan tingginya 1 m digunakan untuk menaikkan beban 200 N. Hitung gaya yang dibutuhkan!
+    </p>
+    <p class="text-gray-700">
+      <strong>Penyelesaian:</strong>  
+      KM = 4 / 1 = 4  
+      F = W / KM = 200 / 4 = <strong>50 N</strong>  
+      Artinya gaya yang dibutuhkan hanya seperempat dari berat beban.
+    </p>
+  </div>
+
+  <!-- Video Penjelasan -->
+  <div class="mb-6">
+    <h4 class="text-lg font-semibold text-[#4dd4a3] mb-3">🎥 Video Penjelasan</h4>
+    <div class="aspect-w-16 aspect-h-9 rounded-lg overflow-hidden shadow-lg">
+      <iframe src="https://www.youtube.com/embed/xIail4ZpvK0" 
+              title="Penjelasan Bidang Miring" 
+              frameborder="0" 
+              allowfullscreen
+              class="w-full h-full"></iframe>
+    </div>
+  </div>
+</div>
+<!-- 8. Bidang Miring -->
+<div class="w-full max-w-3xl mx-auto bg-gradient-to-br from-green-100 via-emerald-50 to-green-200 px-6 py-8 rounded-2xl shadow-2xl border border-green-300" id="quizBidangMiring">
+  <h2 class="text-3xl font-extrabold text-center text-green-800 mb-8 tracking-tight drop-shadow-lg">
+    📐 Latihan Soal Bidang Miring
+  </h2>
+
+  <!-- Soal dan Pilihan -->
+  <div id="quizBidangMiringContainer" class="space-y-6"></div>
+
+  <!-- Tombol Navigasi -->
+  <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3 mt-8">
+    <button id="prevBidangMiringBtn" onclick="prevBidangMiringQuestion()" class="w-full sm:w-auto px-5 py-2 font-semibold rounded-lg bg-gradient-to-r from-green-500 to-lime-500 text-white shadow-md hover:scale-105 hover:shadow-lg transition-all duration-200 disabled:from-gray-300 disabled:to-gray-300 disabled:text-gray-500" disabled>Sebelumnya</button>
+    <div class="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
+      <button id="checkBidangMiringBtn" onclick="checkBidangMiringAnswer()" class="w-full sm:w-auto px-5 py-2 font-semibold rounded-lg bg-gradient-to-r from-emerald-400 to-teal-500 text-white shadow-md hover:scale-105 hover:shadow-lg transition-all duration-200">Cek</button>
+      <button id="nextBidangMiringBtn" onclick="nextBidangMiringQuestion()" class="w-full sm:w-auto px-5 py-2 font-semibold rounded-lg bg-gradient-to-r from-green-500 to-lime-500 text-white shadow-md hover:scale-105 hover:shadow-lg transition-all duration-200 disabled:from-gray-300 disabled:to-gray-300 disabled:text-gray-500">Selanjutnya</button>
+    </div>
+  </div>
+
+  <!-- Pembahasan -->
+  <div id="bidangMiringExplanation" class="mt-6 hidden p-4 rounded-lg shadow-inner text-sm sm:text-base"></div>
+</div>
+
+<script>
+  const bidangMiringQuestions = [
+    {
+      question: "Fungsi utama bidang miring adalah...",
+      choices: ["Memperbesar berat benda", "Memperkecil gaya yang diperlukan untuk memindahkan beban", "Mempercepat gerakan benda", "Mengubah arah gaya"],
+      correctAnswer: 1,
+      explanation: "Bidang miring digunakan untuk memperkecil gaya yang diperlukan dengan memperbesar jarak tempuh."
+    },
+    {
+      question: "Rumus keuntungan mekanis bidang miring adalah...",
+      choices: ["KM = Panjang bidang / Tinggi bidang", "KM = Tinggi bidang / Panjang bidang", "KM = Gaya kuasa / Gaya beban", "KM = Beban × Panjang bidang"],
+      correctAnswer: 0,
+      explanation: "Keuntungan mekanis bidang miring: KM = Panjang bidang / Tinggi bidang."
+    },
+    {
+      question: "Sebuah bidang miring panjangnya 5 m dan tingginya 1 m. Keuntungan mekanisnya adalah...",
+      choices: ["3", "4", "5", "6"],
+      correctAnswer: 2,
+      explanation: "KM = 5 / 1 = 5."
+    },
+    {
+      question: "Jika sebuah beban 300 N dinaikkan dengan bidang miring KM = 6 tanpa gesekan, berapa gaya kuasa yang diperlukan?",
+      choices: ["50 N", "100 N", "150 N", "200 N"],
+      correctAnswer: 1,
+      explanation: "Gaya = Beban / KM = 300 N / 3 = 100 N."
+    },
+    {
+      question: "Contoh penerapan bidang miring di kehidupan sehari-hari adalah...",
+      choices: ["Tangga", "Gunting", "Katrol tetap", "Pinset"],
+      correctAnswer: 0,
+      explanation: "Tangga, jalan tanjakan, dan sekrup adalah contoh bidang miring."
+    }
+  ];
+
+  let currentBidangMiringIndex = 0;
+  let selectedBidangMiringChoice = null;
+
+  function renderBidangMiringQuestion() {
+    const container = document.getElementById("quizBidangMiringContainer");
+    const q = bidangMiringQuestions[currentBidangMiringIndex];
+    selectedBidangMiringChoice = null;
+
+    container.innerHTML = `
+      <h3 class="text-lg sm:text-xl font-bold text-gray-800 mb-4">${currentBidangMiringIndex + 1}. ${q.question}</h3>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4" id="bidangMiringCardChoices">
+        ${q.choices.map((choice, i) => `
+          <div onclick="selectBidangMiringCard(${i})" id="bidangMiringCard${i}" class="cursor-pointer border-2 border-transparent rounded-xl p-4 text-gray-700 bg-white shadow-md hover:shadow-lg hover:border-green-400 hover:scale-105 transition-all duration-200">
+            ${choice}
+          </div>
+        `).join('')}
+      </div>
+    `;
+
+    document.getElementById("bidangMiringExplanation").classList.add("hidden");
+    document.getElementById("bidangMiringExplanation").textContent = "";
+    document.getElementById("checkBidangMiringBtn").disabled = false;
+    document.getElementById("prevBidangMiringBtn").disabled = currentBidangMiringIndex === 0;
+    document.getElementById("nextBidangMiringBtn").disabled = currentBidangMiringIndex === bidangMiringQuestions.length - 1;
+  }
+
+  function selectBidangMiringCard(index) {
+    selectedBidangMiringChoice = index;
+    const cards = document.querySelectorAll("#bidangMiringCardChoices > div");
+    cards.forEach((card, i) => {
+      card.classList.remove("border-green-600", "bg-green-50", "shadow-lg");
+      if (i === index) {
+        card.classList.add("border-green-600", "bg-green-50", "shadow-lg");
+      }
+    });
+  }
+
+  function checkBidangMiringAnswer() {
+    if (selectedBidangMiringChoice === null) {
+      alert("Silakan pilih jawaban terlebih dahulu.");
+      return;
+    }
+
+    const correct = bidangMiringQuestions[currentBidangMiringIndex].correctAnswer;
+    const explanation = bidangMiringQuestions[currentBidangMiringIndex].explanation;
+    const resultDiv = document.getElementById("bidangMiringExplanation");
+
+    if (selectedBidangMiringChoice === correct) {
+      resultDiv.innerHTML = `<strong class="text-green-800 text-lg">✅ Jawaban benar!</strong><br>${explanation}`;
+      resultDiv.className = "mt-6 bg-green-100 text-green-900 border border-green-400 p-4 rounded-xl shadow-md";
+    } else {
+      resultDiv.innerHTML = `<strong class="text-red-800 text-lg">❌ Jawaban salah.</strong><br>${explanation}`;
+      resultDiv.className = "mt-6 bg-red-100 text-red-900 border border-red-400 p-4 rounded-xl shadow-md";
+    }
+
+    resultDiv.classList.remove("hidden");
+    document.getElementById("checkBidangMiringBtn").disabled = true;
+  }
+
+  function nextBidangMiringQuestion() {
+    if (currentBidangMiringIndex < bidangMiringQuestions.length - 1) {
+      currentBidangMiringIndex++;
+      renderBidangMiringQuestion();
+    }
+  }
+
+  function prevBidangMiringQuestion() {
+    if (currentBidangMiringIndex > 0) {
+      currentBidangMiringIndex--;
+      renderBidangMiringQuestion();
+    }
+  }
+
+  renderBidangMiringQuestion();
+</script><br>
+
+
+  
+
+
+</div>
+
+
+
+    <script>
+  function toggleSidebar() {
+    const sidebar = document.getElementById("sidebar");
+    const screenWidth = window.innerWidth;
+
+    const visibleLeft = "0px";
+    const hiddenLeft = screenWidth < 768 ? "-80%" : "-250px";
+    const visibleWidth = screenWidth < 768 ? "80%" : "250px";
+
+    if (sidebar.style.left === visibleLeft) {
+      sidebar.style.left = hiddenLeft;
+    } else {
+      sidebar.style.left = visibleLeft;
+      sidebar.style.width = visibleWidth;
+    }
+  }
+</script>
+
+<script>
+  function checkLogin() {
+    const user = document.getElementById("username").value;
+    const pass = document.getElementById("password").value;
+
+    // Akun yang sudah disediakan
+    const validAccounts = [
+      { username: "admin", password: "12345" },
+      { username: "user1", password: "abcde" },
+      { username: "Diza MTSN 1 Brebes 7", password: "semangatbelajar45" },
+    ];
+
+    const found = validAccounts.find(acc => acc.username === user && acc.password === pass);
+
+    if (found) {
+      document.getElementById("loginForm").style.display = "none";
+      document.getElementById("content22").classList.remove("hidden");
+    } else {
+      document.getElementById("errorMsg").innerText = "Username atau password salah!";
+    }
+  }
+</script>
+
+</body>
+</html>
